@@ -1,4 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#2563eb"/>
-  <path d="M22 26V10a2 2 0 00-2-2h-8a2 2 0 00-2 2v16m14 0H8m4-14h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5h4v5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer frame -->
+  <rect x="2" y="2" width="28" height="28" rx="4" stroke="#2563eb" stroke-width="2.5" fill="white"/>
+  <!-- Vertical divider -->
+  <line x1="16" y1="4" x2="16" y2="28" stroke="#2563eb" stroke-width="2"/>
+  <!-- Horizontal divider -->
+  <line x1="4" y1="16" x2="28" y2="16" stroke="#2563eb" stroke-width="2"/>
+  <!-- Glass reflection effect -->
+  <path d="M6 6 L12 6 L6 12 Z" fill="#2563eb" fill-opacity="0.2"/>
+  <path d="M20 6 L26 6 L20 12 Z" fill="#2563eb" fill-opacity="0.2"/>
 </svg>
