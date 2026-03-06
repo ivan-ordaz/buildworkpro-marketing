@@ -1,0 +1,57 @@
+---
+const faqs = [
+  {
+    question: 'What types of construction companies is BuildWorkPro for?',
+    answer: 'BuildWorkPro is designed for all types of construction businesses including general contractors, HVAC, plumbing, electrical, roofing, and remodeling companies. Whether you\'re a solo operator or managing a team of 500+, the platform scales with your needs.',
+  },
+  {
+    question: 'Can I import my existing data?',
+    answer: 'Yes. BuildWorkPro supports importing contacts, projects, and products from CSV files. Our team can also help with data migration from other platforms during onboarding.',
+  },
+  {
+    question: 'Is my data secure?',
+    answer: 'Absolutely. BuildWorkPro uses industry-standard encryption, role-based access control, complete audit logging, and multi-tenant data isolation. Your data is never shared between accounts.',
+  },
+  {
+    question: 'Do I need to install anything?',
+    answer: 'No. BuildWorkPro is fully web-based and works on any device with a modern browser. Access your projects, quotes, and contacts from the office, the job site, or anywhere else.',
+  },
+  {
+    question: 'What happens when my free trial ends?',
+    answer: 'Your free plan never expires - you can use BuildWorkPro with up to 2 users and 5 projects forever. When you\'re ready for more, upgrading takes one click and you can cancel anytime.',
+  },
+  {
+    question: 'Can I customize quotes with my company branding?',
+    answer: 'Yes. Professional and Enterprise plans include full white-label branding - your logo, colors, and custom email templates on all client-facing documents and communications.',
+  },
+];
+---
+
+<section id="faq" class="py-24 lg:py-32">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+        FAQ
+      </p>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Frequently asked questions
+      </h2>
+    </div>
+
+    <div class="space-y-4">
+      {faqs.map((faq, i) => (
+        <details class="group border border-slate-200 rounded-xl overflow-hidden" open={i === 0}>
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-left hover:bg-slate-50 transition-colors">
+            <span class="text-base font-semibold text-slate-900 pr-4">{faq.question}</span>
+            <svg class="w-5 h-5 text-slate-400 shrink-0 transition-transform group-open:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+            </svg>
+          </summary>
+          <div class="px-6 pb-5">
+            <p class="text-slate-500 leading-relaxed">{faq.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

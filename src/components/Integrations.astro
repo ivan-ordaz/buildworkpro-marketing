@@ -1,0 +1,62 @@
+---
+const integrations = [
+  {
+    name: 'Gmail',
+    description: 'Send quotes and communicate with clients directly from BuildWorkPro.',
+    icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+    color: 'text-red-500',
+    bg: 'bg-red-50',
+  },
+  {
+    name: 'Google Calendar',
+    description: 'Sync project deadlines, inspections, and meetings to your calendar.',
+    icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+    color: 'text-blue-500',
+    bg: 'bg-blue-50',
+  },
+  {
+    name: 'Google Drive',
+    description: 'Store and organize project documents, plans, and permits in Drive.',
+    icon: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+    color: 'text-yellow-500',
+    bg: 'bg-yellow-50',
+  },
+  {
+    name: 'Stripe',
+    description: 'Secure payment processing and subscription management built in.',
+    icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z',
+    color: 'text-purple-500',
+    bg: 'bg-purple-50',
+  },
+];
+---
+
+<section id="integrations" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center mb-16">
+      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+        Integrations
+      </p>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+        Works with the tools you already use
+      </h2>
+      <p class="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
+        Connect your existing workflow. BuildWorkPro integrates with Google Workspace and Stripe out of the box.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {integrations.map((integration) => (
+        <div class="text-center p-8 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:shadow-lg transition-all duration-300">
+          <div class={`inline-flex p-4 rounded-2xl ${integration.bg} mb-5`}>
+            <svg class={`w-8 h-8 ${integration.color}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d={integration.icon} />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{integration.name}</h3>
+          <p class="text-sm text-slate-500">{integration.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,164 @@
+---
+---
+
+<section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
+  <!-- Background gradient -->
+  <div
+    class="absolute inset-0 bg-gradient-to-br from-brand-50 via-white to-slate-50 -z-10"
+  >
+  </div>
+  <div
+    class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-100/40 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2"
+  >
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 bg-brand-50 border border-brand-200 text-brand-700 px-4 py-1.5 rounded-full text-sm font-medium mb-8">
+        <span class="w-2 h-2 bg-brand-500 rounded-full animate-pulse"></span>
+        Now in early access
+      </div>
+
+      <h1
+        class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1]"
+      >
+        Run your construction
+        <span
+          class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-brand-400"
+        >
+          business smarter
+        </span>
+      </h1>
+
+      <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        The all-in-one platform to manage projects, contacts, quotes, billing,
+        and your entire team. Built specifically for contractors and construction
+        companies.
+      </p>
+
+      <div
+        class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+      >
+        <a
+          href="#"
+          class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all shadow-lg shadow-brand-600/25 hover:shadow-brand-600/40 hover:-translate-y-0.5"
+        >
+          Start free trial
+          <svg
+            class="ml-2 w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        </a>
+        <a
+          href="#features"
+          class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all hover:-translate-y-0.5"
+        >
+          See how it works
+        </a>
+      </div>
+
+      <p class="mt-5 text-sm text-slate-400">
+        Free plan available. No credit card required.
+      </p>
+    </div>
+
+    <!-- Dashboard Preview -->
+    <div class="mt-16 lg:mt-20 relative max-w-5xl mx-auto">
+      <div
+        class="relative rounded-2xl border border-slate-200/80 shadow-2xl shadow-slate-900/10 overflow-hidden bg-slate-900"
+      >
+        <!-- Mock browser chrome -->
+        <div
+          class="flex items-center gap-2 px-4 py-3 bg-slate-800 border-b border-slate-700"
+        >
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-slate-600"></div>
+            <div class="w-3 h-3 rounded-full bg-slate-600"></div>
+            <div class="w-3 h-3 rounded-full bg-slate-600"></div>
+          </div>
+          <div
+            class="flex-1 mx-4 bg-slate-700 rounded-md px-3 py-1 text-xs text-slate-400 text-center"
+          >
+            app.buildworkpro.com
+          </div>
+        </div>
+        <!-- Dashboard mockup -->
+        <div class="p-6 bg-slate-50">
+          <div class="grid grid-cols-4 gap-4 mb-6">
+            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
+              <div class="text-xs text-slate-500 font-medium">Active Projects</div>
+              <div class="text-2xl font-bold text-slate-900 mt-1">24</div>
+              <div class="text-xs text-emerald-600 mt-1">+12% this month</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
+              <div class="text-xs text-slate-500 font-medium">Open Quotes</div>
+              <div class="text-2xl font-bold text-slate-900 mt-1">18</div>
+              <div class="text-xs text-emerald-600 mt-1">$340K pipeline</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
+              <div class="text-xs text-slate-500 font-medium">Active Leads</div>
+              <div class="text-2xl font-bold text-slate-900 mt-1">47</div>
+              <div class="text-xs text-amber-600 mt-1">6 follow-ups due</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
+              <div class="text-xs text-slate-500 font-medium">Revenue YTD</div>
+              <div class="text-2xl font-bold text-slate-900 mt-1">$1.2M</div>
+              <div class="text-xs text-emerald-600 mt-1">+8% vs last year</div>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div class="col-span-2 bg-white rounded-lg p-4 shadow-sm border border-slate-100 h-48">
+              <div class="text-sm font-semibold text-slate-800 mb-3">Revenue Overview</div>
+              <div class="flex items-end gap-2 h-32">
+                {[40, 55, 45, 65, 50, 70, 85, 75, 90, 80, 95, 88].map((h) => (
+                  <div class="flex-1 bg-brand-100 rounded-t" style={`height: ${h}%`}>
+                    <div class="w-full bg-brand-500 rounded-t" style={`height: ${Math.min(h + 10, 100)}%`}></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100 h-48">
+              <div class="text-sm font-semibold text-slate-800 mb-3">Recent Activity</div>
+              <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                  <span class="text-xs text-slate-600 truncate">Quote #1042 accepted</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 bg-brand-500 rounded-full"></div>
+                  <span class="text-xs text-slate-600 truncate">New lead: Riverside Apts</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 bg-amber-500 rounded-full"></div>
+                  <span class="text-xs text-slate-600 truncate">Task completed: Site inspection</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                  <span class="text-xs text-slate-600 truncate">Pay app #7 approved</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 bg-brand-500 rounded-full"></div>
+                  <span class="text-xs text-slate-600 truncate">Project: Oak St started</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Glow effect -->
+      <div
+        class="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 bg-brand-400/20 blur-2xl rounded-full"
+      >
+      </div>
+    </div>
+  </div>
+</section>
