@@ -1,145 +1,94 @@
 ---
-const plans = [
-  {
-    name: 'Free',
-    price: '$0',
-    period: 'forever',
-    description: 'For individuals getting started.',
-    features: [
-      'Up to 2 users',
-      '5 active projects',
-      '100 contacts',
-      'Basic project management',
-      'Quote generation',
-    ],
-    cta: 'Get started free',
-    popular: false,
-  },
-  {
-    name: 'Starter',
-    price: '$29',
-    period: '/month',
-    annual: '$290/year',
-    description: 'For small teams ready to grow.',
-    features: [
-      'Up to 5 users',
-      '25 active projects',
-      '500 contacts',
-      'Email integration',
-      'Reports & analytics',
-      'Priority support',
-    ],
-    cta: 'Start free trial',
-    popular: false,
-  },
-  {
-    name: 'Professional',
-    price: '$79',
-    period: '/month',
-    annual: '$790/year',
-    description: 'For established contractors.',
-    features: [
-      'Up to 25 users',
-      '100 active projects',
-      '5,000 contacts',
-      'Calendar & Drive sync',
-      'Pay applications',
-      'Advanced permissions',
-      'Custom branding',
-    ],
-    cta: 'Start free trial',
-    popular: true,
-  },
-  {
-    name: 'Enterprise',
-    price: '$199',
-    period: '/month',
-    annual: '$1,990/year',
-    description: 'For large operations.',
-    features: [
-      'Unlimited users',
-      'Unlimited projects',
-      'Unlimited contacts',
-      'API access',
-      'All integrations',
-      'Dedicated support',
-      'Custom onboarding',
-    ],
-    cta: 'Contact sales',
-    popular: false,
-  },
-];
 ---
 
 <section id="pricing" class="py-24 lg:py-32 bg-slate-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto text-center mb-16">
       <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
-        Pricing
+        Simple pricing
       </p>
       <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
-        Plans that scale with you
+        One plan. Everything included.
       </h2>
       <p class="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-        Start free, upgrade when you're ready. Save 2 months with annual billing.
+        No tiers to compare. No features locked behind upgrades. Every sub gets the full platform at one flat price.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-5">
-      {plans.map((plan) => (
-        <div
-          class:list={[
-            'relative flex flex-col p-8 rounded-2xl border transition-all',
-            plan.popular
-              ? 'bg-white border-brand-200 shadow-xl shadow-brand-600/10 ring-1 ring-brand-600 scale-[1.02]'
-              : 'bg-white border-slate-200 hover:shadow-lg',
-          ]}
-        >
-          {plan.popular && (
-            <div class="absolute -top-4 left-1/2 -translate-x-1/2">
-              <span class="bg-brand-600 text-white text-xs font-semibold px-4 py-1.5 rounded-full">
-                Most popular
-              </span>
-            </div>
-          )}
-
-          <div class="mb-6">
-            <h3 class="text-lg font-semibold text-slate-900">{plan.name}</h3>
-            <p class="text-sm text-slate-500 mt-1">{plan.description}</p>
-          </div>
-
-          <div class="mb-6">
-            <span class="text-4xl font-extrabold text-slate-900">{plan.price}</span>
-            <span class="text-slate-500 text-sm">{plan.period}</span>
-            {plan.annual && (
-              <p class="text-xs text-slate-400 mt-1">{plan.annual} billed annually</p>
-            )}
-          </div>
-
-          <ul class="space-y-3 mb-8 flex-1">
-            {plan.features.map((feature) => (
-              <li class="flex items-start gap-2.5">
-                <svg class="w-4 h-4 text-brand-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                <span class="text-sm text-slate-600">{feature}</span>
-              </li>
-            ))}
-          </ul>
-
-          <a
-            href="#"
-            class:list={[
-              'block text-center text-sm font-semibold py-3 px-6 rounded-xl transition-all',
-              plan.popular
-                ? 'bg-brand-600 text-white hover:bg-brand-700 shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200',
-            ]}
-          >
-            {plan.cta}
-          </a>
+    <div class="max-w-lg mx-auto">
+      <div class="relative flex flex-col p-10 rounded-2xl bg-white border border-brand-200 shadow-xl shadow-brand-600/10 ring-1 ring-brand-600">
+        <!-- Badge -->
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+          <span class="bg-brand-600 text-white text-xs font-semibold px-4 py-1.5 rounded-full">
+            All-inclusive
+          </span>
         </div>
-      ))}
+
+        <!-- Pricing -->
+        <div class="text-center mb-8">
+          <h3 class="text-lg font-semibold text-slate-900 mb-4">BuildWorkPro</h3>
+          <div class="flex items-baseline justify-center gap-1">
+            <span class="text-5xl font-extrabold text-slate-900">$79</span>
+            <span class="text-slate-500 text-lg">/month</span>
+          </div>
+          <p class="text-sm text-brand-600 font-medium mt-2">
+            Pay yearly and get 2 months free — $790/year
+          </p>
+          <p class="text-xs text-slate-400 mt-1">
+            That's just $65.83/month billed annually
+          </p>
+        </div>
+
+        <!-- Features -->
+        <div class="grid sm:grid-cols-2 gap-3 mb-8">
+          {[
+            'Unlimited users',
+            'Unlimited projects',
+            'Unlimited contacts',
+            'Bids & estimates',
+            'Pay applications',
+            'Change orders',
+            'Site logs',
+            'Time tracking',
+            'Sales pipeline & CRM',
+            'Gantt charts & scheduling',
+            'Reports & analytics',
+            'Role-based permissions',
+            'Document management',
+            'Email integration',
+            'Custom branding',
+            'API access',
+          ].map((feature) => (
+            <div class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-brand-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-sm text-slate-600">{feature}</span>
+            </div>
+          ))}
+        </div>
+
+        <!-- CTA -->
+        <a
+          href="#"
+          class="block text-center text-base font-semibold py-3.5 px-6 rounded-xl bg-brand-600 text-white hover:bg-brand-700 shadow-sm transition-all hover:-translate-y-0.5"
+        >
+          Start 14-day free trial
+        </a>
+        <p class="text-center text-xs text-slate-400 mt-3">
+          No credit card required. Cancel anytime.
+        </p>
+      </div>
+
+      <!-- Comparison callout -->
+      <div class="mt-10 text-center">
+        <p class="text-sm text-slate-500">
+          Most construction software starts at <span class="line-through text-slate-400">$299/month</span> and charges per user.
+        </p>
+        <p class="text-sm text-slate-500 mt-1">
+          BuildWorkPro gives you <span class="font-semibold text-slate-700">everything, for everyone, at one price</span>.
+        </p>
+      </div>
     </div>
   </div>
 </section>
