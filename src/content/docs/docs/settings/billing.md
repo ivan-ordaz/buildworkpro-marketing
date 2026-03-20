@@ -1,0 +1,40 @@
+---
+title: Billing and Plans
+description: BuildWorkPro pricing at $79/month or $790/year with a free trial
+sidebar:
+  order: 3
+---
+
+BuildWorkPro offers simple, transparent pricing. You can start with a free trial and upgrade when you are ready.
+
+## Pricing
+
+- **Monthly** -- $79 per month, billed monthly.
+- **Annual** -- $790 per year, billed annually. You save about $158 compared to monthly billing.
+
+Both plans include the full feature set. There are no per-user fees and no hidden charges.
+
+## Free trial
+
+Every new organization starts with a free trial period. During the trial you have access to all features. No credit card is required to start.
+
+When your trial ends, you will be prompted to select a plan. Your data is preserved -- you will not lose anything by waiting.
+
+## Managing your subscription
+
+1. Go to **Settings > Billing**.
+2. You can see your current plan, billing cycle, and next payment date.
+3. Click **Manage Subscription** to:
+   - Switch between monthly and annual billing.
+   - Update your payment method.
+   - View invoice history and download receipts.
+
+Subscription management is handled through a secure Stripe portal. BuildWorkPro does not store your credit card details directly.
+
+## Cancellation
+
+You can cancel your subscription at any time from the billing portal. Your access continues until the end of your current billing period. After that, your account moves to a read-only state -- your data is not deleted.
+
+## Questions
+
+For billing questions, contact support at support@buildworkpro.com.

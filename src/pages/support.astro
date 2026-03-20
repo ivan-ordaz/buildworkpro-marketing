@@ -7,32 +7,56 @@ const categories = [
   {
     title: 'Getting Started',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
-    items: ['Creating your account', 'Setting up your organization', 'Inviting team members', 'Your first project'],
+    items: [
+      { label: 'Introduction', href: '/docs/getting-started/introduction/' },
+      { label: 'Quick start guide', href: '/docs/getting-started/quick-start/' },
+      { label: 'Your first project', href: '/docs/getting-started/first-project/' },
+    ],
   },
   {
     title: 'Bids & Estimates',
     icon: 'M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z',
-    items: ['Creating a bid', 'Adding line items & marks', 'Setting up rates & overhead', 'Sending bids to clients'],
+    items: [
+      { label: 'Creating a bid', href: '/docs/bids/creating-a-bid/' },
+      { label: 'Line items & marks', href: '/docs/bids/line-items/' },
+      { label: 'Rates & overhead', href: '/docs/bids/rates/' },
+      { label: 'Sending & tracking', href: '/docs/bids/sending/' },
+    ],
   },
   {
     title: 'Project Management',
     icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01',
-    items: ['Phases & tasks', 'Gantt chart & scheduling', 'Assigning team members', 'Tracking progress'],
+    items: [
+      { label: 'Projects overview', href: '/docs/projects/overview/' },
+      { label: 'Phases & tasks', href: '/docs/projects/phases-tasks/' },
+      { label: 'Gantt chart', href: '/docs/projects/gantt/' },
+    ],
   },
   {
     title: 'Pay Applications',
     icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-    items: ['Creating a pay app', 'Schedule of values', 'Retainage & change orders', 'Approval workflow'],
+    items: [
+      { label: 'Creating pay apps', href: '/docs/pay-apps/creating/' },
+      { label: 'Schedule of values', href: '/docs/pay-apps/schedule-of-values/' },
+      { label: 'Approval workflow', href: '/docs/pay-apps/approval-workflow/' },
+    ],
   },
   {
     title: 'Change Orders',
     icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
-    items: ['Creating change orders', 'Adding line items', 'Approval process', 'Contract impact tracking'],
+    items: [
+      { label: 'Creating change orders', href: '/docs/change-orders/creating/' },
+      { label: 'Approval process', href: '/docs/change-orders/approval/' },
+    ],
   },
   {
     title: 'Account & Billing',
     icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
-    items: ['Managing your subscription', 'Team roles & permissions', 'Organization settings', 'Data export'],
+    items: [
+      { label: 'Team & roles', href: '/docs/settings/team-roles/' },
+      { label: 'Organization settings', href: '/docs/settings/organization/' },
+      { label: 'Billing', href: '/docs/settings/billing/' },
+    ],
   },
 ];
 ---
@@ -91,11 +115,13 @@ const categories = [
             <h3 class="text-base font-semibold text-slate-900 mb-3">{cat.title}</h3>
             <ul class="space-y-2">
               {cat.items.map((item) => (
-                <li class="flex items-center gap-2 text-sm text-slate-500 hover:text-brand-600 cursor-pointer transition-colors">
-                  <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                  {item}
+                <li>
+                  <a href={item.href} class="flex items-center gap-2 text-sm text-slate-500 hover:text-brand-600 transition-colors">
+                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                    {item.label}
+                  </a>
                 </li>
               ))}
             </ul>
