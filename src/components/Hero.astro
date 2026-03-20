@@ -32,7 +32,7 @@
       </h1>
 
       <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-        The all-in-one platform to manage projects, contacts, quotes, billing,
+        The all-in-one platform to manage projects, contacts, bids, billing,
         and your entire team. Built specifically for contractors and construction
         companies.
       </p>
@@ -91,68 +91,13 @@
             app.buildworkpro.com
           </div>
         </div>
-        <!-- Dashboard mockup -->
-        <div class="p-6 bg-slate-50">
-          <div class="grid grid-cols-4 gap-4 mb-6">
-            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
-              <div class="text-xs text-slate-500 font-medium">Active Projects</div>
-              <div class="text-2xl font-bold text-slate-900 mt-1">24</div>
-              <div class="text-xs text-emerald-600 mt-1">+12% this month</div>
-            </div>
-            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
-              <div class="text-xs text-slate-500 font-medium">Open Quotes</div>
-              <div class="text-2xl font-bold text-slate-900 mt-1">18</div>
-              <div class="text-xs text-emerald-600 mt-1">$340K pipeline</div>
-            </div>
-            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
-              <div class="text-xs text-slate-500 font-medium">Active Leads</div>
-              <div class="text-2xl font-bold text-slate-900 mt-1">47</div>
-              <div class="text-xs text-amber-600 mt-1">6 follow-ups due</div>
-            </div>
-            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
-              <div class="text-xs text-slate-500 font-medium">Revenue YTD</div>
-              <div class="text-2xl font-bold text-slate-900 mt-1">$1.2M</div>
-              <div class="text-xs text-emerald-600 mt-1">+8% vs last year</div>
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-4">
-            <div class="col-span-2 bg-white rounded-lg p-4 shadow-sm border border-slate-100 h-48">
-              <div class="text-sm font-semibold text-slate-800 mb-3">Revenue Overview</div>
-              <div class="flex items-end gap-2 h-32">
-                {[40, 55, 45, 65, 50, 70, 85, 75, 90, 80, 95, 88].map((h) => (
-                  <div class="flex-1 bg-brand-100 rounded-t" style={`height: ${h}%`}>
-                    <div class="w-full bg-brand-500 rounded-t" style={`height: ${Math.min(h + 10, 100)}%`}></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100 h-48">
-              <div class="text-sm font-semibold text-slate-800 mb-3">Recent Activity</div>
-              <div class="space-y-3">
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                  <span class="text-xs text-slate-600 truncate">Quote #1042 accepted</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 bg-brand-500 rounded-full"></div>
-                  <span class="text-xs text-slate-600 truncate">New lead: Riverside Apts</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 bg-amber-500 rounded-full"></div>
-                  <span class="text-xs text-slate-600 truncate">Task completed: Site inspection</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                  <span class="text-xs text-slate-600 truncate">Pay app #7 approved</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 bg-brand-500 rounded-full"></div>
-                  <span class="text-xs text-slate-600 truncate">Project: Oak St started</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Real dashboard screenshot -->
+        <img
+          src="/screenshots/01-dashboard.png"
+          alt="BuildWorkPro dashboard showing real-time KPIs, active projects, pipeline value, and revenue overview"
+          class="w-full h-auto block"
+          loading="eager"
+        />
       </div>
       <!-- Glow effect -->
       <div
