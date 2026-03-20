@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="About - BuildWorkPro" description="Learn about BuildWorkPro's mission to empower subcontractors with the tools they deserve.">
+  <Header />
+  <main class="pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-16">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">About us</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          We're building for the builders
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          Subcontractors are the backbone of the construction industry. They make up the majority of every jobsite, yet the software built for construction has always been designed for general contractors first.
+        </p>
+      </div>
+
+      <div class="prose prose-lg prose-slate mx-auto">
+        <h2>The problem we saw</h2>
+        <p>
+          Most construction management software charges hundreds of dollars per month, scales by user count, and buries the features that subs actually need — pay applications, change orders, and field documentation — behind enterprise tiers. Small and mid-size specialty contractors are left with spreadsheets, paper forms, and disconnected tools.
+        </p>
+
+        <h2>Our approach</h2>
+        <p>
+          BuildWorkPro is a subcontractor-first platform. Every feature is designed around how specialty trades actually work — from bidding jobs and tracking projects, to submitting pay apps and documenting the field. One plan, one price, everything included.
+        </p>
+        <p>
+          We believe the plumber with a 5-person crew deserves the same quality tools as the GC running a $100M backlog. That's why we built BuildWorkPro at <strong>$79/month flat</strong> — no per-user fees, no feature gates, no surprises.
+        </p>
+
+        <h2>What we stand for</h2>
+        <ul>
+          <li><strong>Subs first.</strong> Every feature decision starts with "does this help a specialty contractor?"</li>
+          <li><strong>Simple pricing.</strong> One plan, everything included. We don't penalize you for growing your team.</li>
+          <li><strong>Built to be used.</strong> Clean, fast, and practical — not bloated with features nobody asked for.</li>
+          <li><strong>Your data, your business.</strong> We don't sell your data. We sell software.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="mt-16">
+      <CTA />
+    </div>
+  </main>
+  <Footer />
+</Layout>
