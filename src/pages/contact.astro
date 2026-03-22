@@ -46,6 +46,7 @@ import { config } from '../config';
                 I agree to the processing of my personal data as described in the <a href="/privacy" class="text-brand-600 hover:text-brand-700 font-medium underline">Privacy Policy</a>.
               </label>
             </div>
+            <div id="contact-turnstile"></div>
             <div id="contact-status" class="hidden text-sm rounded-lg px-4 py-3"></div>
             <button type="submit" id="contact-submit" class="w-full py-3 px-6 rounded-xl bg-brand-600 text-white font-semibold text-sm hover:bg-brand-700 transition-colors">
               Send message
@@ -87,16 +88,43 @@ import { config } from '../config';
 </Layout>
 
 <script>
+  declare const turnstile: any;
+
   function initContactForm() {
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const status = document.getElementById('contact-status');
     const submitBtn = document.getElementById('contact-submit') as HTMLButtonElement | null;
-    if (!form || !status || !submitBtn) return;
+    const container = document.getElementById('contact-turnstile');
+    if (!form || !status || !submitBtn || !container) return;
+
+    const sitekey = document.body.dataset.turnstileSitekey;
+    let turnstileToken = '';
+    let widgetId: string | undefined;
+
+    function renderWidget() {
+      if (typeof turnstile === 'undefined' || widgetId !== undefined) return;
+      widgetId = turnstile.render(container, {
+        sitekey,
+        callback: (token: string) => { turnstileToken = token; },
+        'expired-callback': () => { turnstileToken = ''; },
+        theme: 'light',
+      });
+    }
+
+    // Render when Turnstile script loads (may already be loaded)
+    if (typeof turnstile !== 'undefined') renderWidget();
+    else window.addEventListener('load', renderWidget);
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const fd = new FormData(form);
 
+      if (!turnstileToken) {
+        status.textContent = 'Please complete the verification above.';
+        status.className = 'text-sm rounded-lg px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200';
+        return;
+      }
+
+      const fd = new FormData(form);
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
       status.className = 'hidden';
@@ -110,6 +138,7 @@ import { config } from '../config';
             email: fd.get('email'),
             company: fd.get('company'),
             message: fd.get('message'),
+            'cf-turnstile-response': turnstileToken,
           }),
         });
 
@@ -118,6 +147,8 @@ import { config } from '../config';
         status.textContent = 'Message sent! We\u2019ll get back to you within 24 hours.';
         status.className = 'text-sm rounded-lg px-4 py-3 bg-green-50 text-green-700 border border-green-200';
         form.reset();
+        turnstileToken = '';
+        if (widgetId !== undefined) turnstile.reset(widgetId);
       } catch {
         status.textContent = 'Something went wrong. Please try again or email us directly.';
         status.className = 'text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200';

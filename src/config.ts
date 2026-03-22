@@ -9,4 +9,5 @@ export const config = {
     legal: import.meta.env.PUBLIC_EMAIL_LEGAL,
     access: import.meta.env.PUBLIC_EMAIL_ACCESS,
   },
+  turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY,
 };

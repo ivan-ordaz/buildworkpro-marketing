@@ -9,6 +9,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_EMAIL_SECURITY: string;
   readonly PUBLIC_EMAIL_LEGAL: string;
   readonly PUBLIC_EMAIL_ACCESS: string;
+  readonly PUBLIC_TURNSTILE_SITE_KEY: string;
 }
 
 interface ImportMeta {

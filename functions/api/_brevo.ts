@@ -3,7 +3,10 @@ type Env = {
   BREVO_SENDER_EMAIL: string;
   BREVO_SENDER_NAME: string;
   BREVO_RECIPIENT_EMAIL: string;
+  TURNSTILE_SECRET_KEY: string;
 };
+
+const ALLOWED_ORIGIN = "https://buildworkpro.com";
 
 export async function sendEmail(
   env: Env,
@@ -35,7 +38,7 @@ export async function sendEmail(
 
 export function corsHeaders() {
   return {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
@@ -47,6 +50,43 @@ export function jsonResponse(body: Record<string, unknown>, status = 200) {
     headers: { "Content-Type": "application/json", ...corsHeaders() },
   });
 }
+
+export async function verifyTurnstile(secretKey: string, token: string, ip?: string) {
+  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      secret: secretKey,
+      response: token,
+      ...(ip ? { remoteip: ip } : {}),
+    }),
+  });
+
+  const data = (await res.json()) as { success: boolean; "error-codes"?: string[] };
+  return data.success;
+}
+
+// --- Input validation ---
+
+const MAX_LENGTHS: Record<string, number> = {
+  name: 120,
+  email: 254,
+  company: 150,
+  trade: 100,
+  message: 2000,
+};
+
+export function sanitizeField(key: string, value: unknown): string {
+  const str = String(value ?? "").trim();
+  const max = MAX_LENGTHS[key] ?? 500;
+  return str.length > max ? str.slice(0, max) : str;
+}
+
+export function isValidEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= 254;
+}
+
+// --- HTML helpers ---
 
 function escapeHtml(str: string) {
   return str

@@ -82,6 +82,7 @@
             ></textarea>
           </div>
 
+          <div id="request-access-turnstile"></div>
           <div id="request-access-error" class="hidden text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200"></div>
 
           <button
@@ -115,6 +116,8 @@
 </div>
 
 <script>
+  declare const turnstile: any;
+
   function initRequestAccessModal() {
     const modal = document.getElementById('request-access-modal');
     const backdrop = document.getElementById('request-access-backdrop');
@@ -123,12 +126,31 @@
     const form = document.getElementById('request-access-form') as HTMLFormElement | null;
     const formView = document.getElementById('request-access-form-view');
     const successView = document.getElementById('request-access-success-view');
+    const turnstileContainer = document.getElementById('request-access-turnstile');
 
-    if (!modal || !backdrop || !closeBtn || !form || !formView || !successView) return;
+    if (!modal || !backdrop || !closeBtn || !form || !formView || !successView || !turnstileContainer) return;
+
+    const sitekey = document.body.dataset.turnstileSitekey;
+    let turnstileToken = '';
+    let widgetId: string | undefined;
+    let widgetRendered = false;
+
+    function renderWidget() {
+      if (typeof turnstile === 'undefined' || widgetRendered) return;
+      widgetRendered = true;
+      widgetId = turnstile.render(turnstileContainer, {
+        sitekey,
+        callback: (token: string) => { turnstileToken = token; },
+        'expired-callback': () => { turnstileToken = ''; },
+        theme: 'light',
+      });
+    }
 
     function openModal() {
       modal!.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
+      // Render Turnstile when modal opens (needs to be visible)
+      renderWidget();
     }
 
     function closeModal() {
@@ -139,6 +161,8 @@
         formView!.classList.remove('hidden');
         successView!.classList.add('hidden');
         form!.reset();
+        turnstileToken = '';
+        if (widgetId !== undefined) turnstile.reset(widgetId);
       }, 300);
     }
 
@@ -175,6 +199,14 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      if (!turnstileToken) {
+        if (errorEl) {
+          errorEl.textContent = 'Please complete the verification above.';
+          errorEl.className = 'text-sm rounded-lg px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200';
+        }
+        return;
+      }
+
       const formData = new FormData(form);
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
       if (errorEl) errorEl.className = 'hidden';
@@ -189,6 +221,7 @@
             company: formData.get('company'),
             trade: formData.get('trade'),
             message: formData.get('message'),
+            'cf-turnstile-response': turnstileToken,
           }),
         });
 
