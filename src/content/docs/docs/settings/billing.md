@@ -29,7 +29,7 @@ When your trial ends, you will be prompted to select a plan. Your data is preser
    - Update your payment method.
    - View invoice history and download receipts.
 
-Subscription management is handled through a secure Stripe portal. BuildWorkPro does not store your credit card details directly.
+Subscription management is handled through a secure billing portal. BuildWorkPro does not store your credit card details directly.
 
 ## Cancellation
 

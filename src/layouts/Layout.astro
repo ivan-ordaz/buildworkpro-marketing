@@ -1,14 +1,17 @@
 ---
 import '../styles/global.css';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const {
   title = 'BuildWorkPro - Construction Project Management & ERP Platform',
   description = 'The all-in-one platform for construction companies. Manage projects, contacts, quotes, billing, and your entire team from a single, powerful dashboard.',
+  noindex = false,
 } = Astro.props;
 ---
 
@@ -16,11 +19,41 @@ const {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={Astro.url.href} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="BuildWorkPro" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "BuildWorkPro",
+      "url": "https://buildworkpro.com",
+      "logo": "https://buildworkpro.com/logo.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@buildworkpro.com",
+        "contactType": "customer support"
+      },
+      "sameAs": []
+    })} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -31,5 +64,6 @@ const {
   </head>
   <body class="bg-white text-slate-900 font-sans">
     <slot />
+    <CookieConsent />
   </body>
 </html>

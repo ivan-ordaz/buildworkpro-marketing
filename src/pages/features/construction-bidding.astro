@@ -1,0 +1,157 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout title="Construction Bidding & Estimating Software | BuildWorkPro" description="Create detailed construction bids with line items, labor rates, markup, and material costs. Send professional proposals to clients. Built for subcontractors.">
+  <Header />
+  <main class="pt-32 pb-20">
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          Construction Bidding & Estimating Software
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          Build accurate bids with detailed line items, labor rates, material costs, and markup calculations. Send polished proposals to GCs and owners, then convert accepted bids directly into active projects -- all from one platform.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <!-- TODO: Restore "Start free trial" button at launch -->
+          <span class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-slate-400 rounded-xl cursor-default">
+            Coming Soon
+          </span>
+          <a href="/features/" class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all">
+            All features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="prose prose-lg prose-slate mx-auto">
+        <h2>Stop losing money on inaccurate bids</h2>
+        <p>
+          For subcontractors, every bid is a balancing act. Price too high and you lose the job. Price too low and you eat into your margin on every hour worked. BuildWorkPro gives you structured estimating tools so you can break down costs by labor, material, equipment, and subcontractor expense -- then apply your markup and overhead systematically instead of guessing.
+        </p>
+        <p>
+          Every bid you create lives in your system as a permanent record. You can track which bids were sent, which are pending, and which you won or lost. Over time, your bid history becomes a valuable dataset for improving your win rate and refining your pricing.
+        </p>
+      </div>
+    </section>
+
+    <!-- Key Capabilities -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">Key capabilities</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-violet-50 ring-1 ring-violet-100 mb-4">
+            <svg class="w-6 h-6 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Detailed line items</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Break down every bid into granular line items with quantities, units, and unit costs. Group items by CSI division, trade, or custom categories.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-violet-50 ring-1 ring-violet-100 mb-4">
+            <svg class="w-6 h-6 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Labor rates & crew costs</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Define labor rates by classification -- journeyman, apprentice, foreman -- and calculate crew costs per hour across multiple trades on the same bid.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-violet-50 ring-1 ring-violet-100 mb-4">
+            <svg class="w-6 h-6 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Markup & overhead</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Apply percentage-based or fixed-amount marks for overhead, profit, insurance, bonding, and tax. Marks are distributed across line items automatically.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-violet-50 ring-1 ring-violet-100 mb-4">
+            <svg class="w-6 h-6 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Material cost tracking</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Add material items with vendor pricing, quantities, and waste factors. Keep your material takeoff connected to your line-item estimate.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-violet-50 ring-1 ring-violet-100 mb-4">
+            <svg class="w-6 h-6 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Professional proposals</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Generate clean PDF proposals with your company branding, scope of work, exclusions, and terms. Send directly to the GC or owner from BuildWorkPro.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-violet-50 ring-1 ring-violet-100 mb-4">
+            <svg class="w-6 h-6 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Bid-to-project conversion</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">When a bid is accepted, convert it into an active project with one click. Line items flow into your schedule of values and project budget automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">How it works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">1</div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Create a bid</h3>
+            <p class="text-slate-500">Start a new bid from scratch or duplicate a previous one. Add the project name, client, GC, location, and due date.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">2</div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Add line items and rates</h3>
+            <p class="text-slate-500">Break down the scope into line items with quantities, labor hours, material costs, and equipment. Set labor rates by trade classification.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">3</div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Apply markup and overhead</h3>
+            <p class="text-slate-500">Add marks for profit, overhead, insurance, bonding, and tax. BuildWorkPro distributes them across your line items and shows the total bid price.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">4</div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Send and track</h3>
+            <p class="text-slate-500">Generate a PDF proposal and send it to the GC or owner. Track the bid status through your pipeline -- from submitted to won or lost.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <!-- TODO: Restore "Ready to get started?" CTA with trial button at launch -->
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Coming Soon</h2>
+      <p class="text-lg text-slate-500 mb-8">We're preparing for launch. Internal testing in progress.</p>
+      <span class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-slate-400 rounded-xl cursor-default">
+        Coming Soon
+      </span>
+    </section>
+  </main>
+  <Footer />
+</Layout>

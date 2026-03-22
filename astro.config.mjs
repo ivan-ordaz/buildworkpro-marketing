@@ -2,11 +2,14 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import starlight from '@astrojs/starlight';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://buildworkpro.com',
   output: 'static',
   integrations: [
+    sitemap(),
     starlight({
       title: 'BuildWorkPro Docs',
       logo: {

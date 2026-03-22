@@ -1,0 +1,122 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout title="Construction Time Tracking Software | BuildWorkPro" description="Track crew hours by project, phase, and task. Simple time entry from any device. Export timesheets for payroll. Built for field crews.">
+  <Header />
+  <main class="pt-32 pb-20">
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          Construction Time Tracking
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          Track crew hours by project, phase, and task with a simple interface your field workers will actually use. Review timesheets, export for payroll, and roll labor costs into your project budgets and pay applications.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <!-- TODO: Restore "Start free trial" button at launch -->
+          <span class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-slate-400 rounded-xl cursor-default">
+            Coming Soon
+          </span>
+          <a href="/features/" class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all">
+            All features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="prose prose-lg prose-slate mx-auto">
+        <h2>Know where every labor hour goes</h2>
+        <p>
+          Labor is the largest cost on most subcontractor jobs. When you cannot see where hours are going at a project and phase level, you cannot tell if a job is profitable until it is over. BuildWorkPro connects time tracking directly to your projects so you see labor costs accumulating in real time -- not after the fact.
+        </p>
+        <p>
+          Your field workers log hours through a simple interface that works on any device. They select a project, choose a phase or task, enter their hours, and move on. No complicated timesheets, no separate apps. The data feeds into project cost reports, daily logs, and payroll exports automatically.
+        </p>
+      </div>
+    </section>
+
+    <!-- Key Capabilities -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">Key capabilities</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Log hours by project and phase</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Every time entry is tied to a specific project, phase, and optionally a task. See exactly where labor hours are being spent across your active jobs.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Mobile-friendly entry</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">A clean, simple interface that works on phones and tablets. Your crew can log time from the jobsite in under 30 seconds without navigating complex menus.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Timesheet review</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Managers review and approve time entries before they are finalized. Catch errors, missing entries, or misallocated hours before they affect payroll or project costs.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Payroll export</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Export approved timesheets to CSV for your payroll system. Hours are broken down by employee, project, date, and labor classification -- ready for processing.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Labor cost reports</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">See labor costs by project, phase, and time period. Compare actual hours against your bid estimates to identify jobs that are over or under on labor.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Date range filtering</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Filter time entries by date range, project, or team member. Pull weekly, bi-weekly, or monthly views to match your payroll cycle and reporting needs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <!-- TODO: Restore "Ready to get started?" CTA with trial button at launch -->
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Coming Soon</h2>
+      <p class="text-lg text-slate-500 mb-8">We're preparing for launch. Internal testing in progress.</p>
+      <span class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-slate-400 rounded-xl cursor-default">
+        Coming Soon
+      </span>
+    </section>
+  </main>
+  <Footer />
+</Layout>

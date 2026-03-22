@@ -1,0 +1,74 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const posts = [
+  {
+    slug: 'how-to-create-construction-bid',
+    title: 'How to Create a Construction Bid: Step-by-Step Guide',
+    date: 'March 15, 2026',
+    excerpt: 'Learn how to write a winning construction bid. Step-by-step guide covering takeoffs, labor rates, material costs, markup, and proposal formatting for subcontractors.',
+  },
+  {
+    slug: 'aia-pay-application-guide',
+    title: 'AIA Pay Application Guide: How to Fill Out G702 & G703',
+    date: 'March 10, 2026',
+    excerpt: 'Complete guide to AIA pay applications for subcontractors. Learn how to fill out G702 and G703 forms, schedule of values, and get paid faster.',
+  },
+  {
+    slug: 'construction-change-order-management',
+    title: 'Construction Change Order Management: Best Practices',
+    date: 'March 5, 2026',
+    excerpt: 'Best practices for managing construction change orders. Learn documentation, pricing, approval workflows, and how to protect your margins as a subcontractor.',
+  },
+  {
+    slug: 'construction-site-log-best-practices',
+    title: 'Construction Site Log Best Practices: What to Record Daily',
+    date: 'February 28, 2026',
+    excerpt: 'Daily construction site log guide for subcontractors. What to document, why it matters, and how digital site logs save time and protect your business.',
+  },
+  {
+    slug: 'subcontractor-vs-general-contractor-software',
+    title: 'Subcontractor vs General Contractor Software: Key Differences',
+    date: 'February 20, 2026',
+    excerpt: 'Why subcontractors need different software than general contractors. Compare features, pricing, and workflows to find the right construction management tool.',
+  },
+  {
+    slug: 'construction-crm-tips',
+    title: 'Construction CRM: How to Build a Sales Pipeline That Wins More Bids',
+    date: 'February 15, 2026',
+    excerpt: 'Construction CRM tips for subcontractors. Build a sales pipeline, track leads, improve follow-ups, and increase your bid win rate.',
+  },
+];
+---
+
+<Layout title="Construction Management Blog for Subcontractors | BuildWorkPro" description="Tips, guides, and best practices for subcontractors. Learn about bidding, pay apps, project management, and running your construction business.">
+  <Header />
+  <main class="pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-16">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          Insights for specialty contractors
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          Practical guides on bidding, pay apps, project management, and growing your subcontracting business.
+        </p>
+      </div>
+
+      <div class="grid gap-4">
+        {posts.map((post) => (
+          <a href={`/blog/${post.slug}`} class="block p-6 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:shadow-lg transition-all">
+            <p class="text-sm text-slate-400 mb-2">{post.date}</p>
+            <h2 class="text-lg font-semibold text-slate-900 mb-2">{post.title}</h2>
+            <p class="text-sm text-slate-500">{post.excerpt}</p>
+          </a>
+        ))}
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</Layout>

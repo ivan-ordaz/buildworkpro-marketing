@@ -1,28 +1,37 @@
 ---
 const faqs = [
   {
-    question: 'What types of construction companies is BuildWorkPro for?',
-    answer: 'BuildWorkPro is designed for all types of construction businesses including general contractors, HVAC, plumbing, electrical, roofing, and remodeling companies. Whether you\'re a solo operator or managing a team of 500+, the platform scales with your needs.',
+    question: 'What is construction project management software?',
+    answer: 'Construction project management software helps contractors organize bids, track projects, manage pay applications, handle change orders, and keep field operations running smoothly — all in one place. BuildWorkPro is built specifically for subcontractors like electrical, plumbing, HVAC, concrete, and framing companies who need a simpler alternative to tools designed for general contractors.',
   },
   {
-    question: 'Can I import my existing data?',
-    answer: 'Yes. BuildWorkPro supports importing contacts, projects, and products from CSV files. Our team can also help with data migration from other platforms during onboarding.',
+    /* TODO: Restore original trial FAQ answer at launch */
+    question: 'When will BuildWorkPro be available?',
+    answer: 'We\'re currently in internal testing and preparing for launch. BuildWorkPro will be available at $79/month (or $790/year) with all features included and unlimited users. Check back soon for updates.',
   },
   {
-    question: 'Is my data secure?',
-    answer: 'Absolutely. BuildWorkPro uses industry-standard encryption, role-based access control, complete audit logging, and multi-tenant data isolation. Your data is never shared between accounts.',
+    question: 'Can BuildWorkPro replace spreadsheets for managing bids and pay apps?',
+    answer: 'Yes — that\'s exactly what it\'s built for. Create detailed estimates with line items, labor rates, and markup. Generate AIA-style pay applications with schedule of values. Track change orders with approval workflows. Everything stays connected to the project, so you stop juggling spreadsheets and email threads.',
   },
   {
-    question: 'Do I need to install anything?',
-    answer: 'No. BuildWorkPro is fully web-based and works on any device with a modern browser. Access your projects, quotes, and contacts from the office, the job site, or anywhere else.',
+    question: 'Does BuildWorkPro work on phones and tablets at the job site?',
+    answer: 'BuildWorkPro is fully web-based and works on any device with a modern browser — no app to install. Log time, submit site logs, check project status, or review a bid from your phone, tablet, or laptop. A native mobile app is also coming soon.',
   },
   {
-    question: 'What happens when my free trial ends?',
-    answer: 'Your free plan never expires - you can use BuildWorkPro with up to 2 users and 5 projects forever. When you\'re ready for more, upgrading takes one click and you can cancel anytime.',
+    question: 'How does BuildWorkPro handle QuickBooks integration?',
+    answer: 'BuildWorkPro syncs invoices, payments, and job costs with QuickBooks so your books stay up to date without double entry. It also integrates with Gmail, Google Calendar, and Google Drive to keep your existing workflow connected.',
   },
   {
-    question: 'Can I customize quotes with my company branding?',
-    answer: 'Yes. Professional and Enterprise plans include full white-label branding - your logo, colors, and custom email templates on all client-facing documents and communications.',
+    question: 'Is my construction data secure?',
+    answer: 'Yes. BuildWorkPro uses TLS encryption in transit and at rest, role-based access control with four permission levels, complete audit logging, and full tenant isolation — your data is never accessible to other companies. We also support two-factor authentication.',
+  },
+  {
+    question: 'How is BuildWorkPro different from Procore or Buildertrend?',
+    answer: 'Most construction software is built for general contractors and charges per user, often starting at $299/month or more. BuildWorkPro is purpose-built for subcontractors at a flat $79/month for unlimited users. You get bidding, project management, pay apps, change orders, time tracking, and CRM without paying for features subs don\'t need.',
+  },
+  {
+    question: 'Can I import data from my current system?',
+    answer: 'Yes. BuildWorkPro supports CSV imports for contacts, projects, and products. If you\'re migrating from another platform, our team can help with the transition during onboarding.',
   },
 ];
 ---
@@ -54,4 +63,17 @@ const faqs = [
       ))}
     </div>
   </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer,
+      },
+    })),
+  })} />
 </section>

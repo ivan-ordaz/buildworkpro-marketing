@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /docs/_image
+
+Sitemap: https://buildworkpro.com/sitemap-index.xml

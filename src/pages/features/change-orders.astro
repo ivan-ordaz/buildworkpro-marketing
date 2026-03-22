@@ -1,0 +1,157 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout title="Construction Change Order Management Software | BuildWorkPro" description="Track change orders from request to approval. Automatically update contract values and project budgets. Built for subcontractor workflows.">
+  <Header />
+  <main class="pt-32 pb-20">
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          Change Order Management for Construction
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          Track every scope change from the initial request through pricing, approval, and contract adjustment. BuildWorkPro keeps your change orders organized and your contract values accurate so nothing falls through the cracks.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <!-- TODO: Restore "Start free trial" button at launch -->
+          <span class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-slate-400 rounded-xl cursor-default">
+            Coming Soon
+          </span>
+          <a href="/features/" class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all">
+            All features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="prose prose-lg prose-slate mx-auto">
+        <h2>Scope changes happen -- manage them properly</h2>
+        <p>
+          On a typical construction project, change orders can add 5-15% to the original contract value. For subcontractors, untracked changes mean unbilled work and margin erosion. BuildWorkPro gives you a structured process to document every change, price it accurately, get it approved, and fold it into your contract and billing automatically.
+        </p>
+        <p>
+          Every change order is linked to a project with a clear audit trail showing who requested it, when it was priced, when it was approved, and how it affected the total contract value. Your team can see pending COs at a glance and follow up before they become disputes.
+        </p>
+      </div>
+    </section>
+
+    <!-- Key Capabilities -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">Key capabilities</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-amber-50 ring-1 ring-amber-100 mb-4">
+            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Create and track COs</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Log change orders with a description, reason code, cost breakdown, and supporting documentation. Link each CO to the originating project and contract.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-amber-50 ring-1 ring-amber-100 mb-4">
+            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Approval workflow</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Move change orders through Draft, Submitted, Approved, and Rejected statuses. Track who approved what and when, with timestamps and notes on every transition.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-amber-50 ring-1 ring-amber-100 mb-4">
+            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Automatic contract updates</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">When a change order is approved, BuildWorkPro automatically updates the project contract value. Your schedule of values and pay apps reflect the new totals immediately.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-amber-50 ring-1 ring-amber-100 mb-4">
+            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Cost impact tracking</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">See the financial impact of every change order -- labor, material, and equipment breakdowns. Track how COs affect your project margin in real time.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-amber-50 ring-1 ring-amber-100 mb-4">
+            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">PDF generation</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Generate professional change order documents for GC and client sign-off. Include scope descriptions, cost breakdowns, and approval signature lines.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-amber-50 ring-1 ring-amber-100 mb-4">
+            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Full audit trail</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Every status change, comment, and document upload is logged with a timestamp. Protect yourself with a complete record if a CO becomes a dispute.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">How it works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">1</div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Log the change request</h3>
+            <p class="text-slate-500">When the GC or owner requests additional scope, create a change order in BuildWorkPro with the description, reason, and any supporting documents.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">2</div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Price the change</h3>
+            <p class="text-slate-500">Add labor, material, and equipment costs. Apply your standard markup. BuildWorkPro calculates the total and shows the impact on the contract value.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">3</div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Submit for approval</h3>
+            <p class="text-slate-500">Send the CO to the GC or owner. Track the status as it moves through their review process. Follow up on pending COs from your dashboard.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">4</div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Contract updates automatically</h3>
+            <p class="text-slate-500">Once approved, the project contract value and schedule of values update automatically. The change order amount is available for billing on your next pay app.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <!-- TODO: Restore "Ready to get started?" CTA with trial button at launch -->
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Coming Soon</h2>
+      <p class="text-lg text-slate-500 mb-8">We're preparing for launch. Internal testing in progress.</p>
+      <span class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-slate-400 rounded-xl cursor-default">
+        Coming Soon
+      </span>
+    </section>
+  </main>
+  <Footer />
+</Layout>
