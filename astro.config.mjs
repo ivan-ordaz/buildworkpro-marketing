@@ -9,7 +9,7 @@ const env = loadEnv('', process.cwd(), 'PUBLIC_');
 
 // https://astro.build/config
 export default defineConfig({
-  site: env.PUBLIC_SITE_URL,
+  site: env.PUBLIC_SITE_URL || 'https://buildworkpro.com',
   output: 'static',
   integrations: [
     sitemap(),
@@ -19,7 +19,7 @@ export default defineConfig({
         src: './public/logo.png',
       },
       social: [
-        { icon: 'email', label: 'Email Support', href: `mailto:${env.PUBLIC_EMAIL_SUPPORT}` },
+        { icon: 'email', label: 'Email Support', href: `mailto:${env.PUBLIC_EMAIL_SUPPORT || 'support@buildworkpro.com'}` },
       ],
       customCss: ['./src/styles/docs.css'],
       sidebar: [
