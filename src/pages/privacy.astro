@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { config } from '../config';
 ---
 
 <Layout title="Privacy Policy - BuildWorkPro" description="How BuildWorkPro collects, uses, and protects your data." noindex>
@@ -20,7 +21,7 @@ import Footer from '../components/Footer.astro';
         <p>BuildWorkPro ("we," "our," or "us") is committed to protecting the privacy of our users. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform.</p>
 
         <h2>1. Data Controller</h2>
-        <p>BuildWorkPro LLC is the data controller responsible for processing your personal data. If you have questions or concerns about how your data is handled, you can reach our data protection team at <a href="mailto:privacy@buildworkpro.com">privacy@buildworkpro.com</a>.</p>
+        <p>BuildWorkPro LLC is the data controller responsible for processing your personal data. If you have questions or concerns about how your data is handled, you can reach our data protection team at <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>.</p>
 
         <h2>2. Information We Collect</h2>
         <h3>Information you provide</h3>
@@ -102,13 +103,13 @@ import Footer from '../components/Footer.astro';
           <li><strong>Right to withdraw consent:</strong> Where processing is based on consent, you may withdraw it at any time without affecting the lawfulness of prior processing.</li>
           <li><strong>Right to lodge a complaint:</strong> You have the right to lodge a complaint with a supervisory authority in your country of residence if you believe your data protection rights have been violated.</li>
         </ul>
-        <p>To exercise any of these rights, contact us at <a href="mailto:privacy@buildworkpro.com">privacy@buildworkpro.com</a>. We will respond to all requests within 30 days of receipt. If we need additional time, we will notify you of the extension and the reasons for the delay.</p>
+        <p>To exercise any of these rights, contact us at <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>. We will respond to all requests within 30 days of receipt. If we need additional time, we will notify you of the extension and the reasons for the delay.</p>
 
         <h2>9. International Data Transfers</h2>
         <p>BuildWorkPro stores and processes data in the United States. If you are located in the European Union or European Economic Area (EU/EEA), your personal data will be transferred to the United States. We protect these transfers using Standard Contractual Clauses (SCCs) approved by the European Commission, ensuring your data receives an adequate level of protection regardless of where it is processed.</p>
 
         <h2>10. Third-Party Services</h2>
-        <p>BuildWorkPro integrates with third-party services (Google Workspace, Google Fonts, QuickBooks) that have their own privacy policies. We encourage you to review those policies. We only share the minimum data necessary for each integration to function.</p>
+        <p>BuildWorkPro integrates with third-party services (Google Workspace, Google Fonts) that have their own privacy policies. We encourage you to review those policies. We only share the minimum data necessary for each integration to function.</p>
 
         <h2>11. Children's Privacy</h2>
         <p>BuildWorkPro is not intended for use by anyone under the age of 18. We do not knowingly collect personal information from children.</p>
@@ -119,8 +120,8 @@ import Footer from '../components/Footer.astro';
         <h2>13. Contact Us</h2>
         <p>If you have questions about this Privacy Policy, please contact us:</p>
         <ul>
-          <li>Email: <a href="mailto:privacy@buildworkpro.com">privacy@buildworkpro.com</a></li>
-          <li>Web: <a href="/contact">buildworkpro.com/contact</a></li>
+          <li>Email: <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a></li>
+          <li>Web: <a href="/contact">{config.siteUrl.replace('https://', '')}/contact</a></li>
         </ul>
 
       </div>

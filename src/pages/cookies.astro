@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { config } from '../config';
 ---
 
 <Layout title="Cookie Policy - BuildWorkPro" description="How BuildWorkPro uses cookies and similar technologies." noindex>
@@ -71,8 +72,8 @@ import Footer from '../components/Footer.astro';
         <h2>8. Contact Us</h2>
         <p>If you have questions about our use of cookies, please contact us:</p>
         <ul>
-          <li>Email: <a href="mailto:privacy@buildworkpro.com">privacy@buildworkpro.com</a></li>
-          <li>Web: <a href="/contact">buildworkpro.com/contact</a></li>
+          <li>Email: <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a></li>
+          <li>Web: <a href="/contact">{config.siteUrl.replace('https://', '')}/contact</a></li>
         </ul>
 
       </div>

@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { config } from '../config';
 ---
 
 <Layout title="Contact BuildWorkPro – Sales, Support & Partnerships" description="Contact BuildWorkPro for sales inquiries, support, or partnership opportunities. We respond within 24 hours.">
@@ -22,22 +23,22 @@ import Footer from '../components/Footer.astro';
       <div class="grid md:grid-cols-2 gap-12">
         <!-- Contact form -->
         <div>
-          <form class="space-y-5">
+          <form id="contact-form" class="space-y-5">
             <div>
               <label class="block text-sm font-medium text-slate-700 mb-1.5">Name</label>
-              <input type="text" placeholder="Your name" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
+              <input type="text" name="name" required placeholder="Your name" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
-              <input type="email" placeholder="you@company.com" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
+              <input type="email" name="email" required placeholder="you@company.com" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-700 mb-1.5">Company</label>
-              <input type="text" placeholder="Your company name" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
+              <input type="text" name="company" placeholder="Your company name" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-700 mb-1.5">Message</label>
-              <textarea rows="4" placeholder="How can we help?" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none"></textarea>
+              <textarea name="message" required rows="4" placeholder="How can we help?" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none"></textarea>
             </div>
             <div class="flex items-start gap-3">
               <input type="checkbox" id="gdpr-consent" required class="mt-0.5 h-4 w-4 rounded border-slate-200 text-brand-600 focus:ring-2 focus:ring-brand-500" />
@@ -45,7 +46,8 @@ import Footer from '../components/Footer.astro';
                 I agree to the processing of my personal data as described in the <a href="/privacy" class="text-brand-600 hover:text-brand-700 font-medium underline">Privacy Policy</a>.
               </label>
             </div>
-            <button type="submit" class="w-full py-3 px-6 rounded-xl bg-brand-600 text-white font-semibold text-sm hover:bg-brand-700 transition-colors">
+            <div id="contact-status" class="hidden text-sm rounded-lg px-4 py-3"></div>
+            <button type="submit" id="contact-submit" class="w-full py-3 px-6 rounded-xl bg-brand-600 text-white font-semibold text-sm hover:bg-brand-700 transition-colors">
               Send message
             </button>
           </form>
@@ -55,8 +57,8 @@ import Footer from '../components/Footer.astro';
         <div class="space-y-8">
           <div>
             <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">Email us</h3>
-            <a href="mailto:hello@buildworkpro.com" class="text-brand-600 hover:text-brand-700 font-medium">
-              hello@buildworkpro.com
+            <a href={`mailto:${config.email.hello}`} class="text-brand-600 hover:text-brand-700 font-medium">
+              {config.email.hello}
             </a>
           </div>
           <div>
@@ -83,3 +85,49 @@ import Footer from '../components/Footer.astro';
   </main>
   <Footer />
 </Layout>
+
+<script>
+  function initContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const status = document.getElementById('contact-status');
+    const submitBtn = document.getElementById('contact-submit') as HTMLButtonElement | null;
+    if (!form || !status || !submitBtn) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      status.className = 'hidden';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: fd.get('name'),
+            email: fd.get('email'),
+            company: fd.get('company'),
+            message: fd.get('message'),
+          }),
+        });
+
+        if (!res.ok) throw new Error();
+
+        status.textContent = 'Message sent! We\u2019ll get back to you within 24 hours.';
+        status.className = 'text-sm rounded-lg px-4 py-3 bg-green-50 text-green-700 border border-green-200';
+        form.reset();
+      } catch {
+        status.textContent = 'Something went wrong. Please try again or email us directly.';
+        status.className = 'text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+      }
+    });
+  }
+
+  initContactForm();
+  document.addEventListener('astro:page-load', initContactForm);
+</script>

@@ -1,12 +1,15 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 
+const env = loadEnv('', process.cwd(), 'PUBLIC_');
+
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://buildworkpro.com',
+  site: env.PUBLIC_SITE_URL,
   output: 'static',
   integrations: [
     sitemap(),
@@ -16,7 +19,7 @@ export default defineConfig({
         src: './public/logo.png',
       },
       social: [
-        { icon: 'email', label: 'Email Support', href: 'mailto:support@buildworkpro.com' },
+        { icon: 'email', label: 'Email Support', href: `mailto:${env.PUBLIC_EMAIL_SUPPORT}` },
       ],
       customCss: ['./src/styles/docs.css'],
       sidebar: [

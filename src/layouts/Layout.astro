@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import CookieConsent from '../components/CookieConsent.astro';
 import RequestAccessModal from '../components/RequestAccessModal.astro';
+import { config } from '../config';
 
 interface Props {
   title?: string;
@@ -45,11 +46,11 @@ const {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "BuildWorkPro",
-      "url": "https://buildworkpro.com",
-      "logo": "https://buildworkpro.com/logo.png",
+      "url": config.siteUrl,
+      "logo": `${config.siteUrl}/logo.png`,
       "contactPoint": {
         "@type": "ContactPoint",
-        "email": "support@buildworkpro.com",
+        "email": config.email.support,
         "contactType": "customer support"
       },
       "sameAs": []

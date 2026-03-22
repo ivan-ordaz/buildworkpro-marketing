@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { config } from '../config';
 ---
 
 <Layout title="Terms of Service - BuildWorkPro" description="Terms of Service for using the BuildWorkPro platform." noindex>
@@ -95,11 +96,11 @@ import Footer from '../components/Footer.astro';
           <li>If you are located in the European Economic Area (EEA), United Kingdom, or Switzerland, you may have additional rights under applicable data protection laws, including the right to access, correct, delete, or port your personal data, and to object to or restrict certain processing.</li>
           <li>BuildWorkPro processes personal data as described in our <a href="/privacy">Privacy Policy</a>.</li>
           <li>For data processing related to the Service, BuildWorkPro acts as the data processor and your organization acts as the data controller.</li>
-          <li>A Data Processing Agreement (DPA) is available upon request for qualifying accounts. To request a DPA, contact us at <a href="mailto:privacy@buildworkpro.com">privacy@buildworkpro.com</a>.</li>
+          <li>A Data Processing Agreement (DPA) is available upon request for qualifying accounts. To request a DPA, contact us at <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>.</li>
         </ul>
 
         <h2>12. Contact</h2>
-        <p>For questions about these Terms, contact us at <a href="mailto:legal@buildworkpro.com">legal@buildworkpro.com</a>.</p>
+        <p>For questions about these Terms, contact us at <a href={`mailto:${config.email.legal}`}>{config.email.legal}</a>.</p>
 
       </div>
     </div>

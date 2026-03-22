@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { config } from '../config';
 
 const categories = [
   {
@@ -86,7 +87,7 @@ const categories = [
           </div>
           <div>
             <p class="text-sm font-medium text-slate-900">Email support</p>
-            <a href="mailto:support@buildworkpro.com" class="text-sm text-brand-600 hover:text-brand-700">support@buildworkpro.com</a>
+            <a href={`mailto:${config.email.support}`} class="text-sm text-brand-600 hover:text-brand-700">{config.email.support}</a>
           </div>
         </div>
         <div class="hidden sm:block w-px h-10 bg-brand-200"></div>

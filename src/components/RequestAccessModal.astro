@@ -82,8 +82,11 @@
             ></textarea>
           </div>
 
+          <div id="request-access-error" class="hidden text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200"></div>
+
           <button
             type="submit"
+            id="request-access-submit"
             class="w-full inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
           >
             Request Access
@@ -166,26 +169,41 @@
     }
 
     // Form submission
-    form.addEventListener('submit', (e) => {
+    const submitBtn = document.getElementById('request-access-submit') as HTMLButtonElement | null;
+    const errorEl = document.getElementById('request-access-error');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const formData = new FormData(form);
-      const name = (formData.get('name') as string) || '';
-      const email = (formData.get('email') as string) || '';
-      const company = (formData.get('company') as string) || '';
-      const trade = (formData.get('trade') as string) || '';
-      const message = (formData.get('message') as string) || '';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
+      if (errorEl) errorEl.className = 'hidden';
 
-      const subject = encodeURIComponent(`Early Access Request - ${company}`);
-      const body = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nTrade: ${trade}\n\nMessage:\n${message || '(none)'}`
-      );
+      try {
+        const res = await fetch('/api/request-access', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.get('name'),
+            email: formData.get('email'),
+            company: formData.get('company'),
+            trade: formData.get('trade'),
+            message: formData.get('message'),
+          }),
+        });
 
-      window.location.href = `mailto:access@buildworkpro.com?subject=${subject}&body=${body}`;
+        if (!res.ok) throw new Error();
 
-      // Show success view
-      formView!.classList.add('hidden');
-      successView!.classList.remove('hidden');
+        formView!.classList.add('hidden');
+        successView!.classList.remove('hidden');
+      } catch {
+        if (errorEl) {
+          errorEl.textContent = 'Something went wrong. Please try again.';
+          errorEl.className = 'text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200';
+        }
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Request Access'; }
+      }
     });
   }
 

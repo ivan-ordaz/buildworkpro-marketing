@@ -12,10 +12,12 @@ const integrations = [
     name: 'Google Drive',
     description: 'Store and organize project documents, plans, and permits in Drive.',
   },
+  /* TODO: Restore QuickBooks integration at launch
   {
     name: 'QuickBooks',
     description: 'Sync invoices, payments, and job costs with your accounting software.',
   },
+  */
 ];
 ---
 
@@ -29,11 +31,11 @@ const integrations = [
         Works with the tools you already use
       </h2>
       <p class="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-        Connect your existing workflow. BuildWorkPro integrates with Google Workspace and QuickBooks out of the box.
+        Connect your existing workflow. BuildWorkPro integrates with Google Workspace out of the box.
       </p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
       {integrations.map((integration) => (
         <div class="text-center p-8 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:shadow-lg transition-all duration-300">
           <div class="inline-flex p-3 rounded-2xl bg-slate-50 mb-5">
@@ -63,12 +65,7 @@ const integrations = [
                 <path d="M7.71 15.48h12.66l-5.13-3.24H4.67l3.04 3.24z" fill="#1A73E8" opacity="0"/>
               </svg>
             )}
-            {integration.name === 'QuickBooks' && (
-              <svg class="w-10 h-10" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z" fill="#2CA01C"/>
-                <path d="M7.248 7.2a2.4 2.4 0 0 0-2.4 2.4v4.8a2.4 2.4 0 0 0 2.4 2.4h.552v-1.44h-.552a.96.96 0 0 1-.96-.96V9.6a.96.96 0 0 1 .96-.96h1.2v8.16a1.44 1.44 0 0 0 2.88 0V7.2H7.248zM16.752 16.8a2.4 2.4 0 0 0 2.4-2.4V9.6a2.4 2.4 0 0 0-2.4-2.4h-.552v1.44h.552a.96.96 0 0 1 .96.96v4.8a.96.96 0 0 1-.96.96h-1.2V7.2a1.44 1.44 0 0 0-2.88 0v9.6h4.08z" fill="#FFFFFF"/>
-              </svg>
-            )}
+            {/* TODO: Restore QuickBooks SVG at launch */}
           </div>
           <h3 class="text-lg font-semibold text-slate-900 mb-2">{integration.name}</h3>
           <p class="text-sm text-slate-500">{integration.description}</p>
