@@ -19,9 +19,9 @@ import Footer from '../../components/Footer.astro';
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <!-- TODO: Restore "Start free trial" button at launch -->
-          <span class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-slate-400 rounded-xl cursor-default">
-            Coming Soon
-          </span>
+          <button data-request-access class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg">
+            Request Access
+          </button>
           <a href="/features/" class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all">
             All features
           </a>
@@ -111,11 +111,11 @@ import Footer from '../../components/Footer.astro';
     <!-- Bottom CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <!-- TODO: Restore "Ready to get started?" CTA with trial button at launch -->
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Coming Soon</h2>
-      <p class="text-lg text-slate-500 mb-8">We're preparing for launch. Internal testing in progress.</p>
-      <span class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-slate-400 rounded-xl cursor-default">
-        Coming Soon
-      </span>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
+      <p class="text-lg text-slate-500 mb-8">Pre-launch access available for select contractors.</p>
+      <button data-request-access class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg">
+        Request Access
+      </button>
     </section>
   </main>
   <Footer />

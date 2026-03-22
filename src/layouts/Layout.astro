@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import CookieConsent from '../components/CookieConsent.astro';
+import RequestAccessModal from '../components/RequestAccessModal.astro';
 
 interface Props {
   title?: string;
@@ -65,5 +66,6 @@ const {
   <body class="bg-white text-slate-900 font-sans">
     <slot />
     <CookieConsent />
+    <RequestAccessModal />
   </body>
 </html>
