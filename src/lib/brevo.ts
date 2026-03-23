@@ -1,25 +1,26 @@
+const SENDER_EMAIL = 'noreply@buildworkpro.com';
+const SENDER_NAME = 'BuildWorkPro';
+const RECIPIENT_EMAIL = 'hello@buildworkpro.com';
+
 export type Env = {
   BREVO_API_KEY: string;
-  BREVO_SENDER_EMAIL: string;
-  BREVO_SENDER_NAME: string;
-  BREVO_RECIPIENT_EMAIL: string;
   TURNSTILE_SECRET_KEY: string;
 };
 
 export async function sendEmail(
-  env: Env,
+  apiKey: string,
   opts: { subject: string; htmlContent: string; replyTo?: { email: string; name?: string } },
 ) {
   const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: {
-      "api-key": env.BREVO_API_KEY,
+      "api-key": apiKey,
       "content-type": "application/json",
       accept: "application/json",
     },
     body: JSON.stringify({
-      sender: { name: env.BREVO_SENDER_NAME, email: env.BREVO_SENDER_EMAIL },
-      to: [{ email: env.BREVO_RECIPIENT_EMAIL }],
+      sender: { name: SENDER_NAME, email: SENDER_EMAIL },
+      to: [{ email: RECIPIENT_EMAIL }],
       subject: opts.subject,
       htmlContent: opts.htmlContent,
       ...(opts.replyTo ? { replyTo: opts.replyTo } : {}),

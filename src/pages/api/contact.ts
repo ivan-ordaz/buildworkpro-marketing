@@ -36,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
       ${buildHtmlTable({ Name: name, Email: email, Company: company, Message: message })}
     `;
 
-    await sendEmail(cfEnv, {
+    await sendEmail(cfEnv.BREVO_API_KEY, {
       subject: `Contact Form: ${name}`,
       htmlContent,
       replyTo: { email, name },
