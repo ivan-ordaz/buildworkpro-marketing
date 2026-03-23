@@ -11,7 +11,6 @@ const env = loadEnv('', process.cwd(), 'PUBLIC_');
 // https://astro.build/config
 export default defineConfig({
   site: env.PUBLIC_SITE_URL || 'https://buildworkpro.com',
-  output: 'static',
   adapter: cloudflare(),
   integrations: [
     sitemap(),
@@ -38,5 +37,11 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      resolve: {
+        conditions: ['workerd', 'worker', 'node'],
+        externalConditions: ['workerd', 'worker', 'node'],
+      },
+    },
   },
 });
