@@ -1,16 +1,13 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 import { sendEmail, verifyTurnstile, sanitizeField, isValidEmail, buildHtmlTable } from '../../lib/brevo';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request }) => {
   try {
-    const runtime = (locals as any).runtime;
-    if (!runtime?.env) {
-      console.error('Runtime env not available. locals:', JSON.stringify(Object.keys(locals)));
-      return Response.json({ error: 'Server configuration error' }, { status: 500 });
-    }
-    const { env } = runtime;
+    const apiKey = (env as any).BREVO_API_KEY as string;
+    const turnstileSecret = (env as any).TURNSTILE_SECRET_KEY as string;
 
     let body: Record<string, string>;
     try {
@@ -25,7 +22,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const ip = request.headers.get('CF-Connecting-IP') || undefined;
-    const valid = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, turnstileToken, ip);
+    const valid = await verifyTurnstile(turnstileSecret, turnstileToken, ip);
     if (!valid) {
       return Response.json({ error: 'Verification failed. Please try again.' }, { status: 403 });
     }
@@ -48,7 +45,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       ${buildHtmlTable({ Name: name, Email: email, Company: company, Trade: trade, Message: message })}
     `;
 
-    await sendEmail(env.BREVO_API_KEY, {
+    await sendEmail(apiKey, {
       subject: `Early Access Request: ${company}`,
       htmlContent,
       replyTo: { email, name },
