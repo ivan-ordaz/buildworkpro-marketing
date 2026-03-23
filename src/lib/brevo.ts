@@ -48,7 +48,7 @@ export async function verifyTurnstile(secretKey: string, token: string, ip?: str
     body: params,
   });
 
-  const data = await res.json<{ success: boolean }>();
+  const data = (await res.json()) as { success: boolean };
   return data.success;
 }
 

@@ -56,6 +56,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return Response.json({ success: true });
   } catch (err) {
     console.error('Contact form error:', err);
-    return Response.json({ error: 'Failed to send message. Please try again.' }, { status: 500 });
+    const message = err instanceof Error ? err.message : String(err);
+    return Response.json({ error: 'Failed to send message. Please try again.', debug: message }, { status: 500 });
   }
 };
