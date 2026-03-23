@@ -4,21 +4,26 @@ import { sendEmail, verifyTurnstile, sanitizeField, isValidEmail, buildHtmlTable
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  const { env } = (locals as any).runtime;
-
-  let body: Record<string, string>;
   try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: 'Invalid JSON' }, { status: 400 });
-  }
+    const runtime = (locals as any).runtime;
+    if (!runtime?.env) {
+      console.error('Runtime env not available. locals:', JSON.stringify(Object.keys(locals)));
+      return Response.json({ error: 'Server configuration error' }, { status: 500 });
+    }
+    const { env } = runtime;
 
-  const turnstileToken = body['cf-turnstile-response'];
-  if (!turnstileToken) {
-    return Response.json({ error: 'Verification required.' }, { status: 400 });
-  }
+    let body: Record<string, string>;
+    try {
+      body = await request.json();
+    } catch {
+      return Response.json({ error: 'Invalid JSON' }, { status: 400 });
+    }
 
-  try {
+    const turnstileToken = body['cf-turnstile-response'];
+    if (!turnstileToken) {
+      return Response.json({ error: 'Verification required.' }, { status: 400 });
+    }
+
     const ip = request.headers.get('CF-Connecting-IP') || undefined;
     const valid = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, turnstileToken, ip);
     if (!valid) {
