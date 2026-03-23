@@ -1,12 +1,10 @@
-type Env = {
+export type Env = {
   BREVO_API_KEY: string;
   BREVO_SENDER_EMAIL: string;
   BREVO_SENDER_NAME: string;
   BREVO_RECIPIENT_EMAIL: string;
   TURNSTILE_SECRET_KEY: string;
 };
-
-const ALLOWED_ORIGIN = "https://buildworkpro.com";
 
 export async function sendEmail(
   env: Env,
@@ -34,21 +32,6 @@ export async function sendEmail(
   }
 
   return res.json();
-}
-
-export function corsHeaders() {
-  return {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
-}
-
-export function jsonResponse(body: Record<string, unknown>, status = 200) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json", ...corsHeaders() },
-  });
 }
 
 export async function verifyTurnstile(secretKey: string, token: string, ip?: string) {

@@ -4,6 +4,7 @@ import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
+import cloudflare from '@astrojs/cloudflare';
 
 const env = loadEnv('', process.cwd(), 'PUBLIC_');
 
@@ -11,6 +12,7 @@ const env = loadEnv('', process.cwd(), 'PUBLIC_');
 export default defineConfig({
   site: env.PUBLIC_SITE_URL || 'https://buildworkpro.com',
   output: 'static',
+  adapter: cloudflare(),
   integrations: [
     sitemap(),
     starlight({
