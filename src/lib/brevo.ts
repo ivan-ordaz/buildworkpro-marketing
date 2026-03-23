@@ -36,17 +36,19 @@ export async function sendEmail(
 }
 
 export async function verifyTurnstile(secretKey: string, token: string, ip?: string) {
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      secret: secretKey,
-      response: token,
-      ...(ip ? { remoteip: ip } : {}),
-    }),
+  const params = new URLSearchParams({
+    secret: secretKey,
+    response: token,
+    ...(ip ? { remoteip: ip } : {}),
   });
 
-  const data = (await res.json()) as { success: boolean; "error-codes"?: string[] };
+  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params,
+  });
+
+  const data = await res.json<{ success: boolean }>();
   return data.success;
 }
 
