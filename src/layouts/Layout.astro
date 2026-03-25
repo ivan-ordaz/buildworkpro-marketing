@@ -7,14 +7,18 @@ import { config } from '../config';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
   noindex?: boolean;
 }
 
 const {
   title = 'BuildWorkPro - Construction Project Management & ERP Platform',
   description = 'The all-in-one platform for construction companies. Manage projects, contacts, quotes, billing, and your entire team from a single, powerful dashboard.',
+  image = '/og-image.png',
   noindex = false,
 } = Astro.props;
+
+const ogImageUrl = new URL(image, Astro.site).href;
 ---
 
 <!doctype html>
@@ -33,6 +37,9 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="BuildWorkPro" />
 
@@ -40,6 +47,7 @@ const {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- Organization Schema -->
     <script type="application/ld+json" set:html={JSON.stringify({
