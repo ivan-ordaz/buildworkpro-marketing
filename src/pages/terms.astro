@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import { config } from '../config';
 ---
 
-<Layout title="Terms of Service - BuildWorkPro" description="Terms of Service for using the BuildWorkPro platform." noindex>
+<Layout title="Terms of Service - BuildWorkPro" description="Terms of Service governing your use of the BuildWorkPro construction management platform." noindex>
   <Header />
   <main class="pt-32 pb-20">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,94 +13,182 @@ import { config } from '../config';
       <div class="mb-12">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Terms of Service</h1>
-        <p class="mt-3 text-sm text-slate-400">Last updated: March 19, 2026</p>
+        <p class="mt-3 text-sm text-slate-400">Effective Date: April 9, 2026 &middot; Last Updated: April 9, 2026</p>
       </div>
 
       <div class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600">
 
-        <p>These Terms of Service ("Terms") govern your use of the BuildWorkPro platform ("Service") operated by BuildWorkPro ("we," "our," or "us"). By accessing or using the Service, you agree to be bound by these Terms.</p>
+        <p>These Terms of Service (&ldquo;Terms&rdquo; or &ldquo;Agreement&rdquo;) constitute a legally binding agreement between you (&ldquo;you,&rdquo; &ldquo;your,&rdquo; or &ldquo;User&rdquo;) and BuildWorkPro LLC, a Florida limited liability company (&ldquo;BuildWorkPro,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;), governing your access to and use of the BuildWorkPro cloud-based construction management platform, including the web application, mobile applications, APIs, documentation, and all related services (collectively, the &ldquo;Platform&rdquo;).</p>
 
-        <h2>1. Account Registration</h2>
+        <p><strong>BY ACCESSING OR USING THE PLATFORM, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THESE TERMS. IF YOU ARE ENTERING INTO THESE TERMS ON BEHALF OF A COMPANY OR OTHER LEGAL ENTITY, YOU REPRESENT AND WARRANT THAT YOU HAVE THE AUTHORITY TO BIND SUCH ENTITY TO THESE TERMS. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST NOT ACCESS OR USE THE PLATFORM.</strong></p>
+
+        <h2>1. Eligibility and Account Registration</h2>
+        <h3>1.1 Eligibility</h3>
+        <p>You must be at least eighteen (18) years of age and possess the legal capacity to enter into binding agreements to use the Platform. If you are accessing the Platform on behalf of a business entity, you represent and warrant that you are authorized to accept these Terms on behalf of that entity.</p>
+
+        <h3>1.2 Account Creation</h3>
+        <p>To access the Platform, you must create an account and provide accurate, current, and complete registration information. You agree to promptly update your account information to keep it accurate and current. Each legal entity may maintain only one organization account; multiple individual user accounts within an organization are permitted and encouraged.</p>
+
+        <h3>1.3 Account Security</h3>
+        <p>You are solely responsible for maintaining the confidentiality of your account credentials, including your password and any two-factor authentication devices. You agree to notify BuildWorkPro immediately at <a href={`mailto:${config.email.security}`}>{config.email.security}</a> of any unauthorized use of your account or any other breach of security. BuildWorkPro shall not be liable for any loss or damage arising from your failure to maintain the security of your account credentials.</p>
+
+        <h3>1.4 Organizational Administration</h3>
+        <p>Organization administrators are responsible for managing user access within their organization, including inviting and removing team members, assigning roles (Administrator, Manager, Member, Field Crew, or Viewer), and configuring permission settings. Administrators assume responsibility for the actions of users they invite to the organization.</p>
+
+        <h2>2. Subscription, Fees, and Payment</h2>
+        <h3>2.1 Subscription Plans</h3>
+        <p>The Platform is offered on a subscription basis. Current pricing is seventy-nine U.S. dollars ($79.00) per month or seven hundred ninety U.S. dollars ($790.00) per year (annual billing, which includes two months at no additional charge). All subscriptions include unlimited users, unlimited projects, and access to all Platform features.</p>
+
+        <h3>2.2 Free Trial</h3>
+        <p>New accounts receive a fourteen (14) day free trial with full access to all Platform features. No credit card or payment information is required to begin the trial. At the conclusion of the trial period, a paid subscription is required to continue using the Platform. If you do not subscribe, your account will be suspended but your data will be retained for thirty (30) days.</p>
+
+        <h3>2.3 Billing and Renewal</h3>
+        <p>Subscriptions renew automatically at the end of each billing cycle (monthly or annually) unless canceled prior to the renewal date. All fees are charged in advance and are billed through our third-party payment processor, Stripe, Inc. You authorize BuildWorkPro to charge your designated payment method for all applicable fees.</p>
+
+        <h3>2.4 Cancellation and Refunds</h3>
+        <p>You may cancel your subscription at any time through the billing section of your account settings. Upon cancellation:</p>
         <ul>
-          <li>You must provide accurate and complete information when creating an account.</li>
-          <li>You are responsible for maintaining the security of your account credentials.</li>
-          <li>You must be at least 18 years old to use the Service.</li>
-          <li>One person or entity may maintain only one organization account (multiple user accounts within an organization are permitted).</li>
+          <li>Your subscription remains active through the end of the current paid billing period.</li>
+          <li>You retain full access to the Platform until the end of that period.</li>
+          <li>No partial refunds are issued for unused portions of a billing period, except as described below.</li>
+        </ul>
+        <p>Refund requests submitted within the first thirty (30) days of an initial paid subscription will be honored in full. After thirty (30) days, no refunds will be issued. Refund requests should be directed to <a href={`mailto:${config.email.support}`}>{config.email.support}</a>.</p>
+
+        <h3>2.5 Price Changes</h3>
+        <p>We reserve the right to modify subscription pricing upon thirty (30) days&rsquo; prior written notice to the email address associated with your account. Price changes will take effect at the start of the next billing cycle following the notice period. Annual subscriptions are honored at their contracted rate for the duration of the then-current annual term.</p>
+
+        <h3>2.6 Taxes</h3>
+        <p>All fees are exclusive of applicable taxes, levies, or duties imposed by taxing authorities. You are responsible for payment of all such taxes (excluding taxes based on BuildWorkPro&rsquo;s net income), and we may collect applicable sales tax where legally required.</p>
+
+        <h2>3. Permitted Use and Restrictions</h2>
+        <h3>3.1 License Grant</h3>
+        <p>Subject to your compliance with these Terms and payment of applicable fees, BuildWorkPro grants you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to access and use the Platform solely for your internal business purposes in connection with the management of construction projects and related operations.</p>
+
+        <h3>3.2 Acceptable Use</h3>
+        <p>You agree that you will not, and will not permit any third party to:</p>
+        <ul>
+          <li>Use the Platform for any purpose that is unlawful, fraudulent, or prohibited by these Terms;</li>
+          <li>Share, transfer, or disclose your account credentials to any unauthorized person;</li>
+          <li>Attempt to access accounts, data, or systems belonging to other users or organizations;</li>
+          <li>Circumvent, disable, or otherwise interfere with security-related features of the Platform, including tenant isolation, role-based access controls, or authentication mechanisms;</li>
+          <li>Interfere with, disrupt, or impose an unreasonable burden on the Platform&rsquo;s servers, networks, or infrastructure;</li>
+          <li>Reverse engineer, decompile, disassemble, or otherwise attempt to derive the source code of the Platform, except to the extent expressly permitted by applicable law;</li>
+          <li>Use the Platform to transmit unsolicited communications, spam, or malicious content;</li>
+          <li>Upload viruses, trojans, worms, or any malicious or harmful code;</li>
+          <li>Use the Platform to store or transmit content that infringes the intellectual property rights of any third party;</li>
+          <li>Resell, sublicense, or make the Platform available to third parties as a managed service or otherwise, without BuildWorkPro&rsquo;s prior written consent;</li>
+          <li>Use the Platform to develop a competing product or service, or for competitive benchmarking purposes.</li>
         </ul>
 
-        <h2>2. Subscription and Billing</h2>
+        <h2>4. Intellectual Property</h2>
+        <h3>4.1 BuildWorkPro&rsquo;s Intellectual Property</h3>
+        <p>The Platform, including all software, code, algorithms, user interfaces, designs, documentation, trademarks, trade names, logos, and all related intellectual property rights, is and shall remain the exclusive property of BuildWorkPro LLC. Nothing in these Terms grants you any right, title, or interest in the Platform beyond the limited license set forth in Section 3.1.</p>
+
+        <h3>4.2 Your Data and Content</h3>
+        <p><strong>You retain full ownership of all data, content, documents, and materials you or your authorized users input, upload, or create within the Platform (&ldquo;Customer Data&rdquo;).</strong> BuildWorkPro does not claim any intellectual property rights over Customer Data.</p>
+        <p>You grant BuildWorkPro a limited, non-exclusive, worldwide, royalty-free license to host, store, process, transmit, display, and reproduce Customer Data solely to the extent necessary to provide, maintain, and improve the Platform in accordance with these Terms. This license terminates upon deletion of your Customer Data or termination of your account (subject to the data retention periods described herein).</p>
+
+        <h3>4.3 Feedback</h3>
+        <p>If you provide suggestions, feature requests, ideas, or other feedback regarding the Platform (&ldquo;Feedback&rdquo;), you hereby grant BuildWorkPro an irrevocable, perpetual, royalty-free, worldwide license to use, modify, and incorporate such Feedback into the Platform without obligation or compensation to you.</p>
+
+        <h2>5. Data Export and Portability</h2>
+        <p>You may export your Customer Data at any time through the Platform&rsquo;s built-in export functionality in standard, machine-readable formats (e.g., CSV). The Platform&rsquo;s REST API may also be used for programmatic data access and extraction, subject to applicable rate limits and authentication requirements. BuildWorkPro will not restrict your ability to retrieve your own data during the term of your subscription or the 30-day post-termination retention period.</p>
+
+        <h2>6. Service Availability and Support</h2>
+        <h3>6.1 Uptime Target</h3>
+        <p>BuildWorkPro targets ninety-nine point nine percent (99.9%) uptime for the Platform, measured on a monthly basis, excluding scheduled maintenance windows. This target is a commercially reasonable objective and does not constitute a binding service level agreement (&ldquo;SLA&rdquo;) unless a separate, written SLA has been executed between the parties.</p>
+
+        <h3>6.2 Scheduled Maintenance</h3>
+        <p>We will use commercially reasonable efforts to provide advance notice of scheduled maintenance that may affect Platform availability. Where possible, maintenance will be scheduled during periods of low usage.</p>
+
+        <h3>6.3 Force Majeure</h3>
+        <p>BuildWorkPro shall not be liable for any failure or delay in performance resulting from causes beyond its reasonable control, including but not limited to: internet outages, telecommunications failures, third-party service provider disruptions, natural disasters, acts of government, pandemics, wars, terrorism, labor disputes, or other force majeure events.</p>
+
+        <h2>7. Disclaimer of Warranties</h2>
+        <p><strong>THE PLATFORM IS PROVIDED ON AN &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; BASIS, WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE. TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, BUILDWORKPRO EXPRESSLY DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.</strong></p>
+        <p><strong>WITHOUT LIMITING THE FOREGOING, BUILDWORKPRO DOES NOT WARRANT THAT THE PLATFORM WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF HARMFUL COMPONENTS, OR THAT ANY DEFECTS WILL BE CORRECTED.</strong></p>
+
+        <h3>7.1 Construction Industry Disclaimer</h3>
+        <p><strong>BUILDWORKPRO IS A BUSINESS MANAGEMENT TOOL AND DOES NOT PROVIDE PROFESSIONAL ENGINEERING, ARCHITECTURAL, LEGAL, TAX, OR FINANCIAL ADVICE. THE PLATFORM IS NOT A SUBSTITUTE FOR PROFESSIONAL JUDGMENT.</strong></p>
+        <p><strong>BUILDWORKPRO IS NOT RESPONSIBLE FOR THE ACCURACY, COMPLETENESS, OR LEGAL SUFFICIENCY OF ANY FINANCIAL CALCULATIONS, BID AMOUNTS, ESTIMATES, PAY APPLICATION VALUES, CHANGE ORDER FIGURES, COST REPORTS, OR OTHER FINANCIAL OR CONTRACTUAL DATA GENERATED, COMPUTED, OR DISPLAYED THROUGH THE PLATFORM. USERS ARE SOLELY RESPONSIBLE FOR INDEPENDENTLY VERIFYING ALL FINANCIAL DATA, BID SUBMISSIONS, CONTRACTUAL DOCUMENTS, AND COMPLIANCE CALCULATIONS BEFORE RELIANCE, SUBMISSION, OR DISTRIBUTION TO THIRD PARTIES.</strong></p>
+        <p><strong>THE PLATFORM DOES NOT VERIFY CONTRACTOR LICENSING STATUS, INSURANCE VALIDITY, BONDING CAPACITY, OR REGULATORY COMPLIANCE OF ANY CONTACT, VENDOR, OR SUBCONTRACTOR ENTERED INTO THE SYSTEM. USERS MUST INDEPENDENTLY VERIFY ALL SUCH CREDENTIALS THROUGH APPROPRIATE REGULATORY AUTHORITIES.</strong></p>
+
+        <h2>8. Limitation of Liability</h2>
+        <p><strong>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW:</strong></p>
         <ul>
-          <li>BuildWorkPro is offered at $79/month or $790/year (annual billing includes 2 months free).</li>
-          <li>All new accounts receive a 14-day free trial with full access to all features. No credit card is required during the trial.</li>
-          <li>After the trial period, a paid subscription is required to continue using the Service.</li>
-          <li>Subscriptions renew automatically. You may cancel at any time through your account settings.</li>
-          <li>Refunds are available within the first 30 days of a paid subscription. After 30 days, no refunds are issued for partial billing periods.</li>
-          <li>We reserve the right to change pricing with 30 days' written notice. Existing annual subscriptions are honored at their original rate until renewal.</li>
+          <li><strong>IN NO EVENT SHALL BUILDWORKPRO, ITS OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, OR AFFILIATES BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR EXEMPLARY DAMAGES, INCLUDING BUT NOT LIMITED TO DAMAGES FOR LOSS OF PROFITS, REVENUE, GOODWILL, DATA, BUSINESS OPPORTUNITIES, OR ANTICIPATED SAVINGS, ARISING OUT OF OR IN CONNECTION WITH THESE TERMS OR THE USE OF OR INABILITY TO USE THE PLATFORM, REGARDLESS OF THE THEORY OF LIABILITY (CONTRACT, TORT, STRICT LIABILITY, OR OTHERWISE) AND EVEN IF BUILDWORKPRO HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</strong></li>
+          <li><strong>BUILDWORKPRO&rsquo;S TOTAL AGGREGATE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR THE PLATFORM SHALL NOT EXCEED THE GREATER OF (A) THE TOTAL FEES PAID BY YOU TO BUILDWORKPRO DURING THE TWELVE (12) MONTHS IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM, OR (B) ONE HUNDRED U.S. DOLLARS ($100.00).</strong></li>
+          <li><strong>THE LIMITATIONS IN THIS SECTION SHALL APPLY NOTWITHSTANDING THE FAILURE OF ESSENTIAL PURPOSE OF ANY LIMITED REMEDY AND TO THE FULLEST EXTENT PERMITTED BY LAW.</strong></li>
         </ul>
 
-        <h2>3. Acceptable Use</h2>
-        <p>You agree not to:</p>
+        <h2>9. Indemnification</h2>
+        <p>You agree to indemnify, defend, and hold harmless BuildWorkPro LLC, its officers, directors, employees, agents, contractors, and affiliates from and against any and all claims, demands, liabilities, damages, losses, costs, and expenses (including reasonable attorneys&rsquo; fees and court costs) arising out of or relating to: (a) your use of or access to the Platform; (b) your violation of these Terms; (c) your violation of any applicable law, regulation, or third-party right; (d) any Customer Data or content you submit, post, or transmit through the Platform; or (e) any claim that your Customer Data infringes or misappropriates the intellectual property rights of a third party.</p>
+
+        <h2>10. Termination</h2>
+        <h3>10.1 Termination by You</h3>
+        <p>You may cancel your subscription and terminate your account at any time through the account settings of the Platform, or by contacting <a href={`mailto:${config.email.support}`}>{config.email.support}</a>.</p>
+
+        <h3>10.2 Termination by BuildWorkPro</h3>
+        <p>BuildWorkPro may suspend or terminate your account and access to the Platform: (a) immediately upon written notice if you materially breach these Terms and fail to cure such breach within fifteen (15) days of receiving notice; (b) immediately if you engage in conduct that threatens the security, integrity, or availability of the Platform; (c) immediately if required by law or regulatory order; or (d) upon thirty (30) days&rsquo; written notice for any reason or no reason.</p>
+
+        <h3>10.3 Effect of Termination</h3>
+        <p>Upon termination or expiration of your account:</p>
         <ul>
-          <li>Use the Service for any unlawful purpose</li>
-          <li>Share your account credentials with unauthorized parties</li>
-          <li>Attempt to access other users' data or accounts</li>
-          <li>Interfere with the Service's infrastructure or performance</li>
-          <li>Reverse engineer, decompile, or disassemble any part of the Service</li>
-          <li>Use the Service to send spam or unsolicited communications</li>
-          <li>Upload malicious content, viruses, or harmful code</li>
+          <li>Your right to access and use the Platform ceases immediately.</li>
+          <li>Your Customer Data will be retained for thirty (30) days following termination to permit data export and recovery.</li>
+          <li>After the 30-day retention period, Customer Data will be permanently and irreversibly deleted from primary storage. Encrypted backup copies may persist for up to an additional ninety (90) days.</li>
+          <li>Sections 4 (Intellectual Property), 7 (Disclaimer of Warranties), 8 (Limitation of Liability), 9 (Indemnification), 11 (Governing Law and Dispute Resolution), and 14 (General Provisions) shall survive termination of these Terms.</li>
         </ul>
 
-        <h2>4. Your Data</h2>
+        <h2>11. Governing Law and Dispute Resolution</h2>
+        <h3>11.1 Governing Law</h3>
+        <p>These Terms shall be governed by and construed in accordance with the laws of the State of Florida, United States, without regard to its conflict of laws principles.</p>
+
+        <h3>11.2 Informal Resolution</h3>
+        <p>Before filing any formal legal proceeding, you agree to first attempt to resolve any dispute informally by contacting <a href={`mailto:${config.email.legal}`}>{config.email.legal}</a>. We will attempt to resolve the dispute informally within sixty (60) days.</p>
+
+        <h3>11.3 Jurisdiction and Venue</h3>
+        <p>Any legal action or proceeding arising out of or relating to these Terms that is not resolved informally shall be brought exclusively in the state or federal courts located in Broward County, Florida, and you hereby consent to the personal jurisdiction of such courts.</p>
+
+        <h3>11.4 Class Action Waiver</h3>
+        <p><strong>TO THE FULLEST EXTENT PERMITTED BY LAW, YOU AGREE THAT ANY CLAIMS RELATING TO THESE TERMS OR THE PLATFORM WILL BE RESOLVED ON AN INDIVIDUAL BASIS, AND YOU WAIVE YOUR RIGHT TO PARTICIPATE IN A CLASS ACTION, CLASS-WIDE ARBITRATION, OR ANY OTHER REPRESENTATIVE PROCEEDING.</strong></p>
+
+        <h2>12. Data Protection and Privacy</h2>
+        <h3>12.1 Privacy Policy</h3>
+        <p>Your use of the Platform is subject to our <a href="/privacy">Privacy Policy</a>, which describes how we collect, use, and protect your personal data. The Privacy Policy is incorporated into these Terms by reference.</p>
+
+        <h3>12.2 Data Processing Roles</h3>
+        <p>For personal data processed in connection with the Platform, your organization acts as the data controller and BuildWorkPro acts as the data processor. BuildWorkPro processes personal data only in accordance with the instructions of the data controller and these Terms.</p>
+
+        <h3>12.3 Data Processing Agreement</h3>
+        <p>A Data Processing Agreement (&ldquo;DPA&rdquo;) conforming to the requirements of GDPR Article 28 is available upon request. To request a DPA, contact <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>. Execution of a DPA is recommended for organizations subject to GDPR, UK GDPR, or other data protection regulations that require a written data processing agreement.</p>
+
+        <h2>13. Modifications to Terms</h2>
+        <p>BuildWorkPro reserves the right to modify these Terms at any time. Material changes will be communicated via email to the address associated with your account or by a prominent notice within the Platform at least thirty (30) days before they take effect. Non-material changes (e.g., typographical corrections, formatting) may be made without advance notice. Your continued use of the Platform after the effective date of revised Terms constitutes your acceptance of the changes. If you do not agree to the revised Terms, you must discontinue use of the Platform before the changes take effect.</p>
+
+        <h2>14. General Provisions</h2>
+        <h3>14.1 Entire Agreement</h3>
+        <p>These Terms, together with the Privacy Policy, Cookie Policy, and any DPA executed between the parties, constitute the entire agreement between you and BuildWorkPro regarding the Platform and supersede all prior or contemporaneous agreements, understandings, or representations, whether written or oral.</p>
+
+        <h3>14.2 Severability</h3>
+        <p>If any provision of these Terms is held to be invalid, illegal, or unenforceable, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable while preserving the original intent.</p>
+
+        <h3>14.3 Waiver</h3>
+        <p>The failure of BuildWorkPro to exercise or enforce any right or provision of these Terms shall not constitute a waiver of such right or provision. Any waiver must be in writing and signed by an authorized representative of BuildWorkPro.</p>
+
+        <h3>14.4 Assignment</h3>
+        <p>You may not assign or transfer these Terms or any rights or obligations hereunder without BuildWorkPro&rsquo;s prior written consent. BuildWorkPro may assign these Terms in connection with a merger, acquisition, reorganization, or sale of all or substantially all of its assets.</p>
+
+        <h3>14.5 Notices</h3>
+        <p>Notices to BuildWorkPro must be sent to <a href={`mailto:${config.email.legal}`}>{config.email.legal}</a> or to BuildWorkPro LLC, Attn: Legal Department, Fort Lauderdale, FL, United States. Notices to you will be sent to the email address associated with your account.</p>
+
+        <h2>15. Contact</h2>
+        <p>For questions about these Terms of Service, please contact us:</p>
         <ul>
-          <li><strong>Ownership:</strong> You retain full ownership of all data you enter into BuildWorkPro. We do not claim any intellectual property rights over your content.</li>
-          <li><strong>License:</strong> You grant us a limited license to host, process, and display your data solely for the purpose of providing the Service.</li>
-          <li><strong>Export:</strong> You may export your data at any time in standard formats (CSV) through the platform's export features.</li>
-          <li><strong>Deletion:</strong> Upon account termination, your data will be retained for 30 days to allow recovery, then permanently deleted.</li>
-          <li><strong>Backups:</strong> We maintain regular backups for disaster recovery, but you are responsible for maintaining your own copies of critical data.</li>
+          <li><strong>Legal Inquiries:</strong> <a href={`mailto:${config.email.legal}`}>{config.email.legal}</a></li>
+          <li><strong>Support:</strong> <a href={`mailto:${config.email.support}`}>{config.email.support}</a></li>
+          <li><strong>Web:</strong> <a href="/contact">{config.siteUrl.replace('https://', '')}/contact</a></li>
         </ul>
-
-        <h2>5. Service Availability</h2>
-        <ul>
-          <li>We target 99.9% uptime but do not guarantee uninterrupted access.</li>
-          <li>Scheduled maintenance will be communicated in advance when possible.</li>
-          <li>We are not liable for downtime caused by factors outside our control (internet outages, third-party service failures, force majeure events).</li>
-        </ul>
-
-        <h2>6. Limitation of Liability</h2>
-        <p>To the maximum extent permitted by law:</p>
-        <ul>
-          <li>BuildWorkPro is provided "as is" without warranties of any kind, express or implied.</li>
-          <li>We are not liable for indirect, incidental, special, consequential, or punitive damages.</li>
-          <li>Our total liability shall not exceed the amount you paid for the Service in the 12 months preceding the claim.</li>
-          <li>We are not responsible for the accuracy of financial calculations, bid amounts, or pay application values generated through the platform. Users are responsible for verifying all financial data.</li>
-        </ul>
-
-        <h2>7. Indemnification</h2>
-        <p>You agree to indemnify and hold BuildWorkPro harmless from any claims, damages, or expenses arising from your use of the Service, your violation of these Terms, or your violation of any third-party rights.</p>
-
-        <h2>8. Termination</h2>
-        <ul>
-          <li>You may cancel your subscription at any time through account settings.</li>
-          <li>We may suspend or terminate your account for violations of these Terms with reasonable notice.</li>
-          <li>Upon termination, your right to use the Service ceases immediately, but you may export your data within the 30-day retention period.</li>
-        </ul>
-
-        <h2>9. Changes to Terms</h2>
-        <p>We may modify these Terms at any time. Material changes will be communicated via email or in-app notification at least 30 days before they take effect. Continued use of the Service after changes constitutes acceptance.</p>
-
-        <h2>10. Governing Law</h2>
-        <p>These Terms are governed by the laws of the State of Florida, United States, without regard to conflict of law principles. Any disputes shall be resolved in the courts of Broward County, Florida.</p>
-
-        <h2>11. Data Protection (GDPR)</h2>
-        <ul>
-          <li>If you are located in the European Economic Area (EEA), United Kingdom, or Switzerland, you may have additional rights under applicable data protection laws, including the right to access, correct, delete, or port your personal data, and to object to or restrict certain processing.</li>
-          <li>BuildWorkPro processes personal data as described in our <a href="/privacy">Privacy Policy</a>.</li>
-          <li>For data processing related to the Service, BuildWorkPro acts as the data processor and your organization acts as the data controller.</li>
-          <li>A Data Processing Agreement (DPA) is available upon request for qualifying accounts. To request a DPA, contact us at <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>.</li>
-        </ul>
-
-        <h2>12. Contact</h2>
-        <p>For questions about these Terms, contact us at <a href={`mailto:${config.email.legal}`}>{config.email.legal}</a>.</p>
 
       </div>
     </div>

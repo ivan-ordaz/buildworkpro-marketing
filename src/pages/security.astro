@@ -10,70 +10,76 @@ const practices = [
     title: 'Encryption',
     icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
     items: [
-      'TLS 1.3 encryption for all data in transit',
-      'AES-256 encryption for data at rest',
-      'Encrypted database backups with geographic redundancy',
-      'Secure credential storage with bcrypt hashing',
+      'TLS 1.3 enforced for all data in transit — no fallback to older protocols',
+      'AES-256 encryption for all data at rest, including database storage and file uploads',
+      'Database backups encrypted at rest and stored with geographic redundancy',
+      'Passwords hashed using bcrypt with industry-standard cost factors — never stored in plaintext or reversible form',
+      'Sensitive tokens (2FA secrets, reset codes) encrypted before storage',
     ],
   },
   {
-    title: 'Authentication & Access',
+    title: 'Authentication & Access Control',
     icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
     items: [
-      'Two-factor authentication (TOTP)',
-      'Role-based access control with 5 permission levels',
-      '30+ granular permissions across resource areas',
-      'Session management with configurable timeouts',
-      'Account lockout after failed login attempts',
+      'Two-factor authentication (TOTP) available for all user accounts',
+      'Role-based access control (RBAC) with five permission tiers: Administrator, Manager, Member, Field Crew, and Viewer',
+      'Over 30 granular permissions across 10 resource areas — each API endpoint enforces permission checks at the middleware layer',
+      'Configurable session timeouts: 24-hour idle expiration, 30-day maximum session lifetime',
+      'Automatic account lockout after repeated failed authentication attempts',
+      'OAuth 2.0 integration with Google and Apple for secure single sign-on',
     ],
   },
   {
-    title: 'Infrastructure',
+    title: 'Infrastructure Security',
     icon: 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01',
     items: [
-      'Hosted on enterprise-grade cloud infrastructure',
-      'Automated daily backups with point-in-time recovery',
-      'DDoS protection and rate limiting',
-      'Network isolation and firewall rules',
-      'Regular infrastructure patching and updates',
+      'Hosted on enterprise-grade cloud infrastructure with managed database services',
+      'Automated daily backups with point-in-time recovery capability',
+      'DDoS protection and intelligent rate limiting at the network edge',
+      'Network isolation, firewall rules, and restricted access to production systems',
+      'Regular infrastructure patching and automated security updates',
+      'Centralized secrets management — credentials are never stored in source code, environment files, or application repositories',
     ],
   },
   {
     title: 'Application Security',
     icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
     items: [
-      'CSRF protection on all API endpoints',
-      'Input validation and sanitization',
-      'SQL injection prevention via parameterized queries',
-      'XSS protection with content security policies',
-      'Dependency vulnerability scanning',
+      'CSRF protection enforced on every state-changing API endpoint',
+      'All user inputs validated and sanitized at the API boundary using schema-based validation (Zod)',
+      'SQL injection prevention via parameterized queries (Drizzle ORM) — no raw SQL concatenation',
+      'XSS mitigation through output encoding and Content Security Policy (CSP) headers',
+      'Automated dependency vulnerability scanning on every build',
+      'API key authentication for REST API integrations with per-key permission scoping',
     ],
   },
   {
-    title: 'Data Isolation',
+    title: 'Multi-Tenant Data Isolation',
     icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4',
     items: [
-      'Row-level tenant isolation — your data is never mixed with other organizations',
-      'Tenant-scoped API middleware on every request',
-      'Separate file storage per organization',
-      'Audit logging of all data access and modifications',
+      'Row-level tenant isolation — every database query against business data is scoped to your organization at the middleware layer',
+      'Architectural enforcement: tenant context is required (not optional) for every business data operation — queries without tenant scoping are rejected, never silently returned',
+      'Separate file storage partitions per organization — documents are stored under tenant-specific paths and validated on every access',
+      'Complete audit trail of all data access and modification events, including user identity, timestamp, and affected resources',
+      'Cross-tenant data access is architecturally impossible through the application layer',
     ],
   },
   {
-    title: 'Compliance & Practices',
+    title: 'Compliance & Operational Practices',
     icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4',
     items: [
-      'Configurable data retention policies',
-      'Full audit trail of user actions',
-      'Soft delete with recovery period before permanent removal',
-      'Data export in standard formats for portability',
-      'Regular security reviews and testing',
+      'Soft delete architecture: deleted records are retained with a recovery period before permanent removal — no accidental, irreversible data loss',
+      'Configurable data retention policies managed by organization administrators',
+      'Full data export in standard, machine-readable formats (CSV) and via REST API for data portability',
+      'Data Processing Agreement (DPA) available upon request for GDPR, UK GDPR, and other regulatory compliance',
+      'Regular internal security reviews, code audits, and threat modeling exercises',
+      'Billing records retained for 7 years per U.S. federal and state tax regulations',
     ],
   },
 ];
 ---
 
-<Layout title="Security - BuildWorkPro" description="How BuildWorkPro protects your construction business data with enterprise-grade security.">
+<Layout title="Security - BuildWorkPro" description="How BuildWorkPro protects your construction business data with enterprise-grade security controls and multi-tenant isolation.">
   <Header />
   <main class="pt-32 pb-20">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,7 +90,7 @@ const practices = [
           Your data is our responsibility
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          BuildWorkPro is built with security at every layer. Your project data, financial records, and business information are protected by enterprise-grade practices.
+          BuildWorkPro is engineered with security at every layer of the stack. Your project data, financial records, contracts, and business information are protected by enterprise-grade controls designed specifically for the construction industry.
         </p>
       </div>
 
@@ -93,8 +99,8 @@ const practices = [
         {[
           { stat: 'TLS 1.3', label: 'Encryption in transit' },
           { stat: 'AES-256', label: 'Encryption at rest' },
-          { stat: '2FA', label: 'Two-factor auth' },
-          { stat: 'Row-level', label: 'Tenant isolation' },
+          { stat: '2FA + RBAC', label: 'Authentication & access' },
+          { stat: 'Row-level', label: 'Tenant data isolation' },
         ].map((item) => (
           <div class="text-center p-5 rounded-xl bg-slate-50 border border-slate-100">
             <div class="text-lg font-bold text-slate-900">{item.stat}</div>
@@ -129,18 +135,40 @@ const practices = [
         ))}
       </div>
 
+      <!-- Data protection commitment -->
+      <div class="mt-16 p-8 rounded-2xl border border-slate-100 bg-white">
+        <h2 class="text-xl font-semibold text-slate-900 mb-4">Our Commitment to Data Protection</h2>
+        <div class="prose prose-slate prose-sm max-w-none">
+          <p>Construction businesses entrust BuildWorkPro with sensitive operational data &mdash; bid amounts, project financials, subcontractor relationships, pay application records, and proprietary cost structures. We treat this responsibility with the same gravity as handling privileged information.</p>
+          <p>Our multi-tenant architecture ensures that your organization&rsquo;s data is never commingled with another organization&rsquo;s data. Every database query, every API request, and every file access is scoped to your tenant at the infrastructure level. This is not a configuration option &mdash; it is an architectural invariant enforced at the middleware layer.</p>
+          <p>We are transparent about our security practices because we believe that informed customers make better decisions about the tools they trust with their business. If you have questions about any aspect of our security posture, we welcome the conversation.</p>
+        </div>
+      </div>
+
       <!-- Responsible disclosure -->
-      <div class="mt-16 p-8 rounded-2xl bg-slate-50 border border-slate-100 text-center">
-        <h2 class="text-xl font-semibold text-slate-900 mb-3">Responsible Disclosure</h2>
-        <p class="text-sm text-slate-500 max-w-xl mx-auto mb-4">
-          If you discover a security vulnerability, we want to hear from you. Please report it responsibly so we can address it promptly.
-        </p>
-        <a href={`mailto:${config.email.security}`} class="inline-flex items-center gap-2 text-brand-600 hover:text-brand-700 font-medium text-sm">
-          {config.email.security}
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </a>
+      <div class="mt-8 p-8 rounded-2xl bg-slate-50 border border-slate-100">
+        <div class="md:flex md:items-center md:justify-between">
+          <div>
+            <h2 class="text-xl font-semibold text-slate-900 mb-2">Responsible Disclosure</h2>
+            <p class="text-sm text-slate-500 max-w-xl">
+              If you discover a security vulnerability in the BuildWorkPro platform, we encourage you to report it responsibly. We are committed to investigating and addressing all legitimate security reports promptly. Please do not publicly disclose the vulnerability until we have had a reasonable opportunity to remediate it.
+            </p>
+          </div>
+          <div class="mt-4 md:mt-0 md:ml-8 shrink-0">
+            <a href={`mailto:${config.email.security}`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-colors">
+              Report a Vulnerability
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-slate-200">
+          <p class="text-xs text-slate-400">
+            Security reports: <a href={`mailto:${config.email.security}`} class="text-brand-600 hover:text-brand-700">{config.email.security}</a> &middot;
+            Please include a detailed description of the vulnerability, steps to reproduce, and any supporting evidence. We will acknowledge receipt within 48 hours.
+          </p>
+        </div>
       </div>
 
     </div>

@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import { config } from '../config';
 ---
 
-<Layout title="Cookie Policy - BuildWorkPro" description="How BuildWorkPro uses cookies and similar technologies." noindex>
+<Layout title="Cookie Policy - BuildWorkPro" description="How BuildWorkPro uses cookies and similar technologies on its platform." noindex>
   <Header />
   <main class="pt-32 pb-20">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,67 +13,134 @@ import { config } from '../config';
       <div class="mb-12">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Cookie Policy</h1>
-        <p class="mt-3 text-sm text-slate-400">Last updated: March 20, 2026</p>
+        <p class="mt-3 text-sm text-slate-400">Effective Date: April 9, 2026 &middot; Last Updated: April 9, 2026</p>
       </div>
 
       <div class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600">
 
+        <p>This Cookie Policy (&ldquo;Policy&rdquo;) explains how BuildWorkPro LLC (&ldquo;BuildWorkPro,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) uses cookies and similar client-side storage technologies on the BuildWorkPro platform and marketing website (collectively, the &ldquo;Platform&rdquo;). This Policy should be read in conjunction with our <a href="/privacy">Privacy Policy</a>.</p>
+
         <h2>1. What Are Cookies</h2>
-        <p>Cookies are small text files that websites place on your device to store information about your session and preferences. They help the site function correctly and remember your choices between visits. BuildWorkPro uses a minimal number of cookies, and none are used for advertising or cross-site tracking.</p>
+        <p>Cookies are small text files that are placed on your device (computer, tablet, or mobile phone) by a website when you visit it. Cookies enable the website to recognize your device, maintain session state, and store your preferences. They are widely used to make websites function correctly, function more efficiently, and provide information to site operators.</p>
+        <p>In addition to traditional cookies, this Policy also covers the use of browser local storage (localStorage) and session storage (sessionStorage), which serve similar purposes but have different technical characteristics.</p>
 
-        <h2>2. Essential Cookies</h2>
-        <p>These cookies are strictly necessary for the platform to function. They cannot be disabled without breaking core features. No consent is required for essential cookies under applicable privacy laws.</p>
+        <h2>2. Cookies We Use</h2>
+        <p>BuildWorkPro employs a minimal, privacy-respecting approach to cookies. We categorize our cookies as follows:</p>
+
+        <h3>2.1 Strictly Necessary Cookies</h3>
+        <p>These cookies are essential for the Platform to function and cannot be disabled without rendering core features inoperable. Under applicable privacy laws, including the EU ePrivacy Directive (2002/58/EC as amended) and the UK Privacy and Electronic Communications Regulations (PECR), no consent is required for strictly necessary cookies.</p>
+
+        <div class="overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Cookie / Storage</th>
+                <th>Purpose</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>connect.sid</code></td>
+                <td>Session authentication &mdash; maintains your logged-in state as you navigate the Platform. Contains a cryptographically signed session identifier; does not contain your password or personal data in plaintext.</td>
+                <td>Expires after 24 hours of inactivity or 30 days maximum.</td>
+              </tr>
+              <tr>
+                <td>CSRF token</td>
+                <td>Cross-site request forgery protection &mdash; ensures that form submissions and API requests originate from the BuildWorkPro application and not from a malicious third-party site.</td>
+                <td>Per session.</td>
+              </tr>
+              <tr>
+                <td>Tenant context</td>
+                <td>Identifies the organization you are currently operating within in our multi-tenant environment, ensuring that data requests are scoped to your organization.</td>
+                <td>Per session.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2.2 Functional / Preference Cookies</h3>
+        <p>These cookies and local storage entries remember your settings and interface choices to provide a more consistent user experience. They are set under the lawful basis of legitimate interest and do not track you across other websites.</p>
+
+        <div class="overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Cookie / Storage</th>
+                <th>Purpose</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Theme preference</td>
+                <td>Stores your light or dark mode selection.</td>
+                <td>Persistent (localStorage).</td>
+              </tr>
+              <tr>
+                <td>Language / locale</td>
+                <td>Stores your preferred language and date/number format settings.</td>
+                <td>Persistent (localStorage).</td>
+              </tr>
+              <tr>
+                <td>UI state</td>
+                <td>Remembers interface preferences such as sidebar collapsed/expanded state, table column visibility, and sort order.</td>
+                <td>Persistent (localStorage).</td>
+              </tr>
+              <tr>
+                <td><code>bwp-cookies-accepted</code></td>
+                <td>Records that you have acknowledged the cookie consent banner on the marketing site.</td>
+                <td>Persistent (localStorage).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2.3 Cookies We Do Not Use</h3>
+        <p><strong>BuildWorkPro is committed to a minimal data collection approach.</strong> We do not deploy and have never deployed any of the following:</p>
         <ul>
-          <li><strong>Session authentication:</strong> Keeps you logged in as you navigate the platform. Expires when your session ends or after a period of inactivity.</li>
-          <li><strong>CSRF protection:</strong> Prevents cross-site request forgery attacks by verifying that form submissions originate from the BuildWorkPro application.</li>
-          <li><strong>Tenant context:</strong> Identifies which organization you are currently working in within a multi-tenant environment.</li>
+          <li><strong>Analytics or performance cookies:</strong> We do not use Google Analytics, Mixpanel, Hotjar, Heap, Amplitude, or any similar third-party analytics or session recording tool.</li>
+          <li><strong>Advertising or retargeting cookies:</strong> We do not run advertisements on the Platform and do not use advertising pixels, retargeting tags, or conversion tracking cookies from any advertising network (e.g., Google Ads, Meta Pixel, LinkedIn Insight Tag).</li>
+          <li><strong>Social media cookies:</strong> We do not embed social media widgets, share buttons, or login plugins that set third-party tracking cookies.</li>
+          <li><strong>Cross-site tracking cookies:</strong> We do not engage in cross-site tracking of any kind. No third-party cookie on the Platform tracks your activity across other websites.</li>
         </ul>
 
-        <h2>3. Preference Cookies</h2>
-        <p>These cookies remember your settings and UI choices to provide a more consistent experience. They are set under legitimate interest and do not track you across other websites.</p>
+        <h2>3. Third-Party Cookies</h2>
+        <p>The BuildWorkPro marketing site loads typefaces from Google Fonts via a preconnect directive. When your browser requests font files from Google&rsquo;s servers, Google may receive your IP address and set cookies in accordance with its own privacy practices. For details, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google&rsquo;s Privacy Policy</a>.</p>
+        <p>No other third-party services deployed on the Platform set cookies in your browser. We do not use advertising networks, social media embeds, or third-party analytics services.</p>
+
+        <h2>4. Legal Basis for Cookie Use</h2>
+        <p>Our use of cookies is grounded in the following legal bases:</p>
         <ul>
-          <li><strong>Theme preference:</strong> Remembers your light or dark mode selection.</li>
-          <li><strong>Language and locale:</strong> Stores your preferred language and date/number format settings.</li>
-          <li><strong>UI state:</strong> Remembers sidebar collapsed/expanded state, table column preferences, and similar layout choices.</li>
+          <li><strong>Strictly necessary cookies (Section 2.1):</strong> Exempt from consent requirements under the EU ePrivacy Directive, UK PECR, and analogous legislation, as they are essential for the provision of the service you have explicitly requested.</li>
+          <li><strong>Functional cookies (Section 2.2):</strong> Set under the lawful basis of legitimate interest (GDPR Art. 6(1)(f)), as they serve the purpose of improving your user experience without processing data in a manner that overrides your fundamental rights. You may disable these by clearing your browser&rsquo;s local storage at any time.</li>
         </ul>
 
-        <h2>4. Cookies We Do Not Use</h2>
-        <p>BuildWorkPro is committed to minimal data collection. We do <strong>not</strong> use:</p>
+        <h2>5. How to Manage Cookies</h2>
+        <p>You may view, manage, and delete cookies through your browser&rsquo;s privacy or security settings. Most modern browsers offer the following controls:</p>
         <ul>
-          <li><strong>Analytics cookies</strong> — We do not use Google Analytics, Mixpanel, or similar third-party analytics trackers.</li>
-          <li><strong>Advertising cookies</strong> — We do not run ads or use retargeting pixels.</li>
-          <li><strong>Social media cookies</strong> — We do not embed social media widgets that set tracking cookies.</li>
-          <li><strong>Third-party tracking cookies</strong> — No cross-site tracking of any kind.</li>
+          <li>View and delete individual cookies and local storage entries;</li>
+          <li>Block all cookies or cookies from specific domains;</li>
+          <li>Distinguish between first-party and third-party cookies;</li>
+          <li>Automatically clear cookies and site data when you close the browser.</li>
+        </ul>
+        <p><strong>Important:</strong> Disabling strictly necessary cookies (Section 2.1) will prevent you from authenticating and using the BuildWorkPro application. Clearing functional cookies (Section 2.2) will reset your preferences to defaults but will not affect your ability to log in.</p>
+        <p>Instructions for common browsers:</p>
+        <ul>
+          <li><strong>Google Chrome:</strong> Settings &gt; Privacy and Security &gt; Cookies and other site data</li>
+          <li><strong>Mozilla Firefox:</strong> Settings &gt; Privacy &amp; Security &gt; Cookies and Site Data</li>
+          <li><strong>Apple Safari:</strong> Preferences &gt; Privacy &gt; Manage Website Data</li>
+          <li><strong>Microsoft Edge:</strong> Settings &gt; Cookies and site permissions &gt; Manage and delete cookies and site data</li>
         </ul>
 
-        <h2>5. Third-Party Cookies</h2>
-        <p>The BuildWorkPro marketing site loads fonts from Google Fonts via preconnect. Google may set cookies or collect limited data (such as IP address) when delivering font files. For details, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.</p>
-        <p>No other third-party services on this site set cookies. We do not use advertising networks, social media embeds, or third-party analytics.</p>
+        <h2>6. Changes to This Policy</h2>
+        <p>If we introduce new categories of cookies or materially change how we use existing cookies, we will update this Policy and notify users where required by law. Material changes will be communicated through the Platform or by email. The &ldquo;Last Updated&rdquo; date at the top of this page will reflect the most recent revision.</p>
 
-        <h2>6. How to Manage Cookies</h2>
-        <p>You can control and delete cookies through your browser settings. Most browsers allow you to:</p>
+        <h2>7. Contact Information</h2>
+        <p>If you have questions about our use of cookies or this Policy, please contact us:</p>
         <ul>
-          <li>View and delete individual cookies</li>
-          <li>Block cookies from specific or all sites</li>
-          <li>Set preferences for first-party versus third-party cookies</li>
-          <li>Automatically clear cookies when you close the browser</li>
-        </ul>
-        <p>Please note that disabling essential cookies will prevent you from logging in and using the BuildWorkPro platform. Common browser cookie settings pages:</p>
-        <ul>
-          <li><strong>Chrome:</strong> Settings &gt; Privacy and Security &gt; Cookies and other site data</li>
-          <li><strong>Firefox:</strong> Settings &gt; Privacy &amp; Security &gt; Cookies and Site Data</li>
-          <li><strong>Safari:</strong> Preferences &gt; Privacy &gt; Manage Website Data</li>
-          <li><strong>Edge:</strong> Settings &gt; Cookies and site permissions &gt; Manage and delete cookies</li>
-        </ul>
-
-        <h2>7. Changes to This Policy</h2>
-        <p>If we begin using additional types of cookies in the future, we will update this policy and notify users where required. Any material changes will be communicated through the platform or by email.</p>
-
-        <h2>8. Contact Us</h2>
-        <p>If you have questions about our use of cookies, please contact us:</p>
-        <ul>
-          <li>Email: <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a></li>
-          <li>Web: <a href="/contact">{config.siteUrl.replace('https://', '')}/contact</a></li>
+          <li><strong>Privacy Inquiries:</strong> <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a></li>
+          <li><strong>Web:</strong> <a href="/contact">{config.siteUrl.replace('https://', '')}/contact</a></li>
         </ul>
 
       </div>

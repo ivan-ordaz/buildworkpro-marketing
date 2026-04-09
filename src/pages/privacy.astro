@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import { config } from '../config';
 ---
 
-<Layout title="Privacy Policy - BuildWorkPro" description="How BuildWorkPro collects, uses, and protects your data." noindex>
+<Layout title="Privacy Policy - BuildWorkPro" description="How BuildWorkPro collects, uses, and protects your personal and business data." noindex>
   <Header />
   <main class="pt-32 pb-20">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,115 +13,174 @@ import { config } from '../config';
       <div class="mb-12">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Privacy Policy</h1>
-        <p class="mt-3 text-sm text-slate-400">Last updated: March 19, 2026</p>
+        <p class="mt-3 text-sm text-slate-400">Effective Date: April 9, 2026 &middot; Last Updated: April 9, 2026</p>
       </div>
 
       <div class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600">
 
-        <p>BuildWorkPro ("we," "our," or "us") is committed to protecting the privacy of our users. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform.</p>
+        <p>This Privacy Policy (&ldquo;Policy&rdquo;) describes how BuildWorkPro LLC, a Florida limited liability company (&ldquo;BuildWorkPro,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;), collects, uses, discloses, retains, and safeguards personal information and business data in connection with the BuildWorkPro cloud-based construction management platform, including the web application located at <a href={`https://${config.appUrl}`}>{config.appUrl}</a>, the marketing website at <a href={config.siteUrl}>{config.siteUrl.replace('https://', '')}</a>, related mobile applications, and all associated services (collectively, the &ldquo;Platform&rdquo;).</p>
 
-        <h2>1. Data Controller</h2>
-        <p>BuildWorkPro LLC is the data controller responsible for processing your personal data. If you have questions or concerns about how your data is handled, you can reach our data protection team at <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>.</p>
+        <p>By accessing or using the Platform, you acknowledge that you have read, understood, and agree to the practices described in this Policy. If you do not agree with any provision herein, you must discontinue use of the Platform immediately.</p>
 
-        <h2>2. Information We Collect</h2>
-        <h3>Information you provide</h3>
+        <h2>1. Data Controller and Data Protection Contact</h2>
+        <p>BuildWorkPro LLC is the data controller responsible for processing personal data collected through the Platform. For all inquiries regarding data protection, privacy rights, or this Policy, you may contact our Data Protection Officer at:</p>
         <ul>
-          <li><strong>Account information:</strong> Name, email address, company name, phone number, and password when you create an account.</li>
-          <li><strong>Business data:</strong> Contacts, leads, bids, projects, pay applications, change orders, site logs, documents, and other content you create within the platform.</li>
-          <li><strong>Payment information:</strong> Billing details processed securely through our payment provider. We do not store credit card numbers on our servers.</li>
-          <li><strong>Communications:</strong> Messages you send through the platform, support requests, and feedback.</li>
+          <li><strong>Email:</strong> <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a></li>
+          <li><strong>Postal Address:</strong> BuildWorkPro LLC, Attn: Data Protection Officer, Fort Lauderdale, FL, United States</li>
+        </ul>
+        <p>Where BuildWorkPro processes personal data on behalf of your organization (i.e., your employer or the entity that holds the BuildWorkPro subscription), your organization acts as the data controller and BuildWorkPro acts as the data processor. In such cases, your organization&rsquo;s privacy policies may also apply. A Data Processing Agreement (&ldquo;DPA&rdquo;) is available upon request by contacting <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>.</p>
+
+        <h2>2. Categories of Personal Information Collected</h2>
+        <p>We collect the following categories of personal information, depending on your interaction with the Platform:</p>
+
+        <h3>2.1 Information You Provide Directly</h3>
+        <ul>
+          <li><strong>Account Registration Data:</strong> Full name, email address, username, password (stored in bcrypt-hashed form), company name, phone number, and job title provided during account creation or profile configuration.</li>
+          <li><strong>Organization Data:</strong> Company name, business address, industry classification, company size, tax identification number, and business licensing information entered by organization administrators.</li>
+          <li><strong>Business Operational Data:</strong> Contacts (customers, general contractors, vendors, subcontractors), leads and pipeline data, bids and estimates, project records, pay applications, change orders, daily site logs, time entries, documents, and all other content you create, upload, or input within the Platform in the course of managing construction operations.</li>
+          <li><strong>Financial and Billing Data:</strong> Subscription billing information is processed by our third-party payment processor, Stripe, Inc. BuildWorkPro does not store credit card numbers, bank account details, or other payment instrument data on its servers. We retain only a tokenized reference and billing metadata (plan type, subscription status, transaction history) necessary to manage your account.</li>
+          <li><strong>Communications:</strong> Messages sent through the Platform, support tickets, feedback submissions, and any correspondence directed to BuildWorkPro personnel.</li>
+          <li><strong>Authentication Credentials:</strong> Two-factor authentication (TOTP) enrollment data, backup recovery codes, and OAuth tokens for third-party sign-in providers (e.g., Google, Apple).</li>
         </ul>
 
-        <h3>Information collected automatically</h3>
+        <h3>2.2 Information Collected Automatically</h3>
         <ul>
-          <li><strong>Usage data:</strong> Pages viewed, features used, actions taken, timestamps, and session duration.</li>
-          <li><strong>Device information:</strong> Browser type, operating system, device type, and screen resolution.</li>
-          <li><strong>Log data:</strong> IP address, access times, and referring URLs.</li>
-          <li><strong>Cookies:</strong> Session cookies for authentication and preferences. We do not use third-party tracking cookies for advertising. For more details, see our <a href="/cookies">Cookie Policy</a>.</li>
+          <li><strong>Usage Data:</strong> Pages accessed, features utilized, actions performed, timestamps, session duration, and interaction patterns within the Platform.</li>
+          <li><strong>Device and Browser Data:</strong> Browser type and version, operating system, device type, screen resolution, and preferred language settings.</li>
+          <li><strong>Network and Log Data:</strong> Internet Protocol (IP) address, access timestamps, referring and exit URLs, HTTP request headers, and server log entries.</li>
+          <li><strong>Authentication Events:</strong> Login timestamps, failed authentication attempts, session creation and expiration events, and account lockout records.</li>
+          <li><strong>Cookies and Similar Technologies:</strong> Session identifiers, CSRF tokens, tenant context identifiers, and preference storage. BuildWorkPro does not deploy third-party advertising, analytics, or cross-site tracking cookies. For a detailed explanation, see our <a href="/cookies">Cookie Policy</a>.</li>
         </ul>
 
-        <h2>3. Legal Basis for Processing</h2>
-        <p>We process your personal data under the following lawful bases as defined by the General Data Protection Regulation (GDPR):</p>
+        <h3>2.3 Information Received from Third Parties</h3>
         <ul>
-          <li><strong>Contract performance (Article 6(1)(b)):</strong> Processing necessary to provide your account, deliver our services, and fulfill our contractual obligations to you.</li>
-          <li><strong>Legitimate interest (Article 6(1)(f)):</strong> Processing for analytics, platform security, fraud prevention, and service improvement, where our interests do not override your fundamental rights.</li>
-          <li><strong>Consent (Article 6(1)(a)):</strong> Processing for marketing communications and optional features. You may withdraw consent at any time.</li>
-          <li><strong>Legal obligation (Article 6(1)(c)):</strong> Processing required to comply with tax, accounting, and other legal and regulatory requirements.</li>
+          <li><strong>OAuth Providers:</strong> If you authenticate via Google or Apple, we receive your name, email address, and a unique identifier from the provider. We do not receive your password from any OAuth provider.</li>
+          <li><strong>Payment Processor:</strong> Stripe provides us with transaction confirmation, payment status, and subscription lifecycle events. We do not receive full payment instrument details.</li>
         </ul>
 
-        <h2>4. How We Use Your Information</h2>
+        <h2>3. Legal Bases for Processing</h2>
+        <p>We process personal data under the following lawful bases as defined by the General Data Protection Regulation (&ldquo;GDPR&rdquo;), the UK General Data Protection Regulation (&ldquo;UK GDPR&rdquo;), and other applicable data protection legislation:</p>
         <ul>
-          <li>Provide, maintain, and improve the BuildWorkPro platform</li>
-          <li>Process transactions and send billing-related communications</li>
-          <li>Send service-related notifications (e.g., bid accepted, pay app approved)</li>
-          <li>Respond to support requests and provide customer service</li>
-          <li>Analyze usage patterns to improve features and performance</li>
-          <li>Detect, prevent, and address technical issues and security threats</li>
-          <li>Comply with legal obligations</li>
+          <li><strong>Performance of Contract (GDPR Art. 6(1)(b)):</strong> Processing that is necessary to create and maintain your account, deliver the Platform&rsquo;s functionality, process subscription transactions, and fulfill our contractual obligations under the Terms of Service.</li>
+          <li><strong>Legitimate Interests (GDPR Art. 6(1)(f)):</strong> Processing for purposes of Platform security, fraud detection and prevention, system monitoring, product improvement, aggregate analytics (non-identifying), and enforcement of our Terms of Service, where such interests are not overridden by your fundamental rights and freedoms. You may object to processing conducted on this basis at any time; see Section 7 below.</li>
+          <li><strong>Consent (GDPR Art. 6(1)(a)):</strong> Processing for optional marketing communications, promotional content, and non-essential features. Consent may be withdrawn at any time without affecting the lawfulness of processing conducted prior to withdrawal.</li>
+          <li><strong>Legal Obligation (GDPR Art. 6(1)(c)):</strong> Processing required to comply with applicable tax, accounting, anti-money laundering, and other regulatory requirements under United States federal and state law and, where applicable, European Union or member state law.</li>
+        </ul>
+
+        <h2>4. Purposes of Processing</h2>
+        <p>We use the personal information we collect for the following specific purposes:</p>
+        <ul>
+          <li><strong>Service Delivery:</strong> To operate, maintain, and provide the full functionality of the Platform, including project management, CRM, bidding, pay application processing, change order tracking, field operations, time tracking, and document management.</li>
+          <li><strong>Account Administration:</strong> To create and manage user accounts, authenticate users, manage organizational team membership, enforce role-based access controls, and process tenant selection.</li>
+          <li><strong>Billing and Subscription Management:</strong> To process subscription payments, manage trial periods, issue invoices, handle refund requests, and communicate billing-related notifications through our payment processor.</li>
+          <li><strong>Transactional Notifications:</strong> To send service-related communications such as bid status updates, pay application approvals, change order notifications, project assignments, and other operational alerts generated by Platform activity.</li>
+          <li><strong>Customer Support:</strong> To respond to support tickets, troubleshoot technical issues, and provide onboarding assistance.</li>
+          <li><strong>Security and Integrity:</strong> To detect, investigate, and prevent unauthorized access, fraud, abuse, and security incidents; to enforce account lockout policies; and to maintain audit logs of significant system events.</li>
+          <li><strong>Legal Compliance:</strong> To comply with applicable laws, respond to lawful requests from public authorities, and establish, exercise, or defend legal claims.</li>
+          <li><strong>Product Improvement:</strong> To analyze aggregate, de-identified usage patterns to improve Platform performance, reliability, and user experience. We do not use personal data for automated profiling or algorithmic decision-making that produces legal or similarly significant effects on individuals.</li>
         </ul>
 
         <h2>5. Data Sharing and Disclosure</h2>
-        <p>We do not sell, trade, or rent your personal information to third parties. We may share information in the following circumstances:</p>
+        <p><strong>BuildWorkPro does not sell, rent, lease, or trade your personal information to third parties for their marketing or commercial purposes.</strong></p>
+        <p>We may disclose personal information in the following limited circumstances:</p>
         <ul>
-          <li><strong>Service providers:</strong> With trusted third parties who assist in operating our platform (e.g., payment processors, cloud hosting providers), bound by confidentiality agreements.</li>
-          <li><strong>Within your organization:</strong> With other members of your BuildWorkPro organization as determined by your admin's role and permission settings.</li>
-          <li><strong>Legal requirements:</strong> When required by law, subpoena, or other legal process, or to protect our rights, property, or safety.</li>
-          <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or sale of assets, with notice to affected users.</li>
+          <li><strong>Within Your Organization:</strong> Personal data and business data are shared with other members of your BuildWorkPro organization in accordance with the role-based permission settings configured by your organization&rsquo;s administrator. BuildWorkPro enforces five distinct permission tiers (Administrator, Manager, Member, Field Crew, and Viewer), each with granular, resource-level access controls.</li>
+          <li><strong>Service Providers and Sub-Processors:</strong> We engage a limited number of third-party service providers who process data on our behalf and are bound by written data processing agreements that impose confidentiality obligations, data security requirements, and restrictions on the use of personal data. Current sub-processors include:
+            <ul>
+              <li><strong>Stripe, Inc.</strong> &mdash; Payment processing and subscription management</li>
+              <li><strong>Railway</strong> &mdash; Cloud application hosting, managed database infrastructure, and Redis for session management and background job queuing</li>
+              <li><strong>Cloudflare, Inc.</strong> &mdash; Content delivery, DDoS mitigation, DNS, and object storage (R2)</li>
+              <li><strong>Google LLC</strong> &mdash; Google Fonts (loaded on the marketing site) and, where integrated, Google Workspace APIs</li>
+            </ul>
+          </li>
+          <li><strong>Legal and Regulatory Compliance:</strong> When required by law, regulation, subpoena, court order, or other compulsory legal process, or when we reasonably believe disclosure is necessary to protect the rights, property, or safety of BuildWorkPro, our users, or the public.</li>
+          <li><strong>Business Transactions:</strong> In connection with a proposed or consummated merger, acquisition, reorganization, asset sale, or similar corporate transaction. In such event, we will provide affected users with notice and, where required by law, the opportunity to consent or object before personal data is transferred to a successor entity.</li>
+          <li><strong>With Your Consent:</strong> We may share personal information for purposes not described in this Policy with your express prior consent.</li>
         </ul>
 
         <h2>6. Data Security</h2>
-        <p>We implement industry-standard security measures to protect your data:</p>
+        <p>We implement administrative, technical, and physical safeguards designed to protect personal data against unauthorized access, alteration, disclosure, or destruction. Key security measures include:</p>
         <ul>
-          <li>Encryption in transit (TLS/SSL) and at rest</li>
-          <li>Regular security audits and vulnerability assessments</li>
-          <li>Role-based access controls within the platform</li>
-          <li>Secure authentication with optional two-factor authentication (2FA)</li>
-          <li>Regular data backups with geographic redundancy</li>
+          <li><strong>Encryption:</strong> All data in transit is encrypted using Transport Layer Security (TLS 1.3). Data at rest is encrypted using AES-256 encryption. Database backups are encrypted and stored with geographic redundancy.</li>
+          <li><strong>Authentication Controls:</strong> Passwords are hashed using bcrypt with appropriate cost factors. Two-factor authentication (TOTP) is available for all user accounts. Accounts are subject to lockout after repeated failed authentication attempts.</li>
+          <li><strong>Access Controls:</strong> Role-based access control (&ldquo;RBAC&rdquo;) with over thirty granular permissions across ten resource areas. Administrative access to production infrastructure is restricted to authorized personnel with multi-factor authentication.</li>
+          <li><strong>Tenant Data Isolation:</strong> The Platform employs row-level tenant isolation, ensuring that each organization&rsquo;s data is logically separated at the database level. Every query against business data is scoped to the authenticated tenant. File storage is partitioned by organization. These architectural controls are enforced at the middleware layer and are not bypassable by application-level code.</li>
+          <li><strong>Application Security:</strong> CSRF protection on all state-changing endpoints, parameterized queries to prevent SQL injection, output encoding and Content Security Policy headers to prevent cross-site scripting (XSS), and automated dependency vulnerability scanning.</li>
+          <li><strong>Infrastructure:</strong> Hosted on enterprise-grade cloud infrastructure with automated daily backups, point-in-time recovery, DDoS protection, rate limiting, network isolation, and regular patching.</li>
+          <li><strong>Audit Logging:</strong> All significant user actions (create, update, delete, and workflow transitions) are logged with timestamps, user identity, and affected resources to maintain a complete audit trail.</li>
         </ul>
-        <p>For more details, see our <a href="/security">Security page</a>.</p>
+        <p>For additional detail on our security practices, see our <a href="/security">Security</a> page. No method of electronic transmission or storage is 100% secure. While we strive to use commercially reasonable means to protect your personal data, we cannot guarantee absolute security.</p>
 
-        <h2>7. Data Retention</h2>
-        <p>We retain your data for as long as your account is active or as needed to provide services. Specific retention periods are as follows:</p>
+        <h2>7. Your Rights and Choices</h2>
+        <p>Depending on your jurisdiction, you may have the following rights with respect to your personal data:</p>
+
+        <h3>7.1 Rights Under the GDPR and UK GDPR</h3>
+        <p>If you are located in the European Economic Area (&ldquo;EEA&rdquo;), the United Kingdom, or Switzerland, you have the following rights:</p>
         <ul>
-          <li><strong>Account data:</strong> Retained for the duration of your account plus 30 days after account deletion.</li>
-          <li><strong>Business data:</strong> Contacts, projects, bids, and other organizational content are retained according to the data retention settings configured by your organization's administrator.</li>
-          <li><strong>Usage and log data:</strong> Retained for 90 days, then automatically purged.</li>
-          <li><strong>Billing records:</strong> Retained for 7 years as required by tax and accounting regulations.</li>
+          <li><strong>Right of Access (Art. 15):</strong> To obtain confirmation as to whether your personal data is being processed and, if so, to receive a copy of such data together with supplementary information about the processing.</li>
+          <li><strong>Right to Rectification (Art. 16):</strong> To request correction of inaccurate personal data or completion of incomplete data without undue delay.</li>
+          <li><strong>Right to Erasure (Art. 17):</strong> To request deletion of your personal data where it is no longer necessary for the purposes for which it was collected, where you withdraw consent, or where the data has been unlawfully processed, subject to applicable legal retention obligations.</li>
+          <li><strong>Right to Restriction of Processing (Art. 18):</strong> To request that we restrict the processing of your personal data in certain circumstances, such as where you contest the accuracy of the data or where you have objected to processing pending verification of legitimate grounds.</li>
+          <li><strong>Right to Data Portability (Art. 20):</strong> To receive the personal data you have provided to us in a structured, commonly used, and machine-readable format (e.g., CSV), and to transmit that data to another controller without hindrance.</li>
+          <li><strong>Right to Object (Art. 21):</strong> To object at any time to processing of your personal data based on legitimate interests. We will cease processing unless we demonstrate compelling legitimate grounds that override your interests, rights, and freedoms.</li>
+          <li><strong>Rights Relating to Automated Decision-Making (Art. 22):</strong> BuildWorkPro does not engage in automated decision-making or profiling that produces legal or similarly significant effects on individuals.</li>
+          <li><strong>Right to Withdraw Consent:</strong> Where processing is based on consent, you may withdraw consent at any time. Withdrawal does not affect the lawfulness of processing conducted prior to withdrawal.</li>
+          <li><strong>Right to Lodge a Complaint:</strong> You have the right to file a complaint with a data protection supervisory authority in your country of habitual residence, place of work, or place of the alleged infringement.</li>
         </ul>
-        <p>Upon account deletion, we will remove your personal data within 30 days, except where longer retention is required by law or specified above.</p>
 
-        <h2>8. Your Rights</h2>
-        <p>Under the GDPR and applicable data protection laws, you have the following rights regarding your personal data:</p>
+        <h3>7.2 Rights Under the California Consumer Privacy Act (CCPA/CPRA)</h3>
+        <p>If you are a California resident, you may have additional rights under the California Consumer Privacy Act, as amended by the California Privacy Rights Act (&ldquo;CCPA/CPRA&rdquo;):</p>
         <ul>
-          <li><strong>Right to access (Article 15):</strong> Request a copy of the personal data we hold about you.</li>
-          <li><strong>Right to rectification (Article 16):</strong> Request correction of inaccurate or incomplete data.</li>
-          <li><strong>Right to erasure (Article 17):</strong> Request deletion of your personal data ("right to be forgotten"), subject to legal retention obligations.</li>
-          <li><strong>Right to restrict processing (Article 18):</strong> Request that we limit the processing of your data in certain circumstances.</li>
-          <li><strong>Right to data portability (Article 20):</strong> Receive your personal data in a structured, commonly used, machine-readable format (e.g., CSV), and transmit it to another controller.</li>
-          <li><strong>Right to object (Article 21):</strong> Object to processing based on legitimate interests, including profiling. We will cease processing unless we demonstrate compelling legitimate grounds.</li>
-          <li><strong>Automated decision-making (Article 22):</strong> BuildWorkPro does not use automated decision-making or profiling that produces legal or similarly significant effects.</li>
-          <li><strong>Right to withdraw consent:</strong> Where processing is based on consent, you may withdraw it at any time without affecting the lawfulness of prior processing.</li>
-          <li><strong>Right to lodge a complaint:</strong> You have the right to lodge a complaint with a supervisory authority in your country of residence if you believe your data protection rights have been violated.</li>
+          <li><strong>Right to Know:</strong> You may request disclosure of the categories and specific pieces of personal information we have collected about you, the categories of sources, the business or commercial purpose for collecting the information, and the categories of third parties with whom we share it.</li>
+          <li><strong>Right to Delete:</strong> You may request that we delete personal information we have collected from you, subject to certain exceptions provided by law.</li>
+          <li><strong>Right to Correct:</strong> You may request correction of inaccurate personal information.</li>
+          <li><strong>Right to Opt Out of Sale/Sharing:</strong> BuildWorkPro does not sell personal information and does not share personal information for cross-context behavioral advertising purposes. No opt-out is necessary.</li>
+          <li><strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising any of your privacy rights.</li>
         </ul>
-        <p>To exercise any of these rights, contact us at <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>. We will respond to all requests within 30 days of receipt. If we need additional time, we will notify you of the extension and the reasons for the delay.</p>
 
-        <h2>9. International Data Transfers</h2>
-        <p>BuildWorkPro stores and processes data in the United States. If you are located in the European Union or European Economic Area (EU/EEA), your personal data will be transferred to the United States. We protect these transfers using Standard Contractual Clauses (SCCs) approved by the European Commission, ensuring your data receives an adequate level of protection regardless of where it is processed.</p>
+        <h3>7.3 Exercising Your Rights</h3>
+        <p>To exercise any of the rights described above, submit a verifiable request to <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>. We will acknowledge your request within ten (10) business days and provide a substantive response within thirty (30) days of receipt. If we require additional time (up to an additional sixty days), we will notify you of the extension and the reason for the delay. We may request reasonable verification of your identity before fulfilling your request.</p>
 
-        <h2>10. Third-Party Services</h2>
-        <p>BuildWorkPro integrates with third-party services (Google Workspace, Google Fonts) that have their own privacy policies. We encourage you to review those policies. We only share the minimum data necessary for each integration to function.</p>
-
-        <h2>11. Children's Privacy</h2>
-        <p>BuildWorkPro is not intended for use by anyone under the age of 18. We do not knowingly collect personal information from children.</p>
-
-        <h2>12. Changes to This Policy</h2>
-        <p>We may update this Privacy Policy from time to time. We will notify you of material changes by email or through a notice on our platform. Continued use of the platform after changes constitutes acceptance of the updated policy.</p>
-
-        <h2>13. Contact Us</h2>
-        <p>If you have questions about this Privacy Policy, please contact us:</p>
+        <h2>8. International Data Transfers</h2>
+        <p>BuildWorkPro stores and processes personal data primarily in the United States. If you are located outside the United States, including in the EEA, the United Kingdom, or Switzerland, your personal data will be transferred to and processed in the United States.</p>
+        <p>We protect international data transfers using the following safeguards:</p>
         <ul>
-          <li>Email: <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a></li>
-          <li>Web: <a href="/contact">{config.siteUrl.replace('https://', '')}/contact</a></li>
+          <li><strong>Standard Contractual Clauses (SCCs):</strong> We execute Standard Contractual Clauses approved by the European Commission (implementing decision 2021/914) with sub-processors located outside the EEA to ensure an adequate level of data protection.</li>
+          <li><strong>UK International Data Transfer Agreement:</strong> For transfers from the United Kingdom, we rely on the UK Addendum to the EU SCCs as approved by the UK Information Commissioner&rsquo;s Office.</li>
+          <li><strong>Supplementary Measures:</strong> We implement technical and organizational measures (including encryption in transit and at rest, access controls, and pseudonymization where feasible) to supplement transfer mechanisms and protect data from unauthorized access by public authorities.</li>
+        </ul>
+
+        <h2>9. Data Retention</h2>
+        <p>We retain personal data only for as long as necessary to fulfill the purposes for which it was collected, or as required by applicable law. Specific retention periods are as follows:</p>
+        <ul>
+          <li><strong>Account Data:</strong> Retained for the duration of your active account. Upon account deletion or organization termination, personal data is retained for thirty (30) days to allow recovery, after which it is permanently and irreversibly deleted from primary storage.</li>
+          <li><strong>Business Operational Data:</strong> Contacts, projects, bids, pay applications, change orders, site logs, time entries, documents, and other organizational content are retained according to the data retention settings configured by your organization&rsquo;s administrator, or until account termination (plus the 30-day recovery period).</li>
+          <li><strong>Usage and Log Data:</strong> Retained for ninety (90) days from the date of collection, then automatically purged.</li>
+          <li><strong>Audit Trail Records:</strong> Retained for the longer of the applicable organization&rsquo;s configured retention period or two (2) years, to support compliance and dispute resolution.</li>
+          <li><strong>Billing and Financial Records:</strong> Retained for seven (7) years as required by applicable United States federal and state tax, accounting, and financial reporting regulations.</li>
+          <li><strong>Encrypted Backups:</strong> Backup copies of data may persist in encrypted, access-restricted backup storage for up to ninety (90) days following deletion from primary storage.</li>
+        </ul>
+
+        <h2>10. Third-Party Services and Integrations</h2>
+        <p>The Platform may integrate with or contain links to third-party services, each of which operates under its own privacy policy. BuildWorkPro is not responsible for the privacy practices of third parties. We encourage you to review the privacy policies of any third-party service before sharing your personal information. We share only the minimum data necessary for each integration to function.</p>
+        <p>Current third-party integrations and their roles are described in Section 5 above.</p>
+
+        <h2>11. Children&rsquo;s Privacy</h2>
+        <p>The Platform is not directed to individuals under the age of eighteen (18). We do not knowingly collect, solicit, or maintain personal information from anyone under 18 years of age. If we learn that we have collected personal information from a child under 18, we will promptly delete that information. If you believe that a child under 18 has provided personal information to us, please contact <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a>.</p>
+
+        <h2>12. Do Not Track Signals</h2>
+        <p>The Platform does not respond to &ldquo;Do Not Track&rdquo; browser signals. However, as described in this Policy and in our <a href="/cookies">Cookie Policy</a>, we do not engage in cross-site tracking, third-party advertising tracking, or behavioral profiling, regardless of your browser&rsquo;s Do Not Track setting.</p>
+
+        <h2>13. Changes to This Policy</h2>
+        <p>We may update this Policy from time to time to reflect changes in our practices, technologies, legal requirements, or other factors. We will provide notice of material changes by email to the address associated with your account, by a prominent notice within the Platform, or by updating the &ldquo;Last Updated&rdquo; date at the top of this page. Your continued use of the Platform following the posting of a revised Policy constitutes your acceptance of the changes. We encourage you to review this Policy periodically.</p>
+
+        <h2>14. Contact Information</h2>
+        <p>If you have any questions, concerns, or complaints about this Privacy Policy or our data processing practices, please contact us:</p>
+        <ul>
+          <li><strong>Privacy Inquiries:</strong> <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a></li>
+          <li><strong>General Legal:</strong> <a href={`mailto:${config.email.legal}`}>{config.email.legal}</a></li>
+          <li><strong>Postal Address:</strong> BuildWorkPro LLC, Attn: Privacy, Fort Lauderdale, FL, United States</li>
+          <li><strong>Web:</strong> <a href="/contact">{config.siteUrl.replace('https://', '')}/contact</a></li>
         </ul>
 
       </div>
