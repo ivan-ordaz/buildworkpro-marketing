@@ -1,0 +1,92 @@
+---
+title: API Keys
+description: Authenticate backend integrations with BuildWorkPro API keys.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+API keys are long-lived bearer tokens you create in your BuildWorkPro tenant and use to call the v1 API from your own backend. They're the right tool for internal scripts, CI jobs, ETL pipelines, and any integration that runs under your team's control.
+
+If you're building an app that other BuildWorkPro tenants will install -- where each user authorizes you against their own organization -- use [OAuth 2.1](/api/authentication/oauth/) instead. Don't ask third parties to paste an API key into your product.
+
+## Live vs test keys
+
+API keys come in two prefixes:
+
+- **`bwp_live_*`** -- Hits real data in your production tenant.
+- **`bwp_test_*`** -- Reserved for development against a sandbox.
+
+Today, test keys behave the same as live keys (no isolated sandbox tenant exists yet). The prefix is in place so you can future-proof your integration: write your code to read the prefix from the environment, and you'll be ready when sandbox tenants ship without changing a line.
+
+## Creating a key
+
+<Steps>
+
+1. In the app, sign in as a user with the `company_admin` role. Only admins can create or revoke keys.
+
+2. Open **Settings -> Developer -> API Keys** and click **New Key**.
+
+3. Give the key a clear name -- something a teammate could recognize months from now (for example, "Zapier sync" or "Nightly QuickBooks export").
+
+4. Select scopes. Each scope grants read, write, delete, or workflow access to one resource family. Pick the smallest set the integration actually needs -- you can always create another key later. See [Scopes](/api/concepts/scopes/) for the full catalog.
+
+5. (Optional) Restrict the key to a list of source IPs. Useful when the integration runs from known infrastructure.
+
+6. Click **Create**. The full key is displayed **once**.
+
+</Steps>
+
+<Aside type="caution">
+  The full key value is shown **only at creation time**. Copy it immediately into your secrets manager (Doppler, 1Password, AWS Secrets Manager, etc.). If you lose it, you'll have to revoke the key and issue a new one -- there is no "show key" button.
+</Aside>
+
+## Authenticating requests
+
+Send the key in the `Authorization` header as a bearer token:
+
+```bash
+curl https://app.buildworkpro.com/api/v1/me \
+  -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}"
+```
+
+A successful call to `/me` returns the key's tenant binding and granted scopes -- handy for sanity-checking a new key:
+
+```json
+{
+  "data": {
+    "keyId": "key_01HZX9...",
+    "keyName": "Internal sync script",
+    "tenantId": "tnt_01HZ...",
+    "scopes": ["contacts:read", "contacts:write", "leads:read"]
+  },
+  "meta": { "request_id": "req_2c8a91f4" }
+}
+```
+
+## Idempotency on mutations
+
+Always send an `Idempotency-Key` header on `POST`, `PATCH`, and `DELETE` requests. Use a fresh UUID per logical operation. If a network hiccup makes you retry, BuildWorkPro replays the original response instead of creating a duplicate. See [Idempotency](/api/concepts/idempotency/) for details.
+
+```bash
+curl -X POST https://app.buildworkpro.com/api/v1/contacts \
+  -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+  -H "Idempotency-Key: $(uuidgen)" \
+  -H "Content-Type: application/json" \
+  -d '{"firstName":"Jane","lastName":"Doe","type":"customer"}'
+```
+
+## IP allowlist
+
+Each key can be restricted to a list of allowed source IPs in the same **Settings -> Developer -> API Keys** screen. Requests from any other IP are rejected with `401 unauthorized`. The allowlist is configured in the UI today; a programmatic API for managing it is on the roadmap.
+
+## Best practices
+
+- **Rotate periodically.** Quarterly is a reasonable default. Create the new key, deploy it, then revoke the old one once you've confirmed the rollout.
+- **One key per integration.** Don't share a key across two integrations -- you can't revoke one without breaking the other.
+- **Never ship a key in client-side code.** Mobile apps, single-page apps, and browser extensions cannot keep a secret. Use OAuth.
+- **Use the smallest scope set possible.** A reporting script doesn't need `contacts:delete`.
+- **Treat leaks as incidents.** If a key is exposed in a screenshot, log file, or git commit, revoke it immediately and rotate downstream.
+
+## Revoking a key
+
+In **Settings -> Developer -> API Keys**, click the key and choose **Revoke**. Revocation takes effect on the next request -- any in-flight requests using that key will fail with `401 unauthorized` immediately. Revocation is permanent; create a new key if you need access again.

@@ -1,0 +1,161 @@
+---
+title: OAuth 2.1
+description: Let third-party apps act on behalf of BuildWorkPro users via OAuth 2.1 with PKCE and Dynamic Client Registration.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+OAuth 2.1 is the right authentication choice for any app where each BuildWorkPro user authorizes you against their own organization. Marketplace apps, MCP clients, mobile apps, browser extensions, and AI assistants all fall in this bucket. If you're building an internal script or backend tool that you operate yourself, use [API keys](/api/authentication/api-keys/) instead.
+
+## Supported grants
+
+BuildWorkPro implements **OAuth 2.1**, which restricts the legacy OAuth 2.0 grants down to the secure subset:
+
+- `authorization_code` (with PKCE -- required, S256 only)
+- `refresh_token` (with rotation and reuse detection)
+
+We do **not** support `client_credentials`, the resource-owner password grant, or the implicit flow. These are removed in OAuth 2.1.
+
+<Aside type="note">
+  PKCE is required on every authorization request, including for confidential clients. The only allowed `code_challenge_method` is `S256`. `plain` is rejected.
+</Aside>
+
+## Dynamic Client Registration
+
+Any developer can self-register a client at `POST /api/v1/oauth/register` -- there is no admin gate, no waitlist, and no manual approval step. The endpoint follows [RFC 7591](https://datatracker.ietf.org/doc/html/rfc7591) and is rate-limited to **5 requests per minute per IP** to prevent abuse. Each `redirect_uri` is validated by an SSRF guard, so internal/private addresses are rejected at registration time.
+
+```bash
+curl -X POST https://app.buildworkpro.com/api/v1/oauth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_name": "Acme Construction Sync",
+    "redirect_uris": ["https://acme.example.com/oauth/callback"],
+    "token_endpoint_auth_method": "none",
+    "scope": "contacts:read contacts:write offline_access",
+    "contact": "jane@example.com"
+  }'
+```
+
+Response:
+
+```json
+{
+  "client_id": "cli_01HZX9F4P7ABC...",
+  "client_id_issued_at": 1745596800,
+  "client_name": "Acme Construction Sync",
+  "redirect_uris": ["https://acme.example.com/oauth/callback"],
+  "grant_types": ["authorization_code", "refresh_token"],
+  "scope": "contacts:read contacts:write offline_access",
+  "token_endpoint_auth_method": "none"
+}
+```
+
+## Public vs confidential clients
+
+Pick `token_endpoint_auth_method` based on whether your client can keep a secret:
+
+- **`none`** (public client) -- For mobile apps, single-page apps, browser extensions, and CLI tools that ship to end users. PKCE alone authenticates the token exchange. No `client_secret` is issued.
+- **`client_secret_basic`** (confidential client) -- For server-side web apps and backend services that can store a secret. A `client_secret` is issued on registration. Send it as HTTP Basic auth on `/token` and `/revoke`.
+
+## End-to-end flow
+
+<Steps>
+
+1. **Register your client** (one time) using the call above. Save `client_id` (and `client_secret`, if confidential).
+
+2. **Generate a PKCE pair** in your client. The `code_verifier` is a high-entropy random string. The `code_challenge` is `BASE64URL(SHA256(code_verifier))`.
+
+3. **Redirect the user to the authorize endpoint:**
+
+   ```text
+   https://app.buildworkpro.com/api/v1/oauth/authorize
+     ?response_type=code
+     &client_id=cli_01HZX9F4P7ABC...
+     &redirect_uri=https://acme.example.com/oauth/callback
+     &code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
+     &code_challenge_method=S256
+     &scope=contacts:read+contacts:write+offline_access
+     &state=xyz123
+   ```
+
+4. **The user signs in to BuildWorkPro and approves your scope request** on the consent screen.
+
+5. **BuildWorkPro redirects back** to your `redirect_uri` with `?code=...&state=xyz123`. Verify the `state` matches what you sent.
+
+6. **Exchange the code for tokens:**
+
+   ```bash
+   curl -X POST https://app.buildworkpro.com/api/v1/oauth/token \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "grant_type=authorization_code" \
+     -d "code=AUTH_CODE_FROM_REDIRECT" \
+     -d "code_verifier=YOUR_CODE_VERIFIER" \
+     -d "redirect_uri=https://acme.example.com/oauth/callback" \
+     -d "client_id=cli_01HZX9F4P7ABC..."
+   ```
+
+   Response:
+
+   ```json
+   {
+     "access_token": "bwp_at_...",
+     "token_type": "Bearer",
+     "expires_in": 3600,
+     "refresh_token": "bwp_rt_...",
+     "scope": "contacts:read contacts:write offline_access"
+   }
+   ```
+
+7. **Call any v1 endpoint** with the access token:
+
+   ```bash
+   curl https://app.buildworkpro.com/api/v1/contacts \
+     -H "Authorization: Bearer bwp_at_..."
+   ```
+
+8. **Refresh** when the access token expires:
+
+   ```bash
+   curl -X POST https://app.buildworkpro.com/api/v1/oauth/token \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "grant_type=refresh_token" \
+     -d "refresh_token=bwp_rt_..." \
+     -d "client_id=cli_01HZX9F4P7ABC..."
+   ```
+
+9. **Revoke** when the integration is uninstalled (RFC 7009):
+
+   ```bash
+   curl -X POST https://app.buildworkpro.com/api/v1/oauth/revoke \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "token=bwp_rt_..." \
+     -d "client_id=cli_01HZX9F4P7ABC..."
+   ```
+
+</Steps>
+
+## Scope intersected with user role
+
+The scopes you ultimately receive are the intersection of what your client requested and what the authorizing user is allowed to delegate. A `viewer` who consents to your `contacts:write` request will only grant `contacts:read` -- their role doesn't permit writes. Your client gets a narrower grant rather than a hard error.
+
+Always inspect the `scope` field on the token response to see what was actually granted, and degrade gracefully when a permission you wanted is missing.
+
+## Refresh-token rotation and reuse detection
+
+Every successful refresh exchange returns a **new** refresh token and invalidates the previous one. The two tokens form a "family" tracked server-side. If an attacker steals a refresh token and replays it after you've already rotated, the server detects the reuse and **revokes the entire token family** -- both refresh and access tokens. Your client will be forced through the user-consent flow again, which is the intended signal that something went wrong.
+
+Practical implications:
+
+- Always swap to the new refresh token returned from `/token`. Never store the old one.
+- Be careful with parallel processes that might both refresh from a shared token store -- one will succeed, the other will trigger family revocation.
+- Treat `400 invalid_grant` on a refresh as a sign that your token store is stale or compromised.
+
+## Discovery
+
+The authorization server publishes its metadata at:
+
+```text
+https://app.buildworkpro.com/.well-known/oauth-authorization-server
+```
+
+This document advertises every endpoint URL, the supported scopes, response and grant types, code-challenge methods, and token-endpoint auth methods. Fetch it at runtime instead of hardcoding URLs and you'll automatically pick up future endpoint moves.
