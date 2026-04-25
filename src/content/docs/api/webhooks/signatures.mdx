@@ -1,0 +1,154 @@
+---
+title: Verifying Signatures
+description: HMAC-SHA256 signature format and verifier code samples for BuildWorkPro webhooks.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Every webhook delivery is signed with the endpoint's `signingSecret` so you can prove the request came from BuildWorkPro and was not tampered with in transit. The format is Stripe-compatible: an HMAC-SHA256 of `${timestamp}.${rawBody}`, encoded as hex.
+
+Verify the signature on every delivery. An unsigned or wrong-signature request must be rejected.
+
+## Headers
+
+Every POST carries the following headers:
+
+| Header                       | Description |
+|------------------------------|-------------|
+| `BuildWorkPro-Signature`     | Comma-separated tokens: `t=<unix-seconds>,v1=<hex-hmac>`. |
+| `BuildWorkPro-Event`         | The event type, e.g. `bid.accepted`. Convenient for routing without parsing the body. |
+| `BuildWorkPro-Event-Id`      | Unique event id (also present as `id` in the body). Use this for idempotency on your side. |
+| `BuildWorkPro-Delivery-Id`   | Unique delivery id. Same event re-delivered (e.g., via replay) carries the same event id but a new delivery id. |
+| `Content-Type`               | Always `application/json`. |
+| `User-Agent`                 | `BuildWorkPro-Webhooks/1.0`. |
+
+## Signed payload format
+
+The signature is computed over the concatenation `${timestamp}.${rawBody}`, where:
+
+- `timestamp` is the value from the `t=` token in the `BuildWorkPro-Signature` header (unix seconds, UTC).
+- `rawBody` is the **exact bytes** of the request body, before any JSON parsing.
+
+```text
+HMAC-SHA256( signing_secret , `${t}.${rawBody}` )  ==  hex( v1 )
+```
+
+## Timestamp tolerance
+
+BuildWorkPro accepts timestamps within ±5 minutes (300 seconds) of the receiving server's clock. Outside that window the verifier should reject the request even if the HMAC matches -- this is the replay-attack defense.
+
+If your verifier consistently fails on timestamp skew, run NTP on your receiver. Don't widen the window.
+
+## Verifier code
+
+<Tabs syncKey="lang">
+  <TabItem label="Node.js (Express)">
+
+```js
+import express from "express";
+import { createHmac, timingSafeEqual } from "node:crypto";
+
+const SIGNING_SECRET = process.env.BWP_WEBHOOK_SECRET;
+const MAX_SKEW_SEC = 300;
+
+const app = express();
+
+// Mount express.raw on the webhook path so req.body is a Buffer of the raw bytes.
+// Don't use express.json() before this route, or signature verification will fail.
+app.post(
+  "/bwp",
+  express.raw({ type: "application/json" }),
+  (req, res) => {
+    if (!verifySignature(SIGNING_SECRET, req.body, req.header("BuildWorkPro-Signature"))) {
+      return res.status(400).send("invalid signature");
+    }
+    const event = JSON.parse(req.body.toString("utf8"));
+    // Persist event.id for idempotency, then enqueue downstream work.
+    res.status(200).send("ok");
+  },
+);
+
+function verifySignature(secret, rawBody, header) {
+  if (!secret || !header) return false;
+  const t = Number(/(?:^|,)t=(\d+)/.exec(header)?.[1]);
+  const v1 = /(?:^|,)v1=([0-9a-f]+)/.exec(header)?.[1];
+  if (!Number.isFinite(t) || !v1) return false;
+
+  const now = Math.floor(Date.now() / 1000);
+  if (Math.abs(now - t) > MAX_SKEW_SEC) return false;
+
+  const expected = createHmac("sha256", secret)
+    .update(`${t}.${rawBody.toString("utf8")}`)
+    .digest("hex");
+  const a = Buffer.from(expected, "hex");
+  const b = Buffer.from(v1, "hex");
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
+
+app.listen(3000);
+```
+
+  </TabItem>
+  <TabItem label="Python (Flask)">
+
+```python
+import hmac
+import hashlib
+import os
+import re
+import time
+from flask import Flask, request, abort
+
+SIGNING_SECRET = os.environ["BWP_WEBHOOK_SECRET"].encode("utf-8")
+MAX_SKEW_SEC = 300
+
+app = Flask(__name__)
+
+
+def verify_signature(secret: bytes, raw_body: bytes, header: str | None) -> bool:
+    if not header:
+        return False
+    t_match = re.search(r"(?:^|,)t=(\d+)", header)
+    v1_match = re.search(r"(?:^|,)v1=([0-9a-f]+)", header)
+    if not t_match or not v1_match:
+        return False
+    t = int(t_match.group(1))
+    if abs(int(time.time()) - t) > MAX_SKEW_SEC:
+        return False
+
+    expected = hmac.new(
+        secret,
+        f"{t}.".encode("utf-8") + raw_body,
+        hashlib.sha256,
+    ).hexdigest()
+    return hmac.compare_digest(expected, v1_match.group(1))
+
+
+@app.post("/bwp")
+def bwp():
+    # request.get_data() returns the raw bytes — do not use request.json here.
+    raw = request.get_data()
+    if not verify_signature(SIGNING_SECRET, raw, request.headers.get("BuildWorkPro-Signature")):
+        abort(400, "invalid signature")
+    event = request.get_json(force=True, silent=False)
+    # Persist event["id"] for idempotency, then enqueue downstream work.
+    return ("ok", 200)
+```
+
+  </TabItem>
+</Tabs>
+
+<Aside type="caution">
+  Always verify against the **raw request body bytes**, never the parsed JSON. If you stringify a parsed object back to JSON, key ordering, whitespace, and number formatting can all differ from what BuildWorkPro signed -- and the HMAC will not match.
+
+  In Express, that means `express.raw({ type: "application/json" })` on the webhook route, **before** any `express.json()` body parser. In Flask, use `request.get_data()`, not `request.json`.
+</Aside>
+
+## Idempotency on your side
+
+Network glitches and the retry schedule both mean the same event id can arrive more than once. Store the `id` from each event you process, and skip any event whose id you've already handled. The id is stable across retries and across replays.
+
+## Rotating the signing secret
+
+If you suspect the secret has leaked, rotate it via `POST /api/v1/webhook-endpoints/{id}/rotate-secret`. The response carries the new secret (shown once). Update your receiver, then verify with the new secret going forward. There is no overlap window -- deliveries already in flight when you rotate will be re-signed with the new secret on their next attempt.

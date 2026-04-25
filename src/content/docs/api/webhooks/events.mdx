@@ -1,0 +1,223 @@
+---
+title: Event Catalog
+description: Every webhook event type and its payload shape.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This page documents every webhook event BuildWorkPro emits at launch. The full list is also exposed at `GET /api/v1/webhook-event-types` for programmatic discovery.
+
+## Envelope
+
+Every event ships in the same outer envelope. Resource-specific fields live under `data`. Update events that change a tracked field also include `previous_attributes` so you can diff old and new values without a database lookup.
+
+```json
+{
+  "id": "evt_8f3c1b2a...",
+  "type": "bid.accepted",
+  "created_at": "2026-04-25T17:42:01.812Z",
+  "tenant_id": 17,
+  "data": { "id": 22, "status": "accepted" }
+}
+```
+
+| Field                 | Description |
+|-----------------------|-------------|
+| `id`                  | Unique event id. Use this for idempotent processing on your side. |
+| `type`                | Dotted event type (e.g., `bid.accepted`). |
+| `created_at`          | ISO 8601 timestamp at which the event occurred. |
+| `tenant_id`           | The tenant the event belongs to. |
+| `data`                | The resource snapshot at the time of the event. |
+| `previous_attributes` | Optional. Present on `*.changed` events; carries the prior values of fields that changed. |
+
+<Aside type="note">
+  Treat `data` as a snapshot, not the source of truth. If you need the latest state of the record, fetch it from the REST API using `data.id`.
+</Aside>
+
+## bids
+
+### `bid.created`
+
+Fires when a new bid row is inserted. The `data` payload is the full bid record as returned by `POST /api/v1/bids`, including the generated `bidNumber` and initial `status: "draft"`.
+
+```json
+{
+  "id": "evt_...",
+  "type": "bid.created",
+  "created_at": "2026-04-25T17:00:00.000Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 11,
+    "bidNumber": "BID-001",
+    "status": "draft"
+  }
+}
+```
+
+### `bid.accepted`
+
+Fires when `POST /api/v1/bids/{id}/accept` succeeds. The bid was in a sendable state (`sent`, `viewed`, etc.) and has now transitioned to `accepted`. Use this to kick off project creation, notify sales, or trigger fulfillment.
+
+```json
+{
+  "id": "evt_...",
+  "type": "bid.accepted",
+  "created_at": "2026-04-25T17:42:01.812Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 22,
+    "status": "accepted"
+  }
+}
+```
+
+### `bid.rejected`
+
+Fires when `POST /api/v1/bids/{id}/reject` succeeds. The bid is now in the `rejected` terminal state. Pair this with `bid.accepted` to drive your sales pipeline analytics.
+
+```json
+{
+  "id": "evt_...",
+  "type": "bid.rejected",
+  "created_at": "2026-04-25T18:01:03.221Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 99,
+    "status": "rejected"
+  }
+}
+```
+
+## projects
+
+### `project.created`
+
+Fires when a project is inserted. The payload is the freshly-created project row, including the generated `projectNumber`.
+
+```json
+{
+  "id": "evt_...",
+  "type": "project.created",
+  "created_at": "2026-04-25T18:10:00.000Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 33,
+    "name": "Acme HQ Renovation",
+    "status": "active"
+  }
+}
+```
+
+### `project.status_changed`
+
+Fires only when the `status` field actually changes. A no-op update that sets `status` to its current value does **not** emit, and an update that doesn't include the `status` key does not emit either. The previous value is delivered in `previous_attributes`.
+
+```json
+{
+  "id": "evt_...",
+  "type": "project.status_changed",
+  "created_at": "2026-04-25T18:30:00.000Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 44,
+    "name": "Acme HQ Renovation",
+    "status": "completed"
+  },
+  "previous_attributes": {
+    "status": "active"
+  }
+}
+```
+
+## pay applications
+
+### `pay_app.submitted`
+
+Fires when `POST /api/v1/pay-apps/{id}/submit` succeeds. The pay app has moved out of draft and is now awaiting approval.
+
+```json
+{
+  "id": "evt_...",
+  "type": "pay_app.submitted",
+  "created_at": "2026-04-25T19:00:00.000Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 55,
+    "status": "submitted"
+  }
+}
+```
+
+### `pay_app.approved`
+
+Fires when `POST /api/v1/pay-apps/{id}/approve` succeeds. The pay app is now `approved` -- a good trigger to push an invoice into your accounting system.
+
+```json
+{
+  "id": "evt_...",
+  "type": "pay_app.approved",
+  "created_at": "2026-04-25T19:15:00.000Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 66,
+    "status": "approved"
+  }
+}
+```
+
+## change orders
+
+### `change_order.submitted`
+
+Fires when a change order transitions from `draft` to `submitted`. The change order had at least one line item; an empty change order cannot be submitted.
+
+```json
+{
+  "id": "evt_...",
+  "type": "change_order.submitted",
+  "created_at": "2026-04-25T19:30:00.000Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 77,
+    "status": "submitted"
+  }
+}
+```
+
+### `change_order.approved`
+
+Fires when a change order is approved. Approval applies the change-order line items to the parent project's bid and contract value in the same transaction; the event is emitted only after the whole transaction commits.
+
+```json
+{
+  "id": "evt_...",
+  "type": "change_order.approved",
+  "created_at": "2026-04-25T19:45:00.000Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 88,
+    "status": "approved"
+  }
+}
+```
+
+## contacts
+
+### `contact.created`
+
+Fires when a contact is inserted via `POST /api/v1/contacts` or the dashboard. The payload is the full contact row.
+
+```json
+{
+  "id": "evt_...",
+  "type": "contact.created",
+  "created_at": "2026-04-25T20:00:00.000Z",
+  "tenant_id": 17,
+  "data": {
+    "id": 5,
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "type": "customer"
+  }
+}
+```

@@ -1,0 +1,136 @@
+---
+title: Webhooks Overview
+description: Receive real-time event notifications when records change in BuildWorkPro.
+---
+
+import { Aside, Steps, Card, CardGrid } from '@astrojs/starlight/components';
+
+Webhooks let your application react to changes in a BuildWorkPro tenant the moment they happen, without polling. When a record is created, accepted, approved, or moves through a state transition, BuildWorkPro signs a JSON envelope and POSTs it to URLs you register.
+
+Use webhooks to keep an external CRM in sync with new contacts, fire a Slack message when a bid is accepted, kick off a downstream workflow on pay app approval, or rebuild a cached dashboard whenever a project status changes.
+
+## Event catalog
+
+BuildWorkPro emits ten event types at launch. The full payload shape for each one is documented in the [Event Catalog](/api/webhooks/events/).
+
+<CardGrid>
+  <Card title="Bids" icon="document">
+    `bid.created`, `bid.accepted`, `bid.rejected`
+  </Card>
+  <Card title="Projects" icon="seti:folder">
+    `project.created`, `project.status_changed`
+  </Card>
+  <Card title="Pay applications" icon="approve-check">
+    `pay_app.submitted`, `pay_app.approved`
+  </Card>
+  <Card title="Change orders" icon="random">
+    `change_order.submitted`, `change_order.approved`
+  </Card>
+  <Card title="Contacts" icon="user">
+    `contact.created`
+  </Card>
+</CardGrid>
+
+More event types ship in subsequent releases. Subscribe only to the types you need so you don't have to filter out noise on your end.
+
+## Setup flow
+
+<Steps>
+
+1. **Create an endpoint.**
+
+   Either call `POST /api/v1/webhook-endpoints` with an API key that holds the `webhooks:manage` scope, or open **Settings -> Developer -> Webhooks** in the app. Provide a public HTTPS URL and the list of event types to subscribe to.
+
+2. **Save the signing secret.**
+
+   The response includes a `signingSecret` field. This value is shown **exactly once** -- copy it immediately into your secrets manager. You will need it to verify every incoming delivery. If you lose it, rotate the secret via `POST /api/v1/webhook-endpoints/{id}/rotate-secret`.
+
+3. **Verify signatures on every delivery.**
+
+   Every POST carries a `BuildWorkPro-Signature` header. Recompute the HMAC and compare in constant time before trusting the body. See [Verifying Signatures](/api/webhooks/signatures/) for ready-to-paste verifier code.
+
+4. **Respond fast with a 2xx.**
+
+   BuildWorkPro waits up to ten seconds for your response. Return `200 OK` (or any 2xx) as soon as you've persisted the event id for downstream processing -- don't do real work inline. Anything that takes longer than ten seconds will be treated as a timeout and retried.
+
+</Steps>
+
+## Worked example
+
+Register an endpoint that listens for accepted bids:
+
+```bash
+curl -X POST https://app.buildworkpro.com/api/v1/webhook-endpoints \
+  -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://hooks.example.com/bwp",
+    "eventTypes": ["bid.accepted"],
+    "description": "Notify sales when a bid is won"
+  }'
+```
+
+The response includes a one-time `signingSecret`:
+
+```json
+{
+  "data": {
+    "id": 17,
+    "url": "https://hooks.example.com/bwp",
+    "eventTypes": ["bid.accepted"],
+    "isActive": true,
+    "signingSecret": "whsec_5f3c1b2a..."
+  }
+}
+```
+
+Receive and verify the delivery in Node:
+
+```js
+import express from "express";
+import { createHmac, timingSafeEqual } from "node:crypto";
+
+const SECRET = process.env.BWP_WEBHOOK_SECRET;
+const app = express();
+
+// IMPORTANT: get the raw body for HMAC verification.
+app.post(
+  "/bwp",
+  express.raw({ type: "application/json" }),
+  (req, res) => {
+    const header = req.header("BuildWorkPro-Signature") ?? "";
+    const t = /(?:^|,)t=(\d+)/.exec(header)?.[1];
+    const v1 = /(?:^|,)v1=([0-9a-f]+)/.exec(header)?.[1];
+    if (!t || !v1) return res.status(400).send("bad signature");
+
+    const expected = createHmac("sha256", SECRET)
+      .update(`${t}.${req.body.toString("utf8")}`)
+      .digest("hex");
+    const a = Buffer.from(expected, "hex");
+    const b = Buffer.from(v1, "hex");
+    if (a.length !== b.length || !timingSafeEqual(a, b)) {
+      return res.status(400).send("bad signature");
+    }
+
+    const event = JSON.parse(req.body.toString("utf8"));
+    console.log(`bid accepted: ${event.data.id}`);
+    res.status(200).send("ok");
+  },
+);
+
+app.listen(3000);
+```
+
+<Aside type="note">
+  Always verify signatures against the **raw request body bytes**, never the parsed JSON. Even a whitespace difference will break the HMAC. See [Verifying Signatures](/api/webhooks/signatures/) for full details.
+</Aside>
+
+## Delivery and retries
+
+Deliveries are best-effort with seven attempts on a backoff schedule (≈30s, 2m, 15m, 1h, 6h, 24h, with jitter). Permanent 4xx responses (except 408 and 429) stop retrying immediately. After **20 consecutive failures**, an endpoint is automatically disabled until you re-enable it.
+
+See [Testing Webhooks Locally](/api/webhooks/testing/) for the deliveries dashboard, the replay endpoint, and how to debug failures.
+
+## Permissions
+
+Managing endpoints (create, update, delete, rotate secret, view deliveries) requires the `webhooks:manage` scope on the API key, or the `company_admin` role for users acting through the dashboard. The endpoint URL is SSRF-validated at registration **and** re-validated at delivery time as a defense against DNS rebinding.

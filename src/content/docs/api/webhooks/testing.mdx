@@ -1,0 +1,138 @@
+---
+title: Testing Webhooks Locally
+description: ngrok, the deliveries dashboard, and the replay endpoint for debugging webhook integrations.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+This page walks through the loop of building a webhook receiver, debugging a failed delivery, and replaying it once you've shipped a fix.
+
+## Local development with a tunnel
+
+BuildWorkPro only delivers to public HTTPS URLs (and the URL is SSRF-validated, so loopback and private ranges are rejected). To receive deliveries on your laptop, expose your dev server through a tunnel.
+
+<Steps>
+
+1. **Start your local receiver.**
+
+   ```bash
+   node receiver.js   # listening on localhost:3000
+   ```
+
+2. **Open a tunnel.** Pick whichever tool you already use:
+
+   ```bash
+   # ngrok
+   ngrok http 3000
+
+   # localtunnel
+   npx localtunnel --port 3000
+
+   # Cloudflare Tunnel
+   cloudflared tunnel --url http://localhost:3000
+   ```
+
+   Note the public HTTPS URL the tunnel prints.
+
+3. **Register the endpoint.**
+
+   ```bash
+   curl -X POST https://app.buildworkpro.com/api/v1/webhook-endpoints \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "url": "https://abcd-1234.ngrok-free.app/bwp",
+       "eventTypes": ["bid.accepted", "project.status_changed"]
+     }'
+   ```
+
+4. **Trigger an event.** Accept a bid in the dashboard, or call `POST /api/v1/bids/{id}/accept` from your terminal. The delivery should arrive within a second or two.
+
+</Steps>
+
+<Aside type="tip">
+  Tunnels rotate URLs every time you restart them (unless you have a paid plan). Either pin a stable subdomain on your tunnel provider, or `PATCH /api/v1/webhook-endpoints/{id}` with the new URL each session.
+</Aside>
+
+## Deliveries dashboard
+
+Open **Settings -> Developer -> Webhooks** in the app and click into an endpoint to see its delivery history. Each row shows:
+
+- **Event type** and **event id** -- click the row to expand the full payload.
+- **Status** -- `pending`, `succeeded`, `failed`, or `exhausted`.
+- **Attempt count** -- how many times BuildWorkPro has tried this delivery.
+- **Response status** -- the last HTTP code your receiver returned.
+- **Response body** -- captured up to 10 KB.
+- **Response headers** -- captured: `content-type`, `x-request-id`, `x-trace-id`.
+- **Error message** -- if the attempt failed before getting a response (network error, SSRF check, etc.).
+- **Next attempt at** -- when BuildWorkPro will try again, if applicable.
+
+The same data is available programmatically:
+
+```bash
+# List recent deliveries for an endpoint
+curl https://app.buildworkpro.com/api/v1/webhook-endpoints/17/deliveries \
+  -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}"
+
+# Get one delivery in full
+curl https://app.buildworkpro.com/api/v1/webhook-deliveries/9001 \
+  -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}"
+```
+
+## Replaying a delivery
+
+After fixing a bug in your receiver, replay any delivery that failed before the fix shipped:
+
+```bash
+curl -X POST https://app.buildworkpro.com/api/v1/webhook-deliveries/9001/replay \
+  -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}"
+```
+
+Replay resets `attemptCount` to zero, sets `status` back to `pending`, clears the response/error fields, and re-enqueues the delivery for an immediate attempt. The `eventId` and signed payload bytes are unchanged, so signature verification on your end still works.
+
+You can also click **Replay** on any delivery row in the dashboard.
+
+<Aside type="note">
+  Replay is allowed even after a delivery has reached `exhausted`. The only case it fails is `409 conflict` -- the linked endpoint has been soft-deleted. Recreate the endpoint and the delivery will need to be re-emitted from the source action.
+</Aside>
+
+## Retry schedule
+
+Failed deliveries are retried up to seven times on this schedule, with ±20% jitter applied to spread thundering-herd load:
+
+| Attempt | Delay from previous | Cumulative |
+|---------|--------------------:|-----------:|
+| 1       | 0s (immediate)      | 0s         |
+| 2       | 30s                 | 30s        |
+| 3       | 2 min               | ~2.5 min   |
+| 4       | 15 min              | ~17.5 min  |
+| 5       | 1 hour              | ~1.3 hours |
+| 6       | 6 hours             | ~7.3 hours |
+| 7       | 24 hours            | ~31 hours  |
+
+After the seventh attempt, the delivery is marked `exhausted` and never retried automatically -- replay it manually once you've fixed the receiver.
+
+## What counts as success vs failure
+
+| Receiver returns                             | What BuildWorkPro does |
+|----------------------------------------------|------------------------|
+| `200`-`299`                                   | Mark `succeeded`. Reset the endpoint's consecutive-failure counter. |
+| `408 Request Timeout`                         | Retriable. Schedule next attempt per the table above. |
+| `429 Too Many Requests`                       | Retriable. Schedule next attempt per the table above. |
+| Other `4xx` (`400`, `401`, `404`, `422`, ...) | Permanent failure. Stop retrying immediately, mark `exhausted`. |
+| Any `5xx`                                     | Retriable. Schedule next attempt per the table above. |
+| Network error, TLS failure, or 10s timeout    | Retriable. Same schedule as 5xx. |
+
+## Auto-disable
+
+Endpoints that fail 20 deliveries in a row are automatically disabled (`isActive: false`, `disabledReason` populated). This protects your receiver and ours from a runaway loop when an endpoint goes permanently dark (subdomain expired, receiver decommissioned, repeated 4xx).
+
+A successful delivery at any point resets the counter to zero. Re-enable a disabled endpoint via `PATCH /api/v1/webhook-endpoints/{id}` with `{ "isActive": true }` once you've confirmed the receiver is healthy.
+
+## Common gotchas
+
+- **Body parsing.** If you mount `express.json()` before your webhook route, `req.body` becomes an object and the HMAC won't match. Use `express.raw({ type: "application/json" })` on the webhook path.
+- **Clock skew.** Signature verification rejects timestamps more than 5 minutes from the receiver's clock. Run NTP.
+- **HTTPS only.** BuildWorkPro will not deliver to `http://`. Tunnels like ngrok and Cloudflare Tunnel give you HTTPS for free.
+- **Private IPs.** Even via a tunnel, the resolved IP must be public. The SSRF guard runs at registration **and** at every delivery attempt as a defense against DNS rebinding.
+- **Slow responses.** The request times out after 10 seconds. Persist the event id and return 2xx immediately; do real work asynchronously.
