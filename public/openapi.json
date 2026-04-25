@@ -1,0 +1,9 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BuildWorkPro API",
+    "version": "1.0.0",
+    "description": "Public REST API for BuildWorkPro construction project management."
+  },
+  "paths": {}
+}

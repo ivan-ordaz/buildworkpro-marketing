@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
+import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi';
 
 const env = loadEnv('', process.cwd(), 'PUBLIC_');
 
@@ -23,6 +24,15 @@ export default defineConfig({
         { icon: 'email', label: 'Email Support', href: `mailto:${env.PUBLIC_EMAIL_SUPPORT || 'support@buildworkpro.com'}` },
       ],
       customCss: ['./src/styles/docs.css'],
+      plugins: [
+        starlightOpenAPI([
+          {
+            base: 'api/reference',
+            schema: './public/openapi.json',
+            label: 'API Reference',
+          },
+        ]),
+      ],
       sidebar: [
         { label: 'Getting Started', autogenerate: { directory: 'docs/getting-started' } },
         { label: 'Bids & Estimates', autogenerate: { directory: 'docs/bids' } },
@@ -32,6 +42,20 @@ export default defineConfig({
         { label: 'Field Operations', autogenerate: { directory: 'docs/field' } },
         { label: 'CRM & Pipeline', autogenerate: { directory: 'docs/crm' } },
         { label: 'Account & Settings', autogenerate: { directory: 'docs/settings' } },
+        {
+          label: 'Developers',
+          items: [
+            { label: 'Overview', link: '/api/' },
+            { label: 'Quickstart', link: '/api/quickstart/' },
+            { label: 'Authentication', autogenerate: { directory: 'api/authentication' } },
+            { label: 'Concepts', autogenerate: { directory: 'api/concepts' } },
+            { label: 'Webhooks', autogenerate: { directory: 'api/webhooks' } },
+            { label: 'Jobs', link: '/api/jobs/' },
+            { label: 'Recipes', autogenerate: { directory: 'api/recipes' } },
+            { label: 'Changelog', link: '/api/changelog/' },
+            ...openAPISidebarGroups,
+          ],
+        },
       ],
     }),
   ],
