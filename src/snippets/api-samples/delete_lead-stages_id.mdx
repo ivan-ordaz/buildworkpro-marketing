@@ -1,0 +1,41 @@
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+<Tabs>
+<TabItem label="curl">
+
+```bash
+curl -X DELETE https://app.buildworkpro.com/api/v1/lead-stages/{id} \
+  -H "Authorization: Bearer ${API_KEY}"
+```
+
+</TabItem>
+<TabItem label="JavaScript">
+
+```js
+const res = await fetch("https://app.buildworkpro.com/api/v1/lead-stages/{id}", {
+  method: "DELETE",
+  headers: {
+    "Authorization": `Bearer ${process.env.BUILDWORKPRO_API_KEY}`,
+  },
+});
+const data = await res.json();
+```
+
+</TabItem>
+<TabItem label="Python">
+
+```python
+import os
+import requests
+
+res = requests.delete(
+  "https://app.buildworkpro.com/api/v1/lead-stages/{id}",
+  headers={
+    "Authorization": f"Bearer {os.environ['BUILDWORKPRO_API_KEY']}",
+  },
+)
+data = res.json()
+```
+
+</TabItem>
+</Tabs>

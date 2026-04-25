@@ -1,0 +1,34 @@
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+<Tabs>
+<TabItem label="curl">
+
+```bash
+curl -X POST https://app.buildworkpro.com/api/v1/oauth/token
+```
+
+</TabItem>
+<TabItem label="JavaScript">
+
+```js
+const res = await fetch("https://app.buildworkpro.com/api/v1/oauth/token", {
+  method: "POST",
+});
+const data = await res.json();
+```
+
+</TabItem>
+<TabItem label="Python">
+
+```python
+import os
+import requests
+
+res = requests.post(
+  "https://app.buildworkpro.com/api/v1/oauth/token",
+)
+data = res.json()
+```
+
+</TabItem>
+</Tabs>
