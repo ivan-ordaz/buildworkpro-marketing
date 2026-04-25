@@ -1,0 +1,77 @@
+---
+title: Rate Limits
+description: Cost-weighted tenant budget plus per-key sub-limits, with standard rate-limit headers.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The v1 API enforces two layers of rate limiting:
+
+1. A **tenant-wide cost-weighted budget**, sliding over a 1-hour window.
+2. A **per-API-key per-minute limit**, defaulting to 60 requests/min (configurable per key).
+
+A request is admitted only if both layers have headroom. When either is exceeded, you get `429 rate_limited`.
+
+## Cost weighting
+
+Requests are not all equal. Cheap reads cost 1 unit; expensive operations cost more so a single PDF render or bulk job can't drain the entire budget on its own.
+
+| Operation                      | Cost  |
+|--------------------------------|-------|
+| `GET` (list, get, introspect)  | 1     |
+| Standard mutations (`POST`, `PATCH`, `PUT`, `DELETE`) | 5 |
+| Endpoints ending in `/exports` | 20    |
+| Endpoints ending in `/pdf`     | 50    |
+| Endpoints ending in `/bulk`    | 100   |
+| Endpoints ending in `/imports` | 200   |
+
+The tenant budget is **10,000 units per hour**, sliding. With pure reads you can sustain a ~3 req/sec average; with bulk imports you'll consume the budget much faster.
+
+## Per-key limit
+
+Every API key gets a per-minute sliding limit -- 60/min by default. This protects against a runaway script monopolizing the tenant budget. Limits can be raised per key for high-volume integrations -- contact support if you need a bump.
+
+## Headers
+
+Every successful response carries the standard `RateLimit-*` headers ([IETF draft](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-ratelimit-headers)):
+
+| Header              | Meaning |
+|---------------------|---------|
+| `RateLimit-Limit`     | The applicable window's request budget. |
+| `RateLimit-Remaining` | Units (or requests) left in the current window. |
+| `RateLimit-Reset`     | Seconds until the current window resets. |
+
+On `429`, we also send `Retry-After` (seconds) -- honor it.
+
+## Sample 429 response
+
+```json
+{
+  "type": "https://docs.buildworkpro.com/docs/api/concepts/errors#rate_limited",
+  "title": "Rate limited",
+  "status": 429,
+  "detail": "Tenant hourly budget exceeded",
+  "code": "rate_limited",
+  "request_id": "req_a4d8c0e2"
+}
+```
+
+The headers on a `429`:
+
+```text
+RateLimit-Limit: 10000
+RateLimit-Remaining: 0
+RateLimit-Reset: 1742
+Retry-After: 1742
+```
+
+## Recommended client behavior
+
+- **Honor `Retry-After`.** Sleep for at least that many seconds before retrying. If the header is absent, default to 30 seconds.
+- **Use exponential backoff with full jitter** for transient failures. A simple recipe: `delay = random(0, min(cap, base * 2^attempt))`, with `base = 1s` and `cap = 60s`.
+- **Watch `RateLimit-Remaining`** during normal operation. If it's trending toward zero, slow down before you get throttled.
+- **Cache aggressively** for repeated reads. The cheapest call is one you don't make.
+
+<Aside type="note">
+  When a single high-cost operation (e.g., `POST /contacts/imports`) bursts past the remaining budget, that one request still completes -- but subsequent requests immediately hit `429` until the window slides. Plan large jobs with this in mind.
+</Aside>

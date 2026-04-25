@@ -1,0 +1,84 @@
+---
+title: Scopes
+description: The full BuildWorkPro scope catalog and how scopes are enforced for both API keys and OAuth.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Every endpoint in the v1 API declares the scope a caller must hold to invoke it. Scopes are enforced uniformly for both API keys and OAuth access tokens by the `requireApiScope` middleware -- the API never trusts a token's tenant binding alone, and a request that lacks the required scope returns `403 scope_insufficient`.
+
+The required scope for each endpoint is shown in the [API Reference](/api/reference/).
+
+## Catalog
+
+Scopes fall into three groups: per-resource CRUD, workflow actions, and meta scopes.
+
+### Resource scopes
+
+10 resource families × 3 actions = 30 scopes. `:read` lets you list and fetch; `:write` lets you create and update; `:delete` lets you soft-delete. `:write` does **not** include `:delete`.
+
+| Resource         | Read                  | Write                  | Delete                  |
+|------------------|-----------------------|------------------------|-------------------------|
+| Contacts         | `contacts:read`       | `contacts:write`       | `contacts:delete`       |
+| Leads            | `leads:read`          | `leads:write`          | `leads:delete`          |
+| Projects         | `projects:read`       | `projects:write`       | `projects:delete`       |
+| Bids             | `bids:read`           | `bids:write`           | `bids:delete`           |
+| Pay applications | `pay_apps:read`       | `pay_apps:write`       | `pay_apps:delete`       |
+| Change orders    | `change_orders:read`  | `change_orders:write`  | `change_orders:delete`  |
+| Site logs        | `site_logs:read`      | `site_logs:write`      | `site_logs:delete`      |
+| Time entries     | `time_entries:read`   | `time_entries:write`   | `time_entries:delete`   |
+| Products         | `products:read`       | `products:write`       | `products:delete`       |
+| Documents        | `documents:read`      | `documents:write`      | `documents:delete`      |
+
+### Workflow scopes
+
+State transitions and side-effecting actions get their own dedicated scopes -- separate from `:write` -- so you can grant edit access without granting the ability to send a customer email or move a pay app through approval.
+
+| Scope                       | What it allows |
+|-----------------------------|----------------|
+| `bids:send`                 | Email a bid to a customer from the associated user account. |
+| `bids:accept_reject`        | Transition bids to accepted or rejected. |
+| `pay_apps:approve`          | Move pay apps through the approval workflow. |
+| `change_orders:approve`     | Approve or reject change orders. |
+
+### Meta scopes
+
+| Scope               | What it allows |
+|---------------------|----------------|
+| `users:read`        | List users in your organization (name, email, role). |
+| `webhooks:manage`   | Create, update, and delete webhook endpoints. |
+| `jobs:read`         | Check status and download results of async jobs the caller initiated. |
+| `jobs:write`        | Enqueue CSV imports/exports, PDFs, bulk ops; cancel or delete jobs. |
+| `offline_access`    | Issue an OAuth refresh token so the app can stay connected without re-prompting. |
+
+## Scope intersected with role (OAuth)
+
+When an OAuth client requests a scope, the user authorizing it can only grant scopes their own tenant role permits. A `viewer` consenting to your `contacts:write` request will only grant `contacts:read` -- their role doesn't allow writes anywhere.
+
+Concretely:
+
+- The granted scope set is the **intersection** of what the client requested and what the user's role can delegate.
+- Inspect `scope` on the token response to see what was actually granted.
+- Degrade gracefully when a scope you wanted is missing.
+
+See [OAuth 2.1](/api/authentication/oauth/) for the full flow.
+
+## Enforcement
+
+Every v1 route is wrapped in `requireApiScope("...")`. When you call a route:
+
+1. The bearer token is validated and bound to a tenant.
+2. The required scope is checked against the token's granted scopes.
+3. If the scope is missing, the request fails with `403 scope_insufficient` -- it never reaches the handler.
+
+For API keys, the granted scopes are whatever the admin selected at key-creation time. For OAuth tokens, they're the role-intersected subset granted at consent.
+
+<Aside type="note">
+  `offline_access` is OAuth-specific -- it's the signal that a refresh token should be issued alongside the access token. API keys don't expire and don't need it.
+</Aside>
+
+## Choosing scopes
+
+For OAuth clients, request the **smallest** set that covers your features. Users are far more likely to consent to `contacts:read leads:read` than to a sprawling list. You can always re-prompt for additional scopes later if a new feature needs them.
+
+For API keys, the same principle applies -- a reporting script doesn't need `:delete` scopes, and a webhook receiver doesn't need any scopes at all (delivery doesn't authenticate to your token).

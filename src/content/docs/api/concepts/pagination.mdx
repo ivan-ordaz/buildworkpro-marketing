@@ -1,0 +1,76 @@
+---
+title: Pagination
+description: Cursor-based, opaque, HMAC-signed pagination for BuildWorkPro list endpoints.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Every list endpoint in the v1 API uses **cursor-based pagination**. Cursors are opaque to clients -- they're HMAC-signed tokens encoding the sort key of the last record on the page. You don't need to (and shouldn't) decode or construct them yourself.
+
+## Query parameters
+
+| Parameter | Type    | Default | Max | Description |
+|-----------|---------|---------|-----|-------------|
+| `limit`   | integer | 25      | 100 | Number of records to return per page. |
+| `cursor`  | string  | -       | -   | Opaque cursor returned by a previous page in `meta.pagination.cursor`. |
+
+## Response shape
+
+List responses include a `pagination` object inside `meta`:
+
+```json
+{
+  "data": [ /* records */ ],
+  "meta": {
+    "request_id": "req_8f3c1b2a",
+    "pagination": {
+      "cursor": "eyJpZCI6NDIsImMiOiIyMDI2LTA0LTAxVDE1OjMyOjExWiJ9.7e4f...",
+      "has_more": true,
+      "count": 25
+    }
+  }
+}
+```
+
+- `cursor` -- Pass to the next request to get the next page. `null` on the last page.
+- `has_more` -- `true` if there are more records after this page.
+- `count` -- Number of records in the current page.
+
+## Why keyset cursors?
+
+Cursors encode the sort key of the last seen record (id + createdAt) and are HMAC-signed so the server can detect tampering. Compared to offset/limit pagination, keyset cursors give you:
+
+- **Consistency under writes.** New records inserted while you're paginating won't shift items between pages or cause duplicates.
+- **Stable performance.** The server can use an indexed range scan instead of skipping rows. Pages 1 and 1000 cost the same.
+- **No skew on deletions.** Soft-deleted records don't shift the offset.
+
+<Aside type="caution">
+  Cursors are opaque and HMAC-signed. Don't try to decode, parse, or hand-craft them -- the server will reject anything it didn't sign.
+</Aside>
+
+## Looping through every page
+
+```js
+async function* listAllContacts(apiKey) {
+  let cursor = null;
+  do {
+    const url = new URL("https://app.buildworkpro.com/api/v1/contacts");
+    url.searchParams.set("limit", "100");
+    if (cursor) url.searchParams.set("cursor", cursor);
+
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const body = await res.json();
+
+    for (const contact of body.data) yield contact;
+
+    cursor = body.meta.pagination.has_more ? body.meta.pagination.cursor : null;
+  } while (cursor);
+}
+
+for await (const contact of listAllContacts(process.env.BUILDWORKPRO_API_KEY)) {
+  console.log(contact.email);
+}
+```

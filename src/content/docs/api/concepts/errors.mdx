@@ -1,0 +1,82 @@
+---
+title: Errors
+description: RFC 9457 problem details, the BuildWorkPro error code catalog, and retry guidance.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Errors from the v1 API follow [RFC 9457 (Problem Details for HTTP APIs)](https://datatracker.ietf.org/doc/html/rfc9457). They're returned with `Content-Type: application/problem+json` and a stable, machine-readable `code` you can switch on in your client.
+
+## Envelope
+
+```json
+{
+  "type": "https://docs.buildworkpro.com/docs/api/concepts/errors#validation_failed",
+  "title": "Validation failed",
+  "status": 422,
+  "detail": "email must be a valid address",
+  "code": "validation_failed",
+  "request_id": "req_8f3c1b2a",
+  "errors": [
+    { "field": "email", "code": "invalid_format", "message": "must be a valid address" }
+  ]
+}
+```
+
+| Field        | Description |
+|--------------|-------------|
+| `type`       | URL pointing to docs for the specific error code. Stable. |
+| `title`      | Short human-readable summary. Same for every error of this code. |
+| `status`     | HTTP status code (also returned in the response status line). |
+| `detail`     | Human-readable explanation of this specific occurrence. |
+| `code`       | Stable error code -- switch on this in your client. |
+| `request_id` | Echo this in support tickets to let us trace the request. |
+| `errors`     | Optional. Per-field validation breakdown on `validation_failed`. |
+
+## Error code catalog
+
+| Code | HTTP | When | Retry? |
+|------|------|------|--------|
+| `bad_request` | 400 | Malformed request, bad query parameter, invalid JSON. | No. Fix the request. |
+| `unauthorized` | 401 | Missing, malformed, or invalid bearer token. | No. Re-authenticate. |
+| `token_expired` | 401 | OAuth access token has expired. | No. Refresh the token, then retry. |
+| `forbidden` | 403 | Authenticated, but the role lacks permission for this action. | No. The user can't do this. |
+| `scope_insufficient` | 403 | Token is valid but doesn't carry the required scope. | No. Request a broader scope at consent. |
+| `subscription_inactive` | 403 | The tenant has no active subscription (trial expired, payment failed). | No. The customer must update billing. |
+| `tenant_suspended` | 403 | The tenant is suspended by platform admin. | No. Contact support. |
+| `not_found` | 404 | Resource doesn't exist or doesn't belong to the calling tenant. | No. |
+| `conflict` | 409 | Generic state conflict (e.g., trying to delete something already deleted). | No without context change. |
+| `idempotency_key_reused` | 409 | Same `Idempotency-Key` was used for a request with a different body. | No. Use a fresh key for a new operation. |
+| `validation_failed` | 422 | Request body or fields failed schema validation. | No. Fix the body. |
+| `rate_limited` | 429 | Tenant or per-key rate limit exceeded. | Yes. Honor `Retry-After`. |
+| `internal_error` | 500 | Unexpected server error. | Once, with a short delay. |
+| `service_unavailable` | 503 | Temporary outage or upstream dependency down. | Yes. Exponential backoff with jitter. |
+| `maintenance` | 503 | Planned maintenance window. | Yes. Honor `Retry-After`. |
+
+<Aside type="note">
+  Always log `request_id` server-side for every failed call. When you open a support ticket, include the request id and timestamp -- it lets us pull the exact request from logs without guesswork.
+</Aside>
+
+## Sample 422 response
+
+```json
+{
+  "type": "https://docs.buildworkpro.com/docs/api/concepts/errors#validation_failed",
+  "title": "Validation failed",
+  "status": 422,
+  "detail": "Request body failed validation",
+  "code": "validation_failed",
+  "request_id": "req_b91e44d0",
+  "errors": [
+    { "field": "type", "code": "invalid_enum", "message": "must be one of customer, vendor, subcontractor, supplier, employee, partner, other" },
+    { "field": "email", "code": "invalid_format", "message": "must be a valid email" }
+  ]
+}
+```
+
+## Recommended client behavior
+
+- Switch on `code`, not `status` or `title`. The codes are stable; titles may be reworded.
+- Treat any 5xx with `retriable: true` as eligible for retry. Retry once for `internal_error`; use exponential backoff for `service_unavailable` and `maintenance`.
+- On `rate_limited`, honor `Retry-After` exactly. Don't hammer.
+- On `unauthorized` or `token_expired`, refresh credentials before retrying. Never retry blindly with the same expired token.

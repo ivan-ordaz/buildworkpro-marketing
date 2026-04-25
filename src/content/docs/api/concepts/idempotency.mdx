@@ -1,0 +1,60 @@
+---
+title: Idempotency
+description: Safely retry mutations with the Idempotency-Key header.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Network failures, timeouts, and retries are facts of life. Without idempotency, retrying a `POST` that "looked" like it failed can create a duplicate record. The `Idempotency-Key` header lets you retry safely: BuildWorkPro replays the original response instead of executing the mutation a second time.
+
+## How it works
+
+Send `Idempotency-Key: <uuid>` on every `POST`, `PATCH`, or `DELETE` request. We strongly recommend a fresh **UUID v4** per logical operation.
+
+- **First request with this key** -- The mutation runs normally. We cache the response (status + body) keyed by the `(tenant, key, body-hash)` tuple.
+- **Repeated request with the same key + same body** -- We return the cached response. The mutation does not run again. Side effects (records created, webhooks fired) happen exactly once.
+- **Repeated request with the same key + different body** -- We return `409 idempotency_key_reused`. This catches bugs where you accidentally reused a key for a different operation.
+- **After 24 hours** -- The cached response expires. Reusing the key after that is allowed (and treated as a new operation).
+
+The dedup window is **24 hours**. Keys are scoped to your tenant -- a key from one tenant can never collide with another's.
+
+<Aside type="caution">
+  Generate a new UUID per logical operation. If your code uses the same key for two different things (e.g., creating a contact and creating a lead), the second request will fail with `409 idempotency_key_reused` because the bodies don't match.
+</Aside>
+
+## Worked example
+
+Imagine your code is creating a contact, the network drops mid-response, and you don't know whether the server received it. Just retry with the same `Idempotency-Key`:
+
+```bash
+KEY=$(uuidgen)
+
+# First attempt — server processes it but the response never reaches you
+curl -X POST https://app.buildworkpro.com/api/v1/contacts \
+  -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+  -H "Idempotency-Key: ${KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"firstName":"Jane","lastName":"Doe","type":"customer"}'
+
+# Retry — same key, same body. Server returns the original 201 response
+# without creating a second contact.
+curl -X POST https://app.buildworkpro.com/api/v1/contacts \
+  -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+  -H "Idempotency-Key: ${KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"firstName":"Jane","lastName":"Doe","type":"customer"}'
+```
+
+Both calls return the same `201 Created` response with the same contact id. Only one contact exists. No webhook fires twice.
+
+## When to use a new key vs reuse
+
+- **Same logical operation, retrying after failure?** Use the **same** key.
+- **Two different operations, even of the same kind?** Use **different** keys. Creating two contacts requires two keys.
+- **Driving a queue worker that processes events from your own system?** A great pattern is to derive the key deterministically from your event id (e.g., `crm-event-${eventId}`) so retries from your queue map to the same idempotency key automatically.
+
+## Limitations
+
+- Only mutations are idempotent (`POST`, `PATCH`, `DELETE`). `GET` is naturally idempotent and ignores the header.
+- Cached responses are kept for 24 hours, then evicted. Don't rely on idempotency replay for durable state -- read the resource back if you need to confirm.
+- Only successful (2xx) responses are cached. A failed mutation can be retried fresh.
