@@ -1,0 +1,46 @@
+---
+title: Developer Docs
+description: Public REST API, OAuth 2.1, webhooks, and integration guides for BuildWorkPro.
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+BuildWorkPro is a multi-tenant construction project management platform for subcontractors. The public REST API mirrors the workflows you use in the app: contacts and CRM, bids and estimates, projects, change orders, pay applications, site logs, and time entries. Build internal automations, sync data with your accounting tools, or ship a third-party integration in our marketplace.
+
+<CardGrid>
+  <LinkCard
+    title="Quickstart"
+    description="From zero to your first API call in 5 minutes."
+    href="/api/quickstart/"
+  />
+  <LinkCard
+    title="Authentication"
+    description="API keys for backend tools, OAuth 2.1 for third-party apps."
+    href="/api/authentication/api-keys/"
+  />
+  <LinkCard
+    title="Webhooks"
+    description="Receive real-time events when records change."
+    href="/api/webhooks/"
+  />
+  <LinkCard
+    title="API Reference"
+    description="Every endpoint, schema, and scope."
+    href="/api/reference/"
+  />
+</CardGrid>
+
+## Two ways to authenticate
+
+- **API keys** -- Personal, long-lived bearer tokens for your own backend integrations, internal scripts, and CI jobs. Created by a `company_admin` in **Settings -> Developer**.
+- **OAuth 2.1** -- For third-party apps that act on behalf of a BuildWorkPro user. Supports Dynamic Client Registration (RFC 7591), PKCE (S256), and refresh-token rotation with reuse detection.
+
+## Conventions
+
+- **Base URL:** `https://app.buildworkpro.com/api/v1`
+- **Response envelope:** Successful responses return `{ "data": ..., "meta": { "request_id": "..." } }`. List responses include `meta.pagination`.
+- **Errors:** RFC 9457 problem details (`application/problem+json`) with a stable `code`, machine-readable `type`, and `request_id` for support.
+- **Pagination:** Cursor-based, opaque, HMAC-signed. `?limit=` defaults to 25, max 100.
+- **Idempotency:** Send `Idempotency-Key: <uuid>` on every mutation. Responses are replayed for 24 hours.
+- **Rate limits:** Tenant-wide hourly budget plus per-key per-minute limit. Honor the `RateLimit-*` and `Retry-After` headers.
+- **Discovery:** OAuth metadata at [`/.well-known/oauth-authorization-server`](https://app.buildworkpro.com/.well-known/oauth-authorization-server). OpenAPI spec at [`/api/v1/openapi.json`](https://app.buildworkpro.com/api/v1/openapi.json).

@@ -1,0 +1,118 @@
+---
+title: Quickstart
+description: From zero to your first BuildWorkPro API call in 5 minutes.
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+This guide gets you authenticated and making real API calls against your BuildWorkPro tenant. It's aimed at backend integrations, scripts, and internal tools you operate yourself. If you're building a third-party app that acts on behalf of other BuildWorkPro users, use [OAuth 2.1](/api/authentication/oauth/) instead.
+
+## Prerequisites
+
+- A BuildWorkPro account where you have the `company_admin` role (only admins can create API keys).
+- A terminal with `curl` available.
+- About 5 minutes.
+
+<Steps>
+
+1. **Create an API key.**
+
+   In the app, go to **Settings -> Developer -> API Keys** and click **New Key**. Give it a descriptive name (for example, "Internal sync script") and select the scopes the key needs. Use the smallest scope set that gets the job done -- you can always create another key later. See [Scopes](/api/concepts/scopes/) for the full list.
+
+2. **Copy the key and export it.**
+
+   The full key is shown **only once** at creation time. Copy it immediately. Then export it as a shell variable so you don't paste it into commands by accident:
+
+   ```bash
+   export BUILDWORKPRO_API_KEY="bwp_live_..."
+   ```
+
+   <Aside type="caution">
+     Treat the key like a password. Never commit it to git, never put it in client-side JavaScript, and rotate it immediately if it leaks.
+   </Aside>
+
+3. **List your contacts.**
+
+   Authenticate with `Authorization: Bearer ${BUILDWORKPRO_API_KEY}`:
+
+   ```bash
+   curl https://app.buildworkpro.com/api/v1/contacts?limit=5 \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}"
+   ```
+
+   You'll get back a JSON envelope:
+
+   ```json
+   {
+     "data": [
+       {
+         "id": 42,
+         "firstName": "Jane",
+         "lastName": "Doe",
+         "companyName": "Acme Construction",
+         "email": "jane@example.com",
+         "phone": "+1-555-0100",
+         "type": "customer",
+         "createdAt": "2026-04-01T15:32:11.000Z",
+         "updatedAt": "2026-04-12T09:14:02.000Z"
+       }
+     ],
+     "meta": {
+       "request_id": "req_8f3c1b2a",
+       "pagination": {
+         "cursor": "eyJpZCI6NDIsImMiOiIyMDI2LTA0LTAxIn0.bWFj",
+         "has_more": true,
+         "count": 1
+       }
+     }
+   }
+   ```
+
+4. **Create a contact.**
+
+   Mutations should always include an `Idempotency-Key`. Use a fresh UUID for each logical operation -- if your network drops mid-request, you can safely retry with the same key and BuildWorkPro will replay the original response instead of creating a duplicate.
+
+   ```bash
+   curl -X POST https://app.buildworkpro.com/api/v1/contacts \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Content-Type: application/json" \
+     -H "Idempotency-Key: $(uuidgen)" \
+     -d '{
+       "firstName": "Jane",
+       "lastName": "Doe",
+       "companyName": "Acme Construction",
+       "email": "jane@example.com",
+       "type": "customer"
+     }'
+   ```
+
+   On success you'll get a `201 Created` with the new contact:
+
+   ```json
+   {
+     "data": {
+       "id": 128,
+       "firstName": "Jane",
+       "lastName": "Doe",
+       "companyName": "Acme Construction",
+       "email": "jane@example.com",
+       "phone": null,
+       "type": "customer",
+       "createdAt": "2026-04-25T10:02:18.000Z",
+       "updatedAt": "2026-04-25T10:02:18.000Z"
+     },
+     "meta": { "request_id": "req_b91e44d0" }
+   }
+   ```
+
+5. **Explore further.**
+
+   - Browse every endpoint in the [API Reference](/api/reference/).
+   - Set up a [webhook endpoint](/api/webhooks/) so you can react to changes in near-real-time instead of polling.
+   - Read the [Recipes](/api/recipes/) for end-to-end examples (CSV import, bid lifecycle, payment workflow).
+
+</Steps>
+
+## What's next?
+
+If you're building a third-party app or a marketplace integration that other BuildWorkPro users will install, API keys aren't the right tool -- use [OAuth 2.1](/api/authentication/oauth/) so each user authorizes you against their own tenant with their own role-bounded scopes.

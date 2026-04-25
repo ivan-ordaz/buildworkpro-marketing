@@ -1,5 +1,0 @@
----
-title: Developers
----
-
-Coming soon.
