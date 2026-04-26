@@ -1,0 +1,38 @@
+---
+title: API Changelog
+description: Versioned history of changes to the BuildWorkPro public REST API.
+---
+
+This changelog tracks public API changes. We follow the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format and [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Breaking changes only ship in a new major version. Additive changes (new endpoints, new optional fields, new event types) ship in minor versions.
+
+{/*
+Template for future entries — copy this block, fill in the date and version, drop unused subsections.
+
+## [vX.Y.Z] — YYYY-MM-DD
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+*/}
+
+## [v1.0.0] — 2026-04-25
+
+Initial public release of the BuildWorkPro REST API.
+
+### Added
+
+- **Response envelope** -- All `2xx` responses return `{ "data": ..., "meta": { "request_id": "..." } }`. List responses include `meta.pagination`.
+- **RFC 9457 problem details** -- All errors return `application/problem+json` with stable `code`, machine-readable `type`, human-readable `title`/`detail`, and `request_id`.
+- **39-scope catalog** -- 30 resource scopes (10 families x read/write/delete) + 4 workflow scopes (`bids:send`, `bids:accept_reject`, `pay_apps:approve`, `change_orders:approve`) + 5 meta scopes (`users:read`, `webhooks:manage`, `jobs:read`, `jobs:write`, `offline_access`). Enforced uniformly for both API keys and OAuth tokens.
+- **Cursor pagination** -- Opaque, HMAC-signed cursors with `?limit=` (default 25, max 100) on every list endpoint. Stable ordering and tamper-resistant.
+- **Idempotency middleware** -- All mutations accept `Idempotency-Key`. Responses replayed for 24 hours per key.
+- **Cost-weighted rate limiting** -- Tenant-wide hourly budget plus per-key per-minute limit. `RateLimit-*` headers on every response and `Retry-After` on `429`.
+- **OpenAPI 3.1 spec** -- Published at [`/api/v1/openapi.json`](https://app.buildworkpro.com/api/v1/openapi.json) and rendered as the [API Reference](/api/reference/). Linted with Spectral on every commit.
+- **14 v1 modules rewritten on the new foundation** -- contacts, leads, projects, bids, pay applications, change orders, site logs, time entries, products, documents, calendar, users, project templates, settings.
+- **Webhooks subsystem** -- 10 launch event types (bid.created, bid.accepted, bid.rejected, project.created, project.status_changed, pay_app.submitted, pay_app.approved, change_order.approved, contact.created, lead.created), HMAC-SHA256 signatures (`Bwp-Signature` header with timestamp + replay window), exponential-backoff retries, SSRF guard at delivery time, and a manual replay endpoint.
+- **Jobs subsystem** -- Async CSV export, CSV import, bulk operations, and PDF generation across all 14 modules. Artifacts stored in tenant-scoped R2 paths and served via short-lived signed URLs.
+- **OAuth 2.1 with PKCE** -- Authorization code grant with mandatory PKCE (S256), refresh token rotation with reuse detection, and Dynamic Client Registration (RFC 7591). Granted scopes are intersected with the consenting user's tenant role.
+- **Identity endpoints** -- `GET /api/v1/me` for the calling principal, `GET /api/v1/oauth/userinfo` (OIDC-compatible) for tokens carrying `openid`, and `POST /api/v1/oauth/revoke` (RFC 7009).
+- **Discovery** -- OAuth Authorization Server Metadata at [`/.well-known/oauth-authorization-server`](https://app.buildworkpro.com/.well-known/oauth-authorization-server).
