@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+import { config } from '../config';
+
+const cards = [
+  {
+    title: 'Quickstart',
+    description: 'From zero to your first authenticated API call in 5 minutes.',
+    href: '/api/quickstart/',
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    color: 'brand',
+  },
+  {
+    title: 'API Reference',
+    description: 'Every endpoint, schema, and required scope, generated from the OpenAPI 3.1 spec.',
+    href: '/api/reference/',
+    icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+    color: 'indigo',
+  },
+  {
+    title: 'OAuth 2.1',
+    description: 'Authorization code + PKCE, refresh-token rotation, Dynamic Client Registration.',
+    href: '/api/authentication/oauth/',
+    icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
+    color: 'violet',
+  },
+  {
+    title: 'Webhooks',
+    description: 'Subscribe to real-time events with signed payloads and replay-resistant signatures.',
+    href: '/api/webhooks/overview/',
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    color: 'amber',
+  },
+  {
+    title: 'Postman Collection',
+    description: 'Pre-built request library covering every endpoint. Import and start exploring.',
+    href: '/buildworkpro.postman_collection.json',
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    color: 'emerald',
+    download: true,
+  },
+  {
+    title: 'Changelog',
+    description: 'Versioned history of API changes. Subscribe to know before something moves.',
+    href: '/api/changelog/',
+    icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+    color: 'cyan',
+  },
+];
+
+const colorMap: Record<string, { bg: string; icon: string; ring: string }> = {
+  brand: { bg: 'bg-brand-50', icon: 'text-brand-600', ring: 'ring-brand-100' },
+  emerald: { bg: 'bg-emerald-50', icon: 'text-emerald-600', ring: 'ring-emerald-100' },
+  violet: { bg: 'bg-violet-50', icon: 'text-violet-600', ring: 'ring-violet-100' },
+  amber: { bg: 'bg-amber-50', icon: 'text-amber-600', ring: 'ring-amber-100' },
+  cyan: { bg: 'bg-cyan-50', icon: 'text-cyan-600', ring: 'ring-cyan-100' },
+  indigo: { bg: 'bg-indigo-50', icon: 'text-indigo-600', ring: 'ring-indigo-100' },
+};
+
+const capabilities = [
+  'Stable response envelope (`{ data, meta }`) on every successful response',
+  'RFC 9457 problem details on every error, with `request_id` for support',
+  '39 fine-grained scopes covering 10 resource families and 4 workflow actions',
+  'Cursor-based pagination with HMAC-signed, opaque cursors',
+  'Idempotency keys honored for 24 hours on every mutation',
+  'Cost-weighted rate limits with `RateLimit-*` and `Retry-After` headers',
+  'Webhook deliveries signed with HMAC-SHA256 and a 5-minute replay window',
+  'Async jobs for CSV import/export, bulk operations, and PDF generation',
+  'OAuth 2.1 with PKCE (S256), refresh-token rotation, and Dynamic Client Registration',
+  'OIDC-compatible `userinfo` endpoint for tokens that carry `openid`',
+];
+---
+
+<Layout title="Developers - BuildWorkPro" description="Build with BuildWorkPro. Public REST API, OAuth 2.1, webhooks, and integration guides for the construction project management platform built for subcontractors.">
+  <Header />
+  <main class="pt-32 pb-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Hero -->
+      <div class="text-center mb-16">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Developers</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          Build with BuildWorkPro
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          A versioned REST API, signed webhooks, and an OAuth 2.1 authorization server for third-party apps. Everything you see in the BuildWorkPro app is available programmatically.
+        </p>
+        <div class="mt-8 flex items-center justify-center gap-3">
+          <a href="/api/quickstart/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors">
+            Read the Quickstart
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+          <a href="/api/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 transition-colors">
+            All docs
+          </a>
+        </div>
+      </div>
+
+      <!-- Card grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {cards.map((card) => {
+          const colors = colorMap[card.color];
+          return (
+            <a
+              href={card.href}
+              {...(card.download ? { download: true } : {})}
+              class="group p-8 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:shadow-lg transition-all duration-300"
+            >
+              <div class={`inline-flex p-3 rounded-xl ${colors.bg} ring-1 ${colors.ring} mb-5`}>
+                <svg class={`w-6 h-6 ${colors.icon}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={card.icon} />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-brand-600 transition-colors">{card.title}</h3>
+              <p class="text-slate-500 leading-relaxed mb-4">{card.description}</p>
+              <span class="inline-flex items-center text-sm font-medium text-brand-600 group-hover:gap-2 gap-1.5 transition-all">
+                {card.download ? 'Download' : 'Open'}
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </a>
+          );
+        })}
+      </div>
+
+      <!-- What's available -->
+      <div class="mt-20 p-8 rounded-2xl border border-slate-100 bg-white">
+        <h2 class="text-xl font-semibold text-slate-900 mb-2">What's available at v1.0</h2>
+        <p class="text-sm text-slate-500 mb-6">The launch surface in one glance. See the <a href="/api/changelog/" class="text-brand-600 hover:text-brand-700">changelog</a> for the full list.</p>
+        <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+          {capabilities.map((item) => (
+            <li class="flex items-start gap-2.5">
+              <svg class="w-4 h-4 text-brand-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-sm text-slate-600" set:html={item.replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-100 text-slate-800 text-xs font-mono">$1</code>')}></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Closing -->
+      <div class="mt-8 p-8 rounded-2xl bg-slate-50 border border-slate-100">
+        <div class="md:flex md:items-center md:justify-between">
+          <div>
+            <h2 class="text-xl font-semibold text-slate-900 mb-2">Have questions?</h2>
+            <p class="text-sm text-slate-500 max-w-xl">
+              We respond personally to every developer email. Tell us what you're building, what's missing, or what's in your way.
+            </p>
+          </div>
+          <div class="mt-4 md:mt-0 md:ml-8 shrink-0">
+            <a href={`mailto:${config.email.support}`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-colors">
+              Email {config.email.support}
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-16">
+      <CTA />
+    </div>
+  </main>
+  <Footer />
+</Layout>
