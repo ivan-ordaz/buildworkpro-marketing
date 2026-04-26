@@ -1,0 +1,83 @@
+---
+title: Import Contacts from CSV
+description: Upload a CSV directly to R2, kick off an async import job, and recover the row-level errors file when some rows fail.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Use this recipe when you need to onboard a customer's existing CRM data, sync nightly from another system, or backfill historical contacts. The import is a three-stage pipeline: mint a signed upload URL, push the bytes to R2, then start the import job.
+
+<Steps>
+
+1. **Mint a signed upload URL.**
+
+   ```bash
+   curl -s -X POST https://app.buildworkpro.com/api/v1/jobs/uploads \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Content-Type: application/json" \
+     -d '{"contentType":"text/csv"}'
+   ```
+
+   You'll get back `{ "data": { "uploadUrl": "...", "sourcePath": "r2://...", "expiresInSeconds": 900 } }`. The URL is valid for 15 minutes.
+
+2. **Upload the CSV bytes directly to R2.**
+
+   ```bash
+   curl -X PUT --data-binary @contacts.csv \
+     -H "Content-Type: text/csv" \
+     "${UPLOAD_URL}"
+   ```
+
+   The bytes go straight from your machine to Cloudflare R2 — they never pass through the BuildWorkPro app server, so file size is limited only by R2's per-object cap.
+
+3. **Start the import job.**
+
+   Pass the `sourcePath` you got back, and a column mapping that tells the importer which CSV column maps to which contact field.
+
+   ```bash
+   curl -s -X POST https://app.buildworkpro.com/api/v1/contacts/imports \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Content-Type: application/json" \
+     -H "Idempotency-Key: import-customers-2026-04-25" \
+     -d '{
+       "sourcePath": "r2://uploads/...",
+       "mapping": {
+         "First Name": "firstName",
+         "Last Name": "lastName",
+         "Company": "companyName",
+         "Email": "email",
+         "Phone": "phone"
+       },
+       "updateInPlace": false
+     }'
+   ```
+
+   Response: `202 Accepted` with `{ "data": { "job_id": "job_...", "status_url": "/api/v1/jobs/job_..." } }`.
+
+4. **Poll the job until it reaches a terminal state.**
+
+   ```bash
+   curl -s -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     https://app.buildworkpro.com/api/v1/jobs/${JOB_ID}
+   ```
+
+   Watch `data.status`. Terminal states are `succeeded`, `partial`, `failed`, and `cancelled`.
+
+5. **If status is `partial`, download the errors CSV.**
+
+   ```bash
+   curl -L \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -o contacts.errors.csv \
+     https://app.buildworkpro.com/api/v1/jobs/${JOB_ID}/errors
+   ```
+
+   The errors CSV has `rowNumber`, `errorCode`, `message`, and `sourceJson` columns. Fix the bad rows and re-import just those.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **Idempotency keys must be unique per file.** Reusing the same `Idempotency-Key` returns the original job, so a follow-up import for a different file with the same key will silently no-op. Derive the key from the file's content hash or the upload's `sourcePath`.
+- **Column mapping is required.** The importer will not guess. Source columns missing from `mapping` are ignored; required fields missing from `mapping` produce row-level `validation_failed` errors for every row.
+- **Imports cost 200 rate-limit units.** Concurrent large imports against the same key will quickly exhaust your budget — see [Rate Limits](/api/concepts/rate-limits/).
+</Aside>

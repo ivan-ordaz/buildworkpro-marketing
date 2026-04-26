@@ -1,0 +1,58 @@
+---
+title: Generate a Bid PDF
+description: Kick off an async PDF render for a bid and download the finished file from a short-lived signed URL.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Use this recipe when you need a printable copy of a bid — to email to a customer, attach to an internal record, or archive once a contract is signed. PDF generation runs as a job because rendering with line items, totals, and embedded logos can take several seconds.
+
+<Steps>
+
+1. **Kick off the PDF job.**
+
+   ```bash
+   curl -s -X POST https://app.buildworkpro.com/api/v1/bids/22/pdf \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Idempotency-Key: bid-22-pdf-v3"
+   ```
+
+   Response: `202 Accepted` with `{ "data": { "job_id": "job_...", "status_url": "/api/v1/jobs/job_..." } }`.
+
+2. **Poll until the job succeeds.**
+
+   ```bash
+   while :; do
+     STATUS=$(curl -s -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+       https://app.buildworkpro.com/api/v1/jobs/${JOB_ID} | jq -r '.data.status')
+     case "$STATUS" in
+       succeeded|failed|cancelled) break ;;
+     esac
+     sleep 2
+   done
+   ```
+
+   PDFs typically finish in under 10 seconds. Back off to 5-second polling for renders with hundreds of line items.
+
+3. **Follow the redirect to the signed download URL.**
+
+   ```bash
+   curl -L \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -o bid-22.pdf \
+     https://app.buildworkpro.com/api/v1/jobs/${JOB_ID}/download
+   ```
+
+   `GET /jobs/{id}/download` returns `302` with a `Location` header pointing at a Cloudflare R2 URL valid for one hour. The `-L` flag tells curl to follow it.
+
+4. **(Optional) Re-mint the URL on demand.**
+
+   The signed URL expires after one hour, but the artifact itself lives for 30 days. Re-call the `/download` endpoint any time within that window to get a fresh URL.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **Scope requires `bids:read` AND `jobs:write`.** The PDF endpoint is enforced as a read on the bid resource plus a write on the jobs subsystem. A key with only `bids:write` will get `403 forbidden`.
+- **PDF jobs cost 50 rate-limit units.** They're cheaper than imports but more expensive than a list call; bulk-generating a year's worth of bids in one loop will hit the limit.
+- **The redirect host is allowlisted.** BuildWorkPro will only ever 302 you to `*.r2.cloudflarestorage.com`. If you've configured your HTTP client to refuse redirects to unknown hosts, add that suffix.
+</Aside>

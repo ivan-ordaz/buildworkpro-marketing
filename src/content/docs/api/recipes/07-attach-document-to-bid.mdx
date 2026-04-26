@@ -1,0 +1,59 @@
+---
+title: Attach a Document to a Bid
+description: Discover documents already attached to a bid via the public API, edit metadata, and stream the file bytes for archival or downstream processing.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+The public `/api/v1/documents` surface is read- and metadata-only at v1 — uploading new files is done in-app or via the legacy authenticated session API. Use this recipe when you have an existing bid with attached documents and want to inspect, re-categorize, or pull the bytes into another system.
+
+<Steps>
+
+1. **List documents attached to a bid.**
+
+   Filter by `entityType=bid` and the bid id:
+
+   ```bash
+   curl -s -G https://app.buildworkpro.com/api/v1/documents \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     --data-urlencode "entityType=bid" \
+     --data-urlencode "entityId=22"
+   ```
+
+   You'll get document metadata back — id, original filename, mime type, size, category, description. Allowed `entityType` values are `contact`, `lead`, `project`, `bid`, `site_log`, `change_order`, `pay_app`, `task`, and `phase`.
+
+2. **Update the metadata.**
+
+   Re-categorize or add a description:
+
+   ```bash
+   curl -s -X PATCH https://app.buildworkpro.com/api/v1/documents/87 \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Content-Type: application/json" \
+     -d '{ "category": "signed-contract", "description": "Customer-signed bid PDF" }'
+   ```
+
+3. **Download the file bytes.**
+
+   Unlike job artifacts, document download streams the file directly through BuildWorkPro — there's no R2 redirect.
+
+   ```bash
+   curl -s \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -o contract.pdf \
+     https://app.buildworkpro.com/api/v1/documents/87/download
+   ```
+
+   `Content-Type` and `Content-Disposition` headers are set based on the document's mime type. PDFs and images can be served `inline` instead of as attachments by adding `?inline=true`.
+
+4. **(Uploads) use the in-app flow for now.**
+
+   To attach a brand-new document to a bid programmatically, use the dashboard's bid detail view or contact your account team about the legacy `POST /api/documents` endpoint, which requires a session cookie rather than an API key.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **Document creation is not exposed in v1.** `POST /api/v1/documents` does not exist — only GET, PATCH, DELETE, exports, and bulk delete/restore. Plan accordingly if your integration needs to push files in.
+- **The `inline=true` flag only applies to safe types.** Browsers will only render images and PDFs inline; everything else falls back to `attachment` regardless of the query param. This is a deliberate XSS defense.
+- **Scopes: `documents:read` to list and download, `documents:write` to PATCH metadata, `documents:delete` to remove.** Mismatched scope returns `403 forbidden`.
+</Aside>

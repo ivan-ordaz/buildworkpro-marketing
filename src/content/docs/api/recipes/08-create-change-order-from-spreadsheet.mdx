@@ -1,0 +1,69 @@
+---
+title: Generate Change Orders from a Spreadsheet
+description: Read a spreadsheet of cost overruns, POST one change order per row, and use idempotency keys derived from row ids so reruns are safe.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Use this recipe when a project manager hands you a spreadsheet of approved scope changes and you need each row to land as a draft change order in BuildWorkPro. The idempotency key derived from each row id makes the script safely re-runnable when the network blips halfway through.
+
+<Steps>
+
+1. **Read the spreadsheet.**
+
+   ```js
+   import xlsx from "node-xlsx";
+
+   const sheet = xlsx.parse("./scope-changes-2026-04.xlsx")[0];
+   const headers = sheet.data[0];
+   const rows = sheet.data.slice(1).map(r => Object.fromEntries(
+     headers.map((h, i) => [h, r[i]])
+   ));
+   // rows = [{ rowId: "R-001", projectId: 14, title: "Concrete delta", amount: 4200, ... }]
+   ```
+
+2. **POST one change order per row.**
+
+   The endpoint is `POST /api/v1/change-orders`. Required fields are `projectId` and `title`; everything else is optional or populated server-side.
+
+   ```js
+   for (const row of rows) {
+     const r = await fetch("https://app.buildworkpro.com/api/v1/change-orders", {
+       method: "POST",
+       headers: {
+         "Authorization": `Bearer ${process.env.BWP_KEY}`,
+         "Content-Type": "application/json",
+         "Idempotency-Key": `co-import-2026-04-${row.rowId}`,
+       },
+       body: JSON.stringify({
+         projectId: row.projectId,
+         title: row.title,
+         description: row.notes ?? null,
+         reason: row.reason ?? null,
+         totalAmount: String(row.amount),
+       }),
+     });
+     if (!r.ok) {
+       const body = await r.json();
+       console.error(`row ${row.rowId} failed:`, body);
+     }
+   }
+   ```
+
+   Note that `totalAmount` is a string in the API to avoid floating-point precision loss on currency.
+
+3. **Submit the drafts in a second pass (optional).**
+
+   New change orders default to `status: "draft"`. To advance them through the workflow, call `POST /api/v1/change-orders/{id}/submit` (and later `/approve` or `/reject` once a decision is made). Doing this in a second pass means a partial first run still leaves the spreadsheet ids reconcilable.
+
+4. **Reconcile.**
+
+   Re-list with `?projectId=...` to verify the count matches the spreadsheet. Any rows that 4xx'd above are still in your error log; fix them in the source and re-run with the same script — idempotency keys make the successful rows no-op.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **Scope: `change_orders:write`.** Submit/approve/reject calls additionally require `change_orders:approve`. A key meant for a one-off import should not include the approve scope.
+- **Validation errors come back row-by-row.** A bad `projectId` returns `422 validation_failed`; an unknown project that the key can't see returns `404 not_found`. The script must distinguish — log both, but only retry one.
+- **Idempotency keys must be unique across the whole run.** If two spreadsheet rows share a `rowId`, the second call returns the first row's response, silently dropping data. Use a composite like `co-import-2026-04-${row.rowId}-${row.title}` if `rowId` isn't guaranteed unique.
+</Aside>

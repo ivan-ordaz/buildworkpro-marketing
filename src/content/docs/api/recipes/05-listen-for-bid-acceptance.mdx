@@ -1,0 +1,86 @@
+---
+title: React When a Bid Is Accepted
+description: Subscribe to the bid.accepted webhook, verify the signature, and forward the event into Slack as a notification.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Use this recipe when sales needs an instant heads-up the moment a customer accepts a bid — into Slack, into a CRM, or to kick off project provisioning. The pattern generalizes to any webhook event.
+
+<Steps>
+
+1. **Register the endpoint.**
+
+   ```bash
+   curl -s -X POST https://app.buildworkpro.com/api/v1/webhook-endpoints \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "url": "https://hooks.example.com/bwp/bid-accepted",
+       "eventTypes": ["bid.accepted"]
+     }'
+   ```
+
+   Response includes a `signingSecret` — store it in your secrets manager. It's shown only at creation time.
+
+2. **Stand up a receiver that verifies the signature.**
+
+   The signature is HMAC-SHA256 over `${timestamp}.${rawBody}`, encoded as hex. Use `express.raw()` so you have the bytes before any JSON parser mutates them.
+
+   ```js
+   import express from "express";
+   import { createHmac, timingSafeEqual } from "node:crypto";
+
+   const app = express();
+   const SECRET = process.env.BWP_BID_ACCEPTED_SECRET;
+   const seen = new Set(); // swap for Redis or a DB in production
+
+   app.post("/bwp/bid-accepted",
+     express.raw({ type: "application/json" }),
+     (req, res) => {
+       const sig = req.header("BuildWorkPro-Signature") ?? "";
+       const t  = Number(/(?:^|,)t=(\d+)/.exec(sig)?.[1]);
+       const v1 = /(?:^|,)v1=([0-9a-f]+)/.exec(sig)?.[1];
+       if (!t || !v1) return res.status(400).end();
+       if (Math.abs(Date.now() / 1000 - t) > 300) return res.status(400).end();
+
+       const expected = createHmac("sha256", SECRET)
+         .update(`${t}.${req.body.toString("utf8")}`).digest("hex");
+       const ok = expected.length === v1.length &&
+                  timingSafeEqual(Buffer.from(expected), Buffer.from(v1));
+       if (!ok) return res.status(400).end();
+
+       const event = JSON.parse(req.body.toString("utf8"));
+       if (seen.has(event.id)) return res.status(200).end();
+       seen.add(event.id);
+
+       handleBidAccepted(event).catch(console.error);
+       res.status(200).end();
+     });
+   ```
+
+3. **Forward into Slack.**
+
+   ```js
+   async function handleBidAccepted(event) {
+     await fetch(process.env.SLACK_WEBHOOK_URL, {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify({
+         text: `Bid accepted: bid ${event.data.id} is now ${event.data.status}.`,
+       }),
+     });
+   }
+   ```
+
+4. **Test with the replay endpoint.**
+
+   Once you have a real delivery in **Settings -> Developer -> Webhooks**, click into it and hit Replay to re-fire the same event id. Your dedupe check should make the second delivery a no-op.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **You MUST verify against the raw request body.** If `express.json()` runs before your route, `req.body` is already a parsed object and the signature will never match. Mount `express.raw()` on the webhook path only.
+- **Dedupe by `event.id`, not delivery id.** Same event re-delivered (manual replay or an automatic retry after a 5xx) carries the same `id`. Store seen ids for at least 7 days — the retry schedule extends out to 24 hours.
+- **Acknowledge fast.** Return `200` within a few seconds; offload Slack/CRM work to a background queue. Slow receivers cause retries and backpressure on the dispatcher.
+</Aside>

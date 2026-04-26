@@ -1,0 +1,76 @@
+---
+title: Bulk Update Project Stage
+description: Move many projects to a new status by iterating PATCH calls with idempotency keys — the bulk endpoint only handles delete and restore.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+The `POST /api/v1/projects/bulk` endpoint exists, but it only accepts `operation: "delete"` or `operation: "restore"` — it doesn't apply patches. To move a batch of projects to a new status, iterate `PATCH /api/v1/projects/{id}` and use idempotency keys to make the loop safely retryable.
+
+<Steps>
+
+1. **Build the id list.**
+
+   List the projects you want to update with the regular cursor-paginated endpoint, filter client-side, and collect their ids.
+
+   ```js
+   async function listAllProjects(filter) {
+     const out = [];
+     let cursor = null;
+     do {
+       const url = new URL("https://app.buildworkpro.com/api/v1/projects");
+       url.searchParams.set("limit", "100");
+       if (cursor) url.searchParams.set("cursor", cursor);
+       const res = await fetch(url, {
+         headers: { Authorization: `Bearer ${process.env.BWP_KEY}` },
+       });
+       const body = await res.json();
+       out.push(...body.data.filter(filter));
+       cursor = body.meta.cursor;
+     } while (cursor);
+     return out;
+   }
+
+   const ids = (await listAllProjects(p => p.status === "in_progress")).map(p => p.id);
+   ```
+
+2. **PATCH each project with an idempotency key.**
+
+   Derive the key from a stable input — for example, `bulk-status-2026-04-25-${id}` — so a retry of the same logical run hits the same key and returns the original result.
+
+   ```js
+   for (const id of ids) {
+     await fetch(`https://app.buildworkpro.com/api/v1/projects/${id}`, {
+       method: "PATCH",
+       headers: {
+         "Authorization": `Bearer ${process.env.BWP_KEY}`,
+         "Content-Type": "application/json",
+         "Idempotency-Key": `bulk-status-2026-04-25-${id}`,
+       },
+       body: JSON.stringify({ status: "completed" }),
+     });
+   }
+   ```
+
+3. **Track partial failures.**
+
+   PATCH responses are 200 on success, 422 on validation error, 404 if the project was deleted between list and patch. Log the body of any non-2xx and decide whether to retry, skip, or surface for human review.
+
+4. **(For deletes only) use the bulk endpoint.**
+
+   If you actually want to soft-delete or restore a batch — not patch — `POST /projects/bulk` does it in one job:
+
+   ```bash
+   curl -X POST https://app.buildworkpro.com/api/v1/projects/bulk \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Content-Type: application/json" \
+     -d '{ "operation": "delete", "ids": [11, 12, 13] }'
+   ```
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **The bulk endpoint does NOT accept patch updates.** Operation is restricted to `"delete"` or `"restore"`. Anything else returns `422 validation_failed`.
+- **Bulk delete jobs cost 100 rate-limit units regardless of id count.** A single bulk call is dramatically cheaper than 500 individual deletes — use it when you can.
+- **Partial failures in a per-id loop don't roll back.** If id #50 fails after #49 succeeded, you have a half-applied update. Log every failure with its id so you can re-run only the failed slice.
+</Aside>

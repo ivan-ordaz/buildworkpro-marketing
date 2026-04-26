@@ -1,0 +1,63 @@
+---
+title: Pull Time Entries for Payroll
+description: Export the pay period's time entries to CSV, download the artifact, and feed the result into your payroll system.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Use this recipe at the end of every pay period to pull crew hours out of BuildWorkPro and into ADP, Gusto, QuickBooks Payroll, or whatever you use to cut checks. The export is a job because pay-period spans typically include hundreds or thousands of entries.
+
+<Steps>
+
+1. **Decide the pay period boundaries.**
+
+   Compute `start` and `end` in the tenant's working timezone. Most payrolls run on a Monday-Sunday or 1st-15th cadence — pick whichever the team uses and pin it.
+
+   ```js
+   const start = "2026-04-12T00:00:00-04:00"; // Sunday 00:00 EDT
+   const end   = "2026-04-26T00:00:00-04:00"; // Two weeks later
+   ```
+
+2. **Kick off the export job.**
+
+   ```bash
+   curl -s -X POST https://app.buildworkpro.com/api/v1/time-entries/exports \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     -H "Content-Type: application/json" \
+     -H "Idempotency-Key: payroll-2026-04-26" \
+     -d '{ "filters": { "dateFrom": "2026-04-12", "dateTo": "2026-04-26" } }'
+   ```
+
+   Response: `202 Accepted` with `{ "data": { "job_id": "job_...", "status_url": "/api/v1/jobs/job_..." } }`.
+
+3. **Poll until the job succeeds, then download.**
+
+   ```js
+   let status;
+   do {
+     await new Promise(r => setTimeout(r, 5000));
+     const j = await fetch(`https://app.buildworkpro.com/api/v1/jobs/${jobId}`, {
+       headers: { Authorization: `Bearer ${process.env.BWP_KEY}` },
+     }).then(r => r.json());
+     status = j.data.status;
+   } while (!["succeeded", "failed", "cancelled"].includes(status));
+
+   if (status !== "succeeded") throw new Error(`export ${status}`);
+
+   const csv = await fetch(
+     `https://app.buildworkpro.com/api/v1/jobs/${jobId}/download`,
+     { headers: { Authorization: `Bearer ${process.env.BWP_KEY}` }, redirect: "follow" },
+   ).then(r => r.text());
+   ```
+
+4. **Process in your payroll system.**
+
+   Parse the CSV (`csv-parse`, `papaparse`, or your language's equivalent), aggregate hours per employee, and either feed the result through your payroll provider's API or upload the file directly if they accept CSV imports. Archive the raw export — it's your audit trail for what was paid against what entries.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **Tenant timezone, not UTC.** Time entries store the worker's local clock-in/out. If you compute the date range in UTC, you'll cut shifts in half on either edge of the range. Always anchor `dateFrom`/`dateTo` to the tenant's working timezone.
+- **Scope: `time_entries:read` AND `jobs:write`.** A key with only `time_entries:read` will get `403 forbidden` when starting the export. The download itself uses the jobs scope.
+- **The CSV format is documented per resource.** Column order and naming are stable within a major API version, but if you parse by index instead of header name, a future minor version that adds a column will silently shift your data. Always parse by header.
+</Aside>

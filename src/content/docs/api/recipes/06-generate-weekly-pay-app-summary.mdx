@@ -1,0 +1,71 @@
+---
+title: Weekly Pay App Summary
+description: Cron-driven export of the last seven days of pay applications, downloaded as CSV and emailed to the team every Monday.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Use this recipe when finance wants a recurring digest — every Monday morning, who submitted what, how much was approved, and what's still outstanding. The pattern is the same for any periodic report.
+
+<Steps>
+
+1. **Schedule a cron on your own infra.**
+
+   Run a script every Monday at 06:00 in your tenant's timezone. GitHub Actions, Cloudflare Workers Cron, or a plain `cron` line all work.
+
+   ```yaml
+   # .github/workflows/weekly-pay-app-summary.yml
+   on:
+     schedule:
+       - cron: "0 11 * * 1"   # 06:00 America/New_York during EDT
+   ```
+
+2. **Kick off the export with a date filter.**
+
+   The `/pay-apps/exports` endpoint accepts an optional `filters` object that gets passed to the underlying CSV exporter.
+
+   ```js
+   const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+   const r = await fetch("https://app.buildworkpro.com/api/v1/pay-apps/exports", {
+     method: "POST",
+     headers: {
+       "Authorization": `Bearer ${process.env.BWP_KEY}`,
+       "Content-Type": "application/json",
+       "Idempotency-Key": `weekly-payapp-${weekIso()}`,
+     },
+     body: JSON.stringify({ filters: { createdAfter: since } }),
+   });
+   const { data: { job_id } } = await r.json();
+   ```
+
+3. **Poll, then download.**
+
+   ```js
+   let status;
+   do {
+     await new Promise(r => setTimeout(r, 5000));
+     const j = await fetch(`https://app.buildworkpro.com/api/v1/jobs/${job_id}`, {
+       headers: { Authorization: `Bearer ${process.env.BWP_KEY}` },
+     }).then(r => r.json());
+     status = j.data.status;
+   } while (status !== "succeeded" && status !== "failed");
+
+   if (status !== "succeeded") throw new Error("export failed");
+
+   const csv = await fetch(
+     `https://app.buildworkpro.com/api/v1/jobs/${job_id}/download`,
+     { headers: { Authorization: `Bearer ${process.env.BWP_KEY}` }, redirect: "follow" },
+   ).then(r => r.text());
+   ```
+
+4. **Aggregate and email.**
+
+   Parse the CSV, sum totals by status, and ship the result through your transactional email provider (SendGrid, Resend, SES). Attach the raw CSV for anyone who wants to drill in.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **Tenant timezone matters for "last 7 days."** Compute your `createdAfter` boundary in the tenant's working timezone, not UTC. Pay apps approved late Sunday EST might not be included if you naively use UTC midnight.
+- **Use a stable weekly idempotency key.** Deriving it from the ISO week number means a retry of the Monday job returns the same export rather than spinning up a duplicate. Keys are scoped to your tenant.
+- **Scope: `pay_apps:read` AND `jobs:write`.** A key with only `pay_apps:read` will get `403 forbidden` when starting the export job. See [Scopes](/api/concepts/scopes/).
+</Aside>

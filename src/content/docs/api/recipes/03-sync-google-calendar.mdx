@@ -1,0 +1,76 @@
+---
+title: Sync to Google Calendar
+description: Pull project tasks, phases, leads, and bid deadlines from BuildWorkPro and push them to a Google Calendar you control.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+BuildWorkPro doesn't ship a native Google Calendar integration via the public API — the in-app integration runs server-side, and customers who want their own pipeline build it themselves. This recipe shows the read side: pulling a unified event feed from BuildWorkPro that you can then push into Google Calendar (or Outlook, Notion, or wherever).
+
+<Steps>
+
+1. **Pick a date window.**
+
+   The `/calendar/events` endpoint accepts ISO 8601 `start` and `end` query params. The window can't exceed 366 days.
+
+   ```bash
+   START="2026-04-25T00:00:00Z"
+   END="2026-05-25T00:00:00Z"
+   ```
+
+2. **Fetch the events.**
+
+   ```bash
+   curl -s -G https://app.buildworkpro.com/api/v1/calendar/events \
+     -H "Authorization: Bearer ${BUILDWORKPRO_API_KEY}" \
+     --data-urlencode "start=${START}" \
+     --data-urlencode "end=${END}" \
+     --data-urlencode "types=task,phase,bid"
+   ```
+
+   The response is a flat list of events aggregated across projects, tasks, phases, leads, bids, and activities:
+
+   ```json
+   {
+     "data": [
+       {
+         "id": 91,
+         "type": "task",
+         "title": "Pour foundation slab",
+         "start": "2026-05-02T13:00:00.000Z",
+         "end": "2026-05-02T17:00:00.000Z",
+         "projectId": 14,
+         "assignedTo": 3
+       }
+     ],
+     "meta": { "request_id": "req_..." }
+   }
+   ```
+
+3. **Push to Google Calendar.**
+
+   Use Google's [Events: insert](https://developers.google.com/calendar/api/v3/reference/events/insert) endpoint with your own OAuth token. Map BuildWorkPro fields onto Google's payload — `title` -> `summary`, `start`/`end` -> `start.dateTime`/`end.dateTime`, and put the BuildWorkPro `id` and `type` into `extendedProperties.private` so you can reconcile on the next sync.
+
+   ```js
+   await calendar.events.insert({
+     calendarId: "primary",
+     requestBody: {
+       summary: bwpEvent.title,
+       start: { dateTime: bwpEvent.start, timeZone: "America/New_York" },
+       end:   { dateTime: bwpEvent.end,   timeZone: "America/New_York" },
+       extendedProperties: { private: { bwp_id: String(bwpEvent.id), bwp_type: bwpEvent.type } },
+     },
+   });
+   ```
+
+4. **Schedule the sync.**
+
+   Run this on a cron — every 15 minutes is a reasonable starting cadence. On each tick, query the next 30-day window. Use the `extendedProperties` you stored to update existing Google events instead of creating duplicates.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- **Tenant timezones are not normalized for you.** BuildWorkPro returns UTC; your Google Calendar entries should set the `timeZone` field to the tenant's working timezone or events will look off-by-N-hours to users.
+- **The endpoint costs 1 unit per call but caps at 366 days per window.** Don't request a multi-year span in one shot — paginate by month.
+- **Events without start times are filtered out automatically.** If a task has no due date set in BuildWorkPro, it simply won't appear; this is intentional. Scope: `projects:read`.
+</Aside>

@@ -1,5 +1,0 @@
----
-title: Recipes
----
-
-Coming soon.
