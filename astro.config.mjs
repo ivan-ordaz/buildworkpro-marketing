@@ -17,6 +17,7 @@ export default defineConfig({
     sitemap(),
     starlight({
       title: 'BuildWorkPro Docs',
+      favicon: '/favicon.png',
       logo: {
         src: './public/logo.png',
       },
