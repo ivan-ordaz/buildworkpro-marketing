@@ -1,0 +1,6 @@
+Contact: mailto:security@buildworkpro.com
+Expires: 2027-04-25T00:00:00.000Z
+Encryption: https://buildworkpro.com/security/disclosure/#pgp
+Preferred-Languages: en
+Canonical: https://buildworkpro.com/.well-known/security.txt
+Policy: https://buildworkpro.com/security/disclosure/
