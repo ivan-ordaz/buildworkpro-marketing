@@ -1,0 +1,107 @@
+---
+title: Tools Catalog
+description: Every MCP tool, resource, and prompt the BuildWorkPro server exposes — with the OAuth scope each one needs and an example LLM prompt.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The BuildWorkPro MCP server exposes **24 tools** across 7 entity domains plus identity, **2 resources** for direct record fetch, and **3 prompts** for canned workflows. Every tool is gated by an OAuth scope — if you didn't grant the scope on the consent screen, the tool is hidden from the model entirely.
+
+Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention.
+
+## Contacts (4)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `contacts.list` | `contacts:read` | Cursor-paginated list of contacts in your tenant. Supports filtering by company, email domain, archived state. | "Show me my contacts at Acme Construction." |
+| `contacts.get` | `contacts:read` | Fetch a single contact by id, including all phone numbers and addresses. | "Get contact 42." |
+| `contacts.search` | `contacts:read` | Full-text search across name, email, phone, company, notes. | "Find Jane Doe in my contacts." |
+| `contacts.create` | `contacts:write` | Create a new contact. Required: name. Optional: email, phone, company, notes, tags. | "Add Jane Doe at Acme Construction with email jane@example.com." |
+
+## Leads (3)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `leads.list` | `leads:read` | List leads in your sales pipeline. Filter by stage, owner, source. | "List my leads in the negotiation stage." |
+| `leads.get` | `leads:read` | Fetch a single lead by id, including its contact and notes. | "Get lead 17." |
+| `leads.create` | `leads:write` | Create a new lead. Required: name, source. Optional: contact id, est. value, stage, notes. | "Create a lead 'Downtown Office Renovation' from referral, est. value $250k." |
+
+## Bids (5)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `bids.list` | `bids:read` | List bids in your tenant. Filter by status (draft, sent, accepted, rejected). | "List my open bids that have been in negotiation more than 14 days." |
+| `bids.get` | `bids:read` | Fetch a single bid by id, including line items and totals. | "Get bid 123." |
+| `bids.create` | `bids:write` | Create a new draft bid. Required: contact id, project name, line items. | "Draft a bid to Acme for 'Storefront Glass' with one line at $18,500." |
+| `bids.send` | `bids:send` | Send a bid to the customer's email and move it to status `sent`. | "Send bid 123 to the customer." |
+| `bids.accept` | `bids:accept_reject` | Mark a bid as accepted (used when a customer replies via phone or email). | "Mark bid 123 as accepted as of today." |
+
+<Aside type="caution">
+`bids.send` actually emails the customer. If you don't want to give your AI assistant the power to send mail on your behalf, do not grant the `bids:send` scope on the consent screen.
+</Aside>
+
+## Projects (3)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `projects.list` | `projects:read` | List projects, filter by status (planned, in_progress, on_hold, completed, cancelled). | "List my in-progress projects." |
+| `projects.get` | `projects:read` | Fetch a single project by id, including phases and team. | "Get project 8." |
+| `projects.create` | `projects:write` | Create a new project. Required: name. Optional: description, status, contact id. | "Create a project 'East Wing Glazing' with status planned." |
+
+## Pay applications (3)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `pay_apps.list` | `pay_apps:read` | List pay applications across projects. Filter by status (draft, submitted, approved, rejected). | "List my submitted pay apps from this month." |
+| `pay_apps.get` | `pay_apps:read` | Fetch a single pay app by id, including line items and approval state. | "Get pay app 5." |
+| `pay_apps.approve` | `pay_apps:approve` | Approve a submitted pay app. | "Approve pay app 5." |
+
+<Aside type="caution">
+`pay_apps.approve` is a workflow action. The approval timestamp and the user are recorded in the audit log. Don't grant this scope unless you trust the AI client to act on your behalf.
+</Aside>
+
+## Change orders (3)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `change_orders.list` | `change_orders:read` | List change orders. Filter by project, status (draft, submitted, approved, rejected). | "Show me change orders submitted in the last 7 days." |
+| `change_orders.get` | `change_orders:read` | Fetch a single change order by id, including reason and cost delta. | "Get change order 12." |
+| `change_orders.approve` | `change_orders:approve` | Approve a submitted change order. | "Approve change order 12." |
+
+## Documents (2)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `documents.list` | `documents:read` | List documents attached to records. Filter by entity (bid, project, change order, pay app). | "List documents attached to project 8." |
+| `documents.get` | `documents:read` | Fetch a single document's metadata (filename, size, content type, uploader). | "Get document 99." |
+
+## Identity (1)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `me.get` | (none) | Returns the authenticated user's name, email, role, tenant id, and granted scopes. Always available — no scope required. | "Who am I logged in as?" |
+
+## Resources (2)
+
+Resources let the model fetch a single record by URI in one round trip and pin it to context. Useful when the model already has an id and just needs the full record.
+
+| URI template | Scope | What it returns |
+|---|---|---|
+| `bid://{tenant_id}/{bid_id}` | `bids:read` | Full bid JSON: line items, totals, customer, status. |
+| `project://{tenant_id}/{project_id}` | `projects:read` | Full project JSON: phases, team, status, dates. |
+
+The model discovers these via `resources/templates/list` and constructs concrete URIs from ids it pulls out of `*.list` calls.
+
+## Prompts (3)
+
+Prompts are reusable workflows the model can call by name. Each one gathers the right tool calls behind a single named operation, so you don't have to spell out the workflow yourself.
+
+| Prompt | Args | What it does |
+|---|---|---|
+| `draft_bid_followup` | `bid_id` | Pulls the bid + customer + last status-change date, then asks the model to draft a polite follow-up email tailored to how long the bid has been open. |
+| `summarize_open_projects` | (none) | Lists in-progress projects and asks the model to write one-line status summaries for each. Good for a daily standup or weekly recap. |
+| `weekly_status_report` | `start_date`, `end_date` | Pulls bids sent, bids accepted, projects started, pay apps approved, and change orders approved between two dates. Returns a structured weekly report draft. |
+
+## Permissions and audit logging
+
+Every tool call goes through the same authorization stack as a REST API request. Tenant isolation is enforced at the storage layer — the model cannot read data from a tenant it isn't authorized for, even if it tries to invent ids. Every workflow action (`bids.send`, `bids.accept`, `pay_apps.approve`, `change_orders.approve`) is recorded in the activity log with the connected app's name as the actor, so you can audit what your AI assistant has done.

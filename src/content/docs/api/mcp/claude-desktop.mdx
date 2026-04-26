@@ -1,0 +1,124 @@
+---
+title: Install in Claude Desktop
+description: Connect BuildWorkPro to Claude Desktop in five steps. OAuth-based, no API key required.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Claude Desktop is Anthropic's native macOS and Windows app for Claude. Once you connect the BuildWorkPro MCP server, Claude can read your bids, draft follow-ups, summarize projects, and more — all scoped to the permissions you grant.
+
+## Prerequisites
+
+- Claude Desktop installed. Download from [claude.ai/download](https://claude.ai/download).
+- A BuildWorkPro account with access to the tenant you want to connect.
+- A few minutes to walk the OAuth consent flow.
+
+You do **not** need an API key. Claude Desktop registers itself with BuildWorkPro using Dynamic Client Registration the first time you connect.
+
+## Connect with Streamable HTTP (recommended)
+
+<Steps>
+
+1. **Open the Claude Desktop config.**
+
+   In Claude Desktop, open **Settings -> Developer -> Edit Config**. This opens `claude_desktop_config.json` in your default editor. The file lives at:
+
+   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+2. **Add the BuildWorkPro server entry.**
+
+   Add or extend the `mcpServers` block:
+
+   ```json
+   {
+     "mcpServers": {
+       "buildworkpro": {
+         "url": "https://app.buildworkpro.com/api/mcp",
+         "transport": "http"
+       }
+     }
+   }
+   ```
+
+   If you already have other MCP servers configured, add `buildworkpro` alongside them under the same `mcpServers` object.
+
+3. **Restart Claude Desktop.**
+
+   Fully quit (Cmd+Q on macOS, right-click tray icon -> Quit on Windows) and relaunch. The new server registers on startup.
+
+4. **Authorize the connection.**
+
+   Open a new chat and click the tools icon in the message input. You'll see **buildworkpro** listed with a "Sign in" prompt. Click it. Your browser opens to `https://app.buildworkpro.com/oauth/authorize` with a consent screen showing exactly which scopes Claude is requesting (for example `contacts:read`, `bids:read`, `projects:read`).
+
+   Review the scopes, choose which ones to grant, and confirm. The browser hands an authorization code back to Claude Desktop. You're now connected.
+
+5. **Test it.**
+
+   In a Claude chat, ask:
+
+   > List my open bids.
+
+   Claude calls the `bids.list` tool, scoped to your tenant, and returns the results. Try a few more:
+
+   > Show me the highest-value bid in negotiation.
+   >
+   > Summarize my active projects.
+   >
+   > Find Jane Doe in my contacts.
+
+</Steps>
+
+<Aside type="caution" title="Scope grants matter">
+The consent screen lets you control exactly what Claude can do. Read scopes (`*:read`) are safe — they only let Claude fetch data. Write scopes (`*:write`) let Claude create or update records. Workflow scopes (`bids:send`, `pay_apps:approve`, `change_orders:approve`) let Claude take actions that affect your business. Grant only what you trust the model with. You can revoke access at any time in **Settings -> Developer -> Connected apps**.
+</Aside>
+
+## stdio install (local development only)
+
+If you're hacking on the BuildWorkPro MCP server source itself, you can run it locally and connect Claude Desktop over stdio. This bypasses OAuth entirely — Claude launches your local Node process directly.
+
+<Tabs>
+<TabItem label="macOS / Linux">
+
+```json
+{
+  "mcpServers": {
+    "buildworkpro-local": {
+      "command": "node",
+      "args": ["/path/to/buildworkpro/server/mcp/stdio.js"],
+      "env": {
+        "BUILDWORKPRO_API_KEY": "bwp_live_..."
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+<TabItem label="Windows">
+
+```json
+{
+  "mcpServers": {
+    "buildworkpro-local": {
+      "command": "node",
+      "args": ["C:\\path\\to\\buildworkpro\\server\\mcp\\stdio.js"],
+      "env": {
+        "BUILDWORKPRO_API_KEY": "bwp_live_..."
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+The stdio entry point is shipped in the BuildWorkPro repo. It reads the `BUILDWORKPRO_API_KEY` env var and runs against the production REST API. Use this only for local dev — for everyday use, the Streamable HTTP path above is safer (no long-lived API key exposed to your AI client).
+
+## Troubleshooting
+
+- **Server doesn't appear in the tool list.** Quit and relaunch Claude Desktop fully — config is read once at startup.
+- **OAuth redirect fails.** Make sure you're signed into BuildWorkPro in the same browser Claude opens. If your default browser is different, sign in there first.
+- **"Insufficient scope" error.** Claude requested a scope you didn't grant. Disconnect from **Settings -> Developer -> Connected apps**, reconnect, and grant the missing scope on the consent screen.
+- **Tool calls fail with 401.** Your refresh token may have expired or been revoked. Disconnect and reconnect.

@@ -51,6 +51,7 @@ export default defineConfig({
             { label: 'Authentication', autogenerate: { directory: 'api/authentication' } },
             { label: 'Concepts', autogenerate: { directory: 'api/concepts' } },
             { label: 'Webhooks', autogenerate: { directory: 'api/webhooks' } },
+            { label: 'MCP (Claude / ChatGPT)', autogenerate: { directory: 'api/mcp' } },
             { label: 'Jobs', link: '/api/jobs/' },
             { label: 'Recipes', autogenerate: { directory: 'api/recipes' } },
             { label: 'Changelog', link: '/api/changelog/' },

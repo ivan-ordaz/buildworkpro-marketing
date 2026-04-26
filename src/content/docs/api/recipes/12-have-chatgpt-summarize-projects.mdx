@@ -1,0 +1,57 @@
+---
+title: Have ChatGPT Summarize Your Open Projects
+description: Use the summarize_open_projects MCP prompt from ChatGPT to produce a quick brief of every in-progress project — useful for daily standups or a Monday-morning recap.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+A common Monday-morning task is rebuilding a mental picture of every open project. This recipe lets ChatGPT do it for you in one prompt: it lists your in-progress projects, pulls each one's status, and writes one-line summaries you can paste into Slack or hand to a teammate.
+
+## Prerequisites
+
+- ChatGPT Plus, Team, or Enterprise account.
+- BuildWorkPro connected via the Apps directory or Custom Connector. See [Install in ChatGPT](/api/mcp/chatgpt/) if you haven't done this yet.
+- On the OAuth consent screen, granted at least `projects:read`.
+
+<Steps>
+
+1. **Open a new chat in ChatGPT.**
+
+   Confirm the BuildWorkPro connector is enabled for this conversation. ChatGPT shows a small connector indicator near the message input.
+
+2. **Invoke the prompt.**
+
+   > Use the `summarize_open_projects` prompt and write me a brief I can paste into Slack.
+
+   ChatGPT calls `prompts/get` with name `summarize_open_projects`. The prompt internally calls `projects.list` filtered to `status=in_progress`, then asks ChatGPT to compose a tight summary.
+
+3. **Read the output.**
+
+   ChatGPT returns something like:
+
+   > **Open projects — Monday brief**
+   >
+   > 1. **Storefront Glass — Acme Construction** — Phase 2 of 3, on schedule, glazier crew on site Wed–Fri. Pay App #2 awaiting approval.
+   > 2. **East Wing Glazing — Northside Builders** — On hold pending architect's RFI response (submitted 4 days ago).
+   > 3. **Curtain Wall Phase 2 — Riverline Group** — Mobilization week. Materials delivered, crew briefing scheduled Tuesday morning.
+   > 4. **Lobby Renovation — Harbor Tower** — 80% complete, punchlist walk scheduled Thursday with the GC.
+   >
+   > Total: 4 in-progress projects. 1 on hold (waiting on customer). 1 nearing completion.
+
+4. **Iterate if needed.**
+
+   - Need more detail on one? "Expand the East Wing project — what's the RFI about?" — ChatGPT calls `projects.get` and any related tools to fill in the picture.
+   - Need a different angle? "Group these by phase, not by project name." or "Sort by which one I should pay attention to first." ChatGPT recomposes from what it already pulled.
+
+5. **Paste and send.**
+
+   Copy the brief, drop it into Slack, your standup notes, or wherever it needs to go. If you find yourself running this every Monday, set up a recurring chat in ChatGPT or move to the `weekly_status_report` prompt for a richer cross-domain view.
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- The summaries are LLM-generated. ChatGPT may invent or misstate small details (a phase number, a date) — verify before sharing externally with a customer or partner.
+- Long project names, many concurrent phases, or unusually-rich notes may exceed ChatGPT's display budget and get truncated. Ask ChatGPT to expand a specific project if the line is too short.
+- The prompt fetches live data each time you invoke it. If you ran the prompt yesterday and want to compare, ask ChatGPT to keep the previous output in context: "Compare today's summary to yesterday's — what changed?"
+- Share the brief, not the chat URL. The chat history may include other tool call output you don't want to expose.
+</Aside>
