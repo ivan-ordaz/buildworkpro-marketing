@@ -1,0 +1,69 @@
+---
+title: Ask Claude to Draft a Bid Follow-Up
+description: Use the draft_bid_followup MCP prompt from Claude Desktop to compose a polite, well-timed nudge to a customer whose bid has gone quiet.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+When a bid has been sitting in `sent` status for a week or more without a reply, a short follow-up often unsticks it. This recipe walks Claude Desktop through composing one — pulling the bid, the customer, and the time-since-sent into context, drafting an email, and (optionally) sending it back through `bids.send`.
+
+## Prerequisites
+
+- Claude Desktop installed and connected to BuildWorkPro. See [Install in Claude Desktop](/api/mcp/claude-desktop/) if you haven't done this yet.
+- On the OAuth consent screen, granted at least `bids:read`. Add `contacts:read` so Claude can resolve the customer's name and email.
+- Optional: grant `bids:send` if you want Claude to send the email through BuildWorkPro for you. If not, you'll review the draft and send it manually from your email client.
+
+<Steps>
+
+1. **Open a new chat in Claude Desktop and confirm the connection.**
+
+   Click the tools icon in the message input. You should see `buildworkpro` listed with the tools you granted. If you don't, see the troubleshooting section in the [Claude Desktop install guide](/api/mcp/claude-desktop/#troubleshooting).
+
+2. **Ask Claude to find a quiet bid.**
+
+   > List my bids in `sent` status that haven't moved in 5 or more days.
+
+   Claude calls `bids.list` with `status=sent` and filters the results by `updatedAt`. It returns something like:
+
+   > I found three bids that have been in `sent` status for 5+ days:
+   >
+   > 1. Bid 123 — "Storefront Glass — Acme Construction" — sent 8 days ago, $18,500
+   > 2. Bid 117 — "East Wing Glazing — Northside Builders" — sent 12 days ago, $42,200
+   > 3. Bid 109 — "Curtain Wall Phase 2 — Riverline Group" — sent 6 days ago, $156,800
+
+3. **Invoke the `draft_bid_followup` prompt.**
+
+   > Use the `draft_bid_followup` prompt for bid 123.
+
+   Claude calls `prompts/get` with `bid_id=123`. The prompt loads the bid, the contact, and the time-since-sent, then asks Claude to compose a follow-up that fits the tone (8 days is "gentle nudge" territory, 30+ days is "checking in once more"). Claude returns:
+
+   > **Subject:** Following up on the Storefront Glass quote
+   >
+   > Hi Maria,
+   >
+   > Just checking in on the quote we sent over last week for the Storefront Glass scope at Acme Construction ($18,500). Happy to walk through any of the line items or adjust the schedule if that would help. If there's a different decision-maker I should also include, let me know.
+   >
+   > Best,
+   > Ivan
+
+4. **Review and adjust.**
+
+   Read the draft carefully. Edit anything that doesn't match your voice, fix the customer's name if Claude got it wrong, double-check the dollar amount.
+
+5. **Send.**
+
+   - **Manual path (recommended for first few times):** Copy the body into your email client. The customer's email is on the bid's contact — verify it before hitting send.
+   - **Automated path:** If you granted `bids:send`, ask Claude:
+
+     > Send bid 123 to the customer with the draft above as the message body.
+
+     Claude calls `bids.send` with the body and the bid moves through the normal send pipeline (logged in the audit trail, recorded as an activity, the timestamp updates).
+
+</Steps>
+
+<Aside type="caution" title="Watch out for">
+- LLMs make mistakes, especially with names and dollar amounts. **Always read the draft before sending.** Even small errors look careless to a customer.
+- Don't grant `bids:send` to an AI client you don't fully trust. The send is real — it goes to the customer's inbox, with your domain in the From header.
+- The customer's email comes from the contact record. If the contact has the wrong email, the follow-up goes to the wrong inbox. Verify before automating.
+- If the bid has been sent multiple times, `time-since-sent` reflects the most recent send. Ask Claude to summarize the bid's history if you're not sure how many follow-ups have already gone out.
+</Aside>

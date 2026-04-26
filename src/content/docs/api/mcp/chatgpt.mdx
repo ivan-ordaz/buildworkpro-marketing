@@ -1,0 +1,81 @@
+---
+title: Install in ChatGPT
+description: Connect BuildWorkPro to ChatGPT via the Apps directory or a Custom Connector. OAuth-based, no API key required.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+ChatGPT supports MCP servers as **Apps** (rolling out broadly through 2026) and as **Custom Connectors** for power users today. Either path uses the same OAuth flow — you authenticate once and ChatGPT reads from your BuildWorkPro tenant for the rest of the session.
+
+## Prerequisites
+
+- ChatGPT Plus, Team, or Enterprise account. The free tier does not currently support custom MCP connectors.
+- A BuildWorkPro account with access to the tenant you want to connect.
+
+You do **not** need an API key. ChatGPT registers itself with BuildWorkPro using Dynamic Client Registration the first time you connect.
+
+## Connect via Apps directory
+
+<Steps>
+
+1. **Open the Apps directory.**
+
+   In ChatGPT, click your profile -> **Settings -> Apps & Connectors**. If BuildWorkPro is listed, click **Connect** and skip to step 4.
+
+2. **Add the server URL.**
+
+   If BuildWorkPro is not yet listed, choose **Add custom connector** and enter:
+
+   ```
+   https://app.buildworkpro.com/api/mcp
+   ```
+
+   ChatGPT discovers the server's OAuth metadata at `/.well-known/oauth-protected-resource` and `/.well-known/oauth-authorization-server` automatically.
+
+3. **Register and authorize.**
+
+   ChatGPT performs Dynamic Client Registration with BuildWorkPro, then redirects you to the authorize page. Review the scopes ChatGPT is requesting and choose which to grant.
+
+4. **Confirm connection.**
+
+   Back in ChatGPT, the connector appears as **Connected**. Open a new chat — the BuildWorkPro tools are now available to the model.
+
+5. **Test it.**
+
+   Ask:
+
+   > Summarize my active projects.
+
+   ChatGPT calls `projects.list`, scoped to your tenant, and returns a brief.
+
+</Steps>
+
+<Aside type="note" title="ChatGPT MCP rollout">
+The exact UI for adding MCP servers is evolving as OpenAI rolls out their MCP support broadly. Menu labels and the Apps directory layout may change. If the steps above don't match what you see, check OpenAI's connector documentation at [platform.openai.com/docs](https://platform.openai.com/docs) for the current path. The server URL and OAuth flow are stable — only the ChatGPT-side install UX is moving.
+</Aside>
+
+## What you can ask
+
+Once connected, ChatGPT can call any tool the scopes you granted allow. Examples:
+
+> Find the contact at Acme Construction whose email is jane@example.com.
+>
+> List my bids that have been in negotiation for more than 14 days.
+>
+> Use the `summarize_open_projects` prompt and write a one-paragraph status update I can paste into Slack.
+>
+> Draft a follow-up email for bid #123 using the `draft_bid_followup` prompt.
+
+The full inventory of tools, resources, and prompts is in the [Tools catalog](/api/mcp/tools-catalog/).
+
+## Managing the connection
+
+- **Revoke access:** In BuildWorkPro, go to **Settings -> Developer -> Connected apps** and remove the ChatGPT entry. ChatGPT loses access immediately.
+- **Change scopes:** Disconnect from BuildWorkPro, reconnect from ChatGPT, and grant a new set of scopes on the consent screen.
+- **Multiple tenants:** ChatGPT connects to one tenant per account. To switch tenants, sign out of BuildWorkPro, sign back in to the desired tenant, then reconnect.
+
+<Aside type="caution" title="Watch out for">
+- ChatGPT's training data does not include your BuildWorkPro records. Tool calls fetch live data each time. If a record changed in the last few seconds, ask ChatGPT to refetch.
+- LLMs occasionally call the wrong tool or pass wrong arguments. Always review write actions (creating a contact, sending a bid) before confirming.
+- Don't paste sensitive customer info into the chat itself — let the tools fetch it. Anything you type into the chat is sent to OpenAI's servers.
+</Aside>

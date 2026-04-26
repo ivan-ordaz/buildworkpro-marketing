@@ -1,0 +1,63 @@
+---
+title: MCP — Use BuildWorkPro from Claude and ChatGPT
+description: Connect BuildWorkPro to Claude Desktop, ChatGPT, and other MCP clients. Read bids, draft follow-ups, summarize projects from your AI assistant.
+---
+
+import { Aside, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+The Model Context Protocol (MCP) is Anthropic's open standard for connecting large language models to external tools and data. An MCP-aware client — Claude Desktop, ChatGPT, Cursor, your own agent — speaks one protocol, and any MCP server (BuildWorkPro included) can plug in. The model gets structured access to your records, with scoped permissions, instead of you copy-pasting screenshots into a chat.
+
+## What you get
+
+The BuildWorkPro MCP server exposes the same domain you already use through the REST API, packaged for LLMs:
+
+- **24 tools** across 7 entity domains plus identity. Read your contacts, leads, bids, projects, pay applications, change orders, and documents. Create new records and drive workflow steps (send a bid, accept a bid, approve a pay app, approve a change order).
+- **2 resources** (`bid://` and `project://` URI schemes) that let the model fetch a single record by id with one round trip and pin it into context.
+- **3 prompts** the model can call by name to compose useful workflows: `draft_bid_followup`, `summarize_open_projects`, and `weekly_status_report`.
+
+Tools are scoped. Listing contacts requires `contacts:read`; creating a bid requires `bids:write`; sending a bid requires `bids:send`. The full inventory is in the [Tools catalog](/api/mcp/tools-catalog/).
+
+## How authentication works
+
+The server uses **OAuth 2.1 with Dynamic Client Registration (RFC 7591)** — the same flow Zapier uses. You don't paste an API key into your AI client. Instead:
+
+1. The MCP client (Claude, ChatGPT) registers itself with BuildWorkPro automatically the first time you connect.
+2. You're redirected to the BuildWorkPro authorize page in your browser.
+3. You see a consent screen listing the exact scopes the AI is requesting and choose what to grant.
+4. The client receives a refresh token and exchanges it for short-lived access tokens.
+
+Your AI assistant gets only the scopes you grant. Revoke access at any time from **Settings -> Developer -> Connected apps**.
+
+## Two install paths
+
+- **Streamable HTTP (recommended).** The hosted endpoint at `https://app.buildworkpro.com/api/mcp` works with any modern MCP client. No local process to run, no Node.js to install. This is the path documented in the install guides below.
+- **stdio (local development only).** A local Node.js process speaks MCP over stdin/stdout. Useful when you're hacking on the server itself or running on a machine without internet access. We don't recommend this for everyday use.
+
+<Aside type="note">
+The hosted Streamable HTTP transport is multi-tenant. Each authenticated request is scoped to your tenant — you cannot read data from another organization, even if both tenants share the same MCP client install.
+</Aside>
+
+## Get started
+
+<CardGrid>
+  <LinkCard
+    title="Install in Claude Desktop"
+    description="The fastest way to try it. ~5 minutes, OAuth-based."
+    href="/api/mcp/claude-desktop/"
+  />
+  <LinkCard
+    title="Install in ChatGPT"
+    description="Same OAuth flow, ChatGPT-specific install path."
+    href="/api/mcp/chatgpt/"
+  />
+  <LinkCard
+    title="Tools catalog"
+    description="Every tool, the scope it needs, and an example prompt."
+    href="/api/mcp/tools-catalog/"
+  />
+  <LinkCard
+    title="Recipe: Ask Claude to draft a bid follow-up"
+    description="A worked example using the draft_bid_followup prompt."
+    href="/api/recipes/11-ask-claude-to-draft-a-bid/"
+  />
+</CardGrid>
