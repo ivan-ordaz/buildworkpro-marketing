@@ -42,6 +42,14 @@ const integrations: Integration[] = [
     color: 'violet',
   },
   {
+    title: 'Gmail',
+    description: 'Send bid PDFs, change orders, and pay applications from your own Gmail address so customers can reply directly.',
+    href: '/features/bidding/',
+    status: 'available',
+    icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 13H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z',
+    color: 'amber',
+  },
+  {
     title: 'Google Calendar',
     description: 'Two-way sync between BuildWorkPro projects and your Google Calendar. Crew schedules and project milestones stay in lockstep.',
     href: '/features/project-management/',
@@ -50,20 +58,28 @@ const integrations: Integration[] = [
     color: 'emerald',
   },
   {
+    title: 'Claude Desktop',
+    description: 'Connect Claude Desktop to BuildWorkPro via MCP. Ask Claude to draft bids, summarize projects, and pull contact data — all on your behalf.',
+    href: '/api/mcp/claude-desktop/',
+    status: 'available',
+    icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+    color: 'rose',
+  },
+  {
+    title: 'ChatGPT',
+    description: 'Add the BuildWorkPro MCP server to ChatGPT Pro/Team/Enterprise so ChatGPT can read and act on your data with your authorization.',
+    href: '/api/mcp/chatgpt/',
+    status: 'available',
+    icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+    color: 'rose',
+  },
+  {
     title: 'Zapier',
     description: 'Connect BuildWorkPro to 6,000+ apps without writing code. Pre-built triggers and actions for the most-used workflows.',
     href: 'mailto:integrations@buildworkpro.com?subject=Zapier%20Waitlist',
     status: 'coming-soon',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
     color: 'indigo',
-  },
-  {
-    title: 'MCP / Claude / ChatGPT',
-    description: 'Model Context Protocol server so AI assistants can read and act on BuildWorkPro data on your behalf. Phase 6 on the roadmap.',
-    href: 'mailto:integrations@buildworkpro.com?subject=MCP%20Waitlist',
-    status: 'coming-soon',
-    icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
-    color: 'rose',
   },
 ];
 
@@ -83,7 +99,7 @@ const statusBadge: Record<Status, { label: string; classes: string }> = {
 };
 ---
 
-<Layout title="Integrations - BuildWorkPro" description="Connect BuildWorkPro to your existing tools. REST API, webhooks, OAuth, Google Calendar, Zapier, and MCP for AI assistants.">
+<Layout title="Integrations - BuildWorkPro" description="Connect BuildWorkPro to your existing tools. REST API, webhooks, OAuth, Gmail, Google Calendar, Claude Desktop, ChatGPT, and Zapier.">
   <Header />
   <main class="pt-32 pb-20">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,7 +111,7 @@ const statusBadge: Record<Status, { label: string; classes: string }> = {
           Connect BuildWorkPro to the tools you already use
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          A modern API surface, signed webhooks, and a growing list of native integrations. Wire BuildWorkPro into your accounting, scheduling, and AI tools without leaving the app.
+          A modern API surface, signed webhooks, and a growing list of native integrations. Wire BuildWorkPro into Gmail, your calendar, AI assistants like Claude and ChatGPT, and 6,000+ Zapier apps without leaving the platform.
         </p>
       </div>
 
