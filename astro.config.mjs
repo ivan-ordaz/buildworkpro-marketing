@@ -12,7 +12,13 @@ const env = loadEnv('', process.cwd(), 'PUBLIC_');
 // https://astro.build/config
 export default defineConfig({
   site: env.PUBLIC_SITE_URL || 'https://buildworkpro.com',
-  adapter: cloudflare(),
+  trailingSlash: 'always',
+  build: {
+    format: 'directory',
+  },
+  adapter: cloudflare({
+    prerenderEnvironment: 'node',
+  }),
   integrations: [
     sitemap(),
     starlight({
