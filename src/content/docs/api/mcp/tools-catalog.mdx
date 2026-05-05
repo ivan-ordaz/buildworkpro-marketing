@@ -74,6 +74,18 @@ Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention
 | `change_orders.update` | `change_orders:write` | Update a draft change order's description, reason, total amount, or proposed dates. Submitted/approved change orders are locked. | "Update change order 12's reason to 'Owner-requested scope expansion'." |
 | `change_orders.approve` | `change_orders:approve` | Approve a submitted change order. | "Approve change order 12." |
 
+## Products (7)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `products.list` | `products:read` | Cursor-paginated list of products. Filter by `type` (material/labor/other), `categoryId`, `manufacturerId`, `isKit`, `isActive`. | "List my labor products in the trim category." |
+| `products.count` | `products:read` | Total count with the same filter set as `products.list`. | "How many products do I have in the catalog?" |
+| `products.get` | `products:read` | Fetch a single product by id, including manufacturer and kit components when present. | "Get product 42." |
+| `products.get_many` | `products:read` | Fetch up to 50 products by id in one round trip. | "Fetch products 12, 18, and 31." |
+| `products.search` | `products:read` | Substring search across SKU, name, description, sales description, manufacturer code. | "Find products containing 'tempered glass'." |
+| `products.create` | `products:write` | Create a new product. Required: name. SKU must be unique within your tenant. | "Add product 'Storefront Aluminum Frame' at $185 sell price." |
+| `products.update` | `products:write` | Update an existing product. All fields except `id` are optional. Soft-deleted products are not editable. | "Bump product 42's sell price to $195." |
+
 ## Documents (2)
 
 | Tool | Scope | What it does | Example prompt |
