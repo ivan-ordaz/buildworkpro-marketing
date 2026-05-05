@@ -76,6 +76,17 @@ Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention
 | `change_orders.update` | `change_orders:write` | Update a draft change order's description, reason, total amount, or proposed dates. Submitted/approved change orders are locked. | "Update change order 12's reason to 'Owner-requested scope expansion'." |
 | `change_orders.approve` | `change_orders:approve` | Approve a submitted change order. | "Approve change order 12." |
 
+## Site logs (6)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `site_logs.list` | `site_logs:read` | Cursor-paginated daily field reports. Filter by project, date range, tags, review state. | "Show site logs for project 12 last week." |
+| `site_logs.count` | `site_logs:read` | Total count with the same filter set. | "How many unreviewed site logs do I have?" |
+| `site_logs.get` | `site_logs:read` | Fetch a single site log including project, creator, reviewer, and entity links. | "Get site log 88." |
+| `site_logs.get_many` | `site_logs:read` | Fetch up to 50 site logs by id in one round trip. | "Fetch site logs 12, 18, 22, and 31." |
+| `site_logs.create` | `site_logs:write` | Create a daily field report. Required: projectId, logDate, notes. Author is the calling API user — not configurable. | "Log a site visit for project 12 on May 4 with notes 'inspection passed'." |
+| `site_logs.update` | `site_logs:write` | Update an existing site log. Original author and review state are immutable through this tool. | "Add 'rain delay 2pm-4pm' to site log 88's notes." |
+
 ## Products (7)
 
 | Tool | Scope | What it does | Example prompt |
