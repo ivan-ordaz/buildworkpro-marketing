@@ -121,6 +121,21 @@ Hourly rate and total cost are computed by the server from your labor-rate table
 | `documents.list` | `documents:read` | List documents attached to records. Filter by entity (bid, project, change order, pay app). | "List documents attached to project 8." |
 | `documents.get` | `documents:read` | Fetch a single document's metadata (filename, size, content type, uploader). | "Get document 99." |
 
+## Webhooks (6)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `webhooks.list` | `webhooks:manage` | List webhook endpoints in your tenant. Signing secrets are redacted from the response. | "Show my webhook endpoints." |
+| `webhooks.get` | `webhooks:manage` | Fetch a single endpoint by id (signing secret redacted). | "Get webhook endpoint 7." |
+| `webhooks.create` | `webhooks:manage` | Register a new endpoint. URL is SSRF-validated (private/loopback/link-local IPs are rejected). The signing secret is returned **once** — save it before continuing. | "Create a webhook for bid.created and bid.accepted at https://my-app.example.com/hook." |
+| `webhooks.update` | `webhooks:manage` | Update an endpoint (URL, event types, description, isActive). URL changes re-run the SSRF guard. | "Pause webhook endpoint 7." |
+| `webhooks.delete` | `webhooks:manage` | Soft-delete an endpoint. Delivery stops immediately; the row is preserved for audit. | "Delete webhook endpoint 7." |
+| `webhooks.rotate_secret` | `webhooks:manage` | Rotate the signing secret. The new secret is returned **once** — there's no grace period, so update your consumer at the same time. | "Rotate the secret on webhook 7." |
+
+<Aside type="caution">
+Webhook signing secrets are returned exactly once — on `webhooks.create` and `webhooks.rotate_secret`. Every other tool redacts them. There is no API to fetch an existing secret; if you lose it, rotate.
+</Aside>
+
 ## Users (2)
 
 | Tool | Scope | What it does | Example prompt |
