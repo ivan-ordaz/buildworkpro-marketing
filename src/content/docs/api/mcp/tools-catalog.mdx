@@ -19,12 +19,14 @@ Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention
 | `contacts.create` | `contacts:write` | Create a new contact. Required: name. Optional: email, phone, company, notes, tags. | "Add Jane Doe at Acme Construction with email jane@example.com." |
 | `contacts.update` | `contacts:write` | Update an existing contact. All fields except `id` are optional — only the fields you pass are changed. Pass `null` to clear `email` or `phone`. | "Change contact 42's email to jane.smith@example.com." |
 
-## Leads (4)
+## Leads (6)
 
 | Tool | Scope | What it does | Example prompt |
 |---|---|---|---|
 | `leads.list` | `leads:read` | List leads in your sales pipeline. Filter by stage, owner, source. | "List my leads in the negotiation stage." |
 | `leads.get` | `leads:read` | Fetch a single lead by id, including its contact and notes. | "Get lead 17." |
+| `leads.get_many` | `leads:read` | Fetch up to 50 leads by id in one round trip. | "Fetch leads 11, 14, and 22." |
+| `leads.search` | `leads:read` | Substring search against the lead name. | "Find leads containing 'Downtown'." |
 | `leads.create` | `leads:write` | Create a new lead. Required: name, source. Optional: contact id, est. value, stage, notes. | "Create a lead 'Downtown Office Renovation' from referral, est. value $250k." |
 | `leads.update` | `leads:write` | Update an existing lead. All fields except `id` are optional — only the fields you pass are changed. | "Move lead 17 to the proposal stage and bump the estimated value to $300k." |
 
