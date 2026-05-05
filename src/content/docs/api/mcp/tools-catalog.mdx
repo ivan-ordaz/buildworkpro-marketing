@@ -76,6 +76,21 @@ Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention
 | `change_orders.update` | `change_orders:write` | Update a draft change order's description, reason, total amount, or proposed dates. Submitted/approved change orders are locked. | "Update change order 12's reason to 'Owner-requested scope expansion'." |
 | `change_orders.approve` | `change_orders:approve` | Approve a submitted change order. | "Approve change order 12." |
 
+## Time entries (6)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `time_entries.list` | `time_entries:read` | Cursor-paginated time entries. Filter by project, user, date range, review state. | "Show my time entries this week." |
+| `time_entries.count` | `time_entries:read` | Total count with the same filter set. | "How many hours did Jane log in April?" |
+| `time_entries.get` | `time_entries:read` | Fetch a single time entry including project, user, task, phase, creator, reviewer. | "Get time entry 88." |
+| `time_entries.get_many` | `time_entries:read` | Fetch up to 50 time entries by id in one round trip. | "Fetch entries 12, 18, and 22." |
+| `time_entries.create` | `time_entries:write` | Log a time entry. Required: projectId, date, hours. `userId` defaults to the calling user — pass explicitly to log time for someone else. Hourly rate and total cost are resolved server-side. | "Log 8 hours on project 12 for May 4." |
+| `time_entries.update` | `time_entries:write` | Update an existing time entry. Reviewed entries are locked. | "Bump time entry 88 to 9 hours and add 'overtime'." |
+
+<Aside type="caution">
+Hourly rate and total cost are computed by the server from your labor-rate table. The MCP tool ignores any rate or cost fields you pass — payroll math isn't something an AI assistant gets to set.
+</Aside>
+
 ## Site logs (6)
 
 | Tool | Scope | What it does | Example prompt |
