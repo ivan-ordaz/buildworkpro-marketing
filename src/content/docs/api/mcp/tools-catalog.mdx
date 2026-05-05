@@ -95,6 +95,13 @@ Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention
 | `documents.list` | `documents:read` | List documents attached to records. Filter by entity (bid, project, change order, pay app). | "List documents attached to project 8." |
 | `documents.get` | `documents:read` | Fetch a single document's metadata (filename, size, content type, uploader). | "Get document 99." |
 
+## Users (2)
+
+| Tool | Scope | What it does | Example prompt |
+|---|---|---|---|
+| `users.list` | `users:read` | List team members in your tenant (name, email, role, active state). Use to find user IDs for assignment. Returns identity + membership only — no auth fields. | "Who's on the team?" |
+| `users.get` | `users:read` | Fetch a single team member by user ID. | "Who is user 5?" |
+
 ## Identity (1)
 
 | Tool | Scope | What it does | Example prompt |
