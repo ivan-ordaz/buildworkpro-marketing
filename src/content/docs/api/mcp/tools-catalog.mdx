@@ -9,7 +9,7 @@ The BuildWorkPro MCP server exposes **24 tools** across 7 entity domains plus id
 
 Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention.
 
-## Contacts (4)
+## Contacts (5)
 
 | Tool | Scope | What it does | Example prompt |
 |---|---|---|---|
@@ -17,6 +17,7 @@ Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention
 | `contacts.get` | `contacts:read` | Fetch a single contact by id, including all phone numbers and addresses. | "Get contact 42." |
 | `contacts.search` | `contacts:read` | Full-text search across name, email, phone, company, notes. | "Find Jane Doe in my contacts." |
 | `contacts.create` | `contacts:write` | Create a new contact. Required: name. Optional: email, phone, company, notes, tags. | "Add Jane Doe at Acme Construction with email jane@example.com." |
+| `contacts.update` | `contacts:write` | Update an existing contact. All fields except `id` are optional — only the fields you pass are changed. Pass `null` to clear `email` or `phone`. | "Change contact 42's email to jane.smith@example.com." |
 
 ## Leads (3)
 
