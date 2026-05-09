@@ -30,6 +30,7 @@
     document.getElementById('cookie-accept')?.addEventListener('click', () => {
       localStorage.setItem('bwp-cookies-accepted', '1');
       banner.classList.add('hidden');
+      (window as any).bwpLoadGA?.();
     });
   })();
 </script>

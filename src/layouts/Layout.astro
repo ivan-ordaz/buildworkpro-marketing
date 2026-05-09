@@ -24,6 +24,25 @@ const ogImageUrl = new URL(image, Astro.site).href;
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) — loaded only after cookie consent -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.bwpLoadGA = function () {
+        if (window.__bwpGALoaded) return;
+        window.__bwpGALoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-REK78NBR14';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', 'G-REK78NBR14');
+      };
+      try {
+        if (localStorage.getItem('bwp-cookies-accepted')) window.bwpLoadGA();
+      } catch (e) {}
+    </script>
+
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
