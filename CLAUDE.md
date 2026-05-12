@@ -28,7 +28,8 @@ Run the full suite locally before pushing: `npm run check && npm run lint && npm
 
 ## Branch & CI policy
 
-- **Main is PR-only.** Direct pushes to `main` are blocked by GitHub branch protection. Open a PR from a feature branch (`feat/...`, `fix/...`, `docs/...`) and merge it once CI is green.
+- **Main is PR-only.** Direct pushes to `main` are blocked by GitHub branch protection (PR required, the `CI` status check must pass, force pushes and branch deletion disabled). Admins are not enforced — there is no automatic bypass, but the repo owner can temporarily lift protection for emergencies via the GitHub UI.
+- Open a PR from a feature branch (`feat/...`, `fix/...`, `docs/...`). Cloudflare's auto-deploy only runs on push to `main`, so the merge is the deploy.
 - **CI runs on every PR and every push to `main`** via `.github/workflows/ci.yml`. The aggregate status check is named **`CI`** and is the required check for merging.
 - CI runs five parallel jobs: **Lint** (`eslint`), **Format** (`prettier --check`), **Typecheck** (`astro check`), **Build** (`astro build`), **E2E (Playwright)** (smoke tests in `tests/smoke.spec.ts`).
 - E2E uses `astro dev` as a webServer, so SSR routes (`/api/contact`, `/api/request-access`) are exercised alongside prerendered pages. Tests intentionally hit empty payloads to verify the endpoints reject without leaking 5xxs.
