@@ -10,13 +10,20 @@
     class="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-slate-200 bg-white/90 backdrop-blur-sm shadow-sm text-sm text-slate-600"
   >
     <p class="flex-1">
-      We use essential cookies to make BuildWorkPro work.
+      We use essential cookies to make BuildWorkPro work, and analytics cookies only after you
+      accept.
       <a
         href="/cookies/"
         class="text-brand-600 hover:text-brand-700 underline underline-offset-2 ml-1"
         >Cookie Policy</a
       >
     </p>
+    <button
+      id="cookie-decline"
+      class="shrink-0 px-3 py-1 rounded-md border border-slate-300 text-slate-700 text-xs font-medium hover:bg-slate-50 transition-colors cursor-pointer"
+    >
+      Decline
+    </button>
     <button
       id="cookie-accept"
       class="shrink-0 px-3 py-1 rounded-md bg-brand-600 text-white text-xs font-medium hover:bg-brand-700 transition-colors cursor-pointer"
@@ -29,13 +36,23 @@
 <script>
   (function () {
     if (localStorage.getItem('bwp-cookies-accepted')) return;
+    if (localStorage.getItem('bwp-cookies-declined')) return;
     const banner = document.getElementById('cookie-consent');
     if (!banner) return;
     banner.classList.remove('hidden');
     document.getElementById('cookie-accept')?.addEventListener('click', () => {
       localStorage.setItem('bwp-cookies-accepted', '1');
+      localStorage.removeItem('bwp-cookies-declined');
       banner.classList.add('hidden');
+      // Flip Consent Mode v2 signals BEFORE loading the analytics script, so
+      // the very first pings carry granted consent rather than denied.
+      (window as any).bwpGrantAnalyticsConsent?.();
       (window as any).bwpLoadGA?.();
+    });
+    document.getElementById('cookie-decline')?.addEventListener('click', () => {
+      localStorage.setItem('bwp-cookies-declined', '1');
+      banner.classList.add('hidden');
+      (window as any).bwpRevokeAnalyticsConsent?.();
     });
   })();
 </script>

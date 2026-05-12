@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
 ---
 
 <Layout
@@ -200,6 +201,37 @@ import Footer from '../../components/Footer.astro';
           >Request Access</button
         >
       </div>
+
+      <BlogPostFooter
+        headline="Construction CRM: How to Build a Sales Pipeline That Wins More Bids"
+        description="Construction CRM tips for subcontractors. Build a sales pipeline, track leads, improve follow-ups, and increase your bid win rate."
+        datePublished="2026-02-15"
+        related={[
+          {
+            href: '/features/construction-crm/',
+            title: 'CRM & Sales Pipeline',
+            description:
+              'Kanban pipeline for leads and deals — track contacts, follow-ups, and win rates in one place.',
+          },
+          {
+            href: '/features/construction-bidding/',
+            title: 'Bidding & Estimating',
+            description:
+              'Turn won leads into detailed bids with line items, labor rates, and markup.',
+          },
+          {
+            href: '/docs/crm/pipeline/',
+            title: 'Pipeline Stages Documentation',
+            description: 'Customize stages and move deals through your specific sales process.',
+          },
+          {
+            href: '/blog/how-to-create-construction-bid/',
+            title: 'How to Create a Construction Bid',
+            description:
+              'Once the lead is qualified, turn it into a winning bid with a proven framework.',
+          },
+        ]}
+      />
     </article>
   </main>
   <Footer />

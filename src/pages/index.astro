@@ -10,12 +10,48 @@ import Pricing from '../components/Pricing.astro';
 import FAQ from '../components/FAQ.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
+import { config } from '../config';
+
+const softwareApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'BuildWorkPro',
+  description:
+    'Construction project management and ERP software for subcontractors. Bidding, pay applications, change orders, project management, site logs, time tracking, CRM, and reporting in one platform.',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Construction Management Software',
+  operatingSystem: 'Web, iOS, Android',
+  url: config.siteUrl,
+  image: `${config.siteUrl}/og-image.png`,
+  offers: {
+    '@type': 'Offer',
+    price: '79',
+    priceCurrency: 'USD',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: '79',
+      priceCurrency: 'USD',
+      billingIncrement: 1,
+      unitText: 'MONTH',
+    },
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'BuildWorkPro',
+    url: config.siteUrl,
+  },
+};
 ---
 
 <Layout
   title="Construction Project Management Software for Subcontractors | BuildWorkPro"
   description="Construction software built for subcontractors. Manage bids, pay apps, change orders, projects & crew for $79/month flat. No per-user fees. Coming soon."
 >
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(softwareApplicationSchema)}
+  />
   <Header />
   <main>
     <Hero />

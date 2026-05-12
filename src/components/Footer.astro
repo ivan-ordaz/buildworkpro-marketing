@@ -1,40 +1,71 @@
 ---
 const footerLinks = {
-  Product: [
-    { label: 'Features', href: '#features' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'Integrations', href: '#integrations' },
-    { label: 'FAQ', href: '#faq' },
+  Features: [
+    { label: 'Bidding & Estimating', href: '/features/construction-bidding/' },
+    { label: 'Pay Applications', href: '/features/pay-applications/' },
+    { label: 'Change Orders', href: '/features/change-orders/' },
+    { label: 'Project Management', href: '/features/project-management/' },
+    { label: 'Site Logs', href: '/features/site-logs/' },
+    { label: 'Time Tracking', href: '/features/time-tracking/' },
+    { label: 'CRM & Pipeline', href: '/features/construction-crm/' },
+    { label: 'Reports & Analytics', href: '/features/reports/' },
+    { label: 'All features', href: '/features/' },
+  ],
+  Solutions: [
+    { label: 'HVAC Contractors', href: '/solutions/hvac-contractors/' },
+    { label: 'Electrical Contractors', href: '/solutions/electrical-contractors/' },
+    { label: 'Plumbing Contractors', href: '/solutions/plumbing-contractors/' },
+    { label: 'Concrete Contractors', href: '/solutions/concrete-contractors/' },
+    { label: 'Roofing Contractors', href: '/solutions/roofing-contractors/' },
+    { label: 'Framing Contractors', href: '/solutions/framing-contractors/' },
+    { label: 'All solutions', href: '/solutions/' },
+  ],
+  Developers: [
+    { label: 'API Overview', href: '/api/' },
+    { label: 'Quickstart', href: '/api/quickstart/' },
+    { label: 'API Reference', href: '/api/reference/' },
+    { label: 'Webhooks', href: '/api/webhooks/overview/' },
+    { label: 'MCP for Claude & ChatGPT', href: '/api/mcp/overview/' },
+    { label: 'Recipes', href: '/api/recipes/01-import-contacts-from-csv/' },
+    { label: 'Changelog', href: '/api/changelog/' },
+  ],
+  Resources: [
+    { label: 'Documentation', href: '/docs/' },
+    { label: 'Getting Started', href: '/docs/getting-started/introduction/' },
+    { label: 'Blog', href: '/blog/' },
+    { label: 'vs Procore', href: '/compare/procore-alternative/' },
+    { label: 'vs Buildertrend', href: '/compare/buildertrend-alternative/' },
+    { label: 'Integrations', href: '/integrations/' },
   ],
   Company: [
     { label: 'About', href: '/about/' },
-    { label: 'Blog', href: '/blog/' },
     { label: 'Contact', href: '/contact/' },
     { label: 'Support', href: '/support/' },
+    { label: 'Security', href: '/security/' },
+    { label: 'Responsible Disclosure', href: '/security/disclosure/' },
   ],
   Legal: [
     { label: 'Privacy', href: '/privacy/' },
     { label: 'Terms', href: '/terms/' },
     { label: 'Cookies', href: '/cookies/' },
-    { label: 'Security', href: '/security/' },
   ],
 };
 ---
 
 <footer class="bg-slate-900 text-slate-400">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-8">
       <!-- Brand -->
-      <div class="col-span-2">
+      <div class="col-span-2 lg:col-span-2">
         <a href="/" class="flex items-center mb-4">
           <img src="/logo.png" alt="BuildWorkPro" class="h-9 w-auto brightness-0 invert" />
         </a>
         <p class="text-sm text-slate-400 max-w-xs leading-relaxed">
-          The all-in-one construction project management and ERP platform for modern contractors.
+          The all-in-one construction project management and ERP platform for modern subcontractors.
         </p>
       </div>
 
-      <!-- Links -->
+      <!-- Link columns -->
       {
         Object.entries(footerLinks).map(([category, links]) => (
           <div>

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
 ---
 
 <Layout
@@ -204,6 +205,37 @@ import Footer from '../../components/Footer.astro';
           >Request Access</button
         >
       </div>
+
+      <BlogPostFooter
+        headline="Construction Change Order Management: Best Practices"
+        description="Best practices for managing construction change orders. Learn documentation, pricing, approval workflows, and how to protect your margins as a subcontractor."
+        datePublished="2026-03-05"
+        related={[
+          {
+            href: '/features/change-orders/',
+            title: 'Change Orders in BuildWorkPro',
+            description:
+              'Track scope changes from request to approval with automatic contract-value updates.',
+          },
+          {
+            href: '/docs/change-orders/creating/',
+            title: 'Creating a Change Order',
+            description:
+              'Walk through writing, pricing, and submitting change orders inside BuildWorkPro.',
+          },
+          {
+            href: '/blog/aia-pay-application-guide/',
+            title: 'AIA Pay Application Guide',
+            description:
+              'Bill the change orders correctly by feeding them into your monthly pay app.',
+          },
+          {
+            href: '/features/pay-applications/',
+            title: 'Pay Applications',
+            description: 'Run progress billing that automatically reflects approved change orders.',
+          },
+        ]}
+      />
     </article>
   </main>
   <Footer />

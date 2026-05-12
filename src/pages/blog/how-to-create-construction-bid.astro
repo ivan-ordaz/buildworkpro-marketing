@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
 ---
 
 <Layout
@@ -182,6 +183,37 @@ import Footer from '../../components/Footer.astro';
           >Request Access</button
         >
       </div>
+
+      <BlogPostFooter
+        headline="How to Create a Construction Bid: Step-by-Step Guide"
+        description="Learn how to write a winning construction bid. Step-by-step guide covering takeoffs, labor rates, material costs, markup, and proposal formatting for subcontractors."
+        datePublished="2026-03-15"
+        related={[
+          {
+            href: '/features/construction-bidding/',
+            title: 'Bidding & Estimating',
+            description:
+              'Build detailed bids with line items, labor rates, markup, and material costs.',
+          },
+          {
+            href: '/docs/bids/creating-a-bid/',
+            title: 'Creating a Bid Documentation',
+            description: 'Step-by-step walkthrough of building your first bid inside BuildWorkPro.',
+          },
+          {
+            href: '/docs/bids/line-items/',
+            title: 'Bid Line Items',
+            description:
+              'How to structure your bid with materials, labor, equipment, and subcontractor line items.',
+          },
+          {
+            href: '/blog/construction-crm-tips/',
+            title: 'Construction CRM Tips',
+            description:
+              'Bidding starts with a healthy lead pipeline — track and qualify leads first.',
+          },
+        ]}
+      />
     </article>
   </main>
   <Footer />
