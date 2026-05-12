@@ -1,0 +1,14 @@
+node_modules
+dist
+.astro
+.wrangler
+# `public/` is served as-is by Astro — never reformat its contents
+# (openapi.json, postman collection, robots.txt, images, etc.).
+public
+package-lock.json
+demos
+test-results
+playwright-report
+# MDX files contain JSX-style comments ({/* ... */}) that Prettier's MDX
+# parser mangles into invalid markdown escapes ({/\* ... \*/}). Skip them.
+**/*.mdx

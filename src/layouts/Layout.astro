@@ -27,11 +27,13 @@ const ogImageUrl = new URL(image, Astro.site).href;
     <!-- Google tag (gtag.js) — loaded only after cookie consent -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag(...args) {
+        window.dataLayer.push(args);
+      }
       window.bwpLoadGA = function () {
         if (window.__bwpGALoaded) return;
         window.__bwpGALoaded = true;
-        var s = document.createElement('script');
+        const s = document.createElement('script');
         s.async = true;
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-REK78NBR14';
         document.head.appendChild(s);
@@ -40,7 +42,9 @@ const ogImageUrl = new URL(image, Astro.site).href;
       };
       try {
         if (localStorage.getItem('bwp-cookies-accepted')) window.bwpLoadGA();
-      } catch (e) {}
+      } catch {
+        /* localStorage unavailable (private browsing, SSR, etc.) — skip GA load */
+      }
     </script>
 
     <meta charset="utf-8" />
@@ -69,19 +73,22 @@ const ogImageUrl = new URL(image, Astro.site).href;
     <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- Organization Schema -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "BuildWorkPro",
-      "url": config.siteUrl,
-      "logo": `${config.siteUrl}/logo.png`,
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": config.email.support,
-        "contactType": "customer support"
-      },
-      "sameAs": []
-    })} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'BuildWorkPro',
+        url: config.siteUrl,
+        logo: `${config.siteUrl}/logo.png`,
+        contactPoint: {
+          '@type': 'ContactPoint',
+          email: config.email.support,
+          contactType: 'customer support',
+        },
+        sameAs: [],
+      })}
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -89,7 +96,8 @@ const ogImageUrl = new URL(image, Astro.site).href;
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer
+    ></script>
     <title>{title}</title>
   </head>
   <body class="bg-white text-slate-900 font-sans" data-turnstile-sitekey={config.turnstileSiteKey}>

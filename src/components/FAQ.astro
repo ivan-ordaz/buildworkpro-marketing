@@ -2,20 +2,24 @@
 const faqs = [
   {
     question: 'What is construction project management software?',
-    answer: 'Construction project management software helps contractors organize bids, track projects, manage pay applications, handle change orders, and keep field operations running smoothly — all in one place. BuildWorkPro is built specifically for subcontractors like electrical, plumbing, HVAC, concrete, and framing companies who need a simpler alternative to tools designed for general contractors.',
+    answer:
+      'Construction project management software helps contractors organize bids, track projects, manage pay applications, handle change orders, and keep field operations running smoothly — all in one place. BuildWorkPro is built specifically for subcontractors like electrical, plumbing, HVAC, concrete, and framing companies who need a simpler alternative to tools designed for general contractors.',
   },
   {
     /* TODO: Restore original trial FAQ answer at launch */
     question: 'When will BuildWorkPro be available?',
-    answer: 'We\'re onboarding select contractors during our pre-launch phase. BuildWorkPro will be available at $79/month (or $790/year) with all features included and unlimited users. Click \"Request Access\" anywhere on this site to get in touch and join the early access list.',
+    answer:
+      'We\'re onboarding select contractors during our pre-launch phase. BuildWorkPro will be available at $79/month (or $790/year) with all features included and unlimited users. Click "Request Access" anywhere on this site to get in touch and join the early access list.',
   },
   {
     question: 'Can BuildWorkPro replace spreadsheets for managing bids and pay apps?',
-    answer: 'Yes — that\'s exactly what it\'s built for. Create detailed estimates with line items, labor rates, and markup. Generate AIA-style pay applications with schedule of values. Track change orders with approval workflows. Everything stays connected to the project, so you stop juggling spreadsheets and email threads.',
+    answer:
+      "Yes — that's exactly what it's built for. Create detailed estimates with line items, labor rates, and markup. Generate AIA-style pay applications with schedule of values. Track change orders with approval workflows. Everything stays connected to the project, so you stop juggling spreadsheets and email threads.",
   },
   {
     question: 'Does BuildWorkPro work on phones and tablets at the job site?',
-    answer: 'BuildWorkPro is fully web-based and works on any device with a modern browser — no app to install. Log time, submit site logs, check project status, or review a bid from your phone, tablet, or laptop. A native mobile app is also coming soon.',
+    answer:
+      'BuildWorkPro is fully web-based and works on any device with a modern browser — no app to install. Log time, submit site logs, check project status, or review a bid from your phone, tablet, or laptop. A native mobile app is also coming soon.',
   },
   /* TODO: Restore QuickBooks FAQ at launch
   {
@@ -25,15 +29,18 @@ const faqs = [
   */
   {
     question: 'Is my construction data secure?',
-    answer: 'Yes. BuildWorkPro uses TLS encryption in transit and at rest, role-based access control with four permission levels, complete audit logging, and full tenant isolation — your data is never accessible to other companies. We also support two-factor authentication.',
+    answer:
+      'Yes. BuildWorkPro uses TLS encryption in transit and at rest, role-based access control with four permission levels, complete audit logging, and full tenant isolation — your data is never accessible to other companies. We also support two-factor authentication.',
   },
   {
     question: 'How is BuildWorkPro different from Procore or Buildertrend?',
-    answer: 'Most construction software is built for general contractors and charges per user, often starting at $299/month or more. BuildWorkPro is purpose-built for subcontractors at a flat $79/month for unlimited users. You get bidding, project management, pay apps, change orders, time tracking, and CRM without paying for features subs don\'t need.',
+    answer:
+      "Most construction software is built for general contractors and charges per user, often starting at $299/month or more. BuildWorkPro is purpose-built for subcontractors at a flat $79/month for unlimited users. You get bidding, project management, pay apps, change orders, time tracking, and CRM without paying for features subs don't need.",
   },
   {
     question: 'Can I import data from my current system?',
-    answer: 'Yes. BuildWorkPro supports CSV imports for contacts, projects, and products. If you\'re migrating from another platform, our team can help with the transition during onboarding.',
+    answer:
+      "Yes. BuildWorkPro supports CSV imports for contacts, projects, and products. If you're migrating from another platform, our team can help with the transition during onboarding.",
   },
 ];
 ---
@@ -41,41 +48,50 @@ const faqs = [
 <section id="faq" class="py-24 lg:py-32">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
-      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
-        FAQ
-      </p>
+      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">FAQ</p>
       <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
         Frequently asked questions
       </h2>
     </div>
 
     <div class="space-y-4">
-      {faqs.map((faq, i) => (
-        <details class="group border border-slate-200 rounded-xl overflow-hidden" open={i === 0}>
-          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-left hover:bg-slate-50 transition-colors">
-            <span class="text-base font-semibold text-slate-900 pr-4">{faq.question}</span>
-            <svg class="w-5 h-5 text-slate-400 shrink-0 transition-transform group-open:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-            </svg>
-          </summary>
-          <div class="px-6 pb-5">
-            <p class="text-slate-500 leading-relaxed">{faq.answer}</p>
-          </div>
-        </details>
-      ))}
+      {
+        faqs.map((faq, i) => (
+          <details class="group border border-slate-200 rounded-xl overflow-hidden" open={i === 0}>
+            <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-left hover:bg-slate-50 transition-colors">
+              <span class="text-base font-semibold text-slate-900 pr-4">{faq.question}</span>
+              <svg
+                class="w-5 h-5 text-slate-400 shrink-0 transition-transform group-open:rotate-45"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+              </svg>
+            </summary>
+            <div class="px-6 pb-5">
+              <p class="text-slate-500 leading-relaxed">{faq.answer}</p>
+            </div>
+          </details>
+        ))
+      }
     </div>
   </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer,
-      },
-    })),
-  })} />
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    })}
+  />
 </section>
