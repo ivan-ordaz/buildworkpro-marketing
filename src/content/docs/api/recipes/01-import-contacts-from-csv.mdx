@@ -77,7 +77,11 @@ Use this recipe when you need to onboard a customer's existing CRM data, sync ni
 </Steps>
 
 <Aside type="caution" title="Watch out for">
-- **Idempotency keys must be unique per file.** Reusing the same `Idempotency-Key` returns the original job, so a follow-up import for a different file with the same key will silently no-op. Derive the key from the file's content hash or the upload's `sourcePath`.
-- **Column mapping is required.** The importer will not guess. Source columns missing from `mapping` are ignored; required fields missing from `mapping` produce row-level `validation_failed` errors for every row.
-- **Imports cost 200 rate-limit units.** Concurrent large imports against the same key will quickly exhaust your budget — see [Rate Limits](/api/concepts/rate-limits/).
+  - **Idempotency keys must be unique per file.** Reusing the same `Idempotency-Key` returns the
+  original job, so a follow-up import for a different file with the same key will silently no-op.
+  Derive the key from the file's content hash or the upload's `sourcePath`. - **Column mapping is
+  required.** The importer will not guess. Source columns missing from `mapping` are ignored;
+  required fields missing from `mapping` produce row-level `validation_failed` errors for every row.
+  - **Imports cost 200 rate-limit units.** Concurrent large imports against the same key will
+  quickly exhaust your budget — see [Rate Limits](/api/concepts/rate-limits/).
 </Aside>

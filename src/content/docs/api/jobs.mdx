@@ -11,14 +11,14 @@ A job is a row in a queue. You create it, poll its status (or wait for the compl
 
 ## When to use jobs
 
-| Scenario                                            | Synchronous endpoint        | Use a job? |
-|-----------------------------------------------------|-----------------------------|------------|
-| Pull 25 contacts                                     | `GET /api/v1/contacts`     | No         |
-| Export every contact to CSV                          | -                          | Yes -- `csv_export` |
-| Bulk-import 5,000 leads from a CSV                   | -                          | Yes -- `csv_import` |
-| Soft-delete 200 line items                           | -                          | Yes -- `bulk` (delete) |
-| Generate a printable PDF for a bid                   | -                          | Yes -- `pdf` |
-| Update a single field on one contact                 | `PATCH /api/v1/contacts/1` | No         |
+| Scenario                             | Synchronous endpoint       | Use a job?             |
+| ------------------------------------ | -------------------------- | ---------------------- |
+| Pull 25 contacts                     | `GET /api/v1/contacts`     | No                     |
+| Export every contact to CSV          | -                          | Yes -- `csv_export`    |
+| Bulk-import 5,000 leads from a CSV   | -                          | Yes -- `csv_import`    |
+| Soft-delete 200 line items           | -                          | Yes -- `bulk` (delete) |
+| Generate a printable PDF for a bid   | -                          | Yes -- `pdf`           |
+| Update a single field on one contact | `PATCH /api/v1/contacts/1` | No                     |
 
 Anything that may exceed five seconds, touches more than ~100 rows, or needs to produce a downloadable artifact is a job.
 
@@ -31,13 +31,13 @@ queued -> running -> succeeded
                   -> cancelled
 ```
 
-| Status      | Meaning |
-|-------------|---------|
-| `queued`    | Created but not yet picked up by a worker. |
-| `running`   | A worker has it. Progress is updated periodically. |
-| `succeeded` | Finished without errors. Artifact ready (if applicable). |
-| `partial`   | `csv_import` only -- some rows succeeded, some failed. Both result and errors artifacts are available. |
-| `failed`    | The whole job failed. `errorMessage` carries the reason. |
+| Status      | Meaning                                                                                                                       |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `queued`    | Created but not yet picked up by a worker.                                                                                    |
+| `running`   | A worker has it. Progress is updated periodically.                                                                            |
+| `succeeded` | Finished without errors. Artifact ready (if applicable).                                                                      |
+| `partial`   | `csv_import` only -- some rows succeeded, some failed. Both result and errors artifacts are available.                        |
+| `failed`    | The whole job failed. `errorMessage` carries the reason.                                                                      |
 | `cancelled` | You cancelled it via `POST /api/v1/jobs/{id}/cancel`. Workers also poll status between rows and exit promptly when cancelled. |
 
 `succeeded`, `partial`, `failed`, and `cancelled` are all terminal -- once a job reaches one of these, status doesn't change again.
@@ -49,27 +49,29 @@ queued -> running -> succeeded
     Stream a resource to a CSV artifact. Per-resource exporters define columns and filters.
   </Card>
   <Card title="csv_import" icon="seti:csv">
-    Parse an uploaded CSV row-by-row. Per-resource importers validate and commit each row; failures land in an errors CSV.
+    Parse an uploaded CSV row-by-row. Per-resource importers validate and commit each row; failures
+    land in an errors CSV.
   </Card>
   <Card title="pdf" icon="document">
     Build a printable PDF for a bid, change order, or pay app.
   </Card>
   <Card title="bulk" icon="random">
-    Delete or restore many records at once (max 500 ids per call). Supported on contacts, leads, projects, bids, products, pay apps, site logs, time entries, and documents.
+    Delete or restore many records at once (max 500 ids per call). Supported on contacts, leads,
+    projects, bids, products, pay apps, site logs, time entries, and documents.
   </Card>
 </CardGrid>
 
 ## API surface
 
-| Method  | Path                              | Scope        | Description |
-|---------|-----------------------------------|--------------|-------------|
-| `GET`   | `/api/v1/jobs`                    | `jobs:read`  | List jobs (cursor paginated). Filter by `type`, `status`, `resourceType`. |
-| `GET`   | `/api/v1/jobs/{id}`               | `jobs:read`  | Status, progress, params, result, error message. |
-| `GET`   | `/api/v1/jobs/{id}/download`      | `jobs:read`  | 302 redirect to a 1-hour signed download URL. Available on `succeeded` and `partial`. |
-| `GET`   | `/api/v1/jobs/{id}/errors`        | `jobs:read`  | 302 redirect to a 1-hour signed errors-CSV URL (for `csv_import` partials). |
-| `POST`  | `/api/v1/jobs/{id}/cancel`        | `jobs:write` | Cancel a `queued` or `running` job. Terminal jobs return 409. |
-| `POST`  | `/api/v1/jobs/uploads`            | `jobs:write` | Mint a 15-minute signed PUT URL for uploading a CSV input. |
-| `DELETE`| `/api/v1/jobs/{id}`               | `jobs:write` | Soft-delete the job row. Artifacts are auto-purged on TTL expiry. |
+| Method   | Path                         | Scope        | Description                                                                           |
+| -------- | ---------------------------- | ------------ | ------------------------------------------------------------------------------------- |
+| `GET`    | `/api/v1/jobs`               | `jobs:read`  | List jobs (cursor paginated). Filter by `type`, `status`, `resourceType`.             |
+| `GET`    | `/api/v1/jobs/{id}`          | `jobs:read`  | Status, progress, params, result, error message.                                      |
+| `GET`    | `/api/v1/jobs/{id}/download` | `jobs:read`  | 302 redirect to a 1-hour signed download URL. Available on `succeeded` and `partial`. |
+| `GET`    | `/api/v1/jobs/{id}/errors`   | `jobs:read`  | 302 redirect to a 1-hour signed errors-CSV URL (for `csv_import` partials).           |
+| `POST`   | `/api/v1/jobs/{id}/cancel`   | `jobs:write` | Cancel a `queued` or `running` job. Terminal jobs return 409.                         |
+| `POST`   | `/api/v1/jobs/uploads`       | `jobs:write` | Mint a 15-minute signed PUT URL for uploading a CSV input.                            |
+| `DELETE` | `/api/v1/jobs/{id}`          | `jobs:write` | Soft-delete the job row. Artifacts are auto-purged on TTL expiry.                     |
 
 Jobs are created indirectly: you call the resource-specific kickoff endpoint (e.g., `POST /api/v1/contacts/exports`, `POST /api/v1/contacts/imports`, `POST /api/v1/bids/{id}/pdf`, `POST /api/v1/contacts/bulk-delete`) and it returns the new job row. From that point on, you interact with the job via the endpoints above.
 
@@ -84,7 +86,8 @@ Use the smallest interval that still feels responsive to your workload:
 A `job.completed` webhook event ships in a future release; once available, it removes the need to poll at all.
 
 <Aside type="caution">
-  Don't poll faster than once per second. The endpoint is rate-limited and aggressive polling can wedge other API calls under the same key.
+  Don't poll faster than once per second. The endpoint is rate-limited and aggressive polling can
+  wedge other API calls under the same key.
 </Aside>
 
 ## Downloading artifacts
@@ -116,12 +119,12 @@ rowNumber,errorCode,message,sourceJson
 17,commit_failed,"duplicate primary email","{""firstName"":""John"",""email"":""jane@example.com""}"
 ```
 
-| Column        | Meaning |
-|---------------|---------|
-| `rowNumber`   | 1-based, with the header as row 1. The first data row is therefore row 2. |
-| `errorCode`   | `validation_failed`, `commit_failed`, or an importer-specific code. |
-| `message`     | Human-readable explanation. |
-| `sourceJson`  | The original source columns for that row, as JSON. Lets you fix and re-submit just the failed rows. |
+| Column       | Meaning                                                                                             |
+| ------------ | --------------------------------------------------------------------------------------------------- |
+| `rowNumber`  | 1-based, with the header as row 1. The first data row is therefore row 2.                           |
+| `errorCode`  | `validation_failed`, `commit_failed`, or an importer-specific code.                                 |
+| `message`    | Human-readable explanation.                                                                         |
+| `sourceJson` | The original source columns for that row, as JSON. Lets you fix and re-submit just the failed rows. |
 
 Fetch it via `GET /api/v1/jobs/{id}/errors`. The 30-day artifact TTL applies here too.
 

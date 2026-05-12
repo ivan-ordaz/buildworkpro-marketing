@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <!-- Request Access Modal -->
@@ -8,11 +9,18 @@
 
   <!-- Modal Card -->
   <div class="absolute inset-0 flex items-center justify-center p-4">
-    <div id="request-access-card" class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+    <div
+      id="request-access-card"
+      class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+    >
       <!-- Close Button -->
-      <button id="request-access-close" class="absolute top-4 right-4 p-1 text-slate-400 hover:text-slate-600 transition-colors" aria-label="Close">
+      <button
+        id="request-access-close"
+        class="absolute top-4 right-4 p-1 text-slate-400 hover:text-slate-600 transition-colors"
+        aria-label="Close"
+      >
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
 
@@ -20,12 +28,15 @@
       <div id="request-access-form-view" class="p-8">
         <h2 class="text-2xl font-bold text-slate-900 mb-2">Request Early Access</h2>
         <p class="text-sm text-slate-500 mb-6">
-          We're onboarding select contractors during our pre-launch phase. Tell us about your business and we'll be in touch.
+          We're onboarding select contractors during our pre-launch phase. Tell us about your
+          business and we'll be in touch.
         </p>
 
         <form id="request-access-form" class="space-y-4">
           <div>
-            <label for="ra-name" class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+            <label for="ra-name" class="block text-sm font-medium text-slate-700 mb-1"
+              >Full Name</label
+            >
             <input
               type="text"
               id="ra-name"
@@ -37,7 +48,8 @@
           </div>
 
           <div>
-            <label for="ra-email" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+            <label for="ra-email" class="block text-sm font-medium text-slate-700 mb-1">Email</label
+            >
             <input
               type="email"
               id="ra-email"
@@ -49,7 +61,9 @@
           </div>
 
           <div>
-            <label for="ra-company" class="block text-sm font-medium text-slate-700 mb-1">Company Name</label>
+            <label for="ra-company" class="block text-sm font-medium text-slate-700 mb-1"
+              >Company Name</label
+            >
             <input
               type="text"
               id="ra-company"
@@ -61,7 +75,9 @@
           </div>
 
           <div>
-            <label for="ra-trade" class="block text-sm font-medium text-slate-700 mb-1">Trade / Specialty</label>
+            <label for="ra-trade" class="block text-sm font-medium text-slate-700 mb-1"
+              >Trade / Specialty</label
+            >
             <input
               type="text"
               id="ra-trade"
@@ -72,18 +88,23 @@
           </div>
 
           <div>
-            <label for="ra-message" class="block text-sm font-medium text-slate-700 mb-1">Message <span class="text-slate-400 font-normal">(optional)</span></label>
+            <label for="ra-message" class="block text-sm font-medium text-slate-700 mb-1"
+              >Message <span class="text-slate-400 font-normal">(optional)</span></label
+            >
             <textarea
               id="ra-message"
               name="message"
               rows="3"
               class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors resize-none"
-              placeholder="Tell us about your business..."
-            ></textarea>
+              placeholder="Tell us about your business..."></textarea>
           </div>
 
           <div id="request-access-turnstile"></div>
-          <div id="request-access-error" class="hidden text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200"></div>
+          <div
+            id="request-access-error"
+            class="hidden text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200"
+          >
+          </div>
 
           <button
             type="submit"
@@ -97,9 +118,17 @@
 
       <!-- Success View -->
       <div id="request-access-success-view" class="p-8 text-center hidden">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-50 mb-4">
-          <svg class="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        <div
+          class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-50 mb-4"
+        >
+          <svg
+            class="w-8 h-8 text-green-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
           </svg>
         </div>
         <h2 class="text-2xl font-bold text-slate-900 mb-2">Thank you!</h2>
@@ -128,7 +157,16 @@
     const successView = document.getElementById('request-access-success-view');
     const turnstileContainer = document.getElementById('request-access-turnstile');
 
-    if (!modal || !backdrop || !closeBtn || !form || !formView || !successView || !turnstileContainer) return;
+    if (
+      !modal ||
+      !backdrop ||
+      !closeBtn ||
+      !form ||
+      !formView ||
+      !successView ||
+      !turnstileContainer
+    )
+      return;
 
     const sitekey = document.body.dataset.turnstileSitekey;
     let turnstileToken = '';
@@ -140,8 +178,12 @@
       widgetRendered = true;
       widgetId = turnstile.render(turnstileContainer, {
         sitekey,
-        callback: (token: string) => { turnstileToken = token; },
-        'expired-callback': () => { turnstileToken = ''; },
+        callback: (token: string) => {
+          turnstileToken = token;
+        },
+        'expired-callback': () => {
+          turnstileToken = '';
+        },
         theme: 'light',
       });
     }
@@ -202,13 +244,17 @@
       if (!turnstileToken) {
         if (errorEl) {
           errorEl.textContent = 'Please complete the verification above.';
-          errorEl.className = 'text-sm rounded-lg px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200';
+          errorEl.className =
+            'text-sm rounded-lg px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200';
         }
         return;
       }
 
       const formData = new FormData(form);
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+      }
       if (errorEl) errorEl.className = 'hidden';
 
       try {
@@ -232,10 +278,14 @@
       } catch {
         if (errorEl) {
           errorEl.textContent = 'Something went wrong. Please try again.';
-          errorEl.className = 'text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200';
+          errorEl.className =
+            'text-sm rounded-lg px-4 py-3 bg-red-50 text-red-700 border border-red-200';
         }
       } finally {
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Request Access'; }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Request Access';
+        }
       }
     });
   }

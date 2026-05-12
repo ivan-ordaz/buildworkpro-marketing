@@ -17,7 +17,8 @@ BuildWorkPro implements **OAuth 2.1**, which restricts the legacy OAuth 2.0 gran
 We do **not** support `client_credentials`, the resource-owner password grant, or the implicit flow. These are removed in OAuth 2.1.
 
 <Aside type="note">
-  PKCE is required on every authorization request, including for confidential clients. The only allowed `code_challenge_method` is `S256`. `plain` is rejected.
+  PKCE is required on every authorization request, including for confidential clients. The only
+  allowed `code_challenge_method` is `S256`. `plain` is rejected.
 </Aside>
 
 ## Dynamic Client Registration

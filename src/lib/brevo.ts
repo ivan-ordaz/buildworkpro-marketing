@@ -9,14 +9,14 @@ export type Env = {
 
 export async function sendEmail(
   apiKey: string,
-  opts: { subject: string; htmlContent: string; replyTo?: { email: string; name?: string } },
+  opts: { subject: string; htmlContent: string; replyTo?: { email: string; name?: string } }
 ) {
-  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
-    method: "POST",
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
     headers: {
-      "api-key": apiKey,
-      "content-type": "application/json",
-      accept: "application/json",
+      'api-key': apiKey,
+      'content-type': 'application/json',
+      accept: 'application/json',
     },
     body: JSON.stringify({
       sender: { name: SENDER_NAME, email: SENDER_EMAIL },
@@ -42,9 +42,9 @@ export async function verifyTurnstile(secretKey: string, token: string, ip?: str
     ...(ip ? { remoteip: ip } : {}),
   });
 
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: params,
   });
 
@@ -63,7 +63,7 @@ const MAX_LENGTHS: Record<string, number> = {
 };
 
 export function sanitizeField(key: string, value: unknown): string {
-  const str = String(value ?? "").trim();
+  const str = String(value ?? '').trim();
   const max = MAX_LENGTHS[key] ?? 500;
   return str.length > max ? str.slice(0, max) : str;
 }
@@ -76,15 +76,18 @@ export function isValidEmail(value: string): boolean {
 
 function escapeHtml(str: string) {
   return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 export function buildHtmlTable(fields: Record<string, string>) {
   const rows = Object.entries(fields)
-    .map(([label, value]) => `<tr><td style="padding:8px 12px;font-weight:600;vertical-align:top">${escapeHtml(label)}</td><td style="padding:8px 12px">${escapeHtml(value || "(not provided)")}</td></tr>`)
-    .join("");
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:8px 12px;font-weight:600;vertical-align:top">${escapeHtml(label)}</td><td style="padding:8px 12px">${escapeHtml(value || '(not provided)')}</td></tr>`
+    )
+    .join('');
   return `<table style="border-collapse:collapse;font-family:sans-serif;font-size:14px">${rows}</table>`;
 }

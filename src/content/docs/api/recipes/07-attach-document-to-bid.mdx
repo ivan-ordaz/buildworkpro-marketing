@@ -53,7 +53,11 @@ The public `/api/v1/documents` surface is read- and metadata-only at v1 — uplo
 </Steps>
 
 <Aside type="caution" title="Watch out for">
-- **Document creation is not exposed in v1.** `POST /api/v1/documents` does not exist — only GET, PATCH, DELETE, exports, and bulk delete/restore. Plan accordingly if your integration needs to push files in.
-- **The `inline=true` flag only applies to safe types.** Browsers will only render images and PDFs inline; everything else falls back to `attachment` regardless of the query param. This is a deliberate XSS defense.
-- **Scopes: `documents:read` to list and download, `documents:write` to PATCH metadata, `documents:delete` to remove.** Mismatched scope returns `403 forbidden`.
+  - **Document creation is not exposed in v1.** `POST /api/v1/documents` does not exist — only GET,
+  PATCH, DELETE, exports, and bulk delete/restore. Plan accordingly if your integration needs to
+  push files in. - **The `inline=true` flag only applies to safe types.** Browsers will only render
+  images and PDFs inline; everything else falls back to `attachment` regardless of the query param.
+  This is a deliberate XSS defense. - **Scopes: `documents:read` to list and download,
+  `documents:write` to PATCH metadata, `documents:delete` to remove.** Mismatched scope returns `403
+  forbidden`.
 </Aside>

@@ -14,8 +14,8 @@ Use this recipe at the end of every pay period to pull crew hours out of BuildWo
    Compute `start` and `end` in the tenant's working timezone. Most payrolls run on a Monday-Sunday or 1st-15th cadence — pick whichever the team uses and pin it.
 
    ```js
-   const start = "2026-04-12T00:00:00-04:00"; // Sunday 00:00 EDT
-   const end   = "2026-04-26T00:00:00-04:00"; // Two weeks later
+   const start = '2026-04-12T00:00:00-04:00'; // Sunday 00:00 EDT
+   const end = '2026-04-26T00:00:00-04:00'; // Two weeks later
    ```
 
 2. **Kick off the export job.**
@@ -35,19 +35,19 @@ Use this recipe at the end of every pay period to pull crew hours out of BuildWo
    ```js
    let status;
    do {
-     await new Promise(r => setTimeout(r, 5000));
+     await new Promise((r) => setTimeout(r, 5000));
      const j = await fetch(`https://app.buildworkpro.com/api/v1/jobs/${jobId}`, {
        headers: { Authorization: `Bearer ${process.env.BWP_KEY}` },
-     }).then(r => r.json());
+     }).then((r) => r.json());
      status = j.data.status;
-   } while (!["succeeded", "failed", "cancelled"].includes(status));
+   } while (!['succeeded', 'failed', 'cancelled'].includes(status));
 
-   if (status !== "succeeded") throw new Error(`export ${status}`);
+   if (status !== 'succeeded') throw new Error(`export ${status}`);
 
-   const csv = await fetch(
-     `https://app.buildworkpro.com/api/v1/jobs/${jobId}/download`,
-     { headers: { Authorization: `Bearer ${process.env.BWP_KEY}` }, redirect: "follow" },
-   ).then(r => r.text());
+   const csv = await fetch(`https://app.buildworkpro.com/api/v1/jobs/${jobId}/download`, {
+     headers: { Authorization: `Bearer ${process.env.BWP_KEY}` },
+     redirect: 'follow',
+   }).then((r) => r.text());
    ```
 
 4. **Process in your payroll system.**
@@ -57,7 +57,12 @@ Use this recipe at the end of every pay period to pull crew hours out of BuildWo
 </Steps>
 
 <Aside type="caution" title="Watch out for">
-- **Tenant timezone, not UTC.** Time entries store the worker's local clock-in/out. If you compute the date range in UTC, you'll cut shifts in half on either edge of the range. Always anchor `dateFrom`/`dateTo` to the tenant's working timezone.
-- **Scope: `time_entries:read` AND `jobs:write`.** A key with only `time_entries:read` will get `403 forbidden` when starting the export. The download itself uses the jobs scope.
-- **The CSV format is documented per resource.** Column order and naming are stable within a major API version, but if you parse by index instead of header name, a future minor version that adds a column will silently shift your data. Always parse by header.
+  - **Tenant timezone, not UTC.** Time entries store the worker's local clock-in/out. If you compute
+  the date range in UTC, you'll cut shifts in half on either edge of the range. Always anchor
+  `dateFrom`/`dateTo` to the tenant's working timezone. - **Scope: `time_entries:read` AND
+  `jobs:write`.** A key with only `time_entries:read` will get `403 forbidden` when starting the
+  export. The download itself uses the jobs scope. - **The CSV format is documented per resource.**
+  Column order and naming are stable within a major API version, but if you parse by index instead
+  of header name, a future minor version that adds a column will silently shift your data. Always
+  parse by header.
 </Aside>

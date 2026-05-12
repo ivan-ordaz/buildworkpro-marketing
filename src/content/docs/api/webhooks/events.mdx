@@ -21,17 +21,18 @@ Every event ships in the same outer envelope. Resource-specific fields live unde
 }
 ```
 
-| Field                 | Description |
-|-----------------------|-------------|
-| `id`                  | Unique event id. Use this for idempotent processing on your side. |
-| `type`                | Dotted event type (e.g., `bid.accepted`). |
-| `created_at`          | ISO 8601 timestamp at which the event occurred. |
-| `tenant_id`           | The tenant the event belongs to. |
-| `data`                | The resource snapshot at the time of the event. |
+| Field                 | Description                                                                               |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| `id`                  | Unique event id. Use this for idempotent processing on your side.                         |
+| `type`                | Dotted event type (e.g., `bid.accepted`).                                                 |
+| `created_at`          | ISO 8601 timestamp at which the event occurred.                                           |
+| `tenant_id`           | The tenant the event belongs to.                                                          |
+| `data`                | The resource snapshot at the time of the event.                                           |
 | `previous_attributes` | Optional. Present on `*.changed` events; carries the prior values of fields that changed. |
 
 <Aside type="note">
-  Treat `data` as a snapshot, not the source of truth. If you need the latest state of the record, fetch it from the REST API using `data.id`.
+  Treat `data` as a snapshot, not the source of truth. If you need the latest state of the record,
+  fetch it from the REST API using `data.id`.
 </Aside>
 
 ## bids

@@ -53,11 +53,11 @@ BuildWorkPro doesn't ship a native Google Calendar integration via the public AP
 
    ```js
    await calendar.events.insert({
-     calendarId: "primary",
+     calendarId: 'primary',
      requestBody: {
        summary: bwpEvent.title,
-       start: { dateTime: bwpEvent.start, timeZone: "America/New_York" },
-       end:   { dateTime: bwpEvent.end,   timeZone: "America/New_York" },
+       start: { dateTime: bwpEvent.start, timeZone: 'America/New_York' },
+       end: { dateTime: bwpEvent.end, timeZone: 'America/New_York' },
        extendedProperties: { private: { bwp_id: String(bwpEvent.id), bwp_type: bwpEvent.type } },
      },
    });
@@ -70,7 +70,10 @@ BuildWorkPro doesn't ship a native Google Calendar integration via the public AP
 </Steps>
 
 <Aside type="caution" title="Watch out for">
-- **Tenant timezones are not normalized for you.** BuildWorkPro returns UTC; your Google Calendar entries should set the `timeZone` field to the tenant's working timezone or events will look off-by-N-hours to users.
-- **The endpoint costs 1 unit per call but caps at 366 days per window.** Don't request a multi-year span in one shot — paginate by month.
-- **Events without start times are filtered out automatically.** If a task has no due date set in BuildWorkPro, it simply won't appear; this is intentional. Scope: `projects:read`.
+  - **Tenant timezones are not normalized for you.** BuildWorkPro returns UTC; your Google Calendar
+  entries should set the `timeZone` field to the tenant's working timezone or events will look
+  off-by-N-hours to users. - **The endpoint costs 1 unit per call but caps at 366 days per window.**
+  Don't request a multi-year span in one shot — paginate by month. - **Events without start times
+  are filtered out automatically.** If a task has no due date set in BuildWorkPro, it simply won't
+  appear; this is intentional. Scope: `projects:read`.
 </Aside>

@@ -19,7 +19,9 @@ Send `Idempotency-Key: <uuid>` on every `POST`, `PATCH`, or `DELETE` request. We
 The dedup window is **24 hours**. Keys are scoped to your tenant -- a key from one tenant can never collide with another's.
 
 <Aside type="caution">
-  Generate a new UUID per logical operation. If your code uses the same key for two different things (e.g., creating a contact and creating a lead), the second request will fail with `409 idempotency_key_reused` because the bodies don't match.
+  Generate a new UUID per logical operation. If your code uses the same key for two different things
+  (e.g., creating a contact and creating a lead), the second request will fail with `409
+  idempotency_key_reused` because the bodies don't match.
 </Aside>
 
 ## Worked example

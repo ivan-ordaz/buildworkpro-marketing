@@ -18,9 +18,9 @@ The `POST /api/v1/projects/bulk` endpoint exists, but it only accepts `operation
      const out = [];
      let cursor = null;
      do {
-       const url = new URL("https://app.buildworkpro.com/api/v1/projects");
-       url.searchParams.set("limit", "100");
-       if (cursor) url.searchParams.set("cursor", cursor);
+       const url = new URL('https://app.buildworkpro.com/api/v1/projects');
+       url.searchParams.set('limit', '100');
+       if (cursor) url.searchParams.set('cursor', cursor);
        const res = await fetch(url, {
          headers: { Authorization: `Bearer ${process.env.BWP_KEY}` },
        });
@@ -31,7 +31,7 @@ The `POST /api/v1/projects/bulk` endpoint exists, but it only accepts `operation
      return out;
    }
 
-   const ids = (await listAllProjects(p => p.status === "in_progress")).map(p => p.id);
+   const ids = (await listAllProjects((p) => p.status === 'in_progress')).map((p) => p.id);
    ```
 
 2. **PATCH each project with an idempotency key.**
@@ -41,13 +41,13 @@ The `POST /api/v1/projects/bulk` endpoint exists, but it only accepts `operation
    ```js
    for (const id of ids) {
      await fetch(`https://app.buildworkpro.com/api/v1/projects/${id}`, {
-       method: "PATCH",
+       method: 'PATCH',
        headers: {
-         "Authorization": `Bearer ${process.env.BWP_KEY}`,
-         "Content-Type": "application/json",
-         "Idempotency-Key": `bulk-status-2026-04-25-${id}`,
+         Authorization: `Bearer ${process.env.BWP_KEY}`,
+         'Content-Type': 'application/json',
+         'Idempotency-Key': `bulk-status-2026-04-25-${id}`,
        },
-       body: JSON.stringify({ status: "completed" }),
+       body: JSON.stringify({ status: 'completed' }),
      });
    }
    ```
@@ -70,7 +70,10 @@ The `POST /api/v1/projects/bulk` endpoint exists, but it only accepts `operation
 </Steps>
 
 <Aside type="caution" title="Watch out for">
-- **The bulk endpoint does NOT accept patch updates.** Operation is restricted to `"delete"` or `"restore"`. Anything else returns `422 validation_failed`.
-- **Bulk delete jobs cost 100 rate-limit units regardless of id count.** A single bulk call is dramatically cheaper than 500 individual deletes — use it when you can.
-- **Partial failures in a per-id loop don't roll back.** If id #50 fails after #49 succeeded, you have a half-applied update. Log every failure with its id so you can re-run only the failed slice.
+  - **The bulk endpoint does NOT accept patch updates.** Operation is restricted to `"delete"` or
+  `"restore"`. Anything else returns `422 validation_failed`. - **Bulk delete jobs cost 100
+  rate-limit units regardless of id count.** A single bulk call is dramatically cheaper than 500
+  individual deletes — use it when you can. - **Partial failures in a per-id loop don't roll back.**
+  If id #50 fails after #49 succeeded, you have a half-applied update. Log every failure with its id
+  so you can re-run only the failed slice.
 </Aside>

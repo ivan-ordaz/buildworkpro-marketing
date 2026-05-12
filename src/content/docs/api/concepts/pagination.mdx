@@ -9,9 +9,9 @@ Every list endpoint in the v1 API uses **cursor-based pagination**. Cursors are 
 
 ## Query parameters
 
-| Parameter | Type    | Default | Max | Description |
-|-----------|---------|---------|-----|-------------|
-| `limit`   | integer | 25      | 100 | Number of records to return per page. |
+| Parameter | Type    | Default | Max | Description                                                            |
+| --------- | ------- | ------- | --- | ---------------------------------------------------------------------- |
+| `limit`   | integer | 25      | 100 | Number of records to return per page.                                  |
 | `cursor`  | string  | -       | -   | Opaque cursor returned by a previous page in `meta.pagination.cursor`. |
 
 ## Response shape
@@ -20,7 +20,9 @@ List responses include a `pagination` object inside `meta`:
 
 ```json
 {
-  "data": [ /* records */ ],
+  "data": [
+    /* records */
+  ],
   "meta": {
     "request_id": "req_8f3c1b2a",
     "pagination": {
@@ -45,7 +47,8 @@ Cursors encode the sort key of the last seen record (id + createdAt) and are HMA
 - **No skew on deletions.** Soft-deleted records don't shift the offset.
 
 <Aside type="caution">
-  Cursors are opaque and HMAC-signed. Don't try to decode, parse, or hand-craft them -- the server will reject anything it didn't sign.
+  Cursors are opaque and HMAC-signed. Don't try to decode, parse, or hand-craft them -- the server
+  will reject anything it didn't sign.
 </Aside>
 
 ## Looping through every page
@@ -54,9 +57,9 @@ Cursors encode the sort key of the last seen record (id + createdAt) and are HMA
 async function* listAllContacts(apiKey) {
   let cursor = null;
   do {
-    const url = new URL("https://app.buildworkpro.com/api/v1/contacts");
-    url.searchParams.set("limit", "100");
-    if (cursor) url.searchParams.set("cursor", cursor);
+    const url = new URL('https://app.buildworkpro.com/api/v1/contacts');
+    url.searchParams.set('limit', '100');
+    if (cursor) url.searchParams.set('cursor', cursor);
 
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${apiKey}` },

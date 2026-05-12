@@ -28,7 +28,11 @@ export default defineConfig({
         src: './public/logo.png',
       },
       social: [
-        { icon: 'email', label: 'Email Support', href: `mailto:${env.PUBLIC_EMAIL_SUPPORT || 'support@buildworkpro.com'}` },
+        {
+          icon: 'email',
+          label: 'Email Support',
+          href: `mailto:${env.PUBLIC_EMAIL_SUPPORT || 'support@buildworkpro.com'}`,
+        },
       ],
       customCss: ['./src/styles/docs.css'],
       plugins: [

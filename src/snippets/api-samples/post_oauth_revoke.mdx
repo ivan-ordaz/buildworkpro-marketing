@@ -1,4 +1,4 @@
-import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <Tabs>
 <TabItem label="curl">
@@ -11,8 +11,8 @@ curl -X POST https://app.buildworkpro.com/api/v1/oauth/revoke
 <TabItem label="JavaScript">
 
 ```js
-const res = await fetch("https://app.buildworkpro.com/api/v1/oauth/revoke", {
-  method: "POST",
+const res = await fetch('https://app.buildworkpro.com/api/v1/oauth/revoke', {
+  method: 'POST',
 });
 const data = await res.json();
 ```

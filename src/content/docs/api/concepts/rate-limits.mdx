@@ -16,14 +16,14 @@ A request is admitted only if both layers have headroom. When either is exceeded
 
 Requests are not all equal. Cheap reads cost 1 unit; expensive operations cost more so a single PDF render or bulk job can't drain the entire budget on its own.
 
-| Operation                      | Cost  |
-|--------------------------------|-------|
-| `GET` (list, get, introspect)  | 1     |
-| Standard mutations (`POST`, `PATCH`, `PUT`, `DELETE`) | 5 |
-| Endpoints ending in `/exports` | 20    |
-| Endpoints ending in `/pdf`     | 50    |
-| Endpoints ending in `/bulk`    | 100   |
-| Endpoints ending in `/imports` | 200   |
+| Operation                                             | Cost |
+| ----------------------------------------------------- | ---- |
+| `GET` (list, get, introspect)                         | 1    |
+| Standard mutations (`POST`, `PATCH`, `PUT`, `DELETE`) | 5    |
+| Endpoints ending in `/exports`                        | 20   |
+| Endpoints ending in `/pdf`                            | 50   |
+| Endpoints ending in `/bulk`                           | 100  |
+| Endpoints ending in `/imports`                        | 200  |
 
 The tenant budget is **10,000 units per hour**, sliding. With pure reads you can sustain a ~3 req/sec average; with bulk imports you'll consume the budget much faster.
 
@@ -35,11 +35,11 @@ Every API key gets a per-minute sliding limit -- 60/min by default. This protect
 
 Every successful response carries the standard `RateLimit-*` headers ([IETF draft](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-ratelimit-headers)):
 
-| Header              | Meaning |
-|---------------------|---------|
-| `RateLimit-Limit`     | The applicable window's request budget. |
+| Header                | Meaning                                         |
+| --------------------- | ----------------------------------------------- |
+| `RateLimit-Limit`     | The applicable window's request budget.         |
 | `RateLimit-Remaining` | Units (or requests) left in the current window. |
-| `RateLimit-Reset`     | Seconds until the current window resets. |
+| `RateLimit-Reset`     | Seconds until the current window resets.        |
 
 On `429`, we also send `Retry-After` (seconds) -- honor it.
 
@@ -73,5 +73,7 @@ Retry-After: 1742
 - **Cache aggressively** for repeated reads. The cheapest call is one you don't make.
 
 <Aside type="note">
-  When a single high-cost operation (e.g., `POST /contacts/imports`) bursts past the remaining budget, that one request still completes -- but subsequent requests immediately hit `429` until the window slides. Plan large jobs with this in mind.
+  When a single high-cost operation (e.g., `POST /contacts/imports`) bursts past the remaining
+  budget, that one request still completes -- but subsequent requests immediately hit `429` until
+  the window slides. Plan large jobs with this in mind.
 </Aside>

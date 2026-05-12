@@ -19,7 +19,8 @@ type Integration = {
 const integrations: Integration[] = [
   {
     title: 'Public REST API',
-    description: 'Versioned, scoped, cursor-paginated. Build internal automations and data pipelines on the same surface our app uses.',
+    description:
+      'Versioned, scoped, cursor-paginated. Build internal automations and data pipelines on the same surface our app uses.',
     href: '/api/',
     status: 'available',
     icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
@@ -27,7 +28,8 @@ const integrations: Integration[] = [
   },
   {
     title: 'Webhooks',
-    description: 'Real-time, signed, idempotent event delivery for bid, project, pay app, change order, contact, and lead events.',
+    description:
+      'Real-time, signed, idempotent event delivery for bid, project, pay app, change order, contact, and lead events.',
     href: '/api/webhooks/overview/',
     status: 'available',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
@@ -35,7 +37,8 @@ const integrations: Integration[] = [
   },
   {
     title: 'OAuth 2.1',
-    description: 'Authorization server with PKCE, refresh-token rotation, and Dynamic Client Registration. Build apps that act on behalf of BuildWorkPro users.',
+    description:
+      'Authorization server with PKCE, refresh-token rotation, and Dynamic Client Registration. Build apps that act on behalf of BuildWorkPro users.',
     href: '/api/authentication/oauth/',
     status: 'available',
     icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
@@ -43,7 +46,8 @@ const integrations: Integration[] = [
   },
   {
     title: 'Gmail',
-    description: 'Send bid PDFs, change orders, and pay applications from your own Gmail address so customers can reply directly.',
+    description:
+      'Send bid PDFs, change orders, and pay applications from your own Gmail address so customers can reply directly.',
     href: '/features/bidding/',
     status: 'available',
     icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 13H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z',
@@ -51,7 +55,8 @@ const integrations: Integration[] = [
   },
   {
     title: 'Google Calendar',
-    description: 'Two-way sync between BuildWorkPro projects and your Google Calendar. Crew schedules and project milestones stay in lockstep.',
+    description:
+      'Two-way sync between BuildWorkPro projects and your Google Calendar. Crew schedules and project milestones stay in lockstep.',
     href: '/features/project-management/',
     status: 'available',
     icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
@@ -59,7 +64,8 @@ const integrations: Integration[] = [
   },
   {
     title: 'Claude Desktop',
-    description: 'Connect Claude Desktop to BuildWorkPro via MCP. Ask Claude to draft bids, summarize projects, and pull contact data — all on your behalf.',
+    description:
+      'Connect Claude Desktop to BuildWorkPro via MCP. Ask Claude to draft bids, summarize projects, and pull contact data — all on your behalf.',
     href: '/api/mcp/claude-desktop/',
     status: 'available',
     icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
@@ -67,7 +73,8 @@ const integrations: Integration[] = [
   },
   {
     title: 'ChatGPT',
-    description: 'Add the BuildWorkPro MCP server to ChatGPT Pro/Team/Enterprise so ChatGPT can read and act on your data with your authorization.',
+    description:
+      'Add the BuildWorkPro MCP server to ChatGPT Pro/Team/Enterprise so ChatGPT can read and act on your data with your authorization.',
     href: '/api/mcp/chatgpt/',
     status: 'available',
     icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
@@ -75,7 +82,8 @@ const integrations: Integration[] = [
   },
   {
     title: 'Zapier',
-    description: 'Connect BuildWorkPro to 6,000+ apps without writing code. Pre-built triggers and actions for the most-used workflows.',
+    description:
+      'Connect BuildWorkPro to 6,000+ apps without writing code. Pre-built triggers and actions for the most-used workflows.',
     href: 'mailto:integrations@buildworkpro.com?subject=Zapier%20Waitlist',
     status: 'coming-soon',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
@@ -99,52 +107,84 @@ const statusBadge: Record<Status, { label: string; classes: string }> = {
 };
 ---
 
-<Layout title="Integrations - BuildWorkPro" description="Connect BuildWorkPro to your existing tools. REST API, webhooks, OAuth, Gmail, Google Calendar, Claude Desktop, ChatGPT, and Zapier.">
+<Layout
+  title="Integrations - BuildWorkPro"
+  description="Connect BuildWorkPro to your existing tools. REST API, webhooks, OAuth, Gmail, Google Calendar, Claude Desktop, ChatGPT, and Zapier."
+>
   <Header />
   <main class="pt-32 pb-20">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
       <!-- Hero -->
       <div class="text-center mb-16">
-        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Integrations</p>
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+          Integrations
+        </p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
           Connect BuildWorkPro to the tools you already use
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          A modern API surface, signed webhooks, and a growing list of native integrations. Wire BuildWorkPro into Gmail, your calendar, AI assistants like Claude and ChatGPT, and 6,000+ Zapier apps without leaving the platform.
+          A modern API surface, signed webhooks, and a growing list of native integrations. Wire
+          BuildWorkPro into Gmail, your calendar, AI assistants like Claude and ChatGPT, and 6,000+
+          Zapier apps without leaving the platform.
         </p>
       </div>
 
       <!-- Integration grid -->
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {integrations.map((integration) => {
-          const colors = colorMap[integration.color];
-          const badge = statusBadge[integration.status];
-          const isExternal = integration.href.startsWith('mailto:');
-          return (
-            <a
-              href={integration.href}
-              class="group p-8 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:shadow-lg transition-all duration-300 flex flex-col"
-            >
-              <div class="flex items-start justify-between mb-5">
-                <div class={`inline-flex p-3 rounded-xl ${colors.bg} ring-1 ${colors.ring}`}>
-                  <svg class={`w-6 h-6 ${colors.icon}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d={integration.icon} />
-                  </svg>
+        {
+          integrations.map((integration) => {
+            const colors = colorMap[integration.color];
+            const badge = statusBadge[integration.status];
+            const isExternal = integration.href.startsWith('mailto:');
+            return (
+              <a
+                href={integration.href}
+                class="group p-8 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:shadow-lg transition-all duration-300 flex flex-col"
+              >
+                <div class="flex items-start justify-between mb-5">
+                  <div class={`inline-flex p-3 rounded-xl ${colors.bg} ring-1 ${colors.ring}`}>
+                    <svg
+                      class={`w-6 h-6 ${colors.icon}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d={integration.icon} />
+                    </svg>
+                  </div>
+                  <span
+                    class={`text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${badge.classes}`}
+                  >
+                    {badge.label}
+                  </span>
                 </div>
-                <span class={`text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${badge.classes}`}>{badge.label}</span>
-              </div>
-              <h3 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-brand-600 transition-colors">{integration.title}</h3>
-              <p class="text-slate-500 leading-relaxed mb-4 flex-grow">{integration.description}</p>
-              <span class="inline-flex items-center text-sm font-medium text-brand-600 group-hover:gap-2 gap-1.5 transition-all">
-                {integration.status === 'available' ? 'Open' : isExternal ? 'Join the waitlist' : 'Learn more'}
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </span>
-            </a>
-          );
-        })}
+                <h3 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-brand-600 transition-colors">
+                  {integration.title}
+                </h3>
+                <p class="text-slate-500 leading-relaxed mb-4 flex-grow">
+                  {integration.description}
+                </p>
+                <span class="inline-flex items-center text-sm font-medium text-brand-600 group-hover:gap-2 gap-1.5 transition-all">
+                  {integration.status === 'available'
+                    ? 'Open'
+                    : isExternal
+                      ? 'Join the waitlist'
+                      : 'Learn more'}
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </a>
+            );
+          })
+        }
       </div>
 
       <!-- Closing -->
@@ -153,25 +193,41 @@ const statusBadge: Record<Status, { label: string; classes: string }> = {
           <div>
             <h2 class="text-xl font-semibold text-slate-900 mb-2">Don't see your tool?</h2>
             <p class="text-sm text-slate-500 max-w-xl">
-              Tell us which integration would unlock the most value for your business. We prioritize the roadmap based on customer demand.
+              Tell us which integration would unlock the most value for your business. We prioritize
+              the roadmap based on customer demand.
             </p>
           </div>
           <div class="mt-4 md:mt-0 md:ml-8 shrink-0">
-            <a href="mailto:integrations@buildworkpro.com?subject=Integration%20Request" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-colors">
+            <a
+              href="mailto:integrations@buildworkpro.com?subject=Integration%20Request"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-colors"
+            >
               Request an integration
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"
+                ></path>
               </svg>
             </a>
           </div>
         </div>
         <div class="mt-4 pt-4 border-t border-slate-200">
           <p class="text-xs text-slate-400">
-            Building your own? Start with the <a href="/api/quickstart/" class="text-brand-600 hover:text-brand-700">Quickstart</a> or email <a href={`mailto:${config.email.support}`} class="text-brand-600 hover:text-brand-700">{config.email.support}</a>.
+            Building your own? Start with the <a
+              href="/api/quickstart/"
+              class="text-brand-600 hover:text-brand-700">Quickstart</a
+            > or email <a
+              href={`mailto:${config.email.support}`}
+              class="text-brand-600 hover:text-brand-700">{config.email.support}</a
+            >.
           </p>
         </div>
       </div>
-
     </div>
 
     <div class="mt-16">

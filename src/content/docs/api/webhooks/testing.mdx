@@ -51,7 +51,9 @@ BuildWorkPro only delivers to public HTTPS URLs (and the URL is SSRF-validated, 
 </Steps>
 
 <Aside type="tip">
-  Tunnels rotate URLs every time you restart them (unless you have a paid plan). Either pin a stable subdomain on your tunnel provider, or `PATCH /api/v1/webhook-endpoints/{id}` with the new URL each session.
+  Tunnels rotate URLs every time you restart them (unless you have a paid plan). Either pin a stable
+  subdomain on your tunnel provider, or `PATCH /api/v1/webhook-endpoints/{id}` with the new URL each
+  session.
 </Aside>
 
 ## Deliveries dashboard
@@ -93,7 +95,9 @@ Replay resets `attemptCount` to zero, sets `status` back to `pending`, clears th
 You can also click **Replay** on any delivery row in the dashboard.
 
 <Aside type="note">
-  Replay is allowed even after a delivery has reached `exhausted`. The only case it fails is `409 conflict` -- the linked endpoint has been soft-deleted. Recreate the endpoint and the delivery will need to be re-emitted from the source action.
+  Replay is allowed even after a delivery has reached `exhausted`. The only case it fails is `409
+  conflict` -- the linked endpoint has been soft-deleted. Recreate the endpoint and the delivery
+  will need to be re-emitted from the source action.
 </Aside>
 
 ## Retry schedule
@@ -101,27 +105,27 @@ You can also click **Replay** on any delivery row in the dashboard.
 Failed deliveries are retried up to seven times on this schedule, with ±20% jitter applied to spread thundering-herd load:
 
 | Attempt | Delay from previous | Cumulative |
-|---------|--------------------:|-----------:|
-| 1       | 0s (immediate)      | 0s         |
-| 2       | 30s                 | 30s        |
-| 3       | 2 min               | ~2.5 min   |
-| 4       | 15 min              | ~17.5 min  |
-| 5       | 1 hour              | ~1.3 hours |
-| 6       | 6 hours             | ~7.3 hours |
-| 7       | 24 hours            | ~31 hours  |
+| ------- | ------------------: | ---------: |
+| 1       |      0s (immediate) |         0s |
+| 2       |                 30s |        30s |
+| 3       |               2 min |   ~2.5 min |
+| 4       |              15 min |  ~17.5 min |
+| 5       |              1 hour | ~1.3 hours |
+| 6       |             6 hours | ~7.3 hours |
+| 7       |            24 hours |  ~31 hours |
 
 After the seventh attempt, the delivery is marked `exhausted` and never retried automatically -- replay it manually once you've fixed the receiver.
 
 ## What counts as success vs failure
 
-| Receiver returns                             | What BuildWorkPro does |
-|----------------------------------------------|------------------------|
+| Receiver returns                              | What BuildWorkPro does                                              |
+| --------------------------------------------- | ------------------------------------------------------------------- |
 | `200`-`299`                                   | Mark `succeeded`. Reset the endpoint's consecutive-failure counter. |
-| `408 Request Timeout`                         | Retriable. Schedule next attempt per the table above. |
-| `429 Too Many Requests`                       | Retriable. Schedule next attempt per the table above. |
-| Other `4xx` (`400`, `401`, `404`, `422`, ...) | Permanent failure. Stop retrying immediately, mark `exhausted`. |
-| Any `5xx`                                     | Retriable. Schedule next attempt per the table above. |
-| Network error, TLS failure, or 10s timeout    | Retriable. Same schedule as 5xx. |
+| `408 Request Timeout`                         | Retriable. Schedule next attempt per the table above.               |
+| `429 Too Many Requests`                       | Retriable. Schedule next attempt per the table above.               |
+| Other `4xx` (`400`, `401`, `404`, `422`, ...) | Permanent failure. Stop retrying immediately, mark `exhausted`.     |
+| Any `5xx`                                     | Retriable. Schedule next attempt per the table above.               |
+| Network error, TLS failure, or 10s timeout    | Retriable. Same schedule as 5xx.                                    |
 
 ## Auto-disable
 

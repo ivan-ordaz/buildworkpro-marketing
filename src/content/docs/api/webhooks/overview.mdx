@@ -87,42 +87,40 @@ The response includes a one-time `signingSecret`:
 Receive and verify the delivery in Node:
 
 ```js
-import express from "express";
-import { createHmac, timingSafeEqual } from "node:crypto";
+import express from 'express';
+import { createHmac, timingSafeEqual } from 'node:crypto';
 
 const SECRET = process.env.BWP_WEBHOOK_SECRET;
 const app = express();
 
 // IMPORTANT: get the raw body for HMAC verification.
-app.post(
-  "/bwp",
-  express.raw({ type: "application/json" }),
-  (req, res) => {
-    const header = req.header("BuildWorkPro-Signature") ?? "";
-    const t = /(?:^|,)t=(\d+)/.exec(header)?.[1];
-    const v1 = /(?:^|,)v1=([0-9a-f]+)/.exec(header)?.[1];
-    if (!t || !v1) return res.status(400).send("bad signature");
+app.post('/bwp', express.raw({ type: 'application/json' }), (req, res) => {
+  const header = req.header('BuildWorkPro-Signature') ?? '';
+  const t = /(?:^|,)t=(\d+)/.exec(header)?.[1];
+  const v1 = /(?:^|,)v1=([0-9a-f]+)/.exec(header)?.[1];
+  if (!t || !v1) return res.status(400).send('bad signature');
 
-    const expected = createHmac("sha256", SECRET)
-      .update(`${t}.${req.body.toString("utf8")}`)
-      .digest("hex");
-    const a = Buffer.from(expected, "hex");
-    const b = Buffer.from(v1, "hex");
-    if (a.length !== b.length || !timingSafeEqual(a, b)) {
-      return res.status(400).send("bad signature");
-    }
+  const expected = createHmac('sha256', SECRET)
+    .update(`${t}.${req.body.toString('utf8')}`)
+    .digest('hex');
+  const a = Buffer.from(expected, 'hex');
+  const b = Buffer.from(v1, 'hex');
+  if (a.length !== b.length || !timingSafeEqual(a, b)) {
+    return res.status(400).send('bad signature');
+  }
 
-    const event = JSON.parse(req.body.toString("utf8"));
-    console.log(`bid accepted: ${event.data.id}`);
-    res.status(200).send("ok");
-  },
-);
+  const event = JSON.parse(req.body.toString('utf8'));
+  console.log(`bid accepted: ${event.data.id}`);
+  res.status(200).send('ok');
+});
 
 app.listen(3000);
 ```
 
 <Aside type="note">
-  Always verify signatures against the **raw request body bytes**, never the parsed JSON. Even a whitespace difference will break the HMAC. See [Verifying Signatures](/api/webhooks/signatures/) for full details.
+  Always verify signatures against the **raw request body bytes**, never the parsed JSON. Even a
+  whitespace difference will break the HMAC. See [Verifying Signatures](/api/webhooks/signatures/)
+  for full details.
 </Aside>
 
 ## Delivery and retries

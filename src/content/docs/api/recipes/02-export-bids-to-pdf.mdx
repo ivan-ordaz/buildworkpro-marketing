@@ -52,7 +52,11 @@ Use this recipe when you need a printable copy of a bid — to email to a custom
 </Steps>
 
 <Aside type="caution" title="Watch out for">
-- **Scope requires `bids:read` AND `jobs:write`.** The PDF endpoint is enforced as a read on the bid resource plus a write on the jobs subsystem. A key with only `bids:write` will get `403 forbidden`.
-- **PDF jobs cost 50 rate-limit units.** They're cheaper than imports but more expensive than a list call; bulk-generating a year's worth of bids in one loop will hit the limit.
-- **The redirect host is allowlisted.** BuildWorkPro will only ever 302 you to `*.r2.cloudflarestorage.com`. If you've configured your HTTP client to refuse redirects to unknown hosts, add that suffix.
+  - **Scope requires `bids:read` AND `jobs:write`.** The PDF endpoint is enforced as a read on the
+  bid resource plus a write on the jobs subsystem. A key with only `bids:write` will get `403
+  forbidden`. - **PDF jobs cost 50 rate-limit units.** They're cheaper than imports but more
+  expensive than a list call; bulk-generating a year's worth of bids in one loop will hit the limit.
+  - **The redirect host is allowlisted.** BuildWorkPro will only ever 302 you to
+  `*.r2.cloudflarestorage.com`. If you've configured your HTTP client to refuse redirects to unknown
+  hosts, add that suffix.
 </Aside>

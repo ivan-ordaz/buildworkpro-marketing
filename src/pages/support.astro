@@ -73,11 +73,13 @@ const categories = [
 ];
 ---
 
-<Layout title="Help Center & Documentation | BuildWorkPro" description="Find guides, tutorials, and FAQs for BuildWorkPro construction software. Get support for bids, pay apps, projects, and field operations.">
+<Layout
+  title="Help Center & Documentation | BuildWorkPro"
+  description="Find guides, tutorials, and FAQs for BuildWorkPro construction software. Get support for bids, pay apps, projects, and field operations."
+>
   <Header />
   <main class="pt-32 pb-20">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
       <div class="text-center mb-16">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Support</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
@@ -89,23 +91,47 @@ const categories = [
       </div>
 
       <!-- Contact bar -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 p-6 rounded-2xl bg-brand-50 border border-brand-100">
+      <div
+        class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 p-6 rounded-2xl bg-brand-50 border border-brand-100"
+      >
         <div class="flex items-center gap-3">
           <div class="p-2 rounded-lg bg-brand-100">
-            <svg class="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <svg
+              class="w-5 h-5 text-brand-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              ></path>
             </svg>
           </div>
           <div>
             <p class="text-sm font-medium text-slate-900">Email support</p>
-            <a href={`mailto:${config.email.support}`} class="text-sm text-brand-600 hover:text-brand-700">{config.email.support}</a>
+            <a
+              href={`mailto:${config.email.support}`}
+              class="text-sm text-brand-600 hover:text-brand-700">{config.email.support}</a
+            >
           </div>
         </div>
         <div class="hidden sm:block w-px h-10 bg-brand-200"></div>
         <div class="flex items-center gap-3">
           <div class="p-2 rounded-lg bg-brand-100">
-            <svg class="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              class="w-5 h-5 text-brand-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
           <div>
@@ -117,30 +143,46 @@ const categories = [
 
       <!-- Help categories -->
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categories.map((cat) => (
-          <div class="p-6 rounded-2xl border border-slate-100 bg-white hover:shadow-lg transition-all">
-            <div class="inline-flex p-2.5 rounded-xl bg-brand-50 mb-4">
-              <svg class="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d={cat.icon} />
-              </svg>
+        {
+          categories.map((cat) => (
+            <div class="p-6 rounded-2xl border border-slate-100 bg-white hover:shadow-lg transition-all">
+              <div class="inline-flex p-2.5 rounded-xl bg-brand-50 mb-4">
+                <svg
+                  class="w-5 h-5 text-brand-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d={cat.icon} />
+                </svg>
+              </div>
+              <h3 class="text-base font-semibold text-slate-900 mb-3">{cat.title}</h3>
+              <ul class="space-y-2">
+                {cat.items.map((item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      class="flex items-center gap-2 text-sm text-slate-500 hover:text-brand-600 transition-colors"
+                    >
+                      <svg
+                        class="w-3.5 h-3.5 shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <h3 class="text-base font-semibold text-slate-900 mb-3">{cat.title}</h3>
-            <ul class="space-y-2">
-              {cat.items.map((item) => (
-                <li>
-                  <a href={item.href} class="flex items-center gap-2 text-sm text-slate-500 hover:text-brand-600 transition-colors">
-                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          ))
+        }
       </div>
-
     </div>
   </main>
   <Footer />

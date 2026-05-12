@@ -51,7 +51,6 @@ When a bid has been sitting in `sent` status for a week or more without a reply,
    Read the draft carefully. Edit anything that doesn't match your voice, fix the customer's name if Claude got it wrong, double-check the dollar amount.
 
 5. **Send.**
-
    - **Manual path (recommended for first few times):** Copy the body into your email client. The customer's email is on the bid's contact — verify it before hitting send.
    - **Automated path:** If you granted `bids:send`, ask Claude:
 
@@ -62,8 +61,11 @@ When a bid has been sitting in `sent` status for a week or more without a reply,
 </Steps>
 
 <Aside type="caution" title="Watch out for">
-- LLMs make mistakes, especially with names and dollar amounts. **Always read the draft before sending.** Even small errors look careless to a customer.
-- Don't grant `bids:send` to an AI client you don't fully trust. The send is real — it goes to the customer's inbox, with your domain in the From header.
-- The customer's email comes from the contact record. If the contact has the wrong email, the follow-up goes to the wrong inbox. Verify before automating.
-- If the bid has been sent multiple times, `time-since-sent` reflects the most recent send. Ask Claude to summarize the bid's history if you're not sure how many follow-ups have already gone out.
+  - LLMs make mistakes, especially with names and dollar amounts. **Always read the draft before
+  sending.** Even small errors look careless to a customer. - Don't grant `bids:send` to an AI
+  client you don't fully trust. The send is real — it goes to the customer's inbox, with your domain
+  in the From header. - The customer's email comes from the contact record. If the contact has the
+  wrong email, the follow-up goes to the wrong inbox. Verify before automating. - If the bid has
+  been sent multiple times, `time-since-sent` reflects the most recent send. Ask Claude to summarize
+  the bid's history if you're not sure how many follow-ups have already gone out.
 </Aside>

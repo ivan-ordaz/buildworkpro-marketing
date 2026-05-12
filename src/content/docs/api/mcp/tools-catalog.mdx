@@ -11,152 +11,158 @@ Tool names use dotted notation (`contacts.list`, `bids.send`) per MCP convention
 
 ## Contacts (5)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `contacts.list` | `contacts:read` | Cursor-paginated list of contacts in your tenant. Supports filtering by company, email domain, archived state. | "Show me my contacts at Acme Construction." |
-| `contacts.get` | `contacts:read` | Fetch a single contact by id, including all phone numbers and addresses. | "Get contact 42." |
-| `contacts.search` | `contacts:read` | Full-text search across name, email, phone, company, notes. | "Find Jane Doe in my contacts." |
-| `contacts.create` | `contacts:write` | Create a new contact. Required: name. Optional: email, phone, company, notes, tags. | "Add Jane Doe at Acme Construction with email jane@example.com." |
-| `contacts.update` | `contacts:write` | Update an existing contact. All fields except `id` are optional — only the fields you pass are changed. Pass `null` to clear `email` or `phone`. | "Change contact 42's email to jane.smith@example.com." |
+| Tool              | Scope            | What it does                                                                                                                                     | Example prompt                                                   |
+| ----------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| `contacts.list`   | `contacts:read`  | Cursor-paginated list of contacts in your tenant. Supports filtering by company, email domain, archived state.                                   | "Show me my contacts at Acme Construction."                      |
+| `contacts.get`    | `contacts:read`  | Fetch a single contact by id, including all phone numbers and addresses.                                                                         | "Get contact 42."                                                |
+| `contacts.search` | `contacts:read`  | Full-text search across name, email, phone, company, notes.                                                                                      | "Find Jane Doe in my contacts."                                  |
+| `contacts.create` | `contacts:write` | Create a new contact. Required: name. Optional: email, phone, company, notes, tags.                                                              | "Add Jane Doe at Acme Construction with email jane@example.com." |
+| `contacts.update` | `contacts:write` | Update an existing contact. All fields except `id` are optional — only the fields you pass are changed. Pass `null` to clear `email` or `phone`. | "Change contact 42's email to jane.smith@example.com."           |
 
 ## Leads (6)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `leads.list` | `leads:read` | List leads in your sales pipeline. Filter by stage, owner, source. | "List my leads in the negotiation stage." |
-| `leads.get` | `leads:read` | Fetch a single lead by id, including its contact and notes. | "Get lead 17." |
-| `leads.get_many` | `leads:read` | Fetch up to 50 leads by id in one round trip. | "Fetch leads 11, 14, and 22." |
-| `leads.search` | `leads:read` | Substring search against the lead name. | "Find leads containing 'Downtown'." |
-| `leads.create` | `leads:write` | Create a new lead. Required: name, source. Optional: contact id, est. value, stage, notes. | "Create a lead 'Downtown Office Renovation' from referral, est. value $250k." |
-| `leads.update` | `leads:write` | Update an existing lead. All fields except `id` are optional — only the fields you pass are changed. | "Move lead 17 to the proposal stage and bump the estimated value to $300k." |
+| Tool             | Scope         | What it does                                                                                         | Example prompt                                                                |
+| ---------------- | ------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `leads.list`     | `leads:read`  | List leads in your sales pipeline. Filter by stage, owner, source.                                   | "List my leads in the negotiation stage."                                     |
+| `leads.get`      | `leads:read`  | Fetch a single lead by id, including its contact and notes.                                          | "Get lead 17."                                                                |
+| `leads.get_many` | `leads:read`  | Fetch up to 50 leads by id in one round trip.                                                        | "Fetch leads 11, 14, and 22."                                                 |
+| `leads.search`   | `leads:read`  | Substring search against the lead name.                                                              | "Find leads containing 'Downtown'."                                           |
+| `leads.create`   | `leads:write` | Create a new lead. Required: name, source. Optional: contact id, est. value, stage, notes.           | "Create a lead 'Downtown Office Renovation' from referral, est. value $250k." |
+| `leads.update`   | `leads:write` | Update an existing lead. All fields except `id` are optional — only the fields you pass are changed. | "Move lead 17 to the proposal stage and bump the estimated value to $300k."   |
 
 ## Bids (6)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `bids.list` | `bids:read` | List bids in your tenant. Filter by status (draft, sent, accepted, rejected). | "List my open bids that have been in negotiation more than 14 days." |
-| `bids.get` | `bids:read` | Fetch a single bid by id, including line items and totals. | "Get bid 123." |
-| `bids.create` | `bids:write` | Create a new draft bid. Required: contact id, project name, line items. | "Draft a bid to Acme for 'Storefront Glass' with one line at $18,500." |
-| `bids.update` | `bids:write` | Update bid pricing settings, notes, terms, or customer reference. Status transitions use `bids.send`/`bids.accept`/`bids.reject`. Accepted bids are locked. | "Update bid 123's discount to 5%." |
-| `bids.send` | `bids:send` | Send a bid to the customer's email and move it to status `sent`. | "Send bid 123 to the customer." |
-| `bids.accept` | `bids:accept_reject` | Mark a bid as accepted (used when a customer replies via phone or email). | "Mark bid 123 as accepted as of today." |
+| Tool          | Scope                | What it does                                                                                                                                                | Example prompt                                                         |
+| ------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `bids.list`   | `bids:read`          | List bids in your tenant. Filter by status (draft, sent, accepted, rejected).                                                                               | "List my open bids that have been in negotiation more than 14 days."   |
+| `bids.get`    | `bids:read`          | Fetch a single bid by id, including line items and totals.                                                                                                  | "Get bid 123."                                                         |
+| `bids.create` | `bids:write`         | Create a new draft bid. Required: contact id, project name, line items.                                                                                     | "Draft a bid to Acme for 'Storefront Glass' with one line at $18,500." |
+| `bids.update` | `bids:write`         | Update bid pricing settings, notes, terms, or customer reference. Status transitions use `bids.send`/`bids.accept`/`bids.reject`. Accepted bids are locked. | "Update bid 123's discount to 5%."                                     |
+| `bids.send`   | `bids:send`          | Send a bid to the customer's email and move it to status `sent`.                                                                                            | "Send bid 123 to the customer."                                        |
+| `bids.accept` | `bids:accept_reject` | Mark a bid as accepted (used when a customer replies via phone or email).                                                                                   | "Mark bid 123 as accepted as of today."                                |
 
 <Aside type="caution">
-`bids.send` actually emails the customer. If you don't want to give your AI assistant the power to send mail on your behalf, do not grant the `bids:send` scope on the consent screen.
+  `bids.send` actually emails the customer. If you don't want to give your AI assistant the power to
+  send mail on your behalf, do not grant the `bids:send` scope on the consent screen.
 </Aside>
 
 ## Projects (4)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `projects.list` | `projects:read` | List projects, filter by status (planned, in_progress, on_hold, completed, cancelled). | "List my in-progress projects." |
-| `projects.get` | `projects:read` | Fetch a single project by id, including phases and team. | "Get project 8." |
-| `projects.create` | `projects:write` | Create a new project. Required: name. Optional: description, status, contact id. | "Create a project 'East Wing Glazing' with status planned." |
+| Tool              | Scope            | What it does                                                                                              | Example prompt                                                          |
+| ----------------- | ---------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `projects.list`   | `projects:read`  | List projects, filter by status (planned, in_progress, on_hold, completed, cancelled).                    | "List my in-progress projects."                                         |
+| `projects.get`    | `projects:read`  | Fetch a single project by id, including phases and team.                                                  | "Get project 8."                                                        |
+| `projects.create` | `projects:write` | Create a new project. Required: name. Optional: description, status, contact id.                          | "Create a project 'East Wing Glazing' with status planned."             |
 | `projects.update` | `projects:write` | Update an existing project. All fields except `id` are optional. Phases and tasks are managed separately. | "Move project 8 to in_progress and set the contract value to $420,000." |
 
 ## Pay applications (4)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `pay_apps.list` | `pay_apps:read` | List pay applications across projects. Filter by status (draft, submitted, approved, rejected). | "List my submitted pay apps from this month." |
-| `pay_apps.get` | `pay_apps:read` | Fetch a single pay app by id, including line items and approval state. | "Get pay app 5." |
-| `pay_apps.update` | `pay_apps:write` | Update a draft pay app's description / notes / period / retainage. Submitted/approved/paid pay apps are locked. | "Update pay app 5's notes to 'Includes weather delay'." |
-| `pay_apps.approve` | `pay_apps:approve` | Approve a submitted pay app. | "Approve pay app 5." |
+| Tool               | Scope              | What it does                                                                                                    | Example prompt                                          |
+| ------------------ | ------------------ | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `pay_apps.list`    | `pay_apps:read`    | List pay applications across projects. Filter by status (draft, submitted, approved, rejected).                 | "List my submitted pay apps from this month."           |
+| `pay_apps.get`     | `pay_apps:read`    | Fetch a single pay app by id, including line items and approval state.                                          | "Get pay app 5."                                        |
+| `pay_apps.update`  | `pay_apps:write`   | Update a draft pay app's description / notes / period / retainage. Submitted/approved/paid pay apps are locked. | "Update pay app 5's notes to 'Includes weather delay'." |
+| `pay_apps.approve` | `pay_apps:approve` | Approve a submitted pay app.                                                                                    | "Approve pay app 5."                                    |
 
 <Aside type="caution">
-`pay_apps.approve` is a workflow action. The approval timestamp and the user are recorded in the audit log. Don't grant this scope unless you trust the AI client to act on your behalf.
+  `pay_apps.approve` is a workflow action. The approval timestamp and the user are recorded in the
+  audit log. Don't grant this scope unless you trust the AI client to act on your behalf.
 </Aside>
 
 ## Change orders (4)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `change_orders.list` | `change_orders:read` | List change orders. Filter by project, status (draft, submitted, approved, rejected). | "Show me change orders submitted in the last 7 days." |
-| `change_orders.get` | `change_orders:read` | Fetch a single change order by id, including reason and cost delta. | "Get change order 12." |
-| `change_orders.update` | `change_orders:write` | Update a draft change order's description, reason, total amount, or proposed dates. Submitted/approved change orders are locked. | "Update change order 12's reason to 'Owner-requested scope expansion'." |
-| `change_orders.approve` | `change_orders:approve` | Approve a submitted change order. | "Approve change order 12." |
+| Tool                    | Scope                   | What it does                                                                                                                     | Example prompt                                                          |
+| ----------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `change_orders.list`    | `change_orders:read`    | List change orders. Filter by project, status (draft, submitted, approved, rejected).                                            | "Show me change orders submitted in the last 7 days."                   |
+| `change_orders.get`     | `change_orders:read`    | Fetch a single change order by id, including reason and cost delta.                                                              | "Get change order 12."                                                  |
+| `change_orders.update`  | `change_orders:write`   | Update a draft change order's description, reason, total amount, or proposed dates. Submitted/approved change orders are locked. | "Update change order 12's reason to 'Owner-requested scope expansion'." |
+| `change_orders.approve` | `change_orders:approve` | Approve a submitted change order.                                                                                                | "Approve change order 12."                                              |
 
 ## Time entries (6)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `time_entries.list` | `time_entries:read` | Cursor-paginated time entries. Filter by project, user, date range, review state. | "Show my time entries this week." |
-| `time_entries.count` | `time_entries:read` | Total count with the same filter set. | "How many hours did Jane log in April?" |
-| `time_entries.get` | `time_entries:read` | Fetch a single time entry including project, user, task, phase, creator, reviewer. | "Get time entry 88." |
-| `time_entries.get_many` | `time_entries:read` | Fetch up to 50 time entries by id in one round trip. | "Fetch entries 12, 18, and 22." |
-| `time_entries.create` | `time_entries:write` | Log a time entry. Required: projectId, date, hours. `userId` defaults to the calling user — pass explicitly to log time for someone else. Hourly rate and total cost are resolved server-side. | "Log 8 hours on project 12 for May 4." |
-| `time_entries.update` | `time_entries:write` | Update an existing time entry. Reviewed entries are locked. | "Bump time entry 88 to 9 hours and add 'overtime'." |
+| Tool                    | Scope                | What it does                                                                                                                                                                                   | Example prompt                                      |
+| ----------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `time_entries.list`     | `time_entries:read`  | Cursor-paginated time entries. Filter by project, user, date range, review state.                                                                                                              | "Show my time entries this week."                   |
+| `time_entries.count`    | `time_entries:read`  | Total count with the same filter set.                                                                                                                                                          | "How many hours did Jane log in April?"             |
+| `time_entries.get`      | `time_entries:read`  | Fetch a single time entry including project, user, task, phase, creator, reviewer.                                                                                                             | "Get time entry 88."                                |
+| `time_entries.get_many` | `time_entries:read`  | Fetch up to 50 time entries by id in one round trip.                                                                                                                                           | "Fetch entries 12, 18, and 22."                     |
+| `time_entries.create`   | `time_entries:write` | Log a time entry. Required: projectId, date, hours. `userId` defaults to the calling user — pass explicitly to log time for someone else. Hourly rate and total cost are resolved server-side. | "Log 8 hours on project 12 for May 4."              |
+| `time_entries.update`   | `time_entries:write` | Update an existing time entry. Reviewed entries are locked.                                                                                                                                    | "Bump time entry 88 to 9 hours and add 'overtime'." |
 
 <Aside type="caution">
-Hourly rate and total cost are computed by the server from your labor-rate table. The MCP tool ignores any rate or cost fields you pass — payroll math isn't something an AI assistant gets to set.
+  Hourly rate and total cost are computed by the server from your labor-rate table. The MCP tool
+  ignores any rate or cost fields you pass — payroll math isn't something an AI assistant gets to
+  set.
 </Aside>
 
 ## Site logs (6)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `site_logs.list` | `site_logs:read` | Cursor-paginated daily field reports. Filter by project, date range, tags, review state. | "Show site logs for project 12 last week." |
-| `site_logs.count` | `site_logs:read` | Total count with the same filter set. | "How many unreviewed site logs do I have?" |
-| `site_logs.get` | `site_logs:read` | Fetch a single site log including project, creator, reviewer, and entity links. | "Get site log 88." |
-| `site_logs.get_many` | `site_logs:read` | Fetch up to 50 site logs by id in one round trip. | "Fetch site logs 12, 18, 22, and 31." |
-| `site_logs.create` | `site_logs:write` | Create a daily field report. Required: projectId, logDate, notes. Author is the calling API user — not configurable. | "Log a site visit for project 12 on May 4 with notes 'inspection passed'." |
-| `site_logs.update` | `site_logs:write` | Update an existing site log. Original author and review state are immutable through this tool. | "Add 'rain delay 2pm-4pm' to site log 88's notes." |
+| Tool                 | Scope             | What it does                                                                                                         | Example prompt                                                             |
+| -------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `site_logs.list`     | `site_logs:read`  | Cursor-paginated daily field reports. Filter by project, date range, tags, review state.                             | "Show site logs for project 12 last week."                                 |
+| `site_logs.count`    | `site_logs:read`  | Total count with the same filter set.                                                                                | "How many unreviewed site logs do I have?"                                 |
+| `site_logs.get`      | `site_logs:read`  | Fetch a single site log including project, creator, reviewer, and entity links.                                      | "Get site log 88."                                                         |
+| `site_logs.get_many` | `site_logs:read`  | Fetch up to 50 site logs by id in one round trip.                                                                    | "Fetch site logs 12, 18, 22, and 31."                                      |
+| `site_logs.create`   | `site_logs:write` | Create a daily field report. Required: projectId, logDate, notes. Author is the calling API user — not configurable. | "Log a site visit for project 12 on May 4 with notes 'inspection passed'." |
+| `site_logs.update`   | `site_logs:write` | Update an existing site log. Original author and review state are immutable through this tool.                       | "Add 'rain delay 2pm-4pm' to site log 88's notes."                         |
 
 ## Products (7)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `products.list` | `products:read` | Cursor-paginated list of products. Filter by `type` (material/labor/other), `categoryId`, `manufacturerId`, `isKit`, `isActive`. | "List my labor products in the trim category." |
-| `products.count` | `products:read` | Total count with the same filter set as `products.list`. | "How many products do I have in the catalog?" |
-| `products.get` | `products:read` | Fetch a single product by id, including manufacturer and kit components when present. | "Get product 42." |
-| `products.get_many` | `products:read` | Fetch up to 50 products by id in one round trip. | "Fetch products 12, 18, and 31." |
-| `products.search` | `products:read` | Substring search across SKU, name, description, sales description, manufacturer code. | "Find products containing 'tempered glass'." |
-| `products.create` | `products:write` | Create a new product. Required: name. SKU must be unique within your tenant. | "Add product 'Storefront Aluminum Frame' at $185 sell price." |
-| `products.update` | `products:write` | Update an existing product. All fields except `id` are optional. Soft-deleted products are not editable. | "Bump product 42's sell price to $195." |
+| Tool                | Scope            | What it does                                                                                                                     | Example prompt                                                |
+| ------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `products.list`     | `products:read`  | Cursor-paginated list of products. Filter by `type` (material/labor/other), `categoryId`, `manufacturerId`, `isKit`, `isActive`. | "List my labor products in the trim category."                |
+| `products.count`    | `products:read`  | Total count with the same filter set as `products.list`.                                                                         | "How many products do I have in the catalog?"                 |
+| `products.get`      | `products:read`  | Fetch a single product by id, including manufacturer and kit components when present.                                            | "Get product 42."                                             |
+| `products.get_many` | `products:read`  | Fetch up to 50 products by id in one round trip.                                                                                 | "Fetch products 12, 18, and 31."                              |
+| `products.search`   | `products:read`  | Substring search across SKU, name, description, sales description, manufacturer code.                                            | "Find products containing 'tempered glass'."                  |
+| `products.create`   | `products:write` | Create a new product. Required: name. SKU must be unique within your tenant.                                                     | "Add product 'Storefront Aluminum Frame' at $185 sell price." |
+| `products.update`   | `products:write` | Update an existing product. All fields except `id` are optional. Soft-deleted products are not editable.                         | "Bump product 42's sell price to $195."                       |
 
 ## Documents (2)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
+| Tool             | Scope            | What it does                                                                                | Example prompt                          |
+| ---------------- | ---------------- | ------------------------------------------------------------------------------------------- | --------------------------------------- |
 | `documents.list` | `documents:read` | List documents attached to records. Filter by entity (bid, project, change order, pay app). | "List documents attached to project 8." |
-| `documents.get` | `documents:read` | Fetch a single document's metadata (filename, size, content type, uploader). | "Get document 99." |
+| `documents.get`  | `documents:read` | Fetch a single document's metadata (filename, size, content type, uploader).                | "Get document 99."                      |
 
 ## Webhooks (6)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
-| `webhooks.list` | `webhooks:manage` | List webhook endpoints in your tenant. Signing secrets are redacted from the response. | "Show my webhook endpoints." |
-| `webhooks.get` | `webhooks:manage` | Fetch a single endpoint by id (signing secret redacted). | "Get webhook endpoint 7." |
-| `webhooks.create` | `webhooks:manage` | Register a new endpoint. URL is SSRF-validated (private/loopback/link-local IPs are rejected). The signing secret is returned **once** — save it before continuing. | "Create a webhook for bid.created and bid.accepted at https://my-app.example.com/hook." |
-| `webhooks.update` | `webhooks:manage` | Update an endpoint (URL, event types, description, isActive). URL changes re-run the SSRF guard. | "Pause webhook endpoint 7." |
-| `webhooks.delete` | `webhooks:manage` | Soft-delete an endpoint. Delivery stops immediately; the row is preserved for audit. | "Delete webhook endpoint 7." |
-| `webhooks.rotate_secret` | `webhooks:manage` | Rotate the signing secret. The new secret is returned **once** — there's no grace period, so update your consumer at the same time. | "Rotate the secret on webhook 7." |
+| Tool                     | Scope             | What it does                                                                                                                                                        | Example prompt                                                                          |
+| ------------------------ | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `webhooks.list`          | `webhooks:manage` | List webhook endpoints in your tenant. Signing secrets are redacted from the response.                                                                              | "Show my webhook endpoints."                                                            |
+| `webhooks.get`           | `webhooks:manage` | Fetch a single endpoint by id (signing secret redacted).                                                                                                            | "Get webhook endpoint 7."                                                               |
+| `webhooks.create`        | `webhooks:manage` | Register a new endpoint. URL is SSRF-validated (private/loopback/link-local IPs are rejected). The signing secret is returned **once** — save it before continuing. | "Create a webhook for bid.created and bid.accepted at https://my-app.example.com/hook." |
+| `webhooks.update`        | `webhooks:manage` | Update an endpoint (URL, event types, description, isActive). URL changes re-run the SSRF guard.                                                                    | "Pause webhook endpoint 7."                                                             |
+| `webhooks.delete`        | `webhooks:manage` | Soft-delete an endpoint. Delivery stops immediately; the row is preserved for audit.                                                                                | "Delete webhook endpoint 7."                                                            |
+| `webhooks.rotate_secret` | `webhooks:manage` | Rotate the signing secret. The new secret is returned **once** — there's no grace period, so update your consumer at the same time.                                 | "Rotate the secret on webhook 7."                                                       |
 
 <Aside type="caution">
-Webhook signing secrets are returned exactly once — on `webhooks.create` and `webhooks.rotate_secret`. Every other tool redacts them. There is no API to fetch an existing secret; if you lose it, rotate.
+  Webhook signing secrets are returned exactly once — on `webhooks.create` and
+  `webhooks.rotate_secret`. Every other tool redacts them. There is no API to fetch an existing
+  secret; if you lose it, rotate.
 </Aside>
 
 ## Users (2)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
+| Tool         | Scope        | What it does                                                                                                                                                  | Example prompt       |
+| ------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
 | `users.list` | `users:read` | List team members in your tenant (name, email, role, active state). Use to find user IDs for assignment. Returns identity + membership only — no auth fields. | "Who's on the team?" |
-| `users.get` | `users:read` | Fetch a single team member by user ID. | "Who is user 5?" |
+| `users.get`  | `users:read` | Fetch a single team member by user ID.                                                                                                                        | "Who is user 5?"     |
 
 ## Identity (1)
 
-| Tool | Scope | What it does | Example prompt |
-|---|---|---|---|
+| Tool     | Scope  | What it does                                                                                                           | Example prompt           |
+| -------- | ------ | ---------------------------------------------------------------------------------------------------------------------- | ------------------------ |
 | `me.get` | (none) | Returns the authenticated user's name, email, role, company, and granted scopes. Always available — no scope required. | "Who am I logged in as?" |
 
 ## Resources (2)
 
 Resources let the model fetch a single record by URI in one round trip and pin it to context. Useful when the model already has an id and just needs the full record.
 
-| URI template | Scope | What it returns |
-|---|---|---|
-| `bid://{tenant_id}/{bid_id}` | `bids:read` | Full bid JSON: line items, totals, customer, status. |
-| `project://{tenant_id}/{project_id}` | `projects:read` | Full project JSON: phases, team, status, dates. |
+| URI template                         | Scope           | What it returns                                      |
+| ------------------------------------ | --------------- | ---------------------------------------------------- |
+| `bid://{tenant_id}/{bid_id}`         | `bids:read`     | Full bid JSON: line items, totals, customer, status. |
+| `project://{tenant_id}/{project_id}` | `projects:read` | Full project JSON: phases, team, status, dates.      |
 
 The model discovers these via `resources/templates/list` and constructs concrete URIs from ids it pulls out of `*.list` calls.
 
@@ -164,11 +170,11 @@ The model discovers these via `resources/templates/list` and constructs concrete
 
 Prompts are reusable workflows the model can call by name. Each one gathers the right tool calls behind a single named operation, so you don't have to spell out the workflow yourself.
 
-| Prompt | Args | What it does |
-|---|---|---|
-| `draft_bid_followup` | `bid_id` | Pulls the bid + customer + last status-change date, then asks the model to draft a polite follow-up email tailored to how long the bid has been open. |
-| `summarize_open_projects` | (none) | Lists in-progress projects and asks the model to write one-line status summaries for each. Good for a daily standup or weekly recap. |
-| `weekly_status_report` | `start_date`, `end_date` | Pulls bids sent, bids accepted, projects started, pay apps approved, and change orders approved between two dates. Returns a structured weekly report draft. |
+| Prompt                    | Args                     | What it does                                                                                                                                                 |
+| ------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `draft_bid_followup`      | `bid_id`                 | Pulls the bid + customer + last status-change date, then asks the model to draft a polite follow-up email tailored to how long the bid has been open.        |
+| `summarize_open_projects` | (none)                   | Lists in-progress projects and asks the model to write one-line status summaries for each. Good for a daily standup or weekly recap.                         |
+| `weekly_status_report`    | `start_date`, `end_date` | Pulls bids sent, bids accepted, projects started, pay apps approved, and change orders approved between two dates. Returns a structured weekly report draft. |
 
 ## Permissions and audit logging
 

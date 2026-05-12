@@ -51,7 +51,11 @@ You do **not** need an API key. ChatGPT registers itself with BuildWorkPro using
 </Steps>
 
 <Aside type="note" title="ChatGPT MCP rollout">
-The exact UI for adding MCP servers is evolving as OpenAI rolls out their MCP support broadly. Menu labels and the Apps directory layout may change. If the steps above don't match what you see, check OpenAI's connector documentation at [platform.openai.com/docs](https://platform.openai.com/docs) for the current path. The server URL and OAuth flow are stable — only the ChatGPT-side install UX is moving.
+  The exact UI for adding MCP servers is evolving as OpenAI rolls out their MCP support broadly.
+  Menu labels and the Apps directory layout may change. If the steps above don't match what you see,
+  check OpenAI's connector documentation at
+  [platform.openai.com/docs](https://platform.openai.com/docs) for the current path. The server URL
+  and OAuth flow are stable — only the ChatGPT-side install UX is moving.
 </Aside>
 
 ## What you can ask
@@ -75,7 +79,9 @@ The full inventory of tools, resources, and prompts is in the [Tools catalog](/a
 - **Multiple tenants:** ChatGPT connects to one tenant per account. To switch tenants, sign out of BuildWorkPro, sign back in to the desired tenant, then reconnect.
 
 <Aside type="caution" title="Watch out for">
-- ChatGPT's training data does not include your BuildWorkPro records. Tool calls fetch live data each time. If a record changed in the last few seconds, ask ChatGPT to refetch.
-- LLMs occasionally call the wrong tool or pass wrong arguments. Always review write actions (creating a contact, sending a bid) before confirming.
-- Don't paste sensitive customer info into the chat itself — let the tools fetch it. Anything you type into the chat is sent to OpenAI's servers.
+  - ChatGPT's training data does not include your BuildWorkPro records. Tool calls fetch live data
+  each time. If a record changed in the last few seconds, ask ChatGPT to refetch. - LLMs
+  occasionally call the wrong tool or pass wrong arguments. Always review write actions (creating a
+  contact, sending a bid) before confirming. - Don't paste sensitive customer info into the chat
+  itself — let the tools fetch it. Anything you type into the chat is sent to OpenAI's servers.
 </Aside>

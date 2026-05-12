@@ -13,14 +13,14 @@ Verify the signature on every delivery. An unsigned or wrong-signature request m
 
 Every POST carries the following headers:
 
-| Header                       | Description |
-|------------------------------|-------------|
-| `BuildWorkPro-Signature`     | Comma-separated tokens: `t=<unix-seconds>,v1=<hex-hmac>`. |
-| `BuildWorkPro-Event`         | The event type, e.g. `bid.accepted`. Convenient for routing without parsing the body. |
-| `BuildWorkPro-Event-Id`      | Unique event id (also present as `id` in the body). Use this for idempotency on your side. |
-| `BuildWorkPro-Delivery-Id`   | Unique delivery id. Same event re-delivered (e.g., via replay) carries the same event id but a new delivery id. |
-| `Content-Type`               | Always `application/json`. |
-| `User-Agent`                 | `BuildWorkPro-Webhooks/1.0`. |
+| Header                     | Description                                                                                                     |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `BuildWorkPro-Signature`   | Comma-separated tokens: `t=<unix-seconds>,v1=<hex-hmac>`.                                                       |
+| `BuildWorkPro-Event`       | The event type, e.g. `bid.accepted`. Convenient for routing without parsing the body.                           |
+| `BuildWorkPro-Event-Id`    | Unique event id (also present as `id` in the body). Use this for idempotency on your side.                      |
+| `BuildWorkPro-Delivery-Id` | Unique delivery id. Same event re-delivered (e.g., via replay) carries the same event id but a new delivery id. |
+| `Content-Type`             | Always `application/json`.                                                                                      |
+| `User-Agent`               | `BuildWorkPro-Webhooks/1.0`.                                                                                    |
 
 ## Signed payload format
 
@@ -45,8 +45,8 @@ If your verifier consistently fails on timestamp skew, run NTP on your receiver.
   <TabItem label="Node.js (Express)">
 
 ```js
-import express from "express";
-import { createHmac, timingSafeEqual } from "node:crypto";
+import express from 'express';
+import { createHmac, timingSafeEqual } from 'node:crypto';
 
 const SIGNING_SECRET = process.env.BWP_WEBHOOK_SECRET;
 const MAX_SKEW_SEC = 300;
@@ -55,18 +55,14 @@ const app = express();
 
 // Mount express.raw on the webhook path so req.body is a Buffer of the raw bytes.
 // Don't use express.json() before this route, or signature verification will fail.
-app.post(
-  "/bwp",
-  express.raw({ type: "application/json" }),
-  (req, res) => {
-    if (!verifySignature(SIGNING_SECRET, req.body, req.header("BuildWorkPro-Signature"))) {
-      return res.status(400).send("invalid signature");
-    }
-    const event = JSON.parse(req.body.toString("utf8"));
-    // Persist event.id for idempotency, then enqueue downstream work.
-    res.status(200).send("ok");
-  },
-);
+app.post('/bwp', express.raw({ type: 'application/json' }), (req, res) => {
+  if (!verifySignature(SIGNING_SECRET, req.body, req.header('BuildWorkPro-Signature'))) {
+    return res.status(400).send('invalid signature');
+  }
+  const event = JSON.parse(req.body.toString('utf8'));
+  // Persist event.id for idempotency, then enqueue downstream work.
+  res.status(200).send('ok');
+});
 
 function verifySignature(secret, rawBody, header) {
   if (!secret || !header) return false;
@@ -77,11 +73,11 @@ function verifySignature(secret, rawBody, header) {
   const now = Math.floor(Date.now() / 1000);
   if (Math.abs(now - t) > MAX_SKEW_SEC) return false;
 
-  const expected = createHmac("sha256", secret)
-    .update(`${t}.${rawBody.toString("utf8")}`)
-    .digest("hex");
-  const a = Buffer.from(expected, "hex");
-  const b = Buffer.from(v1, "hex");
+  const expected = createHmac('sha256', secret)
+    .update(`${t}.${rawBody.toString('utf8')}`)
+    .digest('hex');
+  const a = Buffer.from(expected, 'hex');
+  const b = Buffer.from(v1, 'hex');
   if (a.length !== b.length) return false;
   return timingSafeEqual(a, b);
 }
@@ -142,7 +138,8 @@ def bwp():
 <Aside type="caution">
   Always verify against the **raw request body bytes**, never the parsed JSON. If you stringify a parsed object back to JSON, key ordering, whitespace, and number formatting can all differ from what BuildWorkPro signed -- and the HMAC will not match.
 
-  In Express, that means `express.raw({ type: "application/json" })` on the webhook route, **before** any `express.json()` body parser. In Flask, use `request.get_data()`, not `request.json`.
+In Express, that means `express.raw({ type: "application/json" })` on the webhook route, **before** any `express.json()` body parser. In Flask, use `request.get_data()`, not `request.json`.
+
 </Aside>
 
 ## Idempotency on your side

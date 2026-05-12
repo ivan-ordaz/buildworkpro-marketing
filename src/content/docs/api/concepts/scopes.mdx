@@ -17,39 +17,39 @@ Scopes fall into three groups: per-resource CRUD, workflow actions, and meta sco
 
 10 resource families × 3 actions = 30 scopes. `:read` lets you list and fetch; `:write` lets you create and update; `:delete` lets you soft-delete. `:write` does **not** include `:delete`.
 
-| Resource         | Read                  | Write                  | Delete                  |
-|------------------|-----------------------|------------------------|-------------------------|
-| Contacts         | `contacts:read`       | `contacts:write`       | `contacts:delete`       |
-| Leads            | `leads:read`          | `leads:write`          | `leads:delete`          |
-| Projects         | `projects:read`       | `projects:write`       | `projects:delete`       |
-| Bids             | `bids:read`           | `bids:write`           | `bids:delete`           |
-| Pay applications | `pay_apps:read`       | `pay_apps:write`       | `pay_apps:delete`       |
-| Change orders    | `change_orders:read`  | `change_orders:write`  | `change_orders:delete`  |
-| Site logs        | `site_logs:read`      | `site_logs:write`      | `site_logs:delete`      |
-| Time entries     | `time_entries:read`   | `time_entries:write`   | `time_entries:delete`   |
-| Products         | `products:read`       | `products:write`       | `products:delete`       |
-| Documents        | `documents:read`      | `documents:write`      | `documents:delete`      |
+| Resource         | Read                 | Write                 | Delete                 |
+| ---------------- | -------------------- | --------------------- | ---------------------- |
+| Contacts         | `contacts:read`      | `contacts:write`      | `contacts:delete`      |
+| Leads            | `leads:read`         | `leads:write`         | `leads:delete`         |
+| Projects         | `projects:read`      | `projects:write`      | `projects:delete`      |
+| Bids             | `bids:read`          | `bids:write`          | `bids:delete`          |
+| Pay applications | `pay_apps:read`      | `pay_apps:write`      | `pay_apps:delete`      |
+| Change orders    | `change_orders:read` | `change_orders:write` | `change_orders:delete` |
+| Site logs        | `site_logs:read`     | `site_logs:write`     | `site_logs:delete`     |
+| Time entries     | `time_entries:read`  | `time_entries:write`  | `time_entries:delete`  |
+| Products         | `products:read`      | `products:write`      | `products:delete`      |
+| Documents        | `documents:read`     | `documents:write`     | `documents:delete`     |
 
 ### Workflow scopes
 
 State transitions and side-effecting actions get their own dedicated scopes -- separate from `:write` -- so you can grant edit access without granting the ability to send a customer email or move a pay app through approval.
 
-| Scope                       | What it allows |
-|-----------------------------|----------------|
-| `bids:send`                 | Email a bid to a customer from the associated user account. |
-| `bids:accept_reject`        | Transition bids to accepted or rejected. |
-| `pay_apps:approve`          | Move pay apps through the approval workflow. |
-| `change_orders:approve`     | Approve or reject change orders. |
+| Scope                   | What it allows                                              |
+| ----------------------- | ----------------------------------------------------------- |
+| `bids:send`             | Email a bid to a customer from the associated user account. |
+| `bids:accept_reject`    | Transition bids to accepted or rejected.                    |
+| `pay_apps:approve`      | Move pay apps through the approval workflow.                |
+| `change_orders:approve` | Approve or reject change orders.                            |
 
 ### Meta scopes
 
-| Scope               | What it allows |
-|---------------------|----------------|
-| `users:read`        | List users in your organization (name, email, role). |
-| `webhooks:manage`   | Create, update, and delete webhook endpoints. |
-| `jobs:read`         | Check status and download results of async jobs the caller initiated. |
-| `jobs:write`        | Enqueue CSV imports/exports, PDFs, bulk ops; cancel or delete jobs. |
-| `offline_access`    | Issue an OAuth refresh token so the app can stay connected without re-prompting. |
+| Scope             | What it allows                                                                   |
+| ----------------- | -------------------------------------------------------------------------------- |
+| `users:read`      | List users in your organization (name, email, role).                             |
+| `webhooks:manage` | Create, update, and delete webhook endpoints.                                    |
+| `jobs:read`       | Check status and download results of async jobs the caller initiated.            |
+| `jobs:write`      | Enqueue CSV imports/exports, PDFs, bulk ops; cancel or delete jobs.              |
+| `offline_access`  | Issue an OAuth refresh token so the app can stay connected without re-prompting. |
 
 ## Scope intersected with role (OAuth)
 
@@ -74,7 +74,8 @@ Every v1 route is wrapped in `requireApiScope("...")`. When you call a route:
 For API keys, the granted scopes are whatever the admin selected at key-creation time. For OAuth tokens, they're the role-intersected subset granted at consent.
 
 <Aside type="note">
-  `offline_access` is OAuth-specific -- it's the signal that a refresh token should be issued alongside the access token. API keys don't expire and don't need it.
+  `offline_access` is OAuth-specific -- it's the signal that a refresh token should be issued
+  alongside the access token. API keys don't expire and don't need it.
 </Aside>
 
 ## Choosing scopes

@@ -4,21 +4,24 @@ const sections = [
     badge: 'Dashboard & Analytics',
     badgeColor: 'brand',
     heading: 'Your sub business at a glance',
-    description: 'Real-time KPIs built for specialty contractors — pipeline value, active jobs, pending bids, and crew activity. No GC overhead, just what matters to your trade.',
+    description:
+      'Real-time KPIs built for specialty contractors — pipeline value, active jobs, pending bids, and crew activity. No GC overhead, just what matters to your trade.',
     bullets: [
       'Real-time project, revenue, and pipeline KPIs',
       'Activity feeds with team-wide visibility',
       'Pipeline tracking and project status overview',
     ],
     image: '/screenshots/01-dashboard.png',
-    imageAlt: 'BuildWorkPro dashboard with KPIs showing active projects, pipeline value, and revenue metrics',
+    imageAlt:
+      'BuildWorkPro dashboard with KPIs showing active projects, pipeline value, and revenue metrics',
     layout: 'text-left',
   },
   {
     badge: 'Sales Pipeline',
     badgeColor: 'emerald',
     heading: 'Never miss a bidding opportunity',
-    description: 'Track every opportunity from first call to signed contract. Drag-and-drop Kanban keeps your sales pipeline visible so you can focus on the jobs that matter.',
+    description:
+      'Track every opportunity from first call to signed contract. Drag-and-drop Kanban keeps your sales pipeline visible so you can focus on the jobs that matter.',
     bullets: [
       'Kanban board with drag-and-drop lead stages',
       'Deal values and probability tracking',
@@ -32,7 +35,8 @@ const sections = [
     badge: 'Professional Bids & Estimates',
     badgeColor: 'violet',
     heading: 'Bid smarter, win more work',
-    description: 'Build detailed estimates with marks, labor rates, material costs, and overhead. Send polished proposals to GCs and convert accepted bids straight into active jobs.',
+    description:
+      'Build detailed estimates with marks, labor rates, material costs, and overhead. Send polished proposals to GCs and convert accepted bids straight into active jobs.',
     bullets: [
       'Detailed line items with cost breakdown sidebar',
       'One-click PDF generation and client delivery',
@@ -46,7 +50,8 @@ const sections = [
     badge: 'Project Management',
     badgeColor: 'brand',
     heading: 'Run every job from mobilization to closeout',
-    description: 'Phases, tasks, Gantt charts, and crew assignments designed for how subs actually run jobs. Track progress across multiple active projects without losing visibility.',
+    description:
+      'Phases, tasks, Gantt charts, and crew assignments designed for how subs actually run jobs. Track progress across multiple active projects without losing visibility.',
     bullets: [
       'Phases and tasks with Gantt chart visualization',
       'Team assignment and workload tracking',
@@ -60,21 +65,24 @@ const sections = [
     badge: 'Pay Applications',
     badgeColor: 'rose',
     heading: 'Stop chasing payments',
-    description: 'Submit progress billing pay apps to your GC with one click. Track retainage, change order impacts, and approval status so you always know where your money is.',
+    description:
+      'Submit progress billing pay apps to your GC with one click. Track retainage, change order impacts, and approval status so you always know where your money is.',
     bullets: [
       'Industry-standard schedule of values format',
       'Workflow approval: Draft, Submitted, Approved, Paid',
       'Retainage tracking and schedule of values',
     ],
     image: '/screenshots/13-pay-app-detail.png',
-    imageAlt: 'Pay application detail showing workflow stepper, AIA summary, and schedule of values',
+    imageAlt:
+      'Pay application detail showing workflow stepper, AIA summary, and schedule of values',
     layout: 'text-left',
   },
   {
     badge: 'Change Orders',
     badgeColor: 'amber',
     heading: 'Protect your margins on scope changes',
-    description: 'When the GC changes scope, capture it immediately. Track the contract impact, get approvals through a structured workflow, and make sure every dollar is accounted for.',
+    description:
+      'When the GC changes scope, capture it immediately. Track the contract impact, get approvals through a structured workflow, and make sure every dollar is accounted for.',
     bullets: [
       'Multi-step workflow approval stepper',
       'Real-time contract impact tracking',
@@ -88,7 +96,8 @@ const sections = [
     badge: 'Site Logs',
     badgeColor: 'cyan',
     heading: 'Every jobsite day, documented',
-    description: 'When disputes arise, your site logs are your defense. Capture weather, crew count, work performed, and photos every day. Create change orders directly from field issues.',
+    description:
+      'When disputes arise, your site logs are your defense. Capture weather, crew count, work performed, and photos every day. Create change orders directly from field issues.',
     bullets: [
       'Daily field reports with structured data entry',
       'Weather conditions and personnel tracking',
@@ -102,14 +111,16 @@ const sections = [
     badge: 'Reports & Analytics',
     badgeColor: 'emerald',
     heading: 'Data-driven decisions for your business',
-    description: 'Comprehensive reports with visual charts for pipeline health, bid analytics, project tracking, and financial performance. Export anything to CSV.',
+    description:
+      'Comprehensive reports with visual charts for pipeline health, bid analytics, project tracking, and financial performance. Export anything to CSV.',
     bullets: [
       'Pipeline and bid analytics with visual charts',
       'Project tracking and financial reports',
       'One-click export to CSV for any dataset',
     ],
     image: '/screenshots/19-reports.png',
-    imageAlt: 'Reports dashboard showing bar charts and donut charts for pipeline and project analytics',
+    imageAlt:
+      'Reports dashboard showing bar charts and donut charts for pipeline and project analytics',
     layout: 'image-left',
   },
 ];
@@ -126,51 +137,59 @@ const badgeColorMap: Record<string, { bg: string; text: string; check: string }>
 
 <section class="py-24 lg:py-32 bg-slate-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {
+      sections.map((section, index) => {
+        const colors = badgeColorMap[section.badgeColor];
+        const isImageLeft = section.layout === 'image-left';
+        const isLast = index === sections.length - 1;
 
-    {sections.map((section, index) => {
-      const colors = badgeColorMap[section.badgeColor];
-      const isImageLeft = section.layout === 'image-left';
-      const isLast = index === sections.length - 1;
-
-      return (
-        <div class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${isLast ? '' : 'mb-28 lg:mb-36'}`}>
-          {/* Text content */}
-          <div class={isImageLeft ? 'order-2 lg:order-2' : ''}>
-            <div class={`inline-flex items-center gap-2 ${colors.bg} ${colors.text} px-3 py-1 rounded-full text-sm font-medium mb-6`}>
-              {section.badge}
+        return (
+          <div
+            class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${isLast ? '' : 'mb-28 lg:mb-36'}`}
+          >
+            {/* Text content */}
+            <div class={isImageLeft ? 'order-2 lg:order-2' : ''}>
+              <div
+                class={`inline-flex items-center gap-2 ${colors.bg} ${colors.text} px-3 py-1 rounded-full text-sm font-medium mb-6`}
+              >
+                {section.badge}
+              </div>
+              <h3 class="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+                {section.heading}
+              </h3>
+              <p class="text-lg text-slate-500 mb-8 leading-relaxed">{section.description}</p>
+              <ul class="space-y-4">
+                {section.bullets.map((item) => (
+                  <li class="flex items-start gap-3">
+                    <svg
+                      class={`w-5 h-5 ${colors.check} mt-0.5 shrink-0`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-slate-600">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <h3 class="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
-              {section.heading}
-            </h3>
-            <p class="text-lg text-slate-500 mb-8 leading-relaxed">
-              {section.description}
-            </p>
-            <ul class="space-y-4">
-              {section.bullets.map((item) => (
-                <li class="flex items-start gap-3">
-                  <svg class={`w-5 h-5 ${colors.check} mt-0.5 shrink-0`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span class="text-slate-600">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          {/* Screenshot */}
-          <div class={isImageLeft ? 'order-1 lg:order-1' : ''}>
-            <div class="rounded-2xl border border-slate-200/80 shadow-xl overflow-hidden bg-white">
-              <img
-                src={section.image}
-                alt={section.imageAlt}
-                class="w-full h-auto block"
-                loading="lazy"
-              />
+            {/* Screenshot */}
+            <div class={isImageLeft ? 'order-1 lg:order-1' : ''}>
+              <div class="rounded-2xl border border-slate-200/80 shadow-xl overflow-hidden bg-white">
+                <img
+                  src={section.image}
+                  alt={section.imageAlt}
+                  class="w-full h-auto block"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      );
-    })}
-
+        );
+      })
+    }
   </div>
 </section>

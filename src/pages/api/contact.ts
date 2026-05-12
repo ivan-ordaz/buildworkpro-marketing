@@ -1,6 +1,12 @@
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
-import { sendEmail, verifyTurnstile, sanitizeField, isValidEmail, buildHtmlTable } from '../../lib/brevo';
+import {
+  sendEmail,
+  verifyTurnstile,
+  sanitizeField,
+  isValidEmail,
+  buildHtmlTable,
+} from '../../lib/brevo';
 
 export const prerender = false;
 

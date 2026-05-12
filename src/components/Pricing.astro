@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <section id="pricing" class="py-24 lg:py-32 bg-slate-50">
@@ -11,12 +12,15 @@
         One plan. Everything included.
       </h2>
       <p class="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-        No tiers to compare. No features locked behind upgrades. Every sub gets the full platform at one flat price.
+        No tiers to compare. No features locked behind upgrades. Every sub gets the full platform at
+        one flat price.
       </p>
     </div>
 
     <div class="max-w-lg mx-auto">
-      <div class="relative flex flex-col p-10 rounded-2xl bg-white border border-brand-200 shadow-xl shadow-brand-600/10 ring-1 ring-brand-600">
+      <div
+        class="relative flex flex-col p-10 rounded-2xl bg-white border border-brand-200 shadow-xl shadow-brand-600/10 ring-1 ring-brand-600"
+      >
         <!-- Badge -->
         <div class="absolute -top-4 left-1/2 -translate-x-1/2">
           <span class="bg-brand-600 text-white text-xs font-semibold px-4 py-1.5 rounded-full">
@@ -34,38 +38,44 @@
           <p class="text-sm text-brand-600 font-medium mt-2">
             Pay yearly and get 2 months free — $790/year
           </p>
-          <p class="text-xs text-slate-400 mt-1">
-            That's just $65.83/month billed annually
-          </p>
+          <p class="text-xs text-slate-400 mt-1">That's just $65.83/month billed annually</p>
         </div>
 
         <!-- Features -->
         <div class="grid sm:grid-cols-2 gap-3 mb-8">
-          {[
-            'Unlimited users',
-            'Unlimited projects',
-            'Unlimited contacts',
-            'Bids & estimates',
-            'Pay applications',
-            'Change orders',
-            'Site logs',
-            'Time tracking',
-            'Sales pipeline & CRM',
-            'Gantt charts & scheduling',
-            'Reports & analytics',
-            'Role-based permissions',
-            'Document management',
-            'Email integration',
-            'Custom branding',
-            'API access',
-          ].map((feature) => (
-            <div class="flex items-center gap-2.5">
-              <svg class="w-4 h-4 text-brand-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-              <span class="text-sm text-slate-600">{feature}</span>
-            </div>
-          ))}
+          {
+            [
+              'Unlimited users',
+              'Unlimited projects',
+              'Unlimited contacts',
+              'Bids & estimates',
+              'Pay applications',
+              'Change orders',
+              'Site logs',
+              'Time tracking',
+              'Sales pipeline & CRM',
+              'Gantt charts & scheduling',
+              'Reports & analytics',
+              'Role-based permissions',
+              'Document management',
+              'Email integration',
+              'Custom branding',
+              'API access',
+            ].map((feature) => (
+              <div class="flex items-center gap-2.5">
+                <svg
+                  class="w-4 h-4 text-brand-600 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-sm text-slate-600">{feature}</span>
+              </div>
+            ))
+          }
         </div>
 
         <!-- CTA -->
@@ -84,10 +94,14 @@
       <!-- Comparison callout -->
       <div class="mt-10 text-center">
         <p class="text-sm text-slate-500">
-          Most construction software starts at <span class="line-through text-slate-400">$299/month</span> and charges per user.
+          Most construction software starts at <span class="line-through text-slate-400"
+            >$299/month</span
+          > and charges per user.
         </p>
         <p class="text-sm text-slate-500 mt-1">
-          BuildWorkPro gives you <span class="font-semibold text-slate-700">everything, for everyone, at one price</span>.
+          BuildWorkPro gives you <span class="font-semibold text-slate-700"
+            >everything, for everyone, at one price</span
+          >.
         </p>
       </div>
     </div>

@@ -39,7 +39,6 @@ A common Monday-morning task is rebuilding a mental picture of every open projec
    > Total: 4 in-progress projects. 1 on hold (waiting on customer). 1 nearing completion.
 
 4. **Iterate if needed.**
-
    - Need more detail on one? "Expand the East Wing project — what's the RFI about?" — ChatGPT calls `projects.get` and any related tools to fill in the picture.
    - Need a different angle? "Group these by phase, not by project name." or "Sort by which one I should pay attention to first." ChatGPT recomposes from what it already pulled.
 
@@ -50,8 +49,12 @@ A common Monday-morning task is rebuilding a mental picture of every open projec
 </Steps>
 
 <Aside type="caution" title="Watch out for">
-- The summaries are LLM-generated. ChatGPT may invent or misstate small details (a phase number, a date) — verify before sharing externally with a customer or partner.
-- Long project names, many concurrent phases, or unusually-rich notes may exceed ChatGPT's display budget and get truncated. Ask ChatGPT to expand a specific project if the line is too short.
-- The prompt fetches live data each time you invoke it. If you ran the prompt yesterday and want to compare, ask ChatGPT to keep the previous output in context: "Compare today's summary to yesterday's — what changed?"
-- Share the brief, not the chat URL. The chat history may include other tool call output you don't want to expose.
+  - The summaries are LLM-generated. ChatGPT may invent or misstate small details (a phase number, a
+  date) — verify before sharing externally with a customer or partner. - Long project names, many
+  concurrent phases, or unusually-rich notes may exceed ChatGPT's display budget and get truncated.
+  Ask ChatGPT to expand a specific project if the line is too short. - The prompt fetches live data
+  each time you invoke it. If you ran the prompt yesterday and want to compare, ask ChatGPT to keep
+  the previous output in context: "Compare today's summary to yesterday's — what changed?" - Share
+  the brief, not the chat URL. The chat history may include other tool call output you don't want to
+  expose.
 </Aside>
