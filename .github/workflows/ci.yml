@@ -12,7 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: '20'
+  # Astro 6 requires Node >= 22.12.0.
+  NODE_VERSION: '22'
 
 jobs:
   lint:
