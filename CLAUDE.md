@@ -117,6 +117,52 @@ Run the full suite locally before pushing: `npm run check && npm run lint && npm
 | Read full breakdown / Feature Details     | The issue body (migrated from Obsidian); fall back to Obsidian if needed                    |
 | Log a session, decision, or pattern       | Obsidian (still the brain)                                                                  |
 
+### Marketing item classification (where does this work belong?)
+
+Before opening any issue, decide which repo it lives in. Repo == "where the code change happens":
+
+- **`buildworkpro-marketing`** (this repo): anything on the public marketing/docs surface — `buildworkpro.com` pages, blog posts, docs site, API reference, marketing-side analytics, the OpenAPI sync from the main app, marketing CTAs, contact / sales / signup-redirect flows that originate here.
+- **`buildworkpro`** (main app): app signup/auth flow (`Signup.tsx`, `/api/auth/*`, `/api/config/public`), billing, in-app SEO (`useDocumentTitle`, `client/index.html` meta), public-signup abuse mitigation, anything the user only sees once they're logged in.
+- **`buildworkpro-mobile`**: anything that ships in the React Native app.
+
+If an item touches both surfaces (e.g. "marketing CTA points at app signup"), open it in the repo where the **primary code change** lives and link the dependency in the body. The "Marketing site signup flow" item (#191, issue [`buildworkpro-marketing#5`](https://github.com/ivan-ordaz/buildworkpro-marketing/issues/5)) is the canonical example: lives in `buildworkpro-marketing` because the code change is here; references main-app prerequisites (`signupEnabled` flag, `#159` abuse mitigation) in Dependencies.
+
+### Recipe — add a new marketing backlog item
+
+When you need to add tactical work for this repo:
+
+```bash
+# 1. Make sure gh is the right user
+gh auth status | grep -A1 'ivan-ordaz' | head -1   # must say "Active account: true"
+
+# 2. Find the next backlog number (max across all repos in Project #2, then +1)
+gh project item-list 2 --owner ivan-ordaz --limit 200 --format json \
+  | jq -r '[.items[].title | capture("^#(?<n>[0-9]+) ") | .n | tonumber] | max'
+
+# 3. Write the issue body to a temp file. Follow the existing format:
+#    blockquote with Priority/Status/Type/Execution Mode, then Request,
+#    Outcome (optional), Actionable Items (checkboxes), Dependencies, Notes.
+
+# 4. Create the issue in this repo
+gh issue create --repo ivan-ordaz/buildworkpro-marketing \
+  --title "#<NEXT_N> — <short request>" \
+  --body-file /tmp/issue-body.md
+
+# 5. Add to Project #2 and capture the project item ID
+ISSUE_NODE_ID=$(gh issue view <ISSUE_NUMBER> --repo ivan-ordaz/buildworkpro-marketing --json id --jq '.id')
+ITEM_ID=$(gh api graphql -f query='
+  mutation($project: ID!, $issue: ID!) {
+    addProjectV2ItemById(input: {projectId: $project, contentId: $issue}) { item { id } }
+  }' -f project="PVT_kwHOAfx2oc4BXaGw" -f issue="$ISSUE_NODE_ID" \
+  --jq '.data.addProjectV2ItemById.item.id')
+
+# 6. Set the fields. IDs are in ~/.claude/projects/-Users-ivan-buildworkpro/memory/github_project.md
+#    Reuse the helper inline (see commit 2c3d71d / the existing CI-setup session for the
+#    five updateProjectV2ItemFieldValue calls — Status, Priority, Type, Execution Mode, Order).
+```
+
+After creation, link backlog items to a roadmap parent (`addSubIssue` mutation in the github_project memory file) **only** if the work rolls up to a strategic theme. Most marketing items are standalone and stay parent-less.
+
 ### Breakdown flow (roadmap → backlog tickets)
 
 When you say "break down R#N":

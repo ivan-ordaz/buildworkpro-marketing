@@ -40,3 +40,12 @@ See [`CLAUDE.md`](./CLAUDE.md) for the full architecture overview, tooling confi
 ## Deployment
 
 Production deploys are handled by **Cloudflare's git integration** on push to `main`. GitHub Actions only verifies code quality; it does not deploy.
+
+## Project tracking
+
+Work for this repo lives in **GitHub Projects**, not in Obsidian or the codebase:
+
+- [BuildWorkPro Backlog (Project #2)](https://github.com/users/ivan-ordaz/projects/2) — tactical work. Marketing-site items are real issues in this repo (`ivan-ordaz/buildworkpro-marketing`) and rolled up under Project #2 alongside main-app and mobile work.
+- [BuildWorkPro Roadmap (Project #3)](https://github.com/users/ivan-ordaz/projects/3) — strategic features. Marketing work is rarely a roadmap item by itself; it usually rolls up under a strategic theme owned by the main app.
+
+To open a new ticket for marketing work, create the issue in this repo and add it to Project #2. The full recipe (gh commands, field IDs, classification rules for marketing vs main-app vs mobile) is in [`CLAUDE.md`](./CLAUDE.md#project-tracking--github-projects-canonical).
