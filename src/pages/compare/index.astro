@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import CTA from '../../components/CTA.astro';
+import Footer from '../../components/Footer.astro';
+
+const comparisons = [
+  {
+    title: 'BuildWorkPro vs Procore',
+    description:
+      'Procore is built for large general contractors and priced per project. See how BuildWorkPro gives specialty subcontractors the same workflow tools at a flat $79/month — no per-project fees.',
+    href: '/compare/procore-alternative/',
+    competitor: 'Procore',
+  },
+  {
+    title: 'BuildWorkPro vs Buildertrend',
+    description:
+      'Buildertrend leans heavily into homebuilder + client-portal features. BuildWorkPro focuses on subcontractor essentials: bidding, pay apps, change orders, field logs, and CRM.',
+    href: '/compare/buildertrend-alternative/',
+    competitor: 'Buildertrend',
+  },
+];
+---
+
+<Layout
+  title="BuildWorkPro Alternatives & Comparisons | BuildWorkPro"
+  description="See how BuildWorkPro compares to Procore, Buildertrend, and other construction management platforms. Built for subcontractors, priced flat at $79/month."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Compare</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          How BuildWorkPro stacks up
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          Honest comparisons against the platforms subcontractors actually evaluate. No fluff — just
+          where each tool fits and where it doesn't.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        {
+          comparisons.map((cmp) => (
+            <a
+              href={cmp.href}
+              class="group p-8 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:shadow-lg transition-all duration-300"
+            >
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold mb-5">
+                vs {cmp.competitor}
+              </div>
+              <h2 class="text-xl font-semibold text-slate-900 mb-3 group-hover:text-brand-600 transition-colors">
+                {cmp.title}
+              </h2>
+              <p class="text-slate-500 leading-relaxed mb-4">{cmp.description}</p>
+              <span class="inline-flex items-center text-sm font-medium text-brand-600 group-hover:gap-2 gap-1.5 transition-all">
+                Read comparison
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-20">
+      <CTA />
+    </div>
+  </main>
+  <Footer />
+</Layout>

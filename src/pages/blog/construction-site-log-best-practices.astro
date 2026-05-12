@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
 ---
 
 <Layout
@@ -188,6 +189,36 @@ import Footer from '../../components/Footer.astro';
           >Request Access</button
         >
       </div>
+
+      <BlogPostFooter
+        headline="Construction Site Log Best Practices: What to Record Daily"
+        description="Daily construction site log guide for subcontractors. What to document, why it matters, and how digital site logs save time and protect your business."
+        datePublished="2026-02-28"
+        related={[
+          {
+            href: '/features/site-logs/',
+            title: 'Site Logs & Daily Reports',
+            description:
+              'Digital daily logs for weather, crew hours, equipment, materials, and notes.',
+          },
+          {
+            href: '/features/time-tracking/',
+            title: 'Time Tracking',
+            description:
+              'Log crew hours alongside site activity so payroll and progress stay aligned.',
+          },
+          {
+            href: '/docs/field/site-logs/',
+            title: 'Site Logs Documentation',
+            description: 'How to log a complete daily report inside BuildWorkPro from the field.',
+          },
+          {
+            href: '/blog/construction-change-order-management/',
+            title: 'Change Order Management',
+            description: 'Site log evidence is what protects your margins when scope changes hit.',
+          },
+        ]}
+      />
     </article>
   </main>
   <Footer />

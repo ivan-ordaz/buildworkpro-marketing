@@ -1,0 +1,87 @@
+---
+import { config } from '../config';
+
+interface RelatedLink {
+  href: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  headline: string;
+  description: string;
+  datePublished: string; // ISO 8601, e.g. '2026-03-10'
+  related?: RelatedLink[];
+}
+
+const { headline, description, datePublished, related = [] } = Astro.props;
+
+const articleUrl = Astro.url.href;
+const ogImage = new URL('/og-image.png', Astro.site).href;
+
+const blogPostingSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline,
+  description,
+  datePublished,
+  dateModified: datePublished,
+  image: ogImage,
+  url: articleUrl,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': articleUrl,
+  },
+  author: {
+    '@type': 'Organization',
+    name: 'BuildWorkPro',
+    url: config.siteUrl,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'BuildWorkPro',
+    url: config.siteUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${config.siteUrl}/logo.png`,
+    },
+  },
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
+
+{
+  related.length > 0 && (
+    <section aria-labelledby="related-heading" class="mt-16 pt-12 border-t border-slate-100">
+      <h2 id="related-heading" class="text-2xl font-bold text-slate-900 mb-8 tracking-tight">
+        Keep reading
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+        {related.map((link) => (
+          <a
+            href={link.href}
+            class="group block p-6 rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-md transition-all"
+          >
+            <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-brand-600 transition-colors">
+              {link.title}
+            </h3>
+            <p class="text-sm text-slate-500 leading-relaxed">{link.description}</p>
+            <span class="inline-flex items-center text-sm font-medium text-brand-600 mt-3 group-hover:gap-2 gap-1.5 transition-all">
+              Learn more
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}

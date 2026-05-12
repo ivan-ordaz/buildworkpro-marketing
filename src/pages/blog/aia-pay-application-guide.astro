@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
 ---
 
 <Layout
@@ -203,6 +204,37 @@ import Footer from '../../components/Footer.astro';
           >Request Access</button
         >
       </div>
+
+      <BlogPostFooter
+        headline="AIA Pay Application Guide: How to Fill Out G702 & G703"
+        description="Complete guide to AIA pay applications for subcontractors. Learn how to fill out G702 and G703 forms, schedule of values, and get paid faster."
+        datePublished="2026-03-10"
+        related={[
+          {
+            href: '/features/pay-applications/',
+            title: 'Pay Applications in BuildWorkPro',
+            description:
+              'Generate G702/G703-style pay apps with schedule of values, retainage, and approval workflows.',
+          },
+          {
+            href: '/docs/pay-apps/schedule-of-values/',
+            title: 'Schedule of Values Documentation',
+            description:
+              'How to set up your schedule of values so every pay app rolls forward cleanly.',
+          },
+          {
+            href: '/docs/pay-apps/approval-workflow/',
+            title: 'Pay App Approval Workflow',
+            description: 'Step-by-step on submitting, reviewing, and approving pay applications.',
+          },
+          {
+            href: '/blog/construction-change-order-management/',
+            title: 'Change Order Management',
+            description:
+              'Track scope changes that affect your contract value alongside your pay apps.',
+          },
+        ]}
+      />
     </article>
   </main>
   <Footer />

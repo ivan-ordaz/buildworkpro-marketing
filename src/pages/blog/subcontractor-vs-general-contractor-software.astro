@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
 ---
 
 <Layout
@@ -207,6 +208,37 @@ import Footer from '../../components/Footer.astro';
           >Request Access</button
         >
       </div>
+
+      <BlogPostFooter
+        headline="Subcontractor vs General Contractor Software: Key Differences"
+        description="Why subcontractors need different software than general contractors. Compare features, pricing, and workflows to find the right construction management tool."
+        datePublished="2026-02-20"
+        related={[
+          {
+            href: '/compare/procore-alternative/',
+            title: 'BuildWorkPro vs Procore',
+            description:
+              'See how a subcontractor-first platform compares against the dominant GC tool.',
+          },
+          {
+            href: '/compare/buildertrend-alternative/',
+            title: 'BuildWorkPro vs Buildertrend',
+            description: 'How BuildWorkPro stacks up against a homebuilder-focused alternative.',
+          },
+          {
+            href: '/features/',
+            title: 'BuildWorkPro Features',
+            description:
+              'Everything subcontractors need to bid, build, and bill — all in one platform.',
+          },
+          {
+            href: '/solutions/',
+            title: 'Solutions by Trade',
+            description:
+              'See how BuildWorkPro adapts to HVAC, electrical, plumbing, concrete, roofing, and framing.',
+          },
+        ]}
+      />
     </article>
   </main>
   <Footer />

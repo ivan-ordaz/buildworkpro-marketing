@@ -19,17 +19,91 @@ const {
 } = Astro.props;
 
 const ogImageUrl = new URL(image, Astro.site).href;
+
+// Auto-generate BreadcrumbList JSON-LD from the URL path so feature/solution/
+// compare/blog pages become rich-result eligible. Home is always first; each
+// path segment becomes a crumb labeled from a known map (falls back to a
+// Title-Cased version of the slug).
+const breadcrumbLabels: Record<string, string> = {
+  features: 'Features',
+  solutions: 'Solutions',
+  compare: 'Compare',
+  blog: 'Blog',
+  docs: 'Docs',
+  api: 'API',
+  security: 'Security',
+  disclosure: 'Responsible Disclosure',
+  about: 'About',
+  contact: 'Contact',
+  support: 'Support',
+  integrations: 'Integrations',
+  developers: 'Developers',
+  privacy: 'Privacy',
+  terms: 'Terms',
+  cookies: 'Cookies',
+};
+
+const segments = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbItems = [
+  { name: 'Home', url: new URL('/', Astro.site).href },
+  ...segments.map((seg, i) => {
+    const slug = seg.toLowerCase();
+    const label =
+      breadcrumbLabels[slug] ?? slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    const url = new URL(`/${segments.slice(0, i + 1).join('/')}/`, Astro.site).href;
+    return { name: label, url };
+  }),
+];
+
+const showBreadcrumbs = breadcrumbItems.length > 1;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) — loaded only after cookie consent -->
+    <!-- Google Consent Mode v2 + gtag (loaded only after cookie consent).
+         Default-deny every category until the user explicitly accepts in the
+         CookieConsent banner. The default must run BEFORE the gtag.js loader
+         so signals are scoped correctly from the very first GA call. -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(...args) {
         window.dataLayer.push(args);
       }
+      // Consent Mode v2 — default-deny. `wait_for_update` gives the
+      // CookieConsent banner ~500ms to update consent before any pings fire,
+      // avoiding a denied ping followed immediately by a granted one.
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        personalization_storage: 'denied',
+        security_storage: 'granted',
+        wait_for_update: 500,
+      });
+      // Exposed so the CookieConsent component can flip consent on accept.
+      window.bwpGrantAnalyticsConsent = function () {
+        gtag('consent', 'update', {
+          ad_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          analytics_storage: 'granted',
+          functionality_storage: 'granted',
+          personalization_storage: 'granted',
+        });
+      };
+      window.bwpRevokeAnalyticsConsent = function () {
+        gtag('consent', 'update', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          functionality_storage: 'denied',
+          personalization_storage: 'denied',
+        });
+      };
       window.bwpLoadGA = function () {
         if (window.__bwpGALoaded) return;
         window.__bwpGALoaded = true;
@@ -41,7 +115,10 @@ const ogImageUrl = new URL(image, Astro.site).href;
         gtag('config', 'G-REK78NBR14');
       };
       try {
-        if (localStorage.getItem('bwp-cookies-accepted')) window.bwpLoadGA();
+        if (localStorage.getItem('bwp-cookies-accepted')) {
+          window.bwpGrantAnalyticsConsent();
+          window.bwpLoadGA();
+        }
       } catch {
         /* localStorage unavailable (private browsing, SSR, etc.) — skip GA load */
       }
@@ -74,6 +151,7 @@ const ogImageUrl = new URL(image, Astro.site).href;
 
     <!-- Organization Schema -->
     <script
+      is:inline
       type="application/ld+json"
       set:html={JSON.stringify({
         '@context': 'https://schema.org',
@@ -89,6 +167,26 @@ const ogImageUrl = new URL(image, Astro.site).href;
         sameAs: [],
       })}
     />
+
+    <!-- BreadcrumbList Schema (skipped on the homepage). -->
+    {
+      showBreadcrumbs && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: breadcrumbItems.map((item, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: item.name,
+              item: item.url,
+            })),
+          })}
+        />
+      )
+    }
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
