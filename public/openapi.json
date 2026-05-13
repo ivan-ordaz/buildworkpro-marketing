@@ -21,7 +21,7 @@
   ],
   "security": [
     {
-      "apiKey": []
+      "bearerAuth": []
     }
   ],
   "components": {
@@ -67,6 +67,7 @@
           "webhooks:manage",
           "jobs:read",
           "jobs:write",
+          "notifications:read",
           "offline_access"
         ],
         "description": "Available API scopes"
@@ -2684,6 +2685,9 @@
           "client_name": {
             "type": "string"
           },
+          "client_secret_expires_at": {
+            "type": "integer"
+          },
           "redirect_uris": {
             "type": "array",
             "items": {
@@ -2704,7 +2708,8 @@
             "type": "string",
             "enum": [
               "none",
-              "client_secret_basic"
+              "client_secret_basic",
+              "client_secret_post"
             ]
           }
         },
@@ -2949,7 +2954,8 @@
             "type": "string",
             "enum": [
               "none",
-              "client_secret_basic"
+              "client_secret_basic",
+              "client_secret_post"
             ],
             "default": "none"
           },
@@ -2965,7 +2971,7 @@
       }
     },
     "securitySchemes": {
-      "apiKey": {
+      "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "bwp_live_... or bwp_test_...",
@@ -2993,7 +2999,7 @@
         "description": "Returns a cursor-paginated list of contacts for the authenticated tenant.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "contacts:read"
             ]
           }
@@ -3034,6 +3040,34 @@
             },
             "required": false,
             "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
             "in": "query"
           }
         ],
@@ -3080,7 +3114,7 @@
         "description": "Creates a new contact.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "contacts:write"
             ]
           }
@@ -3143,13 +3177,212 @@
         }
       }
     },
+    "/contacts/get-many": {
+      "post": {
+        "summary": "Bulk-fetch contacts by ID",
+        "description": "Fetch up to 50 contacts by ID in a single round-trip. Returns rows for IDs that exist in the tenant — IDs that don't exist (or belong to another tenant) are silently omitted. Compare `meta.requested` to `meta.returned` to detect missing.",
+        "security": [
+          {
+            "bearerAuth": [
+              "contacts:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Contact"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ResponseMeta"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "requested": {
+                              "type": "integer"
+                            },
+                            "returned": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "requested",
+                            "returned"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contacts/count": {
+      "get": {
+        "summary": "Count contacts",
+        "description": "Returns the total number of contacts in the tenant matching the optional `search`, `type`, `dateFrom`/`dateTo` filters. Mirrors the same filters as `GET /contacts` minus pagination — use this when you only need cardinality and don't want to walk every page.",
+        "security": [
+          {
+            "bearerAuth": [
+              "contacts:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/contacts/{id}": {
       "get": {
         "summary": "Get contact by id",
         "description": "Returns a single contact.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "contacts:read"
             ]
           }
@@ -3207,7 +3440,7 @@
         "description": "Partially updates a contact.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "contacts:write"
             ]
           }
@@ -3284,7 +3517,7 @@
         "description": "Soft-deletes a contact.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "contacts:delete"
             ]
           }
@@ -3325,7 +3558,7 @@
         "description": "Enqueues a CSV export job for contacts. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "contacts:read",
               "jobs:write"
             ]
@@ -3413,7 +3646,7 @@
         "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "contacts:write",
               "jobs:write"
             ]
@@ -3523,7 +3756,7 @@
         "description": "Enqueues a bulk delete/restore job for up to 500 contact ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "contacts:delete",
               "jobs:write"
             ]
@@ -3631,13 +3864,298 @@
         }
       }
     },
+    "/leads/summary": {
+      "get": {
+        "summary": "Aggregate lead totals and breakdowns by stage and source",
+        "description": "Returns flat totals (count, estimated_value_total) plus a breakdown by pipeline stage (with stage name joined from lead_stages) and a breakdown by source. Null source becomes its own bucket. Money values are decimal strings. Date filter applies to createdAt.",
+        "security": [
+          {
+            "bearerAuth": [
+              "leads:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Leads"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "assignedTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "stageId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lead summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "count": {
+                              "type": "integer"
+                            },
+                            "estimated_value_total": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "count",
+                            "estimated_value_total"
+                          ]
+                        },
+                        "by_stage": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "stageId": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ]
+                              },
+                              "stageName": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "count": {
+                                "type": "integer"
+                              },
+                              "estimated_value_total": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "stageId",
+                              "stageName",
+                              "count",
+                              "estimated_value_total"
+                            ]
+                          }
+                        },
+                        "by_source": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "source": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "count": {
+                                "type": "integer"
+                              },
+                              "estimated_value_total": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "source",
+                              "count",
+                              "estimated_value_total"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "totals",
+                        "by_stage",
+                        "by_source"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leads/count": {
+      "get": {
+        "summary": "Count leads",
+        "description": "Returns the total number of leads in the tenant matching the optional `search`, `stageId`, `assignedTo`, `dateFrom`/`dateTo` filters. Mirrors GET /leads minus pagination.",
+        "security": [
+          {
+            "bearerAuth": [
+              "leads:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Leads"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "stageId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "assignedTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/leads": {
       "get": {
         "summary": "List leads",
         "description": "Returns a cursor-paginated list of leads for the authenticated tenant.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:read"
             ]
           }
@@ -3693,6 +4211,34 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -3738,7 +4284,7 @@
         "description": "Creates a new lead.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:write"
             ]
           }
@@ -3807,7 +4353,7 @@
         "description": "Returns a single lead.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:read"
             ]
           }
@@ -3865,7 +4411,7 @@
         "description": "Partially updates a lead.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:write"
             ]
           }
@@ -3942,7 +4488,7 @@
         "description": "Soft-deletes a lead.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:delete"
             ]
           }
@@ -3983,7 +4529,7 @@
         "description": "Promotes a lead to a project. Rejects with 409 if the lead is already in the Won stage.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:write",
               "projects:write"
             ]
@@ -4050,7 +4596,7 @@
         "summary": "List lead stages",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:read"
             ]
           }
@@ -4100,7 +4646,7 @@
         "summary": "Create lead stage",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:write"
             ]
           }
@@ -4168,7 +4714,7 @@
         "summary": "Update lead stage",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:write"
             ]
           }
@@ -4244,7 +4790,7 @@
         "summary": "Delete lead stage",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:delete"
             ]
           }
@@ -4285,7 +4831,7 @@
         "description": "Enqueues a CSV export job for leads. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:read",
               "jobs:write"
             ]
@@ -4373,7 +4919,7 @@
         "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:write",
               "jobs:write"
             ]
@@ -4483,7 +5029,7 @@
         "description": "Enqueues a bulk delete/restore job for up to 500 lead ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "leads:delete",
               "jobs:write"
             ]
@@ -4591,13 +5137,368 @@
         }
       }
     },
+    "/projects/count": {
+      "get": {
+        "summary": "Count projects",
+        "description": "Returns the total number of projects in the tenant matching the optional `search`, `status`, `contactId`, `dateFrom`/`dateTo` filters. Mirrors GET /projects minus pagination.",
+        "security": [
+          {
+            "bearerAuth": [
+              "projects:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "contactId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/summary": {
+      "get": {
+        "summary": "Aggregate project totals and breakdown by status",
+        "description": "Returns totals (count, contract_value_total, approved_co_delta_total) plus a breakdown by status. Money values are decimal strings. Date filter applies to createdAt.",
+        "security": [
+          {
+            "bearerAuth": [
+              "projects:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "contactId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "assignedTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "count": {
+                              "type": "integer"
+                            },
+                            "contract_value_total": {
+                              "type": "string"
+                            },
+                            "approved_co_delta_total": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "count",
+                            "contract_value_total",
+                            "approved_co_delta_total"
+                          ]
+                        },
+                        "by_status": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "status": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "type": "integer"
+                              },
+                              "contract_value_total": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "count",
+                              "contract_value_total"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "totals",
+                        "by_status"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/get-many": {
+      "post": {
+        "summary": "Bulk-fetch projects by ID",
+        "description": "Fetch up to 50 projects by ID in a single round-trip. Returns flat project rows only (no phases / tasks / contacts). IDs that don't exist are silently omitted; compare meta.requested vs meta.returned to detect missing.",
+        "security": [
+          {
+            "bearerAuth": [
+              "projects:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Projects"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Project"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ResponseMeta"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "requested": {
+                              "type": "integer"
+                            },
+                            "returned": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "requested",
+                            "returned"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/projects": {
       "get": {
         "summary": "List projects",
         "description": "Returns a cursor-paginated list of projects for the authenticated tenant.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:read"
             ]
           }
@@ -4650,6 +5551,34 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -4695,7 +5624,7 @@
         "description": "Creates a new project.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:write"
             ]
           }
@@ -4764,7 +5693,7 @@
         "description": "Returns a single project.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:read"
             ]
           }
@@ -4822,7 +5751,7 @@
         "description": "Partially updates a project.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:write"
             ]
           }
@@ -4899,7 +5828,7 @@
         "description": "Soft-deletes a project.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:delete"
             ]
           }
@@ -4940,7 +5869,7 @@
         "description": "Enqueues a CSV export job for projects. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:read",
               "jobs:write"
             ]
@@ -5028,7 +5957,7 @@
         "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:write",
               "jobs:write"
             ]
@@ -5132,13 +6061,494 @@
         }
       }
     },
+    "/projects/project-stages": {
+      "get": {
+        "summary": "List project stages",
+        "security": [
+          {
+            "bearerAuth": [
+              "projects:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Projects"
+        ],
+        "responses": {
+          "200": {
+            "description": "Stages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "tenantId": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "order": {
+                            "type": "integer"
+                          },
+                          "color": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "isDefault": {
+                            "type": "boolean"
+                          },
+                          "isActive": {
+                            "type": "boolean"
+                          },
+                          "isOnHold": {
+                            "type": "boolean"
+                          },
+                          "isCompleted": {
+                            "type": "boolean"
+                          },
+                          "isCancelled": {
+                            "type": "boolean"
+                          },
+                          "deletedAt": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "tenantId",
+                          "name",
+                          "order",
+                          "color",
+                          "isDefault",
+                          "isActive",
+                          "isOnHold",
+                          "isCompleted",
+                          "isCancelled",
+                          "deletedAt",
+                          "createdAt"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create project stage",
+        "security": [
+          {
+            "bearerAuth": [
+              "projects:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "color": {
+                    "type": "string",
+                    "maxLength": 50
+                  },
+                  "order": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "isDefault": {
+                    "type": "boolean"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "isOnHold": {
+                    "type": "boolean"
+                  },
+                  "isCompleted": {
+                    "type": "boolean"
+                  },
+                  "isCancelled": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "tenantId": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "order": {
+                          "type": "integer"
+                        },
+                        "color": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "isDefault": {
+                          "type": "boolean"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        },
+                        "isOnHold": {
+                          "type": "boolean"
+                        },
+                        "isCompleted": {
+                          "type": "boolean"
+                        },
+                        "isCancelled": {
+                          "type": "boolean"
+                        },
+                        "deletedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "tenantId",
+                        "name",
+                        "order",
+                        "color",
+                        "isDefault",
+                        "isActive",
+                        "isOnHold",
+                        "isCompleted",
+                        "isCancelled",
+                        "deletedAt",
+                        "createdAt"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/project-stages/{id}": {
+      "patch": {
+        "summary": "Update project stage",
+        "security": [
+          {
+            "bearerAuth": [
+              "projects:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "color": {
+                    "type": "string",
+                    "maxLength": 50
+                  },
+                  "order": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "isDefault": {
+                    "type": "boolean"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "isOnHold": {
+                    "type": "boolean"
+                  },
+                  "isCompleted": {
+                    "type": "boolean"
+                  },
+                  "isCancelled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "tenantId": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "order": {
+                          "type": "integer"
+                        },
+                        "color": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "isDefault": {
+                          "type": "boolean"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        },
+                        "isOnHold": {
+                          "type": "boolean"
+                        },
+                        "isCompleted": {
+                          "type": "boolean"
+                        },
+                        "isCancelled": {
+                          "type": "boolean"
+                        },
+                        "deletedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "tenantId",
+                        "name",
+                        "order",
+                        "color",
+                        "isDefault",
+                        "isActive",
+                        "isOnHold",
+                        "isCompleted",
+                        "isCancelled",
+                        "deletedAt",
+                        "createdAt"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete project stage",
+        "security": [
+          {
+            "bearerAuth": [
+              "projects:delete"
+            ]
+          }
+        ],
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict — stage is in use",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/projects/bulk": {
       "post": {
         "summary": "Start bulk operation on projects",
         "description": "Enqueues a bulk delete/restore job for up to 500 project ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:delete",
               "jobs:write"
             ]
@@ -5252,7 +6662,7 @@
         "description": "Returns a cursor-paginated list of bids for the authenticated tenant.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:read"
             ]
           }
@@ -5327,6 +6737,34 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -5372,7 +6810,7 @@
         "description": "Creates a new bid in draft status.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:write"
             ]
           }
@@ -5399,6 +6837,13 @@
                   "bidNumber": {
                     "type": "string"
                   },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
                   "leadId": {
                     "type": [
                       "integer",
@@ -5423,7 +6868,19 @@
                     "minimum": -2147483648,
                     "maximum": 2147483647
                   },
+                  "dueDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
                   "validUntil": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "rejectedAt": {
                     "type": [
                       "string",
                       "null"
@@ -5478,6 +6935,20 @@
                       "null"
                     ]
                   },
+                  "paymentTermsText": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "paymentTermId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
                   "createdBy": {
                     "type": [
                       "integer",
@@ -5509,6 +6980,11 @@
                       "boolean",
                       "null"
                     ]
+                  },
+                  "kanbanOrder": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
                   }
                 }
               }
@@ -5557,7 +7033,7 @@
         "description": "Returns a single bid.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:read"
             ]
           }
@@ -5615,7 +7091,7 @@
         "description": "Partially updates a bid. Accepted bids are locked.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:write"
             ]
           }
@@ -5642,6 +7118,13 @@
                   "bidNumber": {
                     "type": "string"
                   },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
                   "leadId": {
                     "type": [
                       "integer",
@@ -5665,6 +7148,12 @@
                     ],
                     "minimum": -2147483648,
                     "maximum": 2147483647
+                  },
+                  "dueDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "validUntil": {
                     "type": [
@@ -5690,6 +7179,12 @@
                       "null"
                     ],
                     "maxLength": 255
+                  },
+                  "rejectedAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "taxRate": {
                     "type": [
@@ -5740,6 +7235,20 @@
                       "null"
                     ]
                   },
+                  "paymentTermsText": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "paymentTermId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
                   "createdBy": {
                     "type": [
                       "integer",
@@ -5771,6 +7280,11 @@
                       "boolean",
                       "null"
                     ]
+                  },
+                  "kanbanOrder": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
                   }
                 }
               }
@@ -5837,7 +7351,7 @@
         "description": "Soft-deletes a bid. Accepted bids are locked.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:delete"
             ]
           }
@@ -5888,7 +7402,7 @@
         "description": "Transitions a draft bid to sent and emails the customer.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:send"
             ]
           }
@@ -5955,10 +7469,10 @@
     "/bids/{id}/accept": {
       "post": {
         "summary": "Accept a bid",
-        "description": "Marks a sent bid as accepted.",
+        "description": "Marks any non-accepted bid (draft, sent, expired, or rejected) as accepted. Returns 409 if the bid is already accepted.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:accept_reject"
             ]
           }
@@ -6036,6 +7550,119 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bids/{id}/revert-acceptance": {
+      "post": {
+        "summary": "Revert acceptance of a bid",
+        "description": "Moves an accepted bid back to a non-accepted status (draft, sent, expired, or rejected) and clears acceptedAt/acceptedBy. Use to undo an acceptance recorded by mistake.",
+        "security": [
+          {
+            "bearerAuth": [
+              "bids:accept_reject"
+            ]
+          }
+        ],
+        "tags": [
+          "Bids"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "draft",
+                      "sent",
+                      "expired",
+                      "rejected"
+                    ]
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reverted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Bid"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
         }
       }
@@ -6045,7 +7672,7 @@
         "summary": "Reject a bid",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:accept_reject"
             ]
           }
@@ -6115,7 +7742,7 @@
         "description": "Creates a new draft bid copied from the given bid.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:write"
             ]
           }
@@ -6174,7 +7801,7 @@
         "summary": "Convert accepted bid to project",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:write",
               "projects:write"
             ]
@@ -6281,7 +7908,7 @@
         "summary": "List bid line items",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:read"
             ]
           }
@@ -6341,7 +7968,7 @@
         "summary": "Create bid line item",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:write"
             ]
           }
@@ -6508,7 +8135,7 @@
         "summary": "Update bid line item",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:write"
             ]
           }
@@ -6678,7 +8305,7 @@
         "summary": "Delete bid line item",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:write"
             ]
           }
@@ -6737,7 +8364,7 @@
         "description": "Enqueues a CSV export job for bids. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:read",
               "jobs:write"
             ]
@@ -6825,7 +8452,7 @@
         "description": "Enqueues a bulk delete/restore job for up to 500 bid ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:delete",
               "jobs:write"
             ]
@@ -6933,13 +8560,386 @@
         }
       }
     },
+    "/bids/get-many": {
+      "post": {
+        "summary": "Bulk-fetch bids by ID",
+        "description": "Fetch up to 50 bids by ID in a single round-trip. Returns flat bid rows only (no line items / sublines / distributed costs — call GET /bids/{id} per id for the full tree). IDs that don't exist are silently omitted; compare meta.requested vs meta.returned to detect missing.",
+        "security": [
+          {
+            "bearerAuth": [
+              "bids:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Bids"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Bid"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ResponseMeta"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "requested": {
+                              "type": "integer"
+                            },
+                            "returned": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "requested",
+                            "returned"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bids/count": {
+      "get": {
+        "summary": "Count bids",
+        "description": "Returns the total number of bids in the tenant matching the optional filters (`search`, `status`, `contactId`, `leadId`, `projectId`, `dateFrom`/`dateTo`). Mirrors GET /bids minus pagination.",
+        "security": [
+          {
+            "bearerAuth": [
+              "bids:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Bids"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "contactId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "leadId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bids/summary": {
+      "get": {
+        "summary": "Aggregate bid totals and breakdown by status",
+        "description": "Returns flat totals (count, total_value) plus a breakdown by status (draft / sent / accepted / rejected / expired). Money values are decimal strings. Filters on createdAt for date range.",
+        "security": [
+          {
+            "bearerAuth": [
+              "bids:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Bids"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "contactId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "createdBy",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bid summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "count": {
+                              "type": "integer"
+                            },
+                            "total_value": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "count",
+                            "total_value"
+                          ]
+                        },
+                        "by_status": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "status": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "type": "integer"
+                              },
+                              "total_value": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "count",
+                              "total_value"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "totals",
+                        "by_status"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/bids/{id}/pdf": {
       "post": {
         "summary": "Generate PDF for a bid (async)",
         "description": "Enqueues an async PDF generation job. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "bids:read",
               "jobs:write"
             ]
@@ -7024,13 +9024,363 @@
         }
       }
     },
+    "/pay-apps/count": {
+      "get": {
+        "summary": "Count pay applications",
+        "description": "Returns the total number of pay apps in the tenant matching the optional `search`, `status`, `projectId`, `dateFrom`/`dateTo` filters. Mirrors GET /pay-apps minus pagination.",
+        "security": [
+          {
+            "bearerAuth": [
+              "pay_apps:read"
+            ]
+          }
+        ],
+        "tags": [
+          "PayApps"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pay-apps/summary": {
+      "get": {
+        "summary": "Aggregate pay-app totals and breakdown by status",
+        "description": "Returns totals (count, invoiced_total, paid_total, outstanding_total) plus a breakdown by status. Money values are decimal strings. Date filter applies to submittedAt.",
+        "security": [
+          {
+            "bearerAuth": [
+              "pay_apps:read"
+            ]
+          }
+        ],
+        "tags": [
+          "PayApps"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pay-app summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "count": {
+                              "type": "integer"
+                            },
+                            "invoiced_total": {
+                              "type": "string"
+                            },
+                            "paid_total": {
+                              "type": "string"
+                            },
+                            "outstanding_total": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "count",
+                            "invoiced_total",
+                            "paid_total",
+                            "outstanding_total"
+                          ]
+                        },
+                        "by_status": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "status": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "type": "integer"
+                              },
+                              "current_billed_total": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "count",
+                              "current_billed_total"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "totals",
+                        "by_status"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pay-apps/get-many": {
+      "post": {
+        "summary": "Bulk-fetch pay apps by ID",
+        "description": "Fetch up to 50 pay apps by ID in a single round-trip. Returns flat rows only (no line items / project / approver). IDs that don't exist are silently omitted.",
+        "security": [
+          {
+            "bearerAuth": [
+              "pay_apps:read"
+            ]
+          }
+        ],
+        "tags": [
+          "PayApps"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "PayApps",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PayApp"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ResponseMeta"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "requested": {
+                              "type": "integer"
+                            },
+                            "returned": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "requested",
+                            "returned"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/pay-apps": {
       "get": {
         "summary": "List pay applications",
         "description": "Returns a cursor-paginated list of pay apps for the authenticated tenant.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:read"
             ]
           }
@@ -7083,6 +9433,34 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -7127,7 +9505,7 @@
         "summary": "Create pay application (draft)",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:write"
             ]
           }
@@ -7271,7 +9649,7 @@
         "summary": "Get pay application by id",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:read"
             ]
           }
@@ -7328,7 +9706,7 @@
         "summary": "Update draft pay application",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:write"
             ]
           }
@@ -7487,7 +9865,7 @@
         "summary": "Delete draft pay application",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:delete"
             ]
           }
@@ -7537,7 +9915,7 @@
         "summary": "Submit pay app for approval",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:write"
             ]
           }
@@ -7606,7 +9984,7 @@
         "summary": "Approve pay application",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:approve"
             ]
           }
@@ -7675,7 +10053,7 @@
         "summary": "Reject pay application",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:approve"
             ]
           }
@@ -7763,7 +10141,7 @@
         "summary": "Mark approved pay app as paid",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:write"
             ]
           }
@@ -7833,7 +10211,7 @@
         "description": "Enqueues a CSV export job for pay apps. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:read",
               "jobs:write"
             ]
@@ -7921,7 +10299,7 @@
         "description": "Enqueues a bulk delete/restore job for up to 500 pay app ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:delete",
               "jobs:write"
             ]
@@ -8035,7 +10413,7 @@
         "description": "Enqueues an async PDF generation job. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "pay_apps:read",
               "jobs:write"
             ]
@@ -8120,13 +10498,355 @@
         }
       }
     },
+    "/change-orders/count": {
+      "get": {
+        "summary": "Count change orders",
+        "description": "Returns the total number of change orders in the tenant matching the optional `search`, `status`, `projectId`, `dateFrom`/`dateTo` filters. Mirrors GET /change-orders minus pagination.",
+        "security": [
+          {
+            "bearerAuth": [
+              "change_orders:read"
+            ]
+          }
+        ],
+        "tags": [
+          "ChangeOrders"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/change-orders/summary": {
+      "get": {
+        "summary": "Aggregate change order totals and breakdown by status",
+        "description": "Returns flat totals (count, total_amount) plus a breakdown by status (draft / submitted / approved / rejected / void). Money values are decimal strings. Filters on createdAt for date range.",
+        "security": [
+          {
+            "bearerAuth": [
+              "change_orders:read"
+            ]
+          }
+        ],
+        "tags": [
+          "ChangeOrders"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Change order summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "count": {
+                              "type": "integer"
+                            },
+                            "total_amount": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "count",
+                            "total_amount"
+                          ]
+                        },
+                        "by_status": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "status": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "type": "integer"
+                              },
+                              "total_amount": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "count",
+                              "total_amount"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "totals",
+                        "by_status"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/change-orders/get-many": {
+      "post": {
+        "summary": "Bulk-fetch change orders by ID",
+        "description": "Fetch up to 50 change orders by ID in a single round-trip. Returns flat rows only (no items / project / creator). IDs that don't exist are silently omitted.",
+        "security": [
+          {
+            "bearerAuth": [
+              "change_orders:read"
+            ]
+          }
+        ],
+        "tags": [
+          "ChangeOrders"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ChangeOrders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ChangeOrder"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ResponseMeta"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "requested": {
+                              "type": "integer"
+                            },
+                            "returned": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "requested",
+                            "returned"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/change-orders": {
       "get": {
         "summary": "List change orders",
         "description": "Returns a cursor-paginated list of change orders.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:read"
             ]
           }
@@ -8179,6 +10899,34 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -8223,7 +10971,7 @@
         "summary": "Create change order",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:write"
             ]
           }
@@ -8396,7 +11144,7 @@
         "summary": "Get change order by id",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:read"
             ]
           }
@@ -8453,7 +11201,7 @@
         "summary": "Update draft change order",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:write"
             ]
           }
@@ -8631,7 +11379,7 @@
         "summary": "Delete change order",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:delete"
             ]
           }
@@ -8671,7 +11419,7 @@
         "summary": "Submit change order for approval",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:write"
             ]
           }
@@ -8740,7 +11488,7 @@
         "summary": "Approve change order",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:approve"
             ]
           }
@@ -8838,7 +11586,7 @@
         "summary": "Reject change order",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:approve"
             ]
           }
@@ -8937,7 +11685,7 @@
         "description": "Enqueues a CSV export job for change orders. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:read",
               "jobs:write"
             ]
@@ -9025,7 +11773,7 @@
         "description": "Enqueues a bulk delete/restore job for up to 500 change order ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:delete",
               "jobs:write"
             ]
@@ -9139,7 +11887,7 @@
         "description": "Enqueues an async PDF generation job. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "change_orders:read",
               "jobs:write"
             ]
@@ -9230,7 +11978,7 @@
         "description": "Returns a cursor-paginated list of site logs.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "site_logs:read"
             ]
           }
@@ -9311,6 +12059,16 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -9355,7 +12113,7 @@
         "summary": "Create site log",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "site_logs:write"
             ]
           }
@@ -9511,7 +12269,7 @@
         "summary": "Get site log by id",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "site_logs:read"
             ]
           }
@@ -9568,7 +12326,7 @@
         "summary": "Update site log",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "site_logs:write"
             ]
           }
@@ -9721,7 +12479,7 @@
         "summary": "Delete site log",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "site_logs:delete"
             ]
           }
@@ -9762,7 +12520,7 @@
         "description": "Enqueues a CSV export job for site logs. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "site_logs:read",
               "jobs:write"
             ]
@@ -9844,13 +12602,123 @@
         }
       }
     },
+    "/site-logs/imports": {
+      "post": {
+        "summary": "Start CSV import of site logs",
+        "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads. Required CSV columns: projectId, logDate (ISO), notes. Optional: id (triggers update-in-place when updateInPlace=true), title, workPerformed, issues, isReviewed.",
+        "security": [
+          {
+            "bearerAuth": [
+              "site_logs:write",
+              "jobs:write"
+            ]
+          }
+        ],
+        "tags": [
+          "SiteLogs"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sourcePath": {
+                    "type": "string"
+                  },
+                  "mapping": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "updateInPlace": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "sourcePath",
+                  "mapping"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Job enqueued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "job_id": {
+                          "type": "string"
+                        },
+                        "status_url": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "job_id",
+                        "status_url"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/site-logs/bulk": {
       "post": {
         "summary": "Start bulk operation on site logs",
         "description": "Enqueues a bulk delete/restore job for up to 500 site log ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "site_logs:delete",
               "jobs:write"
             ]
@@ -9964,7 +12832,7 @@
         "description": "Returns a cursor-paginated list of time entries.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "time_entries:read"
             ]
           }
@@ -10040,6 +12908,16 @@
             "required": false,
             "name": "isReviewed",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -10084,7 +12962,7 @@
         "summary": "Create time entry",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "time_entries:write"
             ]
           }
@@ -10236,7 +13114,7 @@
         "summary": "Update time entry",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "time_entries:write"
             ]
           }
@@ -10400,7 +13278,7 @@
         "summary": "Delete time entry",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "time_entries:delete"
             ]
           }
@@ -10441,7 +13319,7 @@
         "description": "Enqueues a CSV export job for time entries. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "time_entries:read",
               "jobs:write"
             ]
@@ -10523,13 +13401,123 @@
         }
       }
     },
+    "/time-entries/imports": {
+      "post": {
+        "summary": "Start CSV import of time entries",
+        "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads. Required CSV columns: projectId, userId, date (ISO), hours. Optional: id (triggers update-in-place when updateInPlace=true), taskId, phaseId, notes, isReviewed. Reviewed time entries are immutable — update-by-id will reject them. hourlyRate and totalCost are recomputed server-side from labor rates.",
+        "security": [
+          {
+            "bearerAuth": [
+              "time_entries:write",
+              "jobs:write"
+            ]
+          }
+        ],
+        "tags": [
+          "TimeEntries"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sourcePath": {
+                    "type": "string"
+                  },
+                  "mapping": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "updateInPlace": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "sourcePath",
+                  "mapping"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Job enqueued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "job_id": {
+                          "type": "string"
+                        },
+                        "status_url": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "job_id",
+                        "status_url"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/time-entries/bulk": {
       "post": {
         "summary": "Start bulk operation on time entries",
         "description": "Enqueues a bulk delete/restore job for up to 500 time entry ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "time_entries:delete",
               "jobs:write"
             ]
@@ -10637,13 +13625,194 @@
         }
       }
     },
+    "/time-entries/summary": {
+      "get": {
+        "summary": "Aggregate time-entry metrics",
+        "description": "Returns entry_count, hours_total, cost_total, plus breakdowns by user and by project. Date filters apply to the work date (time_entries.date), NOT createdAt.",
+        "security": [
+          {
+            "bearerAuth": [
+              "time_entries:read"
+            ]
+          }
+        ],
+        "tags": [
+          "TimeEntries"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "userId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "entry_count": {
+                              "type": "integer"
+                            },
+                            "hours_total": {
+                              "type": "string"
+                            },
+                            "cost_total": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "entry_count",
+                            "hours_total",
+                            "cost_total"
+                          ]
+                        },
+                        "by_user": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "integer"
+                              },
+                              "firstName": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "lastName": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "hours_total": {
+                                "type": "string"
+                              },
+                              "cost_total": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "userId",
+                              "firstName",
+                              "lastName",
+                              "hours_total",
+                              "cost_total"
+                            ]
+                          }
+                        },
+                        "by_project": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "projectId": {
+                                "type": "integer"
+                              },
+                              "projectName": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "hours_total": {
+                                "type": "string"
+                              },
+                              "cost_total": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "projectId",
+                              "projectName",
+                              "hours_total",
+                              "cost_total"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "totals",
+                        "by_user",
+                        "by_project"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/products": {
       "get": {
         "summary": "List products",
         "description": "Returns a cursor-paginated list of products.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:read"
             ]
           }
@@ -10732,6 +13901,34 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -10776,7 +13973,7 @@
         "summary": "Create product",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:write"
             ]
           }
@@ -10947,12 +14144,146 @@
         }
       }
     },
+    "/products/count": {
+      "get": {
+        "summary": "Count products",
+        "description": "Returns the total number of products in the tenant matching the optional filters. Mirrors the same filters as GET /products minus pagination — use this when you only need cardinality.",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "categoryId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "manufacturerId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "isKit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "isActive",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/products/{id}": {
       "get": {
         "summary": "Get product by id",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:read"
             ]
           }
@@ -11009,7 +14340,7 @@
         "summary": "Update product",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:write"
             ]
           }
@@ -11184,7 +14515,7 @@
         "summary": "Delete product",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:delete"
             ]
           }
@@ -11224,7 +14555,7 @@
         "summary": "List product kit items",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:read"
             ]
           }
@@ -11284,7 +14615,7 @@
         "summary": "Add product kit item",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:write"
             ]
           }
@@ -11395,7 +14726,7 @@
         "summary": "Remove kit item",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:write"
             ]
           }
@@ -11444,7 +14775,7 @@
         "description": "Enqueues a CSV export job for products. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:read",
               "jobs:write"
             ]
@@ -11532,7 +14863,7 @@
         "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:write",
               "jobs:write"
             ]
@@ -11642,7 +14973,7 @@
         "description": "Enqueues a bulk delete/restore job for up to 500 product ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "products:delete",
               "jobs:write"
             ]
@@ -11750,13 +15081,126 @@
         }
       }
     },
+    "/documents/count": {
+      "get": {
+        "summary": "Count documents",
+        "description": "Returns the total number of documents in the tenant matching the optional `search`, `entityType`, `entityId`, `category`, `dateFrom`/`dateTo` filters. Mirrors GET /documents minus pagination.",
+        "security": [
+          {
+            "bearerAuth": [
+              "documents:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "entityType",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "entityId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/documents": {
       "get": {
         "summary": "List documents",
         "description": "Returns a cursor-paginated list of document metadata (not the file bytes).",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "documents:read"
             ]
           }
@@ -11817,6 +15261,34 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "description": "Return compact row projection (id + key fields only)."
+            },
+            "required": false,
+            "description": "Return compact row projection (id + key fields only).",
+            "name": "compact",
+            "in": "query"
           }
         ],
         "responses": {
@@ -11863,7 +15335,7 @@
         "summary": "Get document metadata",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "documents:read"
             ]
           }
@@ -11920,7 +15392,7 @@
         "summary": "Update document metadata",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "documents:write"
             ]
           }
@@ -12012,7 +15484,7 @@
         "summary": "Delete document (soft)",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "documents:delete"
             ]
           }
@@ -12053,7 +15525,7 @@
         "description": "Streams the file bytes with appropriate Content-Type / Content-Disposition.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "documents:read"
             ]
           }
@@ -12094,7 +15566,7 @@
         "description": "Enqueues a CSV export job for documents. Poll /api/v1/jobs/{id} for status; GET /api/v1/jobs/{id}/download for the signed URL.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "documents:read",
               "jobs:write"
             ]
@@ -12182,7 +15654,7 @@
         "description": "Enqueues a bulk delete/restore job for up to 500 document ids.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "documents:delete",
               "jobs:write"
             ]
@@ -12296,7 +15768,7 @@
         "description": "Returns a list of calendar events within the given time window. Aggregates projects, tasks, phases, leads, bids and activities. Max window 366 days.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:read"
             ]
           }
@@ -12409,7 +15881,7 @@
         "description": "Returns a cursor-paginated list of tenant team members (name, email, role).",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "users:read"
             ]
           }
@@ -12481,7 +15953,7 @@
         "summary": "Get user by id",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "users:read"
             ]
           }
@@ -12541,7 +16013,7 @@
         "description": "Returns a cursor-paginated list of project templates.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:read"
             ]
           }
@@ -12611,7 +16083,7 @@
         "summary": "Create project template",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:write"
             ]
           }
@@ -12709,7 +16181,7 @@
         "summary": "Get project template by id",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:read"
             ]
           }
@@ -12766,7 +16238,7 @@
         "summary": "Update project template",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:write"
             ]
           }
@@ -12869,7 +16341,7 @@
         "summary": "Delete project template",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "projects:delete"
             ]
           }
@@ -12910,7 +16382,7 @@
         "description": "Returns the tenant's branding (excludes logo bytes — download via internal app).",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "users:read"
             ]
           }
@@ -12959,7 +16431,7 @@
         "summary": "Get data retention settings",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "users:read"
             ]
           }
@@ -13009,7 +16481,7 @@
         "description": "Returns a cursor-paginated list of async jobs initiated by the authenticated tenant.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "jobs:read"
             ]
           }
@@ -13106,7 +16578,7 @@
         "description": "Returns a single async job (status, progress, result, error message).",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "jobs:read"
             ]
           }
@@ -13164,7 +16636,7 @@
         "description": "Soft-deletes the job row. Artifacts in R2 will be reaped on TTL expiry.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "jobs:write"
             ]
           }
@@ -13205,7 +16677,7 @@
         "description": "Redirects (302) to a short-lived pre-signed URL for the result artifact (succeeded/partial jobs only).",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "jobs:read"
             ]
           }
@@ -13256,7 +16728,7 @@
         "description": "Redirects (302) to a short-lived pre-signed URL for the row-level errors CSV (partial/failed jobs only).",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "jobs:read"
             ]
           }
@@ -13297,7 +16769,7 @@
         "description": "Cancels a queued or running job. Already-terminal jobs return 409.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "jobs:write"
             ]
           }
@@ -13367,7 +16839,7 @@
         "description": "Returns a short-lived R2 signed PUT URL. Caller uploads the CSV bytes directly to R2, then passes the returned sourcePath to POST /{module}/imports.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "jobs:write"
             ]
           }
@@ -13462,7 +16934,7 @@
         "description": "Returns all active webhook endpoints for the tenant (capped at 200, no cursor pagination yet). The signingSecret field is never returned here — it is only surfaced once on creation and once on rotation.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -13513,7 +16985,7 @@
         "description": "Creates a new webhook endpoint. The url is SSRF-validated before creation. The signingSecret is returned in the response exactly once — store it now, it cannot be retrieved later.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -13547,19 +17019,38 @@
                       "type": "string",
                       "enum": [
                         "bid.created",
+                        "bid.updated",
+                        "bid.deleted",
                         "bid.accepted",
+                        "bid.acceptance_reverted",
                         "bid.rejected",
+                        "bid.expired",
                         "project.created",
+                        "project.updated",
+                        "project.deleted",
                         "project.status_changed",
                         "pay_app.submitted",
                         "pay_app.approved",
+                        "pay_app.rejected",
+                        "pay_app.paid",
+                        "pay_app.updated",
+                        "pay_app.deleted",
                         "change_order.submitted",
                         "change_order.approved",
-                        "contact.created"
+                        "change_order.rejected",
+                        "change_order.voided",
+                        "change_order.updated",
+                        "change_order.deleted",
+                        "contact.created",
+                        "contact.updated",
+                        "contact.deleted",
+                        "lead.created",
+                        "lead.updated",
+                        "lead.deleted"
                       ]
                     },
                     "minItems": 1,
-                    "maxItems": 10
+                    "maxItems": 29
                   },
                   "description": {
                     "type": [
@@ -13619,7 +17110,7 @@
         "description": "Returns a single webhook endpoint. The signingSecret field is redacted.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -13677,7 +17168,7 @@
         "description": "Partially updates a webhook endpoint. If url changes, it is re-validated against SSRF rules. The signingSecret is never returned.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -13711,19 +17202,38 @@
                       "type": "string",
                       "enum": [
                         "bid.created",
+                        "bid.updated",
+                        "bid.deleted",
                         "bid.accepted",
+                        "bid.acceptance_reverted",
                         "bid.rejected",
+                        "bid.expired",
                         "project.created",
+                        "project.updated",
+                        "project.deleted",
                         "project.status_changed",
                         "pay_app.submitted",
                         "pay_app.approved",
+                        "pay_app.rejected",
+                        "pay_app.paid",
+                        "pay_app.updated",
+                        "pay_app.deleted",
                         "change_order.submitted",
                         "change_order.approved",
-                        "contact.created"
+                        "change_order.rejected",
+                        "change_order.voided",
+                        "change_order.updated",
+                        "change_order.deleted",
+                        "contact.created",
+                        "contact.updated",
+                        "contact.deleted",
+                        "lead.created",
+                        "lead.updated",
+                        "lead.deleted"
                       ]
                     },
                     "minItems": 1,
-                    "maxItems": 10
+                    "maxItems": 29
                   },
                   "description": {
                     "type": [
@@ -13790,7 +17300,7 @@
         "description": "Soft-deletes a webhook endpoint. Future events will not be delivered.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -13831,7 +17341,7 @@
         "description": "Generates a new signing secret for the endpoint and returns it in the response. The old secret is invalidated immediately. Surface this value once and store it securely.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -13899,7 +17409,7 @@
         "description": "Returns up to 100 most recent webhook delivery rows for the endpoint, ordered most-recent-first.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -13962,7 +17472,7 @@
         "description": "Returns a single webhook delivery row, including the response body (capped at 10KB) and headers captured from the most recent attempt.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -14022,7 +17532,7 @@
         "description": "Re-enqueues the delivery for another delivery attempt. The attemptCount is reset to 0, status is set back to pending, and the response/error fields are cleared. Returns 409 if the linked endpoint has been soft-deleted.",
         "security": [
           {
-            "apiKey": [
+            "bearerAuth": [
               "webhooks:manage"
             ]
           }
@@ -14337,7 +17847,7 @@
         "description": "Returns identity information about the resource owner authenticated by the presented access token. Authentication is the standard `Authorization: Bearer` header — both API keys (bwp_live_/bwp_test_) and OAuth access tokens (bwp_at_) are accepted. No scope is required to call this endpoint.",
         "security": [
           {
-            "apiKey": []
+            "bearerAuth": []
           },
           {
             "oauth2": []

@@ -1,4 +1,4 @@
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 <Tabs>
 <TabItem label="curl">
@@ -12,10 +12,10 @@ curl -X GET https://app.buildworkpro.com/api/v1/site-logs/{id} \
 <TabItem label="JavaScript">
 
 ```js
-const res = await fetch('https://app.buildworkpro.com/api/v1/site-logs/{id}', {
-  method: 'GET',
+const res = await fetch("https://app.buildworkpro.com/api/v1/site-logs/{id}", {
+  method: "GET",
   headers: {
-    Authorization: `Bearer ${process.env.BUILDWORKPRO_API_KEY}`,
+    "Authorization": `Bearer ${process.env.BUILDWORKPRO_API_KEY}`,
   },
 });
 const data = await res.json();
