@@ -27,13 +27,12 @@ import { config } from '../config';
       </p>
 
       <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <!-- TODO: Restore "Start free trial" button and link at launch -->
-        <button
-          data-request-access
-          class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg cursor-pointer"
+        <a
+          href={config.signupUrl}
+          class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
         >
-          Request Access
-        </button>
+          Start free trial
+        </a>
         <a
           href="#features"
           class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all hover:-translate-y-0.5"
@@ -42,8 +41,7 @@ import { config } from '../config';
         </a>
       </div>
 
-      <!-- TODO: Restore "14-day free trial. No credit card required." at launch -->
-      <p class="mt-5 text-sm text-slate-400">Pre-launch access available for select contractors.</p>
+      <p class="mt-5 text-sm text-slate-400">14-day free trial. No credit card required.</p>
     </div>
 
     <!-- Dashboard Preview -->
