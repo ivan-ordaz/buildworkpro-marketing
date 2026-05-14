@@ -1,5 +1,5 @@
 ---
-
+import { config } from '../config';
 ---
 
 <section id="pricing" class="py-24 lg:py-32 bg-slate-50">
@@ -79,15 +79,14 @@
         </div>
 
         <!-- CTA -->
-        <!-- TODO: Restore "Start 14-day free trial" button at launch -->
-        <button
-          data-request-access
-          class="block w-full text-center text-base font-semibold py-3.5 px-6 rounded-xl bg-brand-600 hover:bg-brand-700 text-white cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg"
+        <a
+          href={config.signupUrl}
+          class="block w-full text-center text-base font-semibold py-3.5 px-6 rounded-xl bg-brand-600 hover:bg-brand-700 text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
         >
-          Request Access
-        </button>
+          Start 14-day free trial
+        </a>
         <p class="text-center text-xs text-slate-400 mt-3">
-          Pre-launch access available for select contractors.
+          No credit card required. Cancel anytime.
         </p>
       </div>
 

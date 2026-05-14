@@ -1,5 +1,5 @@
 ---
-
+import { config } from '../config';
 ---
 
 <section class="py-24 lg:py-32">
@@ -27,18 +27,21 @@
           Join specialty contractors who are winning more bids, getting paid faster, and growing
           their business with the platform built for subs.
         </p>
-        <!-- TODO: Restore "Start free trial" and "Schedule a demo" buttons at launch -->
         <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button
-            data-request-access
-            class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-brand-700 bg-white hover:bg-white/90 rounded-xl cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          <a
+            href={config.signupUrl}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-brand-700 bg-white hover:bg-white/90 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
           >
-            Request Access
-          </button>
+            Start free trial
+          </a>
+          <a
+            href={config.loginUrl}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/30 rounded-xl transition-all hover:-translate-y-0.5"
+          >
+            Sign in
+          </a>
         </div>
-        <p class="mt-5 text-sm text-brand-200">
-          Pre-launch access available for select contractors.
-        </p>
+        <p class="mt-5 text-sm text-brand-200">14-day free trial. No credit card required.</p>
       </div>
     </div>
   </div>
