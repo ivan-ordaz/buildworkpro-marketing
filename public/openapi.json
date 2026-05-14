@@ -6981,6 +6981,12 @@
                       "null"
                     ]
                   },
+                  "roundSalesAmounts": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
                   "kanbanOrder": {
                     "type": "integer",
                     "minimum": -2147483648,
@@ -7276,6 +7282,12 @@
                     ]
                   },
                   "showSublines": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "roundSalesAmounts": {
                     "type": [
                       "boolean",
                       "null"
