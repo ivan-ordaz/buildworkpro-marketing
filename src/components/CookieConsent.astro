@@ -35,11 +35,9 @@
 
 <script>
   (function () {
-    if (localStorage.getItem('bwp-cookies-accepted')) return;
-    if (localStorage.getItem('bwp-cookies-declined')) return;
     const banner = document.getElementById('cookie-consent');
     if (!banner) return;
-    banner.classList.remove('hidden');
+
     document.getElementById('cookie-accept')?.addEventListener('click', () => {
       localStorage.setItem('bwp-cookies-accepted', '1');
       localStorage.removeItem('bwp-cookies-declined');
@@ -51,8 +49,21 @@
     });
     document.getElementById('cookie-decline')?.addEventListener('click', () => {
       localStorage.setItem('bwp-cookies-declined', '1');
+      localStorage.removeItem('bwp-cookies-accepted');
       banner.classList.add('hidden');
       (window as any).bwpRevokeAnalyticsConsent?.();
     });
+
+    // Expose a reopen hook so the "Cookie settings" footer link can let
+    // visitors change their choice after the banner was dismissed.
+    (window as any).bwpOpenCookieSettings = () => banner.classList.remove('hidden');
+
+    // Auto-show on first visit, before any choice has been recorded.
+    if (
+      !localStorage.getItem('bwp-cookies-accepted') &&
+      !localStorage.getItem('bwp-cookies-declined')
+    ) {
+      banner.classList.remove('hidden');
+    }
   })();
 </script>

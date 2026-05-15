@@ -27,7 +27,7 @@ Your organization is your workspace. All data -- contacts, projects, bids -- liv
 
 1. Go to **Settings > Team**.
 2. Click **Invite Member** and enter their email address.
-3. Assign a role: **Admin**, **Manager**, **Member**, or **Viewer**.
+3. Assign a role: **Admin**, **Manager**, **Member**, **Field Crew**, or **Viewer**.
 
 Invited users receive an email with a link to join. They create their own account and are automatically added to your organization.
 

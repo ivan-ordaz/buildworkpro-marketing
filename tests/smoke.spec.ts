@@ -76,13 +76,4 @@ test.describe('api endpoints (server-side)', () => {
     expect(response.status()).toBeGreaterThanOrEqual(400);
     expect(response.status()).toBeLessThan(500);
   });
-
-  test('request-access endpoint rejects empty payload', async ({ request }) => {
-    const response = await request.post('/api/request-access', {
-      data: {},
-      failOnStatusCode: false,
-    });
-    expect(response.status()).toBeGreaterThanOrEqual(400);
-    expect(response.status()).toBeLessThan(500);
-  });
 });

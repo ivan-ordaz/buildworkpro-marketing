@@ -1,6 +1,6 @@
 ---
 title: Team and Roles
-description: Manage team members and understand the four role levels
+description: Manage team members and understand the five role levels
 sidebar:
   order: 1
 ---
@@ -12,6 +12,7 @@ BuildWorkPro uses role-based access control to ensure team members see and do on
 - **Admin** -- Full access to everything in your organization. Can manage team members, billing, settings, and all business data. Can hard-delete records.
 - **Manager** -- Can create, edit, and delete most records. Has access to all entities regardless of assignment. Can approve pay apps, manage products, and send proposals.
 - **Member** -- Can view all business data and create or edit records. Access is limited to entities assigned to them. Can export reports.
+- **Field Crew** -- Restricted access for on-site workers. Can view projects and documents, and create or edit site logs and time entries. Cannot access bids, pay apps, leads, products, billing, settings, or the team roster.
 - **Viewer** -- Read-only access. Cannot create, edit, or delete anything. Cannot see the team roster or export reports.
 
 ## Managing your team

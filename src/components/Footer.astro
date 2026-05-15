@@ -88,6 +88,19 @@ const footerLinks = {
       class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4"
     >
       <p class="text-sm">&copy; {new Date().getFullYear()} BuildWorkPro. All rights reserved.</p>
+      <button
+        type="button"
+        id="footer-cookie-settings"
+        class="text-sm hover:text-white transition-colors cursor-pointer"
+      >
+        Cookie settings
+      </button>
     </div>
   </div>
 </footer>
+
+<script>
+  document.getElementById('footer-cookie-settings')?.addEventListener('click', () => {
+    (window as any).bwpOpenCookieSettings?.();
+  });
+</script>
