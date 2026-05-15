@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import CookieConsent from '../components/CookieConsent.astro';
-import RequestAccessModal from '../components/RequestAccessModal.astro';
 import { config } from '../config';
 
 interface Props {
@@ -201,6 +200,5 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
   <body class="bg-white text-slate-900 font-sans" data-turnstile-sitekey={config.turnstileSiteKey}>
     <slot />
     <CookieConsent />
-    <RequestAccessModal />
   </body>
 </html>

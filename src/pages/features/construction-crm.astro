@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import { config } from '../../config';
 ---
 
 <Layout
@@ -23,13 +24,12 @@ import Footer from '../../components/Footer.astro';
           contact management, deal tracking, and follow-up reminders built in.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <!-- TODO: Restore "Start free trial" button at launch -->
-          <button
-            data-request-access
-            class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
           >
-            Request Access
-          </button>
+            Start free trial
+          </a>
           <a
             href="/features/"
             class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all"
@@ -210,13 +210,13 @@ import Footer from '../../components/Footer.astro';
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <!-- TODO: Restore "Ready to get started?" CTA with trial button at launch -->
       <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
-      <p class="text-lg text-slate-500 mb-8">Pre-launch access available for select contractors.</p>
-      <button
-        data-request-access
-        class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg"
+      <p class="text-lg text-slate-500 mb-8">14-day free trial. No credit card required.</p>
+      <a
+        href={config.signupUrl}
+        class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
       >
-        Request Access
-      </button>
+        Start free trial
+      </a>
     </section>
   </main>
   <Footer />

@@ -35,4 +35,4 @@ Click **Save** to create the bid in draft status. From here you can:
 - [Configure rates and markup](/docs/bids/rates).
 - [Send the bid](/docs/bids/sending) when you are ready.
 
-Bids auto-save as you work, so you will not lose progress.
+BuildWorkPro tracks unsaved changes -- the **Save** button appears whenever you have edits to commit, and you are warned before leaving the page with unsaved work.

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import { config } from '../../config';
 ---
 
 <Layout
@@ -394,15 +395,15 @@ import Footer from '../../components/Footer.astro';
         </h2>
         <!-- TODO: Restore trial CTA at launch -->
         <p class="mt-4 text-slate-400 max-w-xl mx-auto">
-          Pre-launch access available for select contractors.
+          14-day free trial. No credit card required.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button
-            data-request-access
-            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
           >
-            Request Access
-          </button>
+            Start free trial
+          </a>
           <a
             href="/contact/"
             class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
