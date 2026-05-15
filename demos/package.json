@@ -1,0 +1,33 @@
+{
+  "name": "buildworkpro-demos",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Programmatic marketing demo pipeline: Playwright capture → ElevenLabs narration → Remotion composition.",
+  "scripts": {
+    "capture": "tsx src/capture.ts",
+    "narrate": "tsx src/narrate.ts",
+    "render": "remotion render src/remotion/index.ts DemoVideo output/final.mp4",
+    "studio": "remotion studio src/remotion/index.ts",
+    "build": "tsx src/pipeline.ts",
+    "build:script": "tsx src/pipeline.ts"
+  },
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.45.0",
+    "@remotion/cli": "^4.0.457",
+    "@remotion/bundler": "^4.0.457",
+    "@remotion/renderer": "^4.0.457",
+    "music-metadata": "^11.12.3",
+    "playwright": "^1.59.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.457",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.3.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.4.0"
+  }
+}

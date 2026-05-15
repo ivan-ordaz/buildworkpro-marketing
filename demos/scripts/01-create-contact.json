@@ -1,0 +1,77 @@
+{
+  "slug": "01-create-contact",
+  "title": "Add a contact in seconds",
+  "subtitle": "BuildWorkPro · CRM",
+  "intro": {
+    "title": "Adding a contact in BuildWorkPro",
+    "subtitle": "Less typing. More building.",
+    "durationMs": 2500
+  },
+  "outro": {
+    "title": "Try BuildWorkPro free",
+    "cta": "buildworkpro.com",
+    "durationMs": 3000
+  },
+  "scenes": [
+    {
+      "id": "open-contacts",
+      "title": "Open the contacts module",
+      "narration": "Adding a new contact in BuildWorkPro takes seconds. From any page, jump straight to the contacts module.",
+      "caption": { "text": "1. Open Contacts", "position": "bottom" },
+      "minDurationMs": 5000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/login" },
+        { "type": "login" },
+        { "type": "wait", "ms": 1200 },
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/contacts" },
+        { "type": "waitFor", "selector": "h1:has-text('Contacts'), h2:has-text('Contacts'), [data-testid='contacts-page']" },
+        { "type": "wait", "ms": 800 }
+      ]
+    },
+    {
+      "id": "open-form",
+      "title": "Open the new contact dialog",
+      "narration": "Click 'Add Contact' to open the form. Everything you need is one screen — no nested menus.",
+      "caption": { "text": "2. Add Contact", "position": "bottom" },
+      "minDurationMs": 4500,
+      "actions": [
+        { "type": "click", "selector": "button:has-text('Add Contact')" },
+        { "type": "waitFor", "selector": "[role='dialog']" },
+        { "type": "wait", "ms": 600 },
+        { "type": "click", "selector": "[role='dialog'] [role='combobox']" },
+        { "type": "wait", "ms": 400 },
+        { "type": "click", "selector": "[role='option']:has-text('Customer')" },
+        { "type": "wait", "ms": 600 }
+      ]
+    },
+    {
+      "id": "fill-form",
+      "title": "Fill in the details",
+      "narration": "Type a name, email, and phone. BuildWorkPro auto-formats phone numbers and validates emails as you type.",
+      "caption": { "text": "3. Fill the form", "position": "bottom" },
+      "minDurationMs": 9000,
+      "actions": [
+        { "type": "click", "selector": "[role='dialog'] #firstName" },
+        { "type": "type", "selector": "[role='dialog'] #firstName", "text": "Marcus", "delayMs": 70 },
+        { "type": "click", "selector": "[role='dialog'] #lastName" },
+        { "type": "type", "selector": "[role='dialog'] #lastName", "text": "Reyes", "delayMs": 70 },
+        { "type": "click", "selector": "[role='dialog'] #email" },
+        { "type": "type", "selector": "[role='dialog'] #email", "text": "marcus@brightline.co", "delayMs": 50 },
+        { "type": "click", "selector": "[role='dialog'] #phone" },
+        { "type": "type", "selector": "[role='dialog'] #phone", "text": "3055551234", "delayMs": 60 },
+        { "type": "wait", "ms": 800 }
+      ]
+    },
+    {
+      "id": "save",
+      "title": "Save and continue",
+      "narration": "One click to save. The contact is instantly available across your bids, projects, and pay applications.",
+      "caption": { "text": "4. Save", "position": "bottom" },
+      "minDurationMs": 5000,
+      "actions": [
+        { "type": "click", "selector": "[role='dialog'] button:has-text('Create Contact')" },
+        { "type": "wait", "ms": 3000 }
+      ]
+    }
+  ]
+}
