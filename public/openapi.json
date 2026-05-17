@@ -3645,7 +3645,7 @@
     "/contacts/imports": {
       "post": {
         "summary": "Start CSV import of contacts",
-        "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads.",
+        "description": "Enqueues a CSV import job. sourcePath must be an opaque upload path returned by POST /jobs/uploads.",
         "security": [
           {
             "bearerAuth": [
@@ -4918,7 +4918,7 @@
     "/leads/imports": {
       "post": {
         "summary": "Start CSV import of leads",
-        "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads.",
+        "description": "Enqueues a CSV import job. sourcePath must be an opaque upload path returned by POST /jobs/uploads.",
         "security": [
           {
             "bearerAuth": [
@@ -5956,7 +5956,7 @@
     "/projects/imports": {
       "post": {
         "summary": "Start CSV import of projects",
-        "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads.",
+        "description": "Enqueues a CSV import job. sourcePath must be an opaque upload path returned by POST /jobs/uploads.",
         "security": [
           {
             "bearerAuth": [
@@ -12150,7 +12150,7 @@
     "/site-logs/imports": {
       "post": {
         "summary": "Start CSV import of site logs",
-        "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads. Required CSV columns: projectId, logDate (ISO), notes. Optional: id (triggers update-in-place when updateInPlace=true), title, workPerformed, issues, isReviewed.",
+        "description": "Enqueues a CSV import job. sourcePath must be an opaque upload path returned by POST /jobs/uploads. Required CSV columns: projectId, logDate (ISO), notes. Optional: id (triggers update-in-place when updateInPlace=true), title, workPerformed, issues, isReviewed.",
         "security": [
           {
             "bearerAuth": [
@@ -12949,7 +12949,7 @@
     "/time-entries/imports": {
       "post": {
         "summary": "Start CSV import of time entries",
-        "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads. Required CSV columns: projectId, userId, date (ISO), hours. Optional: id (triggers update-in-place when updateInPlace=true), taskId, phaseId, notes, isReviewed. Reviewed time entries are immutable — update-by-id will reject them. hourlyRate and totalCost are recomputed server-side from labor rates.",
+        "description": "Enqueues a CSV import job. sourcePath must be an opaque upload path returned by POST /jobs/uploads. Required CSV columns: projectId, userId, date (ISO), hours. Optional: id (triggers update-in-place when updateInPlace=true), taskId, phaseId, notes, isReviewed. Reviewed time entries are immutable — update-by-id will reject them. hourlyRate and totalCost are recomputed server-side from labor rates.",
         "security": [
           {
             "bearerAuth": [
@@ -14405,7 +14405,7 @@
     "/products/imports": {
       "post": {
         "summary": "Start CSV import of products",
-        "description": "Enqueues a CSV import job. sourcePath must be an r2:// path from POST /jobs/uploads.",
+        "description": "Enqueues a CSV import job. sourcePath must be an opaque upload path returned by POST /jobs/uploads.",
         "security": [
           {
             "bearerAuth": [
@@ -16178,7 +16178,7 @@
       },
       "delete": {
         "summary": "Soft-delete job",
-        "description": "Soft-deletes the job row. Artifacts in R2 will be reaped on TTL expiry.",
+        "description": "Soft-deletes the job row. Stored artifacts will be reaped on TTL expiry.",
         "security": [
           {
             "bearerAuth": [
@@ -16381,7 +16381,7 @@
     "/jobs/uploads": {
       "post": {
         "summary": "Get signed URL for CSV upload",
-        "description": "Returns a short-lived R2 signed PUT URL. Caller uploads the CSV bytes directly to R2, then passes the returned sourcePath to POST /{module}/imports.",
+        "description": "Returns a short-lived signed PUT URL. Caller uploads the CSV bytes directly to that URL, then passes the returned sourcePath to POST /{module}/imports.",
         "security": [
           {
             "bearerAuth": [
