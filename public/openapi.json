@@ -10554,6 +10554,12 @@
                   "total": {
                     "type": "string"
                   },
+                  "roundSalesAmounts": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
                   "submittedAt": {
                     "type": [
                       "string",
@@ -10783,6 +10789,12 @@
                   },
                   "total": {
                     "type": "string"
+                  },
+                  "roundSalesAmounts": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
                   },
                   "submittedAt": {
                     "type": [
