@@ -24,6 +24,12 @@ Template for future entries — copy this block, fill in the date and version, d
 
 */}
 
+## [Unreleased]
+
+### Removed
+
+- **Custom project-stages endpoints removed (breaking).** `GET`, `POST`, `PATCH`, and `DELETE /api/v1/projects/project-stages` (and `/api/v1/projects/project-stages/{id}`) have been removed. The custom project-stages feature was retired from the application; these endpoints now return `404`. Projects continue to use the built-in `status` field — to move a project between stages, use `PATCH /api/v1/projects/{id}` with a `status` value. The published OpenAPI spec and Postman collection have been updated to drop these paths.
+
 ## [v1.0.0] — 2026-04-25
 
 Initial public release of the BuildWorkPro REST API.

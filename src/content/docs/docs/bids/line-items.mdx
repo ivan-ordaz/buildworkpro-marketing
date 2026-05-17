@@ -1,0 +1,73 @@
+---
+title: Line Items
+description: Add line items and sublines, organize them with marks, and pull from your product catalog.
+sidebar:
+  order: 2
+lastUpdated: 2026-05-16
+# Reviewed against BuildWorkPro app v1.0.0 (REST API v1).
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Line items are the core of your bid. They break the work into priced components your client can review.
+
+## Add line items
+
+<Steps>
+
+1. Open your bid and go to the **Line Items** tab.
+
+2. Click **Add Line Item**.
+
+3. Enter a description, quantity, unit (each, LF, SF, and so on), and unit price.
+
+4. The extended price calculates automatically.
+
+</Steps>
+
+![The Line Items tab of a bid](/docs-screenshots/bids/bid-line-items-tab.png)
+
+{/* SCREENSHOT NEEDED: the Line Items tab of a bid showing several line items with quantities, units, and extended prices. */}
+
+## Organize with marks
+
+Marks let you tag line items for organization and filtering. Common marks include:
+
+- **Labor** — installation and crew time.
+- **Material** — products and supplies.
+- **Equipment** — rental or owned tool costs.
+
+You can create custom marks that match how your company categorizes work.
+
+## Use sublines
+
+Break complex items into sublines for detailed pricing. A "Panel Installation" line item, for example, might have sublines for the panel, breakers, conduit, and wire. The parent line item totals up all of its sublines.
+
+## Pull from the product catalog
+
+Save time by pulling items from your product catalog.
+
+<Steps>
+
+1. Click **Add from Catalog** on a line item.
+
+2. Search or browse your saved products.
+
+3. Select an item — its description, unit, and price auto-fill.
+
+</Steps>
+
+![The Add from Catalog product picker](/docs-screenshots/bids/bid-add-from-catalog.png)
+
+{/* SCREENSHOT NEEDED: the "Add from Catalog" product picker open over a bid, showing a product search and results. */}
+
+<Aside type="tip">
+  Keep your catalog current in the **Products** section so your team always
+  bids with up-to-date pricing. This reduces errors and speeds up estimating.
+</Aside>
+
+<Aside type="note" title="Role required">
+  Managing the product catalog (creating and editing products) requires
+  **Company Admin** or **Manager**. Other roles can still pull existing
+  products into a bid.
+</Aside>

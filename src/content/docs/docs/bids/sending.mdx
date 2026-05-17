@@ -1,0 +1,77 @@
+---
+title: Sending a Bid
+description: Send your bid to the client, track its status, and convert an accepted bid into a project.
+sidebar:
+  order: 4
+lastUpdated: 2026-05-16
+# Reviewed against BuildWorkPro app v1.0.0 (REST API v1).
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Once your bid is complete, you can send it directly to your client and track their response.
+
+## Send to the client
+
+<Steps>
+
+1. Open the bid and review the line items, rates, and terms.
+
+2. Click **Send Bid**.
+
+3. Confirm the recipient email address. Add CC recipients if needed.
+
+4. Add a personal message to accompany the proposal.
+
+5. Click **Send**.
+
+</Steps>
+
+The client receives a professional PDF proposal attached to your email. The bid status changes from **Draft** to **Sent**.
+
+![The Send Bid dialog](/docs-screenshots/bids/bid-send-dialog.png)
+
+{/* SCREENSHOT NEEDED: the Send Bid dialog showing the recipient email, CC field, and personal message box. */}
+
+<Aside type="note" title="Role required">
+  Sending bids requires **Company Admin** or **Manager**. **Member** can build
+  and edit bids but cannot send them.
+</Aside>
+
+## Track the bid status
+
+Bids move through these statuses:
+
+- **Draft** — still being prepared.
+- **Sent** — delivered to the client.
+- **Accepted** — the client agreed to the terms.
+- **Rejected** — the client declined.
+- **Expired** — past the expiration date with no response.
+
+You can see every bid's status at a glance on the Bids list page.
+
+![The Bids list showing a mix of status badges](/docs-screenshots/bids/bid-status-list.png)
+
+{/* SCREENSHOT NEEDED: the Bids list page showing a mix of Draft, Sent, Accepted, Rejected, and Expired status badges. */}
+
+## Convert an accepted bid to a project
+
+When a client accepts your bid:
+
+<Steps>
+
+1. Open the accepted bid.
+
+2. Click **Convert to Project**.
+
+3. Review the project details — name, client, and contract value carry over automatically.
+
+4. Click **Create Project**.
+
+</Steps>
+
+![The Convert to Project confirmation](/docs-screenshots/bids/bid-convert-to-project.png)
+
+{/* SCREENSHOT NEEDED: the Convert to Project confirmation showing the carried-over project name, client, and contract value. */}
+
+The new project is linked to the original bid, and the bid's line items can seed your schedule of values for [pay applications](/docs/pay-apps/creating/).

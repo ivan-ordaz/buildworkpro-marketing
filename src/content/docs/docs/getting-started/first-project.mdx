@@ -1,0 +1,100 @@
+---
+title: Your First Project
+description: Create a project, break it into phases, and assign tasks to your team.
+sidebar:
+  order: 3
+lastUpdated: 2026-05-16
+# Reviewed against BuildWorkPro app v1.0.0 (REST API v1).
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Once your organization is set up, you are ready to create your first project. Projects are the central hub for tracking work, billing, and field activity.
+
+## Create a project
+
+<Steps>
+
+1. Click **Projects** in the sidebar, then **New Project**.
+
+2. Fill in the project details:
+   - **Name** — a clear identifier such as "Smith Residence - Electrical."
+   - **Client** — select an existing contact or create a new one.
+   - **Address** — the job site location.
+   - **Start and end dates** — your planned schedule.
+   - **Contract value** — the total agreed amount.
+
+3. Click **Save** to create the project.
+
+</Steps>
+
+![The New Project form](/docs-screenshots/getting-started/project-create-form.png)
+
+{/* SCREENSHOT NEEDED: the New Project form with name, client selector, address, start/end dates, and contract value. */}
+
+<Aside type="note" title="Saving your work">
+  Projects use **manual save**. A **Save** button appears whenever you have
+  unsaved edits, and BuildWorkPro warns you before you leave the page with
+  unsaved work. There is no auto-save — your changes are committed only when
+  you click **Save**.
+</Aside>
+
+<Aside type="note" title="Role required">
+  **Company Admin**, **Manager**, and **Member** can create projects. **Field
+  Crew** and **Viewer** cannot.
+</Aside>
+
+## Track the project status
+
+Every project moves through a lifecycle. The status appears as a badge on the project and can be changed from the project header or the Projects board:
+
+- **Planning** — work has not started yet.
+- **In Progress** — work is actively underway.
+- **On Hold** — temporarily paused.
+- **Closeout** — work is finishing; punch list and final paperwork.
+- **Completed** — all work is done.
+- **Cancelled** — the project was cancelled.
+
+## Add phases
+
+Phases break a project into major stages of work.
+
+<Steps>
+
+1. Open the project and go to the **Phases** tab.
+
+2. Click **Add Phase** and enter a name such as "Rough-In" or "Trim-Out."
+
+3. Set start and end dates for the phase.
+
+4. Drag phases to reorder them.
+
+</Steps>
+
+![A project's Phases tab](/docs-screenshots/getting-started/project-phases-tab.png)
+
+{/* SCREENSHOT NEEDED: a project's Phases tab showing two or three phases and the Add Phase control. */}
+
+## Add tasks
+
+Tasks sit inside phases and represent individual work items.
+
+<Steps>
+
+1. Open a phase and select **Add Task**.
+
+2. Enter the task name, assign a team member, and set a due date.
+
+3. Add subtasks for granular tracking if needed.
+
+</Steps>
+
+Tasks move through three statuses: **To Do**, **In Progress**, and **Done**.
+
+## Track progress
+
+As work gets done, update task statuses. The project dashboard shows overall completion, upcoming deadlines, and any overdue items. Switch to the [Gantt view](/docs/projects/gantt/) for a visual timeline.
+
+![A project dashboard](/docs-screenshots/getting-started/project-dashboard.png)
+
+{/* SCREENSHOT NEEDED: a project dashboard showing completion percentage, upcoming tasks, and contract value. */}

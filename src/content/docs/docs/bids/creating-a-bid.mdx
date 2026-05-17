@@ -1,0 +1,69 @@
+---
+title: Creating a Bid
+description: Start a new bid, select a contact, and set your proposal terms.
+sidebar:
+  order: 1
+lastUpdated: 2026-05-16
+# Reviewed against BuildWorkPro app v1.0.0 (REST API v1).
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Bids are how you price work and send proposals to general contractors or property owners. BuildWorkPro gives you a structured way to build accurate estimates.
+
+<Aside type="note" title="Role required">
+  **Company Admin**, **Manager**, and **Member** can create and edit bids.
+  **Field Crew** and **Viewer** have no access to bids.
+</Aside>
+
+## Start a new bid
+
+<Steps>
+
+1. Click **Bids** in the sidebar, then **New Bid**.
+
+2. Enter a descriptive name such as "Oak Valley Office - HVAC Install."
+
+</Steps>
+
+<Aside type="tip">
+  You can also press `Cmd+K` and type "new bid" to jump straight into a new
+  bid from anywhere in the app.
+</Aside>
+
+![The New Bid form](/docs-screenshots/bids/bid-create-form.png)
+
+{/* SCREENSHOT NEEDED: the New Bid form showing the name field, contact selector, and the terms section (bid date, expiration, scope, exclusions, payment terms). */}
+
+## Select a contact
+
+Choose the client this bid is for. Pick from your existing contacts or create a new one on the spot. The contact's company name, address, and email populate your proposal automatically.
+
+## Set your terms
+
+Configure the bid details:
+
+- **Bid date** — the date you are submitting the proposal.
+- **Expiration date** — how long the bid stays valid (commonly 30, 60, or 90 days).
+- **Scope of work** — a text description of what is included.
+- **Exclusions** — clearly state what is not covered.
+- **Payment terms** — Net 30, progress billing, or custom terms.
+- **Notes** — any additional conditions or clarifications.
+
+## Save and continue
+
+Click **Save** to create the bid in **Draft** status. From here you can:
+
+- [Add line items](/docs/bids/line-items/) to detail your pricing.
+- [Configure rates and markup](/docs/bids/rates/).
+- [Send the bid](/docs/bids/sending/) when you are ready.
+
+<Aside type="note" title="Saving your work">
+  Bids use **manual save**. The **Save** button appears whenever you have
+  unsaved edits, and BuildWorkPro warns you before you leave the page with
+  unsaved work. Nothing is committed until you click **Save**.
+</Aside>
+
+![A bid detail page with unsaved edits and the Save button visible](/docs-screenshots/bids/bid-save-button.png)
+
+{/* SCREENSHOT NEEDED: a bid detail page with a pending edit, showing the Save button in its appeared/active state. */}
