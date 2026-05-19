@@ -4234,6 +4234,15 @@
           },
           {
             "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "updatedFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
               "type": "boolean",
               "description": "Return compact row projection (id + key fields only)."
             },
@@ -5574,6 +5583,15 @@
           },
           {
             "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "updatedFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
               "type": "boolean",
               "description": "Return compact row projection (id + key fields only)."
             },
@@ -6275,6 +6293,15 @@
             },
             "required": false,
             "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "updatedFrom",
             "in": "query"
           },
           {
