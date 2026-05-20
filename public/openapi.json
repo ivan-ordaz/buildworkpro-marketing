@@ -62,7 +62,9 @@
           "bids:send",
           "bids:accept_reject",
           "pay_apps:approve",
+          "pay_apps:send",
           "change_orders:approve",
+          "change_orders:send",
           "users:read",
           "webhooks:manage",
           "jobs:read",
@@ -9154,6 +9156,20 @@
                       }
                     ]
                   },
+                  "sentAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "sentBy": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
                   "notes": {
                     "type": [
                       "string",
@@ -9354,6 +9370,20 @@
                         "type": "null"
                       }
                     ]
+                  },
+                  "sentAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "sentBy": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
                   },
                   "notes": {
                     "type": [
@@ -10651,6 +10681,20 @@
                       "null"
                     ]
                   },
+                  "sentAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "sentBy": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
                   "createdBy": {
                     "type": [
                       "integer",
@@ -10886,6 +10930,20 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "sentAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "sentBy": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
                   }
                 }
               }
