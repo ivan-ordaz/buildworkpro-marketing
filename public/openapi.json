@@ -4048,7 +4048,7 @@
     "/leads/count": {
       "get": {
         "summary": "Count leads",
-        "description": "Returns the total number of leads in the tenant matching the optional `search`, `stageId`, `assignedTo`, `dateFrom`/`dateTo` filters. Mirrors GET /leads minus pagination.",
+        "description": "Returns the total number of leads in the tenant matching the optional `search`, `stageId`, `assignedTo`, `dateFrom`/`dateTo`, `updatedFrom` filters. Mirrors GET /leads minus pagination.",
         "security": [
           {
             "bearerAuth": [
@@ -4106,6 +4106,15 @@
             },
             "required": false,
             "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "updatedFrom",
             "in": "query"
           }
         ],
@@ -5153,7 +5162,7 @@
     "/projects/count": {
       "get": {
         "summary": "Count projects",
-        "description": "Returns the total number of projects in the tenant matching the optional `search`, `status`, `contactId`, `dateFrom`/`dateTo` filters. Mirrors GET /projects minus pagination.",
+        "description": "Returns the total number of projects in the tenant matching the optional `search`, `status`, `contactId`, `dateFrom`/`dateTo`, `updatedFrom` filters. Mirrors GET /projects minus pagination.",
         "security": [
           {
             "bearerAuth": [
@@ -5208,6 +5217,15 @@
             },
             "required": false,
             "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "updatedFrom",
             "in": "query"
           }
         ],
@@ -8230,7 +8248,7 @@
     "/bids/count": {
       "get": {
         "summary": "Count bids",
-        "description": "Returns the total number of bids in the tenant matching the optional filters (`search`, `status`, `contactId`, `leadId`, `projectId`, `dateFrom`/`dateTo`). Mirrors GET /bids minus pagination.",
+        "description": "Returns the total number of bids in the tenant matching the optional filters (`search`, `status`, `contactId`, `leadId`, `projectId`, `dateFrom`/`dateTo`, `updatedFrom`). Mirrors GET /bids minus pagination.",
         "security": [
           {
             "bearerAuth": [
@@ -8307,6 +8325,15 @@
             },
             "required": false,
             "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "updatedFrom",
             "in": "query"
           }
         ],
