@@ -27,21 +27,26 @@ Requests are not all equal. Cheap reads cost 1 unit; expensive operations cost m
 
 The tenant budget is **10,000 units per hour**, sliding. With pure reads you can sustain a ~3 req/sec average; with bulk imports you'll consume the budget much faster.
 
+Every operation in the OpenAPI spec carries an `x-rate-limit-cost` extension that pins the exact cost — code generators and explorers can surface it next to each route.
+
 ## Per-key limit
 
 Every API key gets a per-minute sliding limit -- 60/min by default. This protects against a runaway script monopolizing the tenant budget. Limits can be raised per key for high-volume integrations -- contact support if you need a bump.
 
 ## Headers
 
-Every successful response carries the standard `RateLimit-*` headers ([IETF draft](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-ratelimit-headers)):
+Both limiters publish their state on every successful response. They use **distinct header namespaces** so you can tell the two signals apart without ambiguity:
 
-| Header                | Meaning                                         |
-| --------------------- | ----------------------------------------------- |
-| `RateLimit-Limit`     | The applicable window's request budget.         |
-| `RateLimit-Remaining` | Units (or requests) left in the current window. |
-| `RateLimit-Reset`     | Seconds until the current window resets.        |
+| Header                       | Meaning                                                            |
+| ---------------------------- | ------------------------------------------------------------------ |
+| `RateLimit-Tenant-Limit`     | Tenant-wide hourly budget (units).                                 |
+| `RateLimit-Tenant-Remaining` | Units left in the current hour.                                    |
+| `RateLimit-Tenant-Reset`     | Seconds until the tenant window resets.                            |
+| `RateLimit-Key-Limit`        | Per-API-key per-minute request budget.                             |
+| `RateLimit-Key-Remaining`    | Requests left in the current minute on this key.                   |
+| `RateLimit-Key-Reset`        | Seconds until the per-key window resets.                           |
 
-On `429`, we also send `Retry-After` (seconds) -- honor it.
+On `429`, we also send a `Retry-After` header (seconds) — honor it. The `Retry-After` value is the reset time of whichever bucket triggered the throttle, so it tells you exactly how long to sleep before the next attempt has any chance of succeeding.
 
 ## Sample 429 response
 
@@ -56,20 +61,47 @@ On `429`, we also send `Retry-After` (seconds) -- honor it.
 }
 ```
 
-The headers on a `429`:
+The headers on a `429` (tenant budget exhausted):
 
 ```text
-RateLimit-Limit: 10000
-RateLimit-Remaining: 0
-RateLimit-Reset: 1742
+RateLimit-Tenant-Limit: 10000
+RateLimit-Tenant-Remaining: 0
+RateLimit-Tenant-Reset: 1742
 Retry-After: 1742
 ```
+
+## Inspect current consumption
+
+To surface live consumption in a developer dashboard — or to back off proactively before hitting `429` — call `GET /api/v1/usage`. It returns the current tenant + per-key counters straight from the rate-limit store:
+
+```json
+{
+  "data": {
+    "tenant": {
+      "limit": 10000,
+      "used": 4280,
+      "remaining": 5720,
+      "resetSeconds": 1432,
+      "windowSeconds": 3600
+    },
+    "apiKey": {
+      "limit": 60,
+      "used": 12,
+      "remaining": 48,
+      "resetSeconds": 23,
+      "windowSeconds": 60
+    }
+  }
+}
+```
+
+`apiKey` is `null` when the caller is OAuth-authenticated (which doesn't have a per-key sub-limit).
 
 ## Recommended client behavior
 
 - **Honor `Retry-After`.** Sleep for at least that many seconds before retrying. If the header is absent, default to 30 seconds.
 - **Use exponential backoff with full jitter** for transient failures. A simple recipe: `delay = random(0, min(cap, base * 2^attempt))`, with `base = 1s` and `cap = 60s`.
-- **Watch `RateLimit-Remaining`** during normal operation. If it's trending toward zero, slow down before you get throttled.
+- **Watch `RateLimit-Tenant-Remaining` and `RateLimit-Key-Remaining`** during normal operation. If either is trending toward zero, slow down before you get throttled.
 - **Cache aggressively** for repeated reads. The cheapest call is one you don't make.
 
 <Aside type="note">

@@ -11,12 +11,12 @@ Network failures, timeouts, and retries are facts of life. Without idempotency, 
 
 Send `Idempotency-Key: <uuid>` on every `POST`, `PATCH`, or `DELETE` request. We strongly recommend a fresh **UUID v4** per logical operation.
 
-- **First request with this key** -- The mutation runs normally. We cache the response (status + body) keyed by the `(tenant, key, body-hash)` tuple.
-- **Repeated request with the same key + same body** -- We return the cached response. The mutation does not run again. Side effects (records created, webhooks fired) happen exactly once.
+- **First request with this key** -- The mutation runs normally. We cache the response (status + body) keyed by the `(tenant, key, body-hash)` tuple. The body-hash is a SHA-256 of `method + "\n" + path + "\n" + JSON.stringify(body ?? null)`.
+- **Repeated request with the same key + same body** -- We return the cached response. The mutation does not run again. Side effects (records created, webhooks fired) happen exactly once. Body-equality is checked via the SHA-256 hash above, so re-ordering JSON keys in an otherwise-identical body produces a different hash and is treated as a different operation.
 - **Repeated request with the same key + different body** -- We return `409 idempotency_key_reused`. This catches bugs where you accidentally reused a key for a different operation.
 - **After 24 hours** -- The cached response expires. Reusing the key after that is allowed (and treated as a new operation).
 
-The dedup window is **24 hours**. Keys are scoped to your tenant -- a key from one tenant can never collide with another's.
+The dedup window is **24 hours** from the moment of the first request -- not 24 hours from the last replay. Keys are scoped to your tenant; a key from one tenant can never collide with another's, even when both use the same string.
 
 <Aside type="caution">
   Generate a new UUID per logical operation. If your code uses the same key for two different things

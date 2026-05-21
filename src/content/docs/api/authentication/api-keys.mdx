@@ -92,3 +92,14 @@ Each key can be restricted to a list of allowed source IPs in the same **Setting
 ## Revoking a key
 
 In **Settings -> Developer -> API Keys**, click the key and choose **Revoke**. Revocation takes effect on the next request -- any in-flight requests using that key will fail with `401 unauthorized` immediately. Revocation is permanent; create a new key if you need access again.
+
+## Browser CORS for Bearer auth (deliberately not supported)
+
+The `/api/v1/*` endpoints are designed for **server-to-server** use with a long-lived `bwp_live_...` / `bwp_test_...` key, and they do **not** participate in CORS for Bearer-authenticated calls from arbitrary browser origins.
+
+A preflight `OPTIONS` request from a third-party origin to `/api/v1/contacts` (or any other v1 path) will not receive permissive `Access-Control-Allow-Origin` headers, so the browser will block the subsequent `GET` / `POST`. This is intentional:
+
+- An API key is a high-value credential. Putting it in browser JavaScript exposes it to every script on the page and every browser extension installed for the user. A leaked key has tenant-wide blast radius until rotated.
+- Browser-side integrations should use the **[OAuth 2.1 flow](/api/authentication/oauth/)** instead. OAuth-issued `bwp_at_...` access tokens are scoped to a single user, can be revoked individually, and don't surface long-lived secrets to client code. The OAuth endpoints (`/api/v1/oauth/register`, `/oauth/token`, `/oauth/revoke`, `/oauth/userinfo`) are explicitly CORS-enabled for browser clients.
+
+If you have a use case that genuinely requires browser-side API key calls (e.g., a same-origin admin tool hosted at `app.buildworkpro.com`), the same-origin request already works — CORS only blocks cross-origin calls. For everything else, prefer OAuth.
