@@ -17,7 +17,7 @@ import { config } from '../config';
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Privacy Policy</h1>
         <p class="mt-3 text-sm text-slate-400">
-          Effective Date: April 9, 2026 &middot; Last Updated: April 9, 2026
+          Effective Date: April 9, 2026 &middot; Last Updated: May 27, 2026
         </p>
       </div>
 
@@ -130,10 +130,11 @@ import { config } from '../config';
           </li>
           <li>
             <strong>Cookies and Similar Technologies:</strong> Session identifiers, CSRF tokens, tenant
-            context identifiers, and preference storage. BuildWorkPro does not deploy third-party advertising,
-            analytics, or cross-site tracking cookies. For a detailed explanation, see our <a
-              href="/cookies/">Cookie Policy</a
-            >.
+            context identifiers, and preference storage. The marketing website loads Google Analytics
+            4 only after you explicitly accept analytics cookies via our cookie banner; Google Consent
+            Mode v2 enforces a default-deny posture until consent is granted. The authenticated web and
+            mobile applications do not deploy advertising, analytics, or cross-site tracking cookies.
+            For a detailed explanation, see our <a href="/cookies/">Cookie Policy</a>.
           </li>
         </ul>
 
@@ -182,8 +183,13 @@ import { config } from '../config';
             your consent will be requested.
           </li>
           <li>
-            <strong>Push Notifications:</strong> The v1.0 release does not send push notifications and
-            does not collect push tokens.
+            <strong>Push Notifications:</strong> If you grant notification permission, the application
+            registers an Expo push token tied to your device and sends it to the BuildWorkPro server so
+            we can deliver operational alerts (bid status, pay application approvals, change orders, task
+            assignments, and similar events you have opted into). Push tokens are stored against your
+            user account, can be deactivated by signing out or revoking the OS-level permission, and are
+            forwarded to the Expo Push Service (see Section 5) solely for delivery. We do not use push
+            tokens for advertising or cross-app tracking.
           </li>
           <li>
             <strong>Tracking:</strong> The mobile application does not perform any form of cross-app or
@@ -299,13 +305,47 @@ import { config } from '../config';
               </li>
               <li>
                 <strong>Cloudflare, Inc.</strong> &mdash; Content delivery, DDoS mitigation, DNS, and
-                object storage (R2)
+                object storage (R2) for tenant file uploads and document storage
               </li>
               <li>
-                <strong>Google LLC</strong> &mdash; Google Fonts (loaded on the marketing site) and, where
-                integrated, Google Workspace APIs
+                <strong>Doppler Inc.</strong> &mdash; Encrypted secrets management for application configuration
+                and credentials (does not process tenant personal data; metadata only)
+              </li>
+              <li>
+                <strong>Twilio SendGrid</strong> &mdash; Transactional and notification email delivery
+                (recipient email address, sender identity, message subject and body)
+              </li>
+              <li>
+                <strong>Twilio, Inc.</strong> &mdash; SMS and voice notifications for users who opt into
+                phone-based alerts (recipient phone number, message body)
+              </li>
+              <li>
+                <strong>Grafana Labs</strong> &mdash; Application observability and log aggregation (Grafana
+                Cloud / Loki); receives operational logs that may contain user identifiers, IP addresses,
+                and request metadata for the purpose of monitoring and incident response
+              </li>
+              <li>
+                <strong>Expo (650 Industries, Inc.)</strong> &mdash; Mobile push notification delivery
+                via the Expo Push Service and over-the-air application updates (EAS Update); receives
+                push tokens, notification payloads, and device platform identifiers
+              </li>
+              <li>
+                <strong>Google LLC</strong> &mdash; Google Fonts (loaded on the marketing site), Google
+                Analytics 4 on the marketing website (aggregate, non-identifying traffic metrics), and,
+                where integrated by your organization, Google Workspace APIs
               </li>
             </ul>
+          </li>
+          <li>
+            <strong>Subprocessor Change Notification:</strong> Before engaging a new subprocessor or replacing
+            an existing one, we will update this Policy to reflect the change. Material subprocessor changes
+            will be announced on our status page at <a href="https://status.buildworkpro.com"
+              >status.buildworkpro.com</a
+            > and, where required by an organization&rsquo;s Data Processing Agreement, by email to the
+            organization&rsquo;s designated billing or administrative contact at least thirty (30) days
+            prior to the change taking effect. Customers with an active DPA may object to a new subprocessor
+            by contacting <a href={`mailto:${config.email.privacy}`}>{config.email.privacy}</a> within
+            the notice period.
           </li>
           <li>
             <strong>Legal and Regulatory Compliance:</strong> When required by law, regulation, subpoena,
@@ -522,12 +562,23 @@ import { config } from '../config';
             or until account termination (plus the 30-day recovery period).
           </li>
           <li>
-            <strong>Usage and Log Data:</strong> Retained for ninety (90) days from the date of collection,
+            <strong>Usage and Log Data:</strong> General application access logs, request traces, and
+            non-security operational telemetry are retained for ninety (90) days from the date of collection,
             then automatically purged.
           </li>
           <li>
-            <strong>Audit Trail Records:</strong> Retained for the longer of the applicable organization&rsquo;s
-            configured retention period or two (2) years, to support compliance and dispute resolution.
+            <strong>Audit Logs (Administrative Actions and Security Events):</strong> Records of administrative
+            actions, role and permission changes, authentication events, and other security-relevant activity
+            are retained for three hundred sixty-five (365) days by default to support compliance, incident
+            investigation, and dispute resolution. Each organization may configure a longer retention
+            period (up to ten years) via the data retention settings available to administrators; the
+            configured value takes precedence over the default.
+          </li>
+          <li>
+            <strong>Audit Trail Records (Business Workflows):</strong> Records of create, update, delete,
+            and workflow-transition events on business entities (bids, projects, pay applications, change
+            orders, and similar) are retained for the longer of the applicable organization&rsquo;s configured
+            retention period or two (2) years, to support compliance and dispute resolution.
           </li>
           <li>
             <strong>Billing and Financial Records:</strong> Retained for seven (7) years as required by
@@ -548,6 +599,59 @@ import { config } from '../config';
           data necessary for each integration to function.
         </p>
         <p>Current third-party integrations and their roles are described in Section 5 above.</p>
+
+        <h3 id="google-api-services">10.1 Google API Services User Data Policy</h3>
+        <p>
+          BuildWorkPro&rsquo;s use and transfer to any other app of information received from Google
+          APIs will adhere to the <a
+            href="https://developers.google.com/terms/api-services-user-data-policy"
+            target="_blank"
+            rel="noopener noreferrer">Google API Services User Data Policy</a
+          >, including the <a
+            href="https://developers.google.com/terms/api-services-user-data-policy#limited-use"
+            target="_blank"
+            rel="noopener noreferrer">Limited Use requirements</a
+          >.
+        </p>
+        <p>
+          When you connect a Google account to BuildWorkPro (for example, to sign in with Google or
+          to integrate Google Workspace services such as Gmail, Google Calendar, Google Drive, or
+          Google Contacts), we access only the scopes you explicitly authorize and use the resulting
+          data solely to provide and improve the user-facing features you have requested. In
+          particular, BuildWorkPro affirms that we:
+        </p>
+        <ul>
+          <li>
+            Use raw or derived data obtained through Google Workspace APIs only to provide or
+            improve user-facing features that are prominent in the BuildWorkPro user experience and
+            requested by the authenticated user;
+          </li>
+          <li>
+            Do not transfer this data to others except as necessary to provide or improve
+            user-facing features, when required by applicable law, or as part of a merger,
+            acquisition, or sale of assets with prior notice to users;
+          </li>
+          <li>
+            Do not use this data to serve advertisements, including personalized, retargeted, or
+            interest-based advertising;
+          </li>
+          <li>
+            Do not allow humans to read this data unless we have obtained your explicit consent to
+            read specific messages or items, doing so is necessary for security purposes (such as
+            investigating abuse), to comply with applicable law, or our use is limited to aggregated
+            and anonymized data used for internal operations in accordance with applicable privacy
+            and other legal requirements.
+          </li>
+        </ul>
+        <p>
+          You may revoke BuildWorkPro&rsquo;s access to your Google account at any time from your
+          <a
+            href="https://myaccount.google.com/permissions"
+            target="_blank"
+            rel="noopener noreferrer">Google Account permissions page</a
+          > or from the Connected Accounts settings within the Platform. Revocation will not affect processing
+          performed prior to revocation but will terminate further access to Google data.
+        </p>
 
         <h2>11. Children&rsquo;s Privacy</h2>
         <p>
