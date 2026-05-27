@@ -70,6 +70,7 @@
           "jobs:read",
           "jobs:write",
           "notifications:read",
+          "audit:read",
           "offline_access"
         ],
         "description": "Available API scopes"
@@ -2674,6 +2675,163 @@
           "completedAt"
         ]
       },
+      "ApiAuditLog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "tenantId": {
+            "type": "integer"
+          },
+          "apiKeyId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "oauthTokenId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "userId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "method": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "durationMs": {
+            "type": "integer"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "ip": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "userAgent": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "errorCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "tenantId",
+          "apiKeyId",
+          "oauthTokenId",
+          "userId",
+          "method",
+          "path",
+          "status",
+          "durationMs",
+          "requestId",
+          "ip",
+          "userAgent",
+          "errorCode",
+          "createdAt"
+        ]
+      },
+      "UsageResponse": {
+        "type": "object",
+        "properties": {
+          "tenant": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer"
+              },
+              "used": {
+                "type": "integer"
+              },
+              "remaining": {
+                "type": "integer"
+              },
+              "resetSeconds": {
+                "type": "integer"
+              },
+              "windowSeconds": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "limit",
+              "used",
+              "remaining",
+              "resetSeconds",
+              "windowSeconds"
+            ],
+            "description": "Tenant-wide cost-weighted budget (sliding hour window)"
+          },
+          "apiKey": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "limit": {
+                "type": "integer"
+              },
+              "used": {
+                "type": "integer"
+              },
+              "remaining": {
+                "type": "integer"
+              },
+              "resetSeconds": {
+                "type": "integer"
+              },
+              "windowSeconds": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "limit",
+              "used",
+              "remaining",
+              "resetSeconds",
+              "windowSeconds"
+            ],
+            "description": "Per-API-key request limit (sliding minute window). Null when the caller is OAuth/refresh-token authenticated (not an API key)."
+          }
+        },
+        "required": [
+          "tenant",
+          "apiKey"
+        ]
+      },
       "OauthClientRegistration": {
         "type": "object",
         "properties": {
@@ -2994,7 +3152,19 @@
         }
       }
     },
-    "parameters": {}
+    "parameters": {
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": false,
+        "description": "Idempotent retry key for mutating operations. The first request with a given key executes normally and BuildWorkPro caches the response. Replaying the same key with the same request body (method + path + JSON body, SHA-256 hashed) returns the cached response without re-executing the mutation. Replaying with a DIFFERENT body returns `409 idempotency_key_reused`. The cache TTL is 24 hours; after expiry the key is treated as a new operation. Keys are tenant-scoped. Recommended: a fresh UUID v4 per logical operation.",
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "maxLength": 255
+        }
+      }
+    }
   },
   "paths": {
     "/contacts": {
@@ -3111,7 +3281,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getContacts",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create contact",
@@ -3178,7 +3350,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postContacts",
+        "x-rate-limit-cost": 5
       }
     },
     "/contacts/get-many": {
@@ -3283,7 +3457,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postContactsGetMany",
+        "x-rate-limit-cost": 5
       }
     },
     "/contacts/count": {
@@ -3377,7 +3553,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getContactsCount",
+        "x-rate-limit-cost": 1
       }
     },
     "/contacts/{id}": {
@@ -3437,7 +3615,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getContactsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update contact",
@@ -3514,7 +3694,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchContactsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete contact",
@@ -3553,7 +3735,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteContactsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/contacts/exports": {
@@ -3641,7 +3825,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postContactsExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/contacts/imports": {
@@ -3751,7 +3937,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postContactsImports",
+        "x-rate-limit-cost": 200
       }
     },
     "/contacts/bulk": {
@@ -3865,7 +4053,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postContactsBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/leads/summary": {
@@ -4042,7 +4232,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getLeadsSummary",
+        "x-rate-limit-cost": 1
       }
     },
     "/leads/count": {
@@ -4159,7 +4351,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getLeadsCount",
+        "x-rate-limit-cost": 1
       }
     },
     "/leads": {
@@ -4299,7 +4493,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getLeads",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create lead",
@@ -4366,7 +4562,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postLeads",
+        "x-rate-limit-cost": 5
       }
     },
     "/leads/{id}": {
@@ -4426,7 +4624,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getLeadsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update lead",
@@ -4503,7 +4703,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchLeadsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete lead",
@@ -4542,7 +4744,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteLeadsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/leads/{id}/convert": {
@@ -4610,7 +4814,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postLeadsByIdConvert",
+        "x-rate-limit-cost": 5
       }
     },
     "/lead-stages": {
@@ -4662,7 +4868,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getLeadStages",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create lead stage",
@@ -4728,7 +4936,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postLeadStages",
+        "x-rate-limit-cost": 5
       }
     },
     "/lead-stages/{id}": {
@@ -4806,7 +5016,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchLeadStagesById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete lead stage",
@@ -4844,7 +5056,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteLeadStagesById",
+        "x-rate-limit-cost": 5
       }
     },
     "/leads/exports": {
@@ -4932,7 +5146,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postLeadsExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/leads/imports": {
@@ -5042,7 +5258,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postLeadsImports",
+        "x-rate-limit-cost": 200
       }
     },
     "/leads/bulk": {
@@ -5156,7 +5374,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postLeadsBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/projects/count": {
@@ -5270,7 +5490,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProjectsCount",
+        "x-rate-limit-cost": 1
       }
     },
     "/projects/summary": {
@@ -5415,7 +5637,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProjectsSummary",
+        "x-rate-limit-cost": 1
       }
     },
     "/projects/get-many": {
@@ -5520,7 +5744,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProjectsGetMany",
+        "x-rate-limit-cost": 5
       }
     },
     "/projects": {
@@ -5657,7 +5883,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProjects",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create project",
@@ -5724,7 +5952,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProjects",
+        "x-rate-limit-cost": 5
       }
     },
     "/projects/{id}": {
@@ -5784,7 +6014,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProjectsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update project",
@@ -5861,7 +6093,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchProjectsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete project",
@@ -5900,7 +6134,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteProjectsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/projects/exports": {
@@ -5988,7 +6224,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProjectsExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/projects/imports": {
@@ -6098,7 +6336,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProjectsImports",
+        "x-rate-limit-cost": 200
       }
     },
     "/projects/bulk": {
@@ -6212,7 +6452,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProjectsBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/bids": {
@@ -6371,7 +6613,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getBids",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create bid",
@@ -6598,7 +6842,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBids",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}": {
@@ -6658,7 +6904,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getBidsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update bid",
@@ -6924,7 +7172,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchBidsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete bid",
@@ -6973,7 +7223,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteBidsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}/send": {
@@ -7043,7 +7295,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsByIdSend",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}/accept": {
@@ -7141,7 +7395,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsByIdAccept",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}/revert-acceptance": {
@@ -7244,7 +7500,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsByIdRevertAcceptance",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}/reject": {
@@ -7313,7 +7571,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsByIdReject",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}/duplicate": {
@@ -7373,7 +7633,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsByIdDuplicate",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}/convert-to-project": {
@@ -7480,7 +7742,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsByIdConvertToProject",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}/line-items": {
@@ -7542,7 +7806,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getBidsByIdLineItems",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create bid line item",
@@ -7707,7 +7973,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsByIdLineItems",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/{id}/line-items/{itemId}": {
@@ -7879,7 +8147,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchBidsByIdLineItemsByItemId",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete bid line item",
@@ -7935,7 +8205,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteBidsByIdLineItemsByItemId",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/exports": {
@@ -8023,7 +8295,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/bids/bulk": {
@@ -8137,7 +8411,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/bids/get-many": {
@@ -8242,7 +8518,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsGetMany",
+        "x-rate-limit-cost": 5
       }
     },
     "/bids/count": {
@@ -8378,7 +8656,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getBidsCount",
+        "x-rate-limit-cost": 1
       }
     },
     "/bids/summary": {
@@ -8519,7 +8799,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getBidsSummary",
+        "x-rate-limit-cost": 1
       }
     },
     "/bids/{id}/pdf": {
@@ -8610,7 +8892,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postBidsByIdPdf",
+        "x-rate-limit-cost": 50
       }
     },
     "/pay-apps/count": {
@@ -8715,7 +8999,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getPayAppsCount",
+        "x-rate-limit-cost": 1
       }
     },
     "/pay-apps/summary": {
@@ -8855,7 +9141,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getPayAppsSummary",
+        "x-rate-limit-cost": 1
       }
     },
     "/pay-apps/get-many": {
@@ -8960,7 +9248,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayAppsGetMany",
+        "x-rate-limit-cost": 5
       }
     },
     "/pay-apps": {
@@ -9088,7 +9378,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getPayApps",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create pay application (draft)",
@@ -9244,7 +9536,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayApps",
+        "x-rate-limit-cost": 5
       }
     },
     "/pay-apps/{id}": {
@@ -9303,7 +9597,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getPayAppsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update draft pay application",
@@ -9476,7 +9772,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchPayAppsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete draft pay application",
@@ -9524,7 +9822,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deletePayAppsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/pay-apps/{id}/submit": {
@@ -9593,7 +9893,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayAppsByIdSubmit",
+        "x-rate-limit-cost": 5
       }
     },
     "/pay-apps/{id}/approve": {
@@ -9662,7 +9964,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayAppsByIdApprove",
+        "x-rate-limit-cost": 5
       }
     },
     "/pay-apps/{id}/reject": {
@@ -9750,7 +10054,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayAppsByIdReject",
+        "x-rate-limit-cost": 5
       }
     },
     "/pay-apps/{id}/mark-paid": {
@@ -9819,7 +10125,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayAppsByIdMarkPaid",
+        "x-rate-limit-cost": 5
       }
     },
     "/pay-apps/exports": {
@@ -9907,7 +10215,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayAppsExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/pay-apps/bulk": {
@@ -10021,7 +10331,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayAppsBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/pay-apps/{id}/pdf": {
@@ -10112,7 +10424,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postPayAppsByIdPdf",
+        "x-rate-limit-cost": 50
       }
     },
     "/change-orders/count": {
@@ -10217,7 +10531,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getChangeOrdersCount",
+        "x-rate-limit-cost": 1
       }
     },
     "/change-orders/summary": {
@@ -10349,7 +10665,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getChangeOrdersSummary",
+        "x-rate-limit-cost": 1
       }
     },
     "/change-orders/get-many": {
@@ -10454,7 +10772,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postChangeOrdersGetMany",
+        "x-rate-limit-cost": 5
       }
     },
     "/change-orders": {
@@ -10582,7 +10902,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getChangeOrders",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create change order",
@@ -10773,7 +11095,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postChangeOrders",
+        "x-rate-limit-cost": 5
       }
     },
     "/change-orders/{id}": {
@@ -10832,7 +11156,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getChangeOrdersById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update draft change order",
@@ -11030,7 +11356,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchChangeOrdersById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete change order",
@@ -11068,7 +11396,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteChangeOrdersById",
+        "x-rate-limit-cost": 5
       }
     },
     "/change-orders/{id}/submit": {
@@ -11137,7 +11467,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postChangeOrdersByIdSubmit",
+        "x-rate-limit-cost": 5
       }
     },
     "/change-orders/{id}/approve": {
@@ -11235,7 +11567,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postChangeOrdersByIdApprove",
+        "x-rate-limit-cost": 5
       }
     },
     "/change-orders/{id}/reject": {
@@ -11333,7 +11667,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postChangeOrdersByIdReject",
+        "x-rate-limit-cost": 5
       }
     },
     "/change-orders/exports": {
@@ -11421,7 +11757,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postChangeOrdersExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/change-orders/bulk": {
@@ -11535,7 +11873,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postChangeOrdersBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/change-orders/{id}/pdf": {
@@ -11626,7 +11966,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postChangeOrdersByIdPdf",
+        "x-rate-limit-cost": 50
       }
     },
     "/site-logs": {
@@ -11764,7 +12106,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getSiteLogs",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create site log",
@@ -11918,7 +12262,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postSiteLogs",
+        "x-rate-limit-cost": 5
       }
     },
     "/site-logs/{id}": {
@@ -11977,7 +12323,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getSiteLogsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update site log",
@@ -12130,7 +12478,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchSiteLogsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete site log",
@@ -12168,7 +12518,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteSiteLogsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/site-logs/exports": {
@@ -12256,7 +12608,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postSiteLogsExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/site-logs/imports": {
@@ -12366,7 +12720,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postSiteLogsImports",
+        "x-rate-limit-cost": 200
       }
     },
     "/site-logs/bulk": {
@@ -12480,7 +12836,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postSiteLogsBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/time-entries": {
@@ -12613,7 +12971,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getTimeEntries",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create time entry",
@@ -12763,7 +13123,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postTimeEntries",
+        "x-rate-limit-cost": 5
       }
     },
     "/time-entries/{id}": {
@@ -12929,7 +13291,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchTimeEntriesById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete time entry",
@@ -12967,7 +13331,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteTimeEntriesById",
+        "x-rate-limit-cost": 5
       }
     },
     "/time-entries/exports": {
@@ -13055,7 +13421,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postTimeEntriesExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/time-entries/imports": {
@@ -13165,7 +13533,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postTimeEntriesImports",
+        "x-rate-limit-cost": 200
       }
     },
     "/time-entries/bulk": {
@@ -13279,7 +13649,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postTimeEntriesBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/time-entries/summary": {
@@ -13460,7 +13832,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getTimeEntriesSummary",
+        "x-rate-limit-cost": 1
       }
     },
     "/products": {
@@ -13624,7 +13998,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProducts",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create product",
@@ -13798,7 +14174,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProducts",
+        "x-rate-limit-cost": 5
       }
     },
     "/products/count": {
@@ -13932,7 +14310,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProductsCount",
+        "x-rate-limit-cost": 1
       }
     },
     "/products/{id}": {
@@ -13991,7 +14371,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProductsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update product",
@@ -14166,7 +14548,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchProductsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete product",
@@ -14204,7 +14588,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteProductsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/products/{id}/kit-items": {
@@ -14266,7 +14652,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProductsByIdKitItems",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Add product kit item",
@@ -14375,7 +14763,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProductsByIdKitItems",
+        "x-rate-limit-cost": 5
       }
     },
     "/products/{id}/kit-items/{itemId}": {
@@ -14423,7 +14813,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteProductsByIdKitItemsByItemId",
+        "x-rate-limit-cost": 5
       }
     },
     "/products/exports": {
@@ -14511,7 +14903,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProductsExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/products/imports": {
@@ -14621,7 +15015,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProductsImports",
+        "x-rate-limit-cost": 200
       }
     },
     "/products/bulk": {
@@ -14735,7 +15131,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProductsBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/documents/count": {
@@ -14848,7 +15246,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getDocumentsCount",
+        "x-rate-limit-cost": 1
       }
     },
     "/documents": {
@@ -14984,7 +15384,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getDocuments",
+        "x-rate-limit-cost": 1
       }
     },
     "/documents/{id}": {
@@ -15043,7 +15445,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getDocumentsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update document metadata",
@@ -15135,7 +15539,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchDocumentsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete document (soft)",
@@ -15173,7 +15579,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteDocumentsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/documents/{id}/download": {
@@ -15214,7 +15622,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getDocumentsByIdDownload",
+        "x-rate-limit-cost": 1
       }
     },
     "/documents/exports": {
@@ -15302,7 +15712,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postDocumentsExports",
+        "x-rate-limit-cost": 20
       }
     },
     "/documents/bulk": {
@@ -15416,7 +15828,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postDocumentsBulk",
+        "x-rate-limit-cost": 100
       }
     },
     "/calendar/events": {
@@ -15529,7 +15943,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getCalendarEvents",
+        "x-rate-limit-cost": 1
       }
     },
     "/users": {
@@ -15602,7 +16018,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getUsers",
+        "x-rate-limit-cost": 1
       }
     },
     "/users/{id}": {
@@ -15661,7 +16079,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getUsersById",
+        "x-rate-limit-cost": 1
       }
     },
     "/project-templates": {
@@ -15734,7 +16154,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProjectTemplates",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create project template",
@@ -15830,7 +16252,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postProjectTemplates",
+        "x-rate-limit-cost": 5
       }
     },
     "/project-templates/{id}": {
@@ -15889,7 +16313,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getProjectTemplatesById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update project template",
@@ -15992,7 +16418,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchProjectTemplatesById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete project template",
@@ -16030,7 +16458,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteProjectTemplatesById",
+        "x-rate-limit-cost": 5
       }
     },
     "/settings/branding": {
@@ -16080,7 +16510,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getSettingsBranding",
+        "x-rate-limit-cost": 1
       }
     },
     "/settings/data-retention": {
@@ -16129,7 +16561,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getSettingsDataRetention",
+        "x-rate-limit-cost": 1
       }
     },
     "/jobs": {
@@ -16226,7 +16660,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getJobs",
+        "x-rate-limit-cost": 1
       }
     },
     "/jobs/{id}": {
@@ -16286,7 +16722,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getJobsById",
+        "x-rate-limit-cost": 1
       },
       "delete": {
         "summary": "Soft-delete job",
@@ -16325,7 +16763,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteJobsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/jobs/{id}/download": {
@@ -16376,7 +16816,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getJobsByIdDownload",
+        "x-rate-limit-cost": 1
       }
     },
     "/jobs/{id}/errors": {
@@ -16417,7 +16859,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getJobsByIdErrors",
+        "x-rate-limit-cost": 1
       }
     },
     "/jobs/{id}/cancel": {
@@ -16487,7 +16931,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postJobsByIdCancel",
+        "x-rate-limit-cost": 5
       }
     },
     "/jobs/uploads": {
@@ -16582,7 +17028,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postJobsUploads",
+        "x-rate-limit-cost": 5
       }
     },
     "/webhook-endpoints": {
@@ -16635,7 +17083,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getWebhookEndpoints",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "Create webhook endpoint",
@@ -16758,7 +17208,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postWebhookEndpoints",
+        "x-rate-limit-cost": 5
       }
     },
     "/webhook-endpoints/{id}": {
@@ -16818,7 +17270,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getWebhookEndpointsById",
+        "x-rate-limit-cost": 1
       },
       "patch": {
         "summary": "Update webhook endpoint",
@@ -16950,7 +17404,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "patchWebhookEndpointsById",
+        "x-rate-limit-cost": 5
       },
       "delete": {
         "summary": "Delete webhook endpoint",
@@ -16989,7 +17445,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "deleteWebhookEndpointsById",
+        "x-rate-limit-cost": 5
       }
     },
     "/webhook-endpoints/{id}/rotate-secret": {
@@ -17057,7 +17515,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postWebhookEndpointsByIdRotateSecret",
+        "x-rate-limit-cost": 5
       }
     },
     "/webhook-endpoints/{id}/deliveries": {
@@ -17120,11 +17580,148 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getWebhookEndpointsByIdDeliveries",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/webhook-deliveries": {
+      "get": {
+        "operationId": "listWebhookDeliveries",
+        "summary": "List webhook deliveries (tenant-wide)",
+        "description": "Returns cursor-paginated webhook delivery rows for the calling tenant across all endpoints. Filterable by endpoint, status, event type, and createdAt date range. Replaces the per-endpoint `GET /webhook-endpoints/{id}/deliveries` (still available but hard-capped at 100 rows with no pagination).",
+        "security": [
+          {
+            "bearerAuth": [
+              "webhooks:manage"
+            ]
+          }
+        ],
+        "tags": [
+          "Webhooks"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": false,
+            "name": "endpointId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "succeeded",
+                "failed",
+                "exhausted"
+              ]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "eventType",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deliveries page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WebhookDeliveryFull"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-rate-limit-cost": 1
       }
     },
     "/webhook-deliveries/{id}": {
       "get": {
+        "operationId": "getWebhookDelivery",
         "summary": "Get webhook delivery",
         "description": "Returns a single webhook delivery row, including the response body (capped at 10KB) and headers captured from the most recent attempt.",
         "security": [
@@ -17180,11 +17777,13 @@
               }
             }
           }
-        }
+        },
+        "x-rate-limit-cost": 1
       }
     },
     "/webhook-deliveries/{id}/replay": {
       "post": {
+        "operationId": "replayWebhookDelivery",
         "summary": "Replay webhook delivery",
         "description": "Re-enqueues the delivery for another delivery attempt. The attemptCount is reset to 0, status is set back to pending, and the response/error fields are cleared. Returns 409 if the linked endpoint has been soft-deleted.",
         "security": [
@@ -17250,7 +17849,195 @@
               }
             }
           }
-        }
+        },
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/api-audit-logs": {
+      "get": {
+        "operationId": "listApiAuditLogs",
+        "summary": "List API audit log entries for the calling tenant",
+        "description": "Returns cursor-paginated API audit log rows for the calling tenant. Each row records one v1 API request — method, path, status, duration, request id, and (when authenticated) the API key id, OAuth token id, or user id that made the call. Filterable by API key, HTTP method, status code, and date range. Tenant-scoped — Tenant A can never see Tenant B's audit log even if scopes are mis-issued.",
+        "security": [
+          {
+            "bearerAuth": [
+              "audit:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Observability"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": false,
+            "name": "apiKeyId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "method",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 lower bound for createdAt (inclusive)"
+            },
+            "required": false,
+            "description": "ISO 8601 lower bound for createdAt (inclusive)",
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 upper bound for createdAt (inclusive)"
+            },
+            "required": false,
+            "description": "ISO 8601 upper bound for createdAt (inclusive)",
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit log page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ApiAuditLog"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/usage": {
+      "get": {
+        "operationId": "getUsage",
+        "summary": "Get current rate-limit consumption",
+        "description": "Returns the calling tenant's current rate-limit consumption for both the tenant-wide cost-weighted budget (sliding hour) and the per-API-key request limit (sliding minute). Use this to surface live consumption in developer dashboards or to back off proactively before hitting `429`. Data is sourced from the same Redis-backed buckets that the rate limiter writes to, so the numbers returned here are exactly the limits enforced.",
+        "security": [
+          {
+            "bearerAuth": [
+              "audit:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Observability"
+        ],
+        "responses": {
+          "200": {
+            "description": "Current usage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/UsageResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-rate-limit-cost": 1
       }
     },
     "/oauth/authorize": {
@@ -17352,7 +18139,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getOauthAuthorize",
+        "x-rate-limit-cost": 1
       },
       "post": {
         "summary": "OAuth 2.1 consent decision",
@@ -17400,7 +18189,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postOauthAuthorize",
+        "x-rate-limit-cost": 5
       }
     },
     "/oauth/token": {
@@ -17451,7 +18242,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postOauthToken",
+        "x-rate-limit-cost": 5
       }
     },
     "/oauth/revoke": {
@@ -17495,7 +18288,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postOauthRevoke",
+        "x-rate-limit-cost": 5
       }
     },
     "/oauth/userinfo": {
@@ -17535,7 +18330,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "getOauthUserinfo",
+        "x-rate-limit-cost": 1
       }
     },
     "/oauth/register": {
@@ -17586,7 +18383,9 @@
               }
             }
           }
-        }
+        },
+        "operationId": "postOauthRegister",
+        "x-rate-limit-cost": 5
       }
     }
   },
