@@ -59,12 +59,18 @@
           "documents:read",
           "documents:write",
           "documents:delete",
+          "invoices:read",
+          "invoices:write",
+          "invoices:delete",
           "bids:send",
           "bids:accept_reject",
           "pay_apps:approve",
           "pay_apps:send",
           "change_orders:approve",
           "change_orders:send",
+          "invoices:send",
+          "invoices:mark_paid",
+          "invoices:void",
           "users:read",
           "webhooks:manage",
           "jobs:read",
@@ -14112,6 +14118,26 @@
                     ]
                   },
                   "sellTaxPercent": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "qboId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 64
+                  },
+                  "qboSyncToken": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 32
+                  },
+                  "qboLastSyncedAt": {
                     "type": [
                       "string",
                       "null"
