@@ -15,5 +15,9 @@ export const config = {
     legal: import.meta.env.PUBLIC_EMAIL_LEGAL || 'legal@buildworkpro.com',
     access: import.meta.env.PUBLIC_EMAIL_ACCESS || 'access@buildworkpro.com',
   },
+  social: {
+    linkedin: import.meta.env.PUBLIC_SOCIAL_LINKEDIN || '',
+    x: import.meta.env.PUBLIC_SOCIAL_X || '',
+  },
   turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA',
 };

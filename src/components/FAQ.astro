@@ -18,14 +18,8 @@ const faqs = [
   {
     question: 'Does BuildWorkPro work on phones and tablets at the job site?',
     answer:
-      'BuildWorkPro is fully web-based and works on any device with a modern browser — no app to install. Log time, submit site logs, check project status, or review a bid from your phone, tablet, or laptop. A native mobile app is also coming soon.',
+      'BuildWorkPro is fully web-based and works on any device with a modern browser — no app to install. Log time, submit site logs, check project status, or review a bid from your phone, tablet, or laptop. Native mobile apps are planned for field crews that prefer an installed app.',
   },
-  /* TODO: Restore QuickBooks FAQ at launch
-  {
-    question: 'How does BuildWorkPro handle QuickBooks integration?',
-    answer: 'BuildWorkPro syncs invoices, payments, and job costs with QuickBooks so your books stay up to date without double entry. It also integrates with Gmail and Google Calendar — plus Claude Desktop and ChatGPT via MCP — to keep your existing workflow connected.',
-  },
-  */
   {
     question: 'Is my construction data secure?',
     answer:
@@ -79,6 +73,7 @@ const faqs = [
   </div>
 
   <script
+    is:inline
     type="application/ld+json"
     set:html={JSON.stringify({
       '@context': 'https://schema.org',

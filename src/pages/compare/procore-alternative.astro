@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import SeoExpansion from '../../components/SeoExpansion.astro';
 import { config } from '../../config';
 ---
 
@@ -258,11 +259,11 @@ import { config } from '../../config';
                 </span>
               </td>
             </tr>
-            <!-- TODO: Restore QuickBooks row at launch -->
             <tr class="bg-slate-50/50">
               <td class="px-6 py-4 text-slate-700">Free Trial</td>
-              <!-- TODO: Restore "14 days, no CC" at launch -->
-              <td class="px-6 py-4 text-center font-semibold text-brand-600">Coming soon</td>
+              <td class="px-6 py-4 text-center font-semibold text-brand-600">
+                14 days, no credit card
+              </td>
               <td class="px-6 py-4 text-center text-slate-400">Demo only</td>
             </tr>
           </tbody>
@@ -393,7 +394,6 @@ import { config } from '../../config';
         <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
           Ready to switch from Procore?
         </h2>
-        <!-- TODO: Restore trial CTA at launch -->
         <p class="mt-4 text-slate-400 max-w-xl mx-auto">
           14-day free trial. No credit card required.
         </p>
@@ -414,5 +414,6 @@ import { config } from '../../config';
       </div>
     </section>
   </main>
+  <SeoExpansion />
   <Footer />
 </Layout>

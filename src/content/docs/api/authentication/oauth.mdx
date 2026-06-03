@@ -23,7 +23,7 @@ We do **not** support `client_credentials`, the resource-owner password grant, o
 
 ## Dynamic Client Registration
 
-Any developer can self-register a client at `POST /api/v1/oauth/register` -- there is no admin gate, no waitlist, and no manual approval step. The endpoint follows [RFC 7591](https://datatracker.ietf.org/doc/html/rfc7591) and is rate-limited to **5 requests per minute per IP** to prevent abuse. Each `redirect_uri` is validated by an SSRF guard, so internal/private addresses are rejected at registration time.
+Any developer can self-register a client at `POST /api/v1/oauth/register` -- there is no admin gate or manual approval queue. The endpoint follows [RFC 7591](https://datatracker.ietf.org/doc/html/rfc7591) and is rate-limited to **5 requests per minute per IP** to prevent abuse. Each `redirect_uri` is validated by an SSRF guard, so internal/private addresses are rejected at registration time.
 
 ```bash
 curl -X POST https://app.buildworkpro.com/api/v1/oauth/register \

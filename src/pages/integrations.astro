@@ -5,7 +5,7 @@ import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
 import { config } from '../config';
 
-type Status = 'available' | 'coming-soon' | 'in-review';
+type Status = 'available' | 'planned' | 'in-review';
 
 type Integration = {
   title: string;
@@ -48,7 +48,7 @@ const integrations: Integration[] = [
     title: 'Gmail',
     description:
       'Send bid PDFs, change orders, and pay applications from your own Gmail address so customers can reply directly.',
-    href: '/features/bidding/',
+    href: '/features/construction-bidding/',
     status: 'available',
     icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 13H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z',
     color: 'amber',
@@ -84,8 +84,8 @@ const integrations: Integration[] = [
     title: 'Zapier',
     description:
       'Connect BuildWorkPro to 6,000+ apps without writing code. Pre-built triggers and actions for the most-used workflows.',
-    href: 'mailto:integrations@buildworkpro.com?subject=Zapier%20Waitlist',
-    status: 'coming-soon',
+    href: 'mailto:integrations@buildworkpro.com?subject=Zapier%20Integration',
+    status: 'planned',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
     color: 'indigo',
   },
@@ -102,7 +102,7 @@ const colorMap: Record<string, { bg: string; icon: string; ring: string }> = {
 
 const statusBadge: Record<Status, { label: string; classes: string }> = {
   available: { label: 'Available', classes: 'bg-emerald-50 text-emerald-700 ring-emerald-100' },
-  'coming-soon': { label: 'Coming Soon', classes: 'bg-amber-50 text-amber-700 ring-amber-100' },
+  planned: { label: 'Planned', classes: 'bg-amber-50 text-amber-700 ring-amber-100' },
   'in-review': { label: 'In Review', classes: 'bg-slate-100 text-slate-600 ring-slate-200' },
 };
 ---
@@ -169,7 +169,7 @@ const statusBadge: Record<Status, { label: string; classes: string }> = {
                   {integration.status === 'available'
                     ? 'Open'
                     : isExternal
-                      ? 'Join the waitlist'
+                      ? 'Request access'
                       : 'Learn more'}
                   <svg
                     class="w-4 h-4"

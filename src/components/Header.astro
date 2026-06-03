@@ -32,7 +32,21 @@ const compare = [
     <div class="flex items-center justify-between h-16 lg:h-20">
       <!-- Logo -->
       <a href="/" class="flex items-center group">
-        <img src="/logo.png" alt="BuildWorkPro" class="h-11 lg:h-12 w-auto" />
+        <picture>
+          <source
+            type="image/webp"
+            srcset="/logo-190.webp 190w, /logo-380.webp 380w"
+            sizes="(min-width: 1024px) 193px, 177px"
+          />
+          <img
+            src="/logo.png"
+            alt="BuildWorkPro"
+            width="950"
+            height="236"
+            class="h-11 lg:h-12 w-auto"
+            decoding="async"
+          />
+        </picture>
       </a>
 
       <!-- Desktop Nav -->

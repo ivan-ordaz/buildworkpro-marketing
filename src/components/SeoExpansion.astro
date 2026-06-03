@@ -1,0 +1,1017 @@
+---
+type Expansion = {
+  eyebrow: string;
+  title: string;
+  summary: string;
+  columns: {
+    title: string;
+    items: string[];
+  }[];
+  faqs: {
+    question: string;
+    answer: string;
+  }[];
+};
+
+const expansions: Record<string, Expansion> = {
+  '/features/': {
+    eyebrow: 'Selection guide',
+    title: 'What to look for in subcontractor construction software',
+    summary:
+      'A strong subcontractor platform should connect the office, the field, and billing. BuildWorkPro is organized around that full job lifecycle: win the work, run the work, document the work, and get paid for the work.',
+    columns: [
+      {
+        title: 'Core workflows',
+        items: [
+          'Bids and estimates that can become projects without duplicate entry',
+          'Project schedules, tasks, and daily field documentation in one place',
+          'Pay applications and change orders tied back to contract value',
+        ],
+      },
+      {
+        title: 'Operational fit',
+        items: [
+          'Unlimited users so office staff, project managers, and foremen can all participate',
+          'Simple field tools that work from a phone or tablet on the jobsite',
+          'Role-based permissions for admins, managers, members, field crews, and viewers',
+        ],
+      },
+      {
+        title: 'Business visibility',
+        items: [
+          'Pipeline, bid, project, billing, and crew activity views',
+          'CSV exports for deeper analysis or accounting handoff',
+          'Connected records so teams can trace a job from lead to closeout',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is BuildWorkPro only for general contractors?',
+        answer:
+          'No. BuildWorkPro is designed around subcontractor and specialty trade workflows, including bidding, site logs, time tracking, change orders, and progress billing.',
+      },
+      {
+        question: 'Can one team use all BuildWorkPro features on one plan?',
+        answer:
+          'Yes. BuildWorkPro has one flat plan with all major features included, so teams do not need to choose separate tiers for bidding, projects, pay apps, or field tools.',
+      },
+      {
+        question: 'Does BuildWorkPro support both office and field work?',
+        answer:
+          'Yes. Office teams can manage bids, contacts, projects, and billing while field crews can log time, submit site logs, and check project details from the jobsite.',
+      },
+    ],
+  },
+  '/features/construction-bidding/': {
+    eyebrow: 'Estimating workflow',
+    title: 'What subcontractors need from bidding software',
+    summary:
+      'Construction bidding software should make the estimate easier to defend. BuildWorkPro keeps scope, labor, materials, markup, and bid status connected so a won estimate can become the starting point for project execution.',
+    columns: [
+      {
+        title: 'Before the bid',
+        items: [
+          'Track opportunities and due dates so bid invites do not disappear in email',
+          'Reuse similar bid structures instead of rebuilding every proposal from scratch',
+          'Maintain standard labor rates and cost assumptions for your team',
+        ],
+      },
+      {
+        title: 'During estimating',
+        items: [
+          'Break scope into line items, sublines, quantities, and unit costs',
+          'Apply overhead, profit, taxes, and other marks consistently',
+          'Keep internal cost detail separate from client-facing proposal output',
+        ],
+      },
+      {
+        title: 'After award',
+        items: [
+          'Convert accepted bids into active projects',
+          'Use bid line items as the basis for budget and schedule of values',
+          'Review won and lost bids to improve future pricing decisions',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Does BuildWorkPro replace takeoff software?',
+        answer:
+          'BuildWorkPro focuses on bid management, estimating structure, proposal generation, and bid-to-project handoff. Teams can still use their preferred takeoff tool and enter quantities into BuildWorkPro.',
+      },
+      {
+        question: 'Can I track labor and material costs separately?',
+        answer:
+          'Yes. Bids can include line-item detail for labor, materials, equipment, and other cost categories, with markup and overhead applied systematically.',
+      },
+      {
+        question: 'Can accepted bids become projects?',
+        answer:
+          'Yes. Accepted bids can be converted into projects so project setup, budget context, and billing workflows start from the approved estimate.',
+      },
+    ],
+  },
+  '/features/pay-applications/': {
+    eyebrow: 'Progress billing',
+    title: 'Pay application software for subcontractor billing cycles',
+    summary:
+      'Pay applications are where project progress turns into cash flow. BuildWorkPro helps subcontractors manage schedule of values, percent complete, retainage, approval status, and PDF output without losing the connection to the project.',
+    columns: [
+      {
+        title: 'Billing preparation',
+        items: [
+          'Create pay apps from project and contract context',
+          'Track prior applications, current work, stored materials, and retainage',
+          'Keep schedule of values line items consistent from month to month',
+        ],
+      },
+      {
+        title: 'Approval process',
+        items: [
+          'Move pay apps through draft, submitted, approved, and paid states',
+          'Give managers a clear review trail before sending to the GC or owner',
+          'Keep billing status visible to project and office teams',
+        ],
+      },
+      {
+        title: 'Cash-flow control',
+        items: [
+          'See what has been billed, approved, paid, and retained',
+          'Include approved change orders in contract and billing context',
+          'Export or generate PDFs for external review and records',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Does BuildWorkPro support AIA-style pay applications?',
+        answer:
+          'Yes. BuildWorkPro supports AIA-style progress billing concepts such as schedule of values, current period work, previous billing, and retainage.',
+      },
+      {
+        question: 'Can pay apps include change order impact?',
+        answer:
+          'Approved change orders can update project contract context so billing reflects current approved scope rather than the original contract alone.',
+      },
+      {
+        question: 'Who should use pay application software?',
+        answer:
+          'Subcontractors who bill by progress, percent complete, schedule of values, or retainage benefit most because the billing record stays tied to the project.',
+      },
+    ],
+  },
+  '/features/change-orders/': {
+    eyebrow: 'Scope protection',
+    title: 'Change order management that protects subcontractor margins',
+    summary:
+      'A change order is more than a price request. It is evidence, approval status, contract impact, and billing context. BuildWorkPro gives subcontractors a structured way to capture scope changes before they turn into margin loss.',
+    columns: [
+      {
+        title: 'Capture the change',
+        items: [
+          'Record the reason, description, cost impact, and supporting notes',
+          'Attach documents or photos when field conditions create extra work',
+          'Connect change orders to the project where the work occurred',
+        ],
+      },
+      {
+        title: 'Control approval',
+        items: [
+          'Track draft, submitted, approved, and rejected states',
+          'Keep a clear audit trail for who approved the change and when',
+          'Generate PDFs for client, GC, or owner review',
+        ],
+      },
+      {
+        title: 'Update the job',
+        items: [
+          'Reflect approved changes in project contract value',
+          'Keep pay applications aligned with approved scope',
+          'Review change order totals alongside project financials',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Why should subcontractors track change orders separately?',
+        answer:
+          'Separate tracking keeps added scope visible, priced, approved, and billable instead of buried in email threads or daily notes.',
+      },
+      {
+        question: 'Can field issues become change orders?',
+        answer:
+          'Yes. Field documentation such as site logs and photos can support a change order when jobsite conditions or GC requests change the scope.',
+      },
+      {
+        question: 'Does approval change the contract value?',
+        answer:
+          'Approved change orders can update the project contract context so reporting and progress billing reflect the latest approved value.',
+      },
+    ],
+  },
+  '/features/project-management/': {
+    eyebrow: 'Project controls',
+    title: 'Project management built around the subcontractor job lifecycle',
+    summary:
+      'Subcontractor project management is not generic task tracking. It needs schedules, job status, crew assignments, documents, contract value, change orders, and pay applications working from the same project record.',
+    columns: [
+      {
+        title: 'Plan the work',
+        items: [
+          'Break jobs into phases, tasks, and milestones',
+          'Use Gantt and board views to understand schedule pressure',
+          'Assign responsibilities to project managers, foremen, and crew members',
+        ],
+      },
+      {
+        title: 'Run the work',
+        items: [
+          'Keep field logs, photos, documents, and task progress on the project',
+          'Track active, delayed, punch-list, and completed jobs',
+          'Give each role access to the project information they need',
+        ],
+      },
+      {
+        title: 'Close the loop',
+        items: [
+          'Connect approved bids, change orders, and pay applications',
+          'Review budget and contract impact alongside schedule progress',
+          'Preserve the project record for closeout and dispute support',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'How is BuildWorkPro different from generic project management tools?',
+        answer:
+          'BuildWorkPro connects project tasks to construction-specific records such as bids, pay applications, change orders, site logs, contacts, and contract values.',
+      },
+      {
+        question: 'Can foremen use BuildWorkPro in the field?',
+        answer:
+          'Yes. Field users can access project information, log time, and create site documentation from phones or tablets.',
+      },
+      {
+        question: 'Does BuildWorkPro include scheduling views?',
+        answer:
+          'Yes. BuildWorkPro includes project board, list, and timeline-style views, including Gantt charts for phase and task scheduling.',
+      },
+    ],
+  },
+  '/features/site-logs/': {
+    eyebrow: 'Field documentation',
+    title: 'Daily site logs that become a usable project record',
+    summary:
+      'A good site log captures what happened, who was there, what changed, and what evidence exists. BuildWorkPro helps field teams record daily jobsite details in a structure the office can actually use later.',
+    columns: [
+      {
+        title: 'Daily detail',
+        items: [
+          'Record work performed, weather, crew counts, equipment, and notes',
+          'Attach photos to support progress, delays, or field conditions',
+          'Keep logs tied to the right project and date',
+        ],
+      },
+      {
+        title: 'Office visibility',
+        items: [
+          'Give project managers a clear view of field activity',
+          'Use site logs to support change order requests or delay documentation',
+          'Keep field records searchable instead of scattered across texts and photos',
+        ],
+      },
+      {
+        title: 'Risk reduction',
+        items: [
+          'Preserve a daily record for disputes, claims, and closeout',
+          'Standardize reporting across foremen and job sites',
+          'Review daily activity without interrupting crews for status calls',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'What should a construction site log include?',
+        answer:
+          'A useful site log usually includes work performed, weather, crew count, equipment, visitors, delays, issues, photos, and notes about changed conditions.',
+      },
+      {
+        question: 'Can site logs support change orders?',
+        answer:
+          'Yes. Site logs can provide the timeline and supporting evidence needed when extra work, delays, or jobsite conditions affect scope or cost.',
+      },
+      {
+        question: 'Are site logs useful for small subcontractors?',
+        answer:
+          'Yes. Even small crews benefit from a consistent daily record because it reduces memory-based reporting and protects the business when questions come up later.',
+      },
+    ],
+  },
+  '/features/time-tracking/': {
+    eyebrow: 'Crew time',
+    title: 'Construction time tracking connected to projects and job costing',
+    summary:
+      'Crew time is most useful when it is tied to the job, phase, task, and labor rate. BuildWorkPro helps subcontractors collect time from the field and keep it connected to project cost context.',
+    columns: [
+      {
+        title: 'Field entry',
+        items: [
+          'Log hours by project, phase, task, and worker',
+          'Support simple entry from phones and tablets',
+          'Capture descriptions that explain what the crew worked on',
+        ],
+      },
+      {
+        title: 'Office review',
+        items: [
+          'Review time entries before payroll or reporting',
+          'Compare labor activity against project expectations',
+          'Export time data when another system handles payroll',
+        ],
+      },
+      {
+        title: 'Cost visibility',
+        items: [
+          'Use labor rates to understand project cost impact',
+          'Spot jobs where labor hours are drifting from the estimate',
+          'Roll crew activity into project and reporting views',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can crews track time by project?',
+        answer:
+          'Yes. Time entries can be associated with specific projects and work areas so labor activity stays connected to job context.',
+      },
+      {
+        question: 'Does BuildWorkPro replace payroll?',
+        answer:
+          'BuildWorkPro focuses on capturing and organizing construction time data. Teams can export or use that data alongside their payroll process.',
+      },
+      {
+        question: 'Why track time by task or phase?',
+        answer:
+          'Task and phase detail makes labor overruns easier to spot and helps estimators compare actual work against future bids.',
+      },
+    ],
+  },
+  '/features/construction-crm/': {
+    eyebrow: 'Pipeline control',
+    title: 'Construction CRM for relationship-driven subcontractor sales',
+    summary:
+      'Subcontractor sales depends on GC relationships, bid invitations, due dates, and follow-up. BuildWorkPro keeps contacts, leads, bid opportunities, and project history connected so opportunities do not live only in inboxes.',
+    columns: [
+      {
+        title: 'Lead tracking',
+        items: [
+          'Track opportunities from first conversation through bid submission',
+          'Use pipeline stages that match construction sales workflows',
+          'See deal value, probability, source, and expected close date',
+        ],
+      },
+      {
+        title: 'Relationship history',
+        items: [
+          'Store GC, owner, vendor, and partner contacts in one system',
+          'Link contacts to leads, bids, projects, and activity',
+          'Keep follow-up context available when the usual contact owner is out',
+        ],
+      },
+      {
+        title: 'Bid follow-up',
+        items: [
+          'Know which proposals are pending and which need attention',
+          'Review win/loss context over time',
+          'Convert won opportunities into active work without re-entry',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Why do subcontractors need a CRM?',
+        answer:
+          'A CRM helps subcontractors track bid invites, GC relationships, follow-ups, and pending opportunities so potential work is not lost in email or memory.',
+      },
+      {
+        question: 'Can contacts connect to projects and bids?',
+        answer:
+          'Yes. BuildWorkPro links contacts to leads, bids, projects, and related activity so relationship history stays useful after the sale.',
+      },
+      {
+        question: 'Is the pipeline visual?',
+        answer:
+          'Yes. BuildWorkPro includes visual pipeline tracking so teams can see where opportunities stand and what needs follow-up.',
+      },
+    ],
+  },
+  '/features/reports/': {
+    eyebrow: 'Business visibility',
+    title: 'Construction reports that connect pipeline, projects, and billing',
+    summary:
+      'Reports are only useful when the underlying data is connected. BuildWorkPro brings together leads, bids, projects, pay apps, change orders, site logs, and time entries so subcontractors can see how the business is moving.',
+    columns: [
+      {
+        title: 'Sales metrics',
+        items: [
+          'Review pipeline value, active leads, bid status, and win patterns',
+          'Understand where opportunities are coming from',
+          'Spot follow-up bottlenecks before bids go cold',
+        ],
+      },
+      {
+        title: 'Project metrics',
+        items: [
+          'Track active jobs, status, contract value, and schedule context',
+          'Review change order impact by project',
+          'Use site logs and time entries to understand field activity',
+        ],
+      },
+      {
+        title: 'Financial context',
+        items: [
+          'See pay application status and billing progress',
+          'Export data to CSV for accounting or deeper analysis',
+          'Compare project, billing, and pipeline views in one system',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'What reports should a subcontractor track?',
+        answer:
+          'Useful subcontractor reports include pipeline value, bid status, active project status, change order totals, pay app status, and crew activity.',
+      },
+      {
+        question: 'Can report data be exported?',
+        answer:
+          'Yes. BuildWorkPro supports CSV export workflows for teams that need to analyze data or share it with accounting and operations tools.',
+      },
+      {
+        question: 'Do reports update from daily work?',
+        answer:
+          'Yes. Reports become more useful as teams manage bids, projects, pay apps, site logs, and time entries inside the same platform.',
+      },
+    ],
+  },
+  '/solutions/': {
+    eyebrow: 'Trade fit',
+    title: 'Construction software by trade, without locking workflows into one specialty',
+    summary:
+      'Specialty contractors share a common business backbone: win work, staff jobs, document the field, manage scope changes, and bill progress. BuildWorkPro adapts that backbone to the trade-specific language and workflows your team already uses.',
+    columns: [
+      {
+        title: 'Office workflows',
+        items: [
+          'Manage contacts, leads, bids, projects, and documents',
+          'Track project status and contract value across active work',
+          'Keep approval and billing workflows visible to managers',
+        ],
+      },
+      {
+        title: 'Field workflows',
+        items: [
+          'Capture site logs, photos, crew counts, and daily notes',
+          'Track time by project and work activity',
+          'Give foremen simple access without per-user pricing pressure',
+        ],
+      },
+      {
+        title: 'Financial workflows',
+        items: [
+          'Create pay applications from project context',
+          'Track change orders and contract impact',
+          'Review pipeline, project, and billing data together',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Which trades can use BuildWorkPro?',
+        answer:
+          'BuildWorkPro is built for specialty trade contractors such as HVAC, electrical, plumbing, concrete, roofing, framing, glazing, and similar subcontractor businesses.',
+      },
+      {
+        question: 'Does every trade need a different product setup?',
+        answer:
+          'No. The core workflows are shared across trades, while project phases, bid details, cost categories, and field notes can reflect each companys work.',
+      },
+      {
+        question: 'Can multiple trades use one account?',
+        answer:
+          'Yes. A contractor that performs multiple scopes can manage them together under the same BuildWorkPro workspace.',
+      },
+    ],
+  },
+  '/solutions/electrical-contractors/': {
+    eyebrow: 'Electrical workflow',
+    title: 'Software for electrical contractors managing bids, crews, and billing',
+    summary:
+      'Electrical contractors need visibility from bid invite to final inspection. BuildWorkPro helps organize estimates, phases, crew assignments, change orders, site logs, and pay applications for commercial and residential electrical work.',
+    columns: [
+      {
+        title: 'Common use cases',
+        items: [
+          'Track rough-in, trim, service upgrades, panel work, and punch-list phases',
+          'Manage bid follow-up with GCs, owners, and property managers',
+          'Document inspection results, field delays, and added electrical scope',
+        ],
+      },
+      {
+        title: 'Operational details',
+        items: [
+          'Assign journeymen, apprentices, and foremen to jobs',
+          'Track crew time by project or task',
+          'Attach photos, plans, and notes to project records',
+        ],
+      },
+      {
+        title: 'Billing control',
+        items: [
+          'Build pay apps around schedule of values line items',
+          'Track retainage and percent complete',
+          'Keep approved change orders tied to contract value',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can electrical contractors track phases like rough-in and trim?',
+        answer:
+          'Yes. Projects can be organized into phases and tasks that match the way an electrical contractor plans and manages field work.',
+      },
+      {
+        question: 'Can BuildWorkPro document inspection issues?',
+        answer:
+          'Yes. Site logs, notes, and photos can capture inspection outcomes, delays, and field conditions that affect schedule or scope.',
+      },
+      {
+        question: 'Is pricing per electrician?',
+        answer:
+          'No. BuildWorkPro uses a flat monthly price with unlimited users, so crews and office staff can participate without per-seat fees.',
+      },
+    ],
+  },
+  '/solutions/hvac-contractors/': {
+    eyebrow: 'Mechanical workflow',
+    title: 'HVAC contractor software for install, service, and progress billing work',
+    summary:
+      'HVAC contractors often manage labor-heavy field work, equipment coordination, material lead times, and progress billing. BuildWorkPro keeps estimates, projects, crews, daily logs, and pay apps connected.',
+    columns: [
+      {
+        title: 'Common use cases',
+        items: [
+          'Track equipment setting, ductwork, piping, controls, startup, and punch-list work',
+          'Manage project schedules around inspections, deliveries, and crew availability',
+          'Document delays, site conditions, and added mechanical scope',
+        ],
+      },
+      {
+        title: 'Office workflows',
+        items: [
+          'Manage contacts, bid opportunities, proposals, and project handoff',
+          'Track change orders and pay applications against contract value',
+          'Review project and billing status without chasing spreadsheets',
+        ],
+      },
+      {
+        title: 'Field workflows',
+        items: [
+          'Capture daily reports, crew counts, photos, and notes',
+          'Log time by project and task',
+          'Give foremen the job context they need from a phone or tablet',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can HVAC contractors track equipment and field progress?',
+        answer:
+          'Yes. BuildWorkPro supports project phases, tasks, notes, documents, and site logs that can be used to track equipment, installation progress, and field issues.',
+      },
+      {
+        question: 'Does BuildWorkPro include service dispatch?',
+        answer:
+          'BuildWorkPro focuses on construction project management, bidding, field documentation, time tracking, pay apps, and change orders rather than dedicated service dispatch.',
+      },
+      {
+        question: 'Can HVAC teams use pay apps?',
+        answer:
+          'Yes. HVAC contractors can create progress billing pay applications tied to project schedule of values and retainage.',
+      },
+    ],
+  },
+  '/solutions/plumbing-contractors/': {
+    eyebrow: 'Plumbing workflow',
+    title: 'Plumbing contractor software for project work and field documentation',
+    summary:
+      'Plumbing contractors need to track rough-in, underground, fixtures, change orders, inspections, crew time, and billing. BuildWorkPro gives plumbing subs one system for the project record from bid to closeout.',
+    columns: [
+      {
+        title: 'Common use cases',
+        items: [
+          'Manage underground, rough-in, top-out, trim, and fixture phases',
+          'Document inspections, access issues, and changed field conditions',
+          'Track time and daily activity by project',
+        ],
+      },
+      {
+        title: 'Scope management',
+        items: [
+          'Create change orders for added fixtures, reroutes, and GC-requested changes',
+          'Attach notes, photos, and supporting documents',
+          'Keep approved changes reflected in project value and billing',
+        ],
+      },
+      {
+        title: 'Billing and reporting',
+        items: [
+          'Build pay apps with schedule of values detail',
+          'Track retainage, percent complete, and approval status',
+          'Review active jobs, pending bids, and crew activity together',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can plumbing contractors use BuildWorkPro for commercial projects?',
+        answer:
+          'Yes. BuildWorkPro supports subcontractor workflows such as bids, projects, site logs, time tracking, pay apps, and change orders that apply to commercial plumbing work.',
+      },
+      {
+        question: 'Can daily logs include photos?',
+        answer:
+          'Yes. Field teams can attach photos to site logs to document work performed, site conditions, and issues.',
+      },
+      {
+        question: 'Can change orders affect billing?',
+        answer:
+          'Approved change orders can update project contract context so billing reflects the latest approved scope.',
+      },
+    ],
+  },
+  '/solutions/concrete-contractors/': {
+    eyebrow: 'Concrete workflow',
+    title: 'Concrete contractor software for pours, crews, changes, and billing',
+    summary:
+      'Concrete contractors need to coordinate crews, pours, field documentation, change orders, and progress billing while jobs move quickly. BuildWorkPro keeps the project record organized from estimate through closeout.',
+    columns: [
+      {
+        title: 'Common use cases',
+        items: [
+          'Track forming, rebar, pour, finish, cure, and punch-list phases',
+          'Document weather, crew count, equipment, and pour-day notes',
+          'Attach photos and daily reports to the project record',
+        ],
+      },
+      {
+        title: 'Scope and schedule',
+        items: [
+          'Create change orders for added slabs, site conditions, or schedule impacts',
+          'Assign crews and tasks by project phase',
+          'Review active jobs and upcoming milestones',
+        ],
+      },
+      {
+        title: 'Financial control',
+        items: [
+          'Build bids with line items, materials, labor, and markup',
+          'Create pay applications for progress billing',
+          'Track approved changes against contract value',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can concrete contractors track daily field conditions?',
+        answer:
+          'Yes. Site logs can capture weather, crew counts, equipment, work performed, delays, and photos for each jobsite day.',
+      },
+      {
+        question: 'Can BuildWorkPro manage concrete change orders?',
+        answer:
+          'Yes. Change orders can document added scope, pricing, approval status, and contract impact.',
+      },
+      {
+        question: 'Does BuildWorkPro support unlimited projects?',
+        answer:
+          'Yes. BuildWorkPro includes unlimited projects on its flat monthly plan.',
+      },
+    ],
+  },
+  '/solutions/roofing-contractors/': {
+    eyebrow: 'Roofing workflow',
+    title: 'Roofing contractor software for bids, field logs, and project billing',
+    summary:
+      'Roofing contractors balance fast-moving crews, weather windows, material coordination, change orders, and documentation. BuildWorkPro keeps job records organized so office and field teams work from the same information.',
+    columns: [
+      {
+        title: 'Common use cases',
+        items: [
+          'Track tear-off, dry-in, installation, flashing, inspection, and punch phases',
+          'Document weather, photos, materials, and jobsite issues',
+          'Manage bids, contacts, projects, and documents in one place',
+        ],
+      },
+      {
+        title: 'Field coordination',
+        items: [
+          'Assign crews and tasks to active roofing jobs',
+          'Log time and daily activity from the field',
+          'Keep photos attached to the correct project and day',
+        ],
+      },
+      {
+        title: 'Margin protection',
+        items: [
+          'Capture change orders for added work or site conditions',
+          'Track pay applications and billing status',
+          'Review project status, contract value, and crew activity',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can roofing teams document weather delays?',
+        answer:
+          'Yes. Site logs can capture weather, notes, crew counts, and photos, which helps explain schedule impacts and changed conditions.',
+      },
+      {
+        question: 'Can BuildWorkPro replace roofing spreadsheets?',
+        answer:
+          'BuildWorkPro can replace many spreadsheet workflows for bids, contacts, project tracking, site logs, time entries, change orders, and pay applications.',
+      },
+      {
+        question: 'Can crews use it from the field?',
+        answer:
+          'Yes. Field crews can access relevant project and logging workflows from phones or tablets.',
+      },
+    ],
+  },
+  '/solutions/framing-contractors/': {
+    eyebrow: 'Framing workflow',
+    title: 'Framing contractor software for crews, phases, and scope changes',
+    summary:
+      'Framing contractors need clear visibility into phases, crew assignments, plan changes, delays, and progress billing. BuildWorkPro keeps framing project work connected from bid through closeout.',
+    columns: [
+      {
+        title: 'Common use cases',
+        items: [
+          'Track layout, walls, floors, trusses, blocking, and punch-list phases',
+          'Assign crews by phase and jobsite',
+          'Document daily progress, delays, and field issues',
+        ],
+      },
+      {
+        title: 'Change control',
+        items: [
+          'Create change orders for plan revisions and added framing scope',
+          'Attach photos, notes, and supporting documents',
+          'Track approval status before extra work disappears into the schedule',
+        ],
+      },
+      {
+        title: 'Office visibility',
+        items: [
+          'Review bids, active projects, pay apps, and field activity',
+          'Track time by project and task',
+          'Keep contacts, documents, and project records together',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can framing contractors track crew assignments?',
+        answer:
+          'Yes. BuildWorkPro supports project and task assignments so teams can see who is responsible for each phase of work.',
+      },
+      {
+        question: 'Can plan changes become change orders?',
+        answer:
+          'Yes. Plan revisions and added scope can be documented as change orders with pricing, supporting notes, and approval status.',
+      },
+      {
+        question: 'Can BuildWorkPro support both wood and metal framing?',
+        answer:
+          'Yes. The workflow is flexible enough for wood framing, metal framing, and related specialty framing work.',
+      },
+    ],
+  },
+  '/compare/': {
+    eyebrow: 'Comparison framework',
+    title: 'How to compare construction management platforms as a subcontractor',
+    summary:
+      'The right alternative depends on who the software was built for, how pricing works, and whether the workflows match subcontractor operations. BuildWorkPro focuses on specialty contractors that need practical tools without enterprise overhead.',
+    columns: [
+      {
+        title: 'Evaluate fit',
+        items: [
+          'Is the product built for subcontractors or general contractors?',
+          'Does it connect bidding, projects, field documentation, and billing?',
+          'Can field users participate without complex setup?',
+        ],
+      },
+      {
+        title: 'Evaluate cost',
+        items: [
+          'Is pricing flat, per user, or custom?',
+          'Are critical features locked behind higher tiers?',
+          'Will adding foremen or crew leads increase monthly cost?',
+        ],
+      },
+      {
+        title: 'Evaluate adoption',
+        items: [
+          'Can teams start with core workflows and expand naturally?',
+          'Is the interface simple enough for repeated daily use?',
+          'Does the platform reduce spreadsheets rather than adding another silo?',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'What is the best Procore or Buildertrend alternative for subcontractors?',
+        answer:
+          'The best alternative depends on workflow fit. Subcontractors should prioritize bidding, project tracking, site logs, pay apps, change orders, time tracking, and flat pricing.',
+      },
+      {
+        question: 'Should subcontractors choose GC-focused software?',
+        answer:
+          'GC-focused software can work for some teams, but subcontractors often pay for workflows they do not need while missing simpler trade-focused execution tools.',
+      },
+      {
+        question: 'What makes BuildWorkPro different?',
+        answer:
+          'BuildWorkPro is focused on subcontractor workflows and offers one flat plan with unlimited users, projects, and core construction management features.',
+      },
+    ],
+  },
+  '/compare/procore-alternative/': {
+    eyebrow: 'Decision guide',
+    title: 'When BuildWorkPro is a better fit than Procore',
+    summary:
+      'Procore is a broad construction platform often selected by larger general contractors and enterprise teams. BuildWorkPro is narrower by design: subcontractor workflows, flat pricing, and less operational overhead for specialty contractors.',
+    columns: [
+      {
+        title: 'Choose BuildWorkPro when',
+        items: [
+          'You are a subcontractor managing bids, projects, pay apps, and change orders',
+          'You want unlimited users without per-seat pricing pressure',
+          'Your team needs a simpler rollout for office and field users',
+        ],
+      },
+      {
+        title: 'Evaluate Procore when',
+        items: [
+          'You need a broad enterprise construction platform',
+          'You are coordinating many external project stakeholders as a GC',
+          'You have the budget and admin capacity for a larger implementation',
+        ],
+      },
+      {
+        title: 'Key questions',
+        items: [
+          'Will your foremen and crew leads actually use the system?',
+          'Can your billing workflow handle pay apps and retainage cleanly?',
+          'Does the pricing model still work as your team grows?',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is BuildWorkPro a Procore replacement?',
+        answer:
+          'For many subcontractor workflows, BuildWorkPro can replace a heavier platform by covering bids, projects, pay apps, change orders, site logs, time tracking, CRM, and reporting.',
+      },
+      {
+        question: 'Why would a subcontractor avoid enterprise construction software?',
+        answer:
+          'Enterprise platforms can be powerful, but smaller trade contractors may not need the full GC-oriented feature set, implementation effort, or pricing model.',
+      },
+      {
+        question: 'Does BuildWorkPro include unlimited users?',
+        answer:
+          'Yes. BuildWorkPro includes unlimited users on its flat monthly plan.',
+      },
+    ],
+  },
+  '/compare/buildertrend-alternative/': {
+    eyebrow: 'Decision guide',
+    title: 'When BuildWorkPro is a better fit than Buildertrend',
+    summary:
+      'Buildertrend is commonly associated with residential construction workflows. BuildWorkPro focuses on subcontractor operations: bids, project execution, field records, change orders, pay apps, time tracking, and flat pricing.',
+    columns: [
+      {
+        title: 'Choose BuildWorkPro when',
+        items: [
+          'You need subcontractor-first bidding, billing, and field documentation',
+          'You want flat pricing with unlimited users and projects',
+          'Your team works across GCs, owners, contacts, and active jobs',
+        ],
+      },
+      {
+        title: 'Evaluate Buildertrend when',
+        items: [
+          'Your work is centered on residential builder-client workflows',
+          'You need homeowner-facing selections or client communication tools',
+          'Your process maps closely to homebuilding project delivery',
+        ],
+      },
+      {
+        title: 'Key questions',
+        items: [
+          'Does the product support pay apps and retainage the way you bill?',
+          'Can your estimating, project, and field workflows share one record?',
+          'Will adding field users change your cost structure?',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is BuildWorkPro a Buildertrend alternative?',
+        answer:
+          'Yes. BuildWorkPro is an alternative for subcontractors that need bidding, project management, pay applications, change orders, site logs, time tracking, CRM, and reporting.',
+      },
+      {
+        question: 'Is BuildWorkPro only for residential contractors?',
+        answer:
+          'No. BuildWorkPro is built for subcontractors and specialty trades across commercial and residential workflows.',
+      },
+      {
+        question: 'Why does flat pricing matter?',
+        answer:
+          'Flat pricing makes it easier to add office staff, project managers, foremen, and crew leads without deciding who deserves a paid seat.',
+      },
+    ],
+  },
+};
+
+const currentPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const expansion = expansions[currentPath];
+---
+
+{
+  expansion && (
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="border-y border-slate-200 py-14">
+        <div class="max-w-3xl mx-auto text-center mb-10">
+          <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+            {expansion.eyebrow}
+          </p>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            {expansion.title}
+          </h2>
+          <p class="mt-4 text-slate-500 leading-relaxed">{expansion.summary}</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          {expansion.columns.map((column) => (
+            <div>
+              <h3 class="text-base font-semibold text-slate-900 mb-4">{column.title}</h3>
+              <ul class="space-y-3">
+                {column.items.map((item) => (
+                  <li class="flex gap-3 text-sm leading-relaxed text-slate-600">
+                    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-12 max-w-3xl mx-auto">
+          <h3 class="text-xl font-bold text-slate-900 mb-6">Common questions</h3>
+          <div class="space-y-3">
+            {expansion.faqs.map((faq) => (
+              <details class="border border-slate-200 rounded-xl overflow-hidden">
+                <summary class="cursor-pointer px-5 py-4 font-semibold text-slate-900 hover:bg-slate-50">
+                  {faq.question}
+                </summary>
+                <p class="px-5 pb-4 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: expansion.faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        })}
+      />
+    </section>
+  )
+}

@@ -35,6 +35,14 @@
 
 <script>
   (function () {
+    type CookieConsentWindow = Window & {
+      bwpGrantAnalyticsConsent?: () => void;
+      bwpLoadGA?: () => void;
+      bwpRevokeAnalyticsConsent?: () => void;
+      bwpOpenCookieSettings?: () => void;
+    };
+
+    const cookieWindow = window as CookieConsentWindow;
     const banner = document.getElementById('cookie-consent');
     if (!banner) return;
 
@@ -44,19 +52,19 @@
       banner.classList.add('hidden');
       // Flip Consent Mode v2 signals BEFORE loading the analytics script, so
       // the very first pings carry granted consent rather than denied.
-      (window as any).bwpGrantAnalyticsConsent?.();
-      (window as any).bwpLoadGA?.();
+      cookieWindow.bwpGrantAnalyticsConsent?.();
+      cookieWindow.bwpLoadGA?.();
     });
     document.getElementById('cookie-decline')?.addEventListener('click', () => {
       localStorage.setItem('bwp-cookies-declined', '1');
       localStorage.removeItem('bwp-cookies-accepted');
       banner.classList.add('hidden');
-      (window as any).bwpRevokeAnalyticsConsent?.();
+      cookieWindow.bwpRevokeAnalyticsConsent?.();
     });
 
     // Expose a reopen hook so the "Cookie settings" footer link can let
     // visitors change their choice after the banner was dismissed.
-    (window as any).bwpOpenCookieSettings = () => banner.classList.remove('hidden');
+    cookieWindow.bwpOpenCookieSettings = () => banner.classList.remove('hidden');
 
     // Auto-show on first visit, before any choice has been recorded.
     if (

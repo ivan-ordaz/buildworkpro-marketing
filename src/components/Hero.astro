@@ -63,12 +63,27 @@ import { config } from '../config';
           </div>
         </div>
         <!-- Real app screenshot with sidebar flyout expanded -->
-        <img
-          src="/screenshots/00-hero.png"
-          alt="BuildWorkPro dashboard with sales flyout expanded, showing real-time KPIs, pipeline stages, quick actions, and revenue overview"
-          class="w-full h-auto block"
-          loading="eager"
-        />
+        <picture>
+          <source
+            type="image/webp"
+            srcset="
+              /screenshots/00-hero-768.webp 768w,
+              /screenshots/00-hero-1200.webp 1200w,
+              /screenshots/00-hero-1920.webp 1920w
+            "
+            sizes="(min-width: 1024px) 1024px, calc(100vw - 32px)"
+          />
+          <img
+            src="/screenshots/00-hero.png"
+            alt="BuildWorkPro dashboard with sales flyout expanded, showing real-time KPIs, pipeline stages, quick actions, and revenue overview"
+            width="1920"
+            height="1080"
+            class="w-full h-auto block"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
       <!-- Glow effect -->
       <div

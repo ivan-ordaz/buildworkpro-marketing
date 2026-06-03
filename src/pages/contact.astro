@@ -138,22 +138,37 @@ import { config } from '../config';
 </Layout>
 
 <script>
-  declare const turnstile: any;
+  type TurnstileClient = {
+    render: (
+      container: HTMLElement,
+      options: {
+        sitekey: string;
+        callback: (token: string) => void;
+        'expired-callback': () => void;
+        theme: 'light' | 'dark' | 'auto';
+      }
+    ) => string;
+    reset: (widgetId?: string) => void;
+  };
+
+  declare const turnstile: TurnstileClient | undefined;
 
   function initContactForm() {
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const status = document.getElementById('contact-status');
     const submitBtn = document.getElementById('contact-submit') as HTMLButtonElement | null;
-    const container = document.getElementById('contact-turnstile');
+    const container = document.getElementById('contact-turnstile') as HTMLElement | null;
     if (!form || !status || !submitBtn || !container) return;
 
+    const turnstileContainer = container;
     const sitekey = document.body.dataset.turnstileSitekey;
     let turnstileToken = '';
     let widgetId: string | undefined;
 
     function renderWidget() {
-      if (typeof turnstile === 'undefined' || widgetId !== undefined) return;
-      widgetId = turnstile.render(container, {
+      const turnstileClient = turnstile;
+      if (!sitekey || typeof turnstileClient === 'undefined' || widgetId !== undefined) return;
+      widgetId = turnstileClient.render(turnstileContainer, {
         sitekey,
         callback: (token: string) => {
           turnstileToken = token;
@@ -204,7 +219,7 @@ import { config } from '../config';
           'text-sm rounded-lg px-4 py-3 bg-green-50 text-green-700 border border-green-200';
         form.reset();
         turnstileToken = '';
-        if (widgetId !== undefined) turnstile.reset(widgetId);
+        if (widgetId !== undefined && typeof turnstile !== 'undefined') turnstile.reset(widgetId);
       } catch {
         status.textContent = 'Something went wrong. Please try again or email us directly.';
         status.className =

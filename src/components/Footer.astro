@@ -58,7 +58,22 @@ const footerLinks = {
       <!-- Brand -->
       <div class="col-span-2 lg:col-span-2">
         <a href="/" class="flex items-center mb-4">
-          <img src="/logo.png" alt="BuildWorkPro" class="h-9 w-auto brightness-0 invert" />
+          <picture>
+            <source
+              type="image/webp"
+              srcset="/logo-190.webp 190w, /logo-380.webp 380w"
+              sizes="145px"
+            />
+            <img
+              src="/logo.png"
+              alt="BuildWorkPro"
+              width="950"
+              height="236"
+              class="h-9 w-auto brightness-0 invert"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
         </a>
         <p class="text-sm text-slate-400 max-w-xs leading-relaxed">
           The all-in-one construction project management and ERP platform for modern subcontractors.
@@ -101,6 +116,6 @@ const footerLinks = {
 
 <script>
   document.getElementById('footer-cookie-settings')?.addEventListener('click', () => {
-    (window as any).bwpOpenCookieSettings?.();
+    (window as Window & { bwpOpenCookieSettings?: () => void }).bwpOpenCookieSettings?.();
   });
 </script>

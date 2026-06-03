@@ -18,6 +18,31 @@ const {
 } = Astro.props;
 
 const ogImageUrl = new URL(image, Astro.site).href;
+const organizationSameAs = Object.values(config.social).filter(Boolean);
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${config.siteUrl}/#organization`,
+  name: 'BuildWorkPro',
+  url: config.siteUrl,
+  logo: `${config.siteUrl}/logo.png`,
+  email: config.email.hello,
+  description:
+    'BuildWorkPro builds construction project management software for subcontractors and specialty trade contractors.',
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      email: config.email.support,
+      contactType: 'customer support',
+    },
+    {
+      '@type': 'ContactPoint',
+      email: config.email.hello,
+      contactType: 'sales',
+    },
+  ],
+  ...(organizationSameAs.length > 0 ? { sameAs: organizationSameAs } : {}),
+};
 
 // Auto-generate BreadcrumbList JSON-LD from the URL path so feature/solution/
 // compare/blog pages become rich-result eligible. Home is always first; each
@@ -152,19 +177,7 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
     <script
       is:inline
       type="application/ld+json"
-      set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: 'BuildWorkPro',
-        url: config.siteUrl,
-        logo: `${config.siteUrl}/logo.png`,
-        contactPoint: {
-          '@type': 'ContactPoint',
-          email: config.email.support,
-          contactType: 'customer support',
-        },
-        sameAs: [],
-      })}
+      set:html={JSON.stringify(organizationSchema)}
     />
 
     <!-- BreadcrumbList Schema (skipped on the homepage). -->
@@ -193,7 +206,11 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer
+    <script
+      is:inline
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+      async
+      defer
     ></script>
     <title>{title}</title>
   </head>

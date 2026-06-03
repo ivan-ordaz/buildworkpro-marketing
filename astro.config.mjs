@@ -6,13 +6,29 @@ import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi';
+import { serializeSitemapItem, shouldIncludeInSitemap } from './src/lib/seo.mjs';
 
 const env = loadEnv('', process.cwd(), 'PUBLIC_');
+
+/** @type {import('@astrojs/starlight/types').StarlightPlugin} */
+const openApiSeoPlugin = {
+  name: 'buildworkpro-openapi-seo',
+  hooks: {
+    'config:setup': ({ addRouteMiddleware }) => {
+      addRouteMiddleware({ entrypoint: './src/starlight/openapi-seo.ts' });
+    },
+  },
+};
 
 // https://astro.build/config
 export default defineConfig({
   site: env.PUBLIC_SITE_URL || 'https://buildworkpro.com',
   trailingSlash: 'always',
+  redirects: {
+    '/api/reference/operations/getusage/': '/api/reference/',
+    '/api/reference/operations/listapiauditlogs/': '/api/reference/',
+    '/api/reference/operations/listwebhookdeliveries/': '/api/reference/',
+  },
   build: {
     format: 'directory',
   },
@@ -20,9 +36,14 @@ export default defineConfig({
     prerenderEnvironment: 'node',
   }),
   integrations: [
-    sitemap(),
+    sitemap({
+      filter: shouldIncludeInSitemap,
+      serialize: serializeSitemapItem,
+    }),
     starlight({
       title: 'BuildWorkPro Docs',
+      description:
+        'BuildWorkPro documentation for subcontractors, developers, and construction teams using the platform.',
       favicon: '/favicon.png',
       logo: {
         src: './public/logo.png',
@@ -36,6 +57,7 @@ export default defineConfig({
       ],
       customCss: ['./src/styles/docs.css'],
       plugins: [
+        openApiSeoPlugin,
         starlightOpenAPI([
           {
             base: 'api/reference',

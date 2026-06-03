@@ -15,6 +15,7 @@ import { config } from '../config';
 const softwareApplicationSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
+  '@id': `${config.siteUrl}/#software`,
   name: 'BuildWorkPro',
   description:
     'Construction project management and ERP software for subcontractors. Bidding, pay applications, change orders, project management, site logs, time tracking, CRM, and reporting in one platform.',
@@ -23,10 +24,33 @@ const softwareApplicationSchema = {
   operatingSystem: 'Web, iOS, Android',
   url: config.siteUrl,
   image: `${config.siteUrl}/og-image.png`,
+  screenshot: [
+    `${config.siteUrl}/screenshots/00-hero.png`,
+    `${config.siteUrl}/screenshots/13-pay-app-detail.png`,
+    `${config.siteUrl}/screenshots/17-project-gantt.png`,
+  ],
+  featureList: [
+    'Construction bidding and estimating',
+    'Project management with phases, tasks, and Gantt charts',
+    'AIA-style pay applications and schedule of values',
+    'Change order workflows',
+    'Daily site logs and field documentation',
+    'Crew time tracking',
+    'Construction CRM and sales pipeline',
+    'Reports and analytics',
+  ],
+  audience: {
+    '@type': 'BusinessAudience',
+    audienceType: 'Subcontractors and specialty trade contractors',
+  },
   offers: {
     '@type': 'Offer',
+    name: 'BuildWorkPro monthly plan',
+    url: config.signupUrl,
     price: '79',
     priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+    category: 'SaaS subscription',
     priceSpecification: {
       '@type': 'UnitPriceSpecification',
       price: '79',
@@ -37,6 +61,7 @@ const softwareApplicationSchema = {
   },
   publisher: {
     '@type': 'Organization',
+    '@id': `${config.siteUrl}/#organization`,
     name: 'BuildWorkPro',
     url: config.siteUrl,
   },
@@ -45,7 +70,7 @@ const softwareApplicationSchema = {
 
 <Layout
   title="Construction Project Management Software for Subcontractors | BuildWorkPro"
-  description="Construction software built for subcontractors. Manage bids, pay apps, change orders, projects & crew for $79/month flat. No per-user fees. Coming soon."
+  description="Construction software built for subcontractors. Manage bids, pay apps, change orders, projects and crew for $79/month flat. Start a 14-day free trial."
 >
   <script
     is:inline

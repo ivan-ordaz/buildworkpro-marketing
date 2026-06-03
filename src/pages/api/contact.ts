@@ -10,10 +10,16 @@ import {
 
 export const prerender = false;
 
+type ContactEnv = {
+  BREVO_API_KEY?: string;
+  TURNSTILE_SECRET_KEY?: string;
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const apiKey = (env as any).BREVO_API_KEY as string;
-    const turnstileSecret = (env as any).TURNSTILE_SECRET_KEY as string;
+    const contactEnv = env as ContactEnv;
+    const apiKey = contactEnv.BREVO_API_KEY ?? '';
+    const turnstileSecret = contactEnv.TURNSTILE_SECRET_KEY ?? '';
 
     let body: Record<string, string>;
     try {

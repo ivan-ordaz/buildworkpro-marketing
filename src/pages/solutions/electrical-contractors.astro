@@ -2,12 +2,13 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import SeoExpansion from '../../components/SeoExpansion.astro';
 import { config } from '../../config';
 ---
 
 <Layout
   title="Project Management Software for Electrical Contractors | BuildWorkPro"
-  description="Construction management software built for electrical subcontractors. Manage bids, projects, pay apps, and crew for $79/month flat. Coming soon."
+  description="Electrical contractor software for bids, projects, pay apps, change orders, site logs, and crew tracking. $79/month flat with a 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -357,5 +358,6 @@ import { config } from '../../config';
       >
     </section>
   </main>
+  <SeoExpansion />
   <Footer />
 </Layout>
