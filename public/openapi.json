@@ -6767,14 +6767,6 @@
                     "minimum": -2147483648,
                     "maximum": 2147483647
                   },
-                  "createdBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
                   "marginPercent": {
                     "type": [
                       "string",
