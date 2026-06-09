@@ -7,6 +7,7 @@ import {
   isValidEmail,
   buildHtmlTable,
 } from '../../lib/brevo';
+import { checkRateLimit, type RateLimiter } from '../../lib/rate-limit';
 
 export const prerender = false;
 
@@ -43,6 +44,20 @@ export const POST: APIRoute = async ({ request }) => {
     }
     if (!isValidEmail(email)) {
       return Response.json({ error: 'Please provide a valid email address.' }, { status: 400 });
+    }
+
+    // App-level rate limit (belt-and-suspenders behind Turnstile + WAF). No-op
+    // when the RATE_LIMITER binding is absent, e.g. local dev — see rate-limit.ts.
+    const limiter = (env as any).RATE_LIMITER as RateLimiter | undefined;
+    const allowed = await checkRateLimit(limiter, [
+      `contact:ip:${ip ?? 'unknown'}`,
+      `contact:email:${email.toLowerCase()}`,
+    ]);
+    if (!allowed) {
+      return Response.json(
+        { error: 'Too many requests. Please wait a minute and try again.' },
+        { status: 429 }
+      );
     }
 
     const htmlContent = `
