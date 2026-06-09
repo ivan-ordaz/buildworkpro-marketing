@@ -109,11 +109,28 @@ jobs:
             test-results/
           retention-days: 14
 
+  audit:
+    name: Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - run: npm ci
+      # Gate on production-runtime exposure only. Dev/build tooling advisories
+      # (Vite, Wrangler, Miniflare, @astrojs/check chain) never ship to the
+      # deployed Cloudflare Worker, so they must not block merges. Bumps for
+      # those are handled deliberately, not forced by CI.
+      - name: npm audit (production deps, high+)
+        run: npm audit --omit=dev --audit-level=high
+
   # Aggregate status check for branch protection: require "CI" on main.
   ci:
     name: CI
     if: always()
-    needs: [lint, format, typecheck, build, e2e]
+    needs: [lint, format, typecheck, build, e2e, audit]
     runs-on: ubuntu-latest
     steps:
       - name: Fail if any job failed
