@@ -1,3 +1,14 @@
 name = "buildworkpro-marketing"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
+
+# App-level rate limiter for public form endpoints (src/pages/api/contact.ts).
+# Cloudflare's native rate limiting binding — no namespace to provision, just
+# config. The endpoint keys per call by IP and by email; 5 requests / 60s each.
+# The code fails open if this binding is ever absent (local dev, preview), so
+# forms keep working regardless. Tune limit/period here as needed (period: 10|60).
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "2001"
+simple = { limit = 5, period = 60 }

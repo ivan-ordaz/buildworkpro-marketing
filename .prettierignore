@@ -9,6 +9,8 @@ package-lock.json
 demos
 test-results
 playwright-report
+# Self-contained Playwright capture kit — drives the main app, not the site.
+marketing-capture
 # MDX files contain JSX-style comments ({/* ... */}) that Prettier's MDX
 # parser mangles into invalid markdown escapes ({/\* ... \*/}). Skip them.
 **/*.mdx
