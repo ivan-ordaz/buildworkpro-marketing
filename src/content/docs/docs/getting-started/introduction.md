@@ -7,6 +7,8 @@ sidebar:
 
 BuildWorkPro is a construction management platform built specifically for subcontractors. It brings bidding, project management, billing, and field operations into one place so you can stop juggling spreadsheets and disconnected tools.
 
+![The BuildWorkPro dashboard showing pipeline value, win rate, active projects, and revenue history](/docs-screenshots/getting-started/dashboard.png)
+
 ## Who is it for?
 
 BuildWorkPro is designed for specialty trade contractors -- electrical, plumbing, HVAC, concrete, framing, and other subcontractor businesses. Whether you run a 5-person crew or a 200-person operation, the platform scales with you.
