@@ -61,13 +61,14 @@ Run the full suite locally before pushing: `npm run check && npm run lint && npm
 
 ### Server endpoints (`src/pages/api/`)
 
-- `contact.ts` and `request-access.ts` are POST endpoints used by the marketing forms. They both follow the same pattern, and any new form endpoint should match it:
+- `contact.ts` is the POST endpoint used by the marketing contact form. It follows this pattern, and any new form endpoint should match it:
   1. `export const prerender = false;`
   2. Read secrets from `env` imported from `cloudflare:workers` — never from `import.meta.env` for server-only secrets.
   3. Require and verify a Cloudflare Turnstile token (`verifyTurnstile` in `src/lib/brevo.ts`) before doing anything else; pull the visitor IP from the `CF-Connecting-IP` header.
   4. Run every user field through `sanitizeField()` (truncates per the `MAX_LENGTHS` map) and `isValidEmail()` before use.
-  5. Send via Brevo using `sendEmail()`; build the body with `buildHtmlTable()` (which `escapeHtml`s every value). Don't hand-build HTML strings with user input.
-  6. Return `Response.json({ success: true })` on happy path or `{ error: 'human message' }` with an appropriate status on failure. Log technical details with `console.error` — never leak them to the response.
+  5. Rate-limit with `checkRateLimit()` (`src/lib/rate-limit.ts`) keyed by IP and email, returning `429` when over. It fails open (no-op) when the `RATE_LIMITER` binding is absent, so Turnstile + WAF remain the floor — see the `[[unsafe.bindings]]` ratelimit config in `wrangler.toml`.
+  6. Send via Brevo using `sendEmail()`; build the body with `buildHtmlTable()` (which `escapeHtml`s every value). Don't hand-build HTML strings with user input.
+  7. Return `Response.json({ success: true })` on happy path or `{ error: 'human message' }` with an appropriate status on failure. Log technical details with `console.error` — never leak them to the response.
 
 ### Configuration & environment
 
