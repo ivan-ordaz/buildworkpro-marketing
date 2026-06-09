@@ -823,6 +823,12 @@
               "null"
             ]
           },
+          "originalContractValue": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "description": {
             "type": [
               "string",
@@ -877,6 +883,7 @@
           "expectedEndDate",
           "actualEndDate",
           "contractValue",
+          "originalContractValue",
           "description",
           "siteAddress",
           "assignedTo",
@@ -959,6 +966,19 @@
               },
               {
                 "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "originalContractValue": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
               },
               {
                 "type": "null"
@@ -1076,6 +1096,19 @@
               },
               {
                 "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "originalContractValue": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
               },
               {
                 "type": "null"
@@ -6767,14 +6800,6 @@
                     "minimum": -2147483648,
                     "maximum": 2147483647
                   },
-                  "createdBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
                   "marginPercent": {
                     "type": [
                       "string",
@@ -11043,14 +11068,6 @@
                     ]
                   },
                   "sentBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
-                  "createdBy": {
                     "type": [
                       "integer",
                       "null"
