@@ -31,7 +31,7 @@ Run the full suite locally before pushing: `npm run check && npm run lint && npm
 - **Main is PR-only.** Direct pushes to `main` are blocked by GitHub branch protection (PR required, the `CI` status check must pass, force pushes and branch deletion disabled). Admins are not enforced — there is no automatic bypass, but the repo owner can temporarily lift protection for emergencies via the GitHub UI.
 - Open a PR from a feature branch (`feat/...`, `fix/...`, `docs/...`). Cloudflare's auto-deploy only runs on push to `main`, so the merge is the deploy.
 - **CI runs on every PR and every push to `main`** via `.github/workflows/ci.yml`. The aggregate status check is named **`CI`** and is the required check for merging.
-- CI runs five parallel jobs: **Lint** (`eslint`), **Format** (`prettier --check`), **Typecheck** (`astro check`), **Build** (`astro build`), **E2E (Playwright)** (smoke tests in `tests/smoke.spec.ts`).
+- CI runs six parallel jobs: **Lint** (`eslint`), **Format** (`prettier --check`), **Typecheck** (`astro check`), **Build** (`astro build`), **E2E (Playwright)** (smoke tests in `tests/smoke.spec.ts`), and **Audit** (`npm audit --omit=dev --audit-level=high` — gates production-runtime advisories only; dev/build tooling advisories never ship and don't block merges).
 - E2E uses `astro dev` as a webServer, so SSR routes (`/api/contact`, `/api/request-access`) are exercised alongside prerendered pages. Tests intentionally hit empty payloads to verify the endpoints reject without leaking 5xxs.
 - **Cloudflare's git auto-deploy still runs the production deploy.** CI verifies code quality; Cloudflare ships it. Don't add a deploy step to GitHub Actions unless we explicitly decide to take over deploys.
 - If CI is failing locally and you can't reproduce, check `playwright-report/` (Playwright leaves an HTML report there on failure) and download the `playwright-report` artifact from the failed CI run.
@@ -61,13 +61,14 @@ Run the full suite locally before pushing: `npm run check && npm run lint && npm
 
 ### Server endpoints (`src/pages/api/`)
 
-- `contact.ts` and `request-access.ts` are POST endpoints used by the marketing forms. They both follow the same pattern, and any new form endpoint should match it:
+- `contact.ts` is the POST endpoint used by the marketing contact form. It follows this pattern, and any new form endpoint should match it:
   1. `export const prerender = false;`
   2. Read secrets from `env` imported from `cloudflare:workers` — never from `import.meta.env` for server-only secrets.
   3. Require and verify a Cloudflare Turnstile token (`verifyTurnstile` in `src/lib/brevo.ts`) before doing anything else; pull the visitor IP from the `CF-Connecting-IP` header.
   4. Run every user field through `sanitizeField()` (truncates per the `MAX_LENGTHS` map) and `isValidEmail()` before use.
-  5. Send via Brevo using `sendEmail()`; build the body with `buildHtmlTable()` (which `escapeHtml`s every value). Don't hand-build HTML strings with user input.
-  6. Return `Response.json({ success: true })` on happy path or `{ error: 'human message' }` with an appropriate status on failure. Log technical details with `console.error` — never leak them to the response.
+  5. Rate-limit with `checkRateLimit()` (`src/lib/rate-limit.ts`) keyed by IP and email, returning `429` when over. It fails open (no-op) when the `RATE_LIMITER` binding is absent, so Turnstile + WAF remain the floor — see the `[[unsafe.bindings]]` ratelimit config in `wrangler.toml`.
+  6. Send via Brevo using `sendEmail()`; build the body with `buildHtmlTable()` (which `escapeHtml`s every value). Don't hand-build HTML strings with user input.
+  7. Return `Response.json({ success: true })` on happy path or `{ error: 'human message' }` with an appropriate status on failure. Log technical details with `console.error` — never leak them to the response.
 
 ### Configuration & environment
 

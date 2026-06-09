@@ -15,6 +15,7 @@ export default [
       'playwright-report/**',
       'test-results/**',
       'public/**',
+      'marketing-capture/**',
     ],
   },
   js.configs.recommended,
