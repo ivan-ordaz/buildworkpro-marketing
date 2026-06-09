@@ -1,0 +1,75 @@
+---
+title: Your First Project
+description: Create a project, add phases, and assign tasks to your team
+sidebar:
+  order: 5
+lastUpdated: 2026-06-09
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Projects are the central hub for tracking work, billing, and field activity. This guide creates one and adds its first phases and tasks.
+
+{/* TODO(media): screenshots of the New Project dialog and the project detail tabs, per docs-rewrite-plan Batch 1. */}
+
+## Create a project
+
+<Steps>
+
+1. **Open the Projects list.** Click **Projects** in the sidebar, then click **New Project**.
+
+2. **Start from a template (optional).** If your organization has project templates, choose one under **Start from template**. Leave it on **No template — start blank** to build from scratch. Templates can pre-fill phases, tasks, and checklist items.
+
+3. **Fill in the details.** The **New Project** dialog has these fields:
+   - **Project Name** (required) -- a clear name your team will recognize, such as "Smith Residence - Electrical".
+   - **Project Number** -- assigned automatically on creation.
+   - **Customer** -- select an existing contact or create a new one.
+   - **Project Type** -- Residential, Commercial, or Industrial.
+   - **Status** -- defaults to Planning. Other options are In Progress, On Hold, Closeout, Completed, and Cancelled.
+   - **Priority** (required) -- Low, Medium, High, or Urgent.
+   - **Start Date** and **Expected End Date** -- your planned schedule.
+   - **Original Contract Value ($)** -- the total agreed amount.
+   - **Site Address** and **Description** -- the job site location and any notes.
+
+4. **Create the project.** Click **Create Project**.
+
+</Steps>
+
+## Add phases
+
+Phases break your project into major stages of work.
+
+<Steps>
+
+1. **Open the Phases tab.** Open your project and go to the **Phases** tab.
+
+2. **Add a phase.** Click **Add Phase** and enter a name such as "Rough-In" or "Trim-Out".
+
+3. **Set the schedule.** Give each phase start and end dates.
+
+4. **Reorder if needed.** Drag phases to change their order.
+
+</Steps>
+
+## Add tasks
+
+Tasks sit inside phases and represent individual work items.
+
+<Steps>
+
+1. **Add a task.** Click into a phase and select **Add Task**.
+
+2. **Describe the work.** Enter the task name, assign a team member, and set a due date.
+
+3. **Break it down.** Add subtasks for granular tracking when a task needs it.
+
+</Steps>
+
+## Track progress
+
+As work gets done, update task statuses. The project shows overall completion, upcoming deadlines, and overdue items. Switch to the [Gantt view](/docs/projects/gantt/) for a visual timeline.
+
+<Aside type="tip">
+  Field Crew members can be assigned to tasks and update their status, but they cannot see bids or financial data. See [team roles](/docs/settings/team-roles/) for the full breakdown.
+</Aside>
