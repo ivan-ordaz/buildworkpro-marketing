@@ -72,32 +72,32 @@ Source files (main app, `/Users/ivan/buildworkpro/`):
 Legend: ✅ covered · 🟡 partial/stale · ❌ none. "Onboarding" = any tour/card/wizard touchpoint;
 "Docs" = a product-docs page; "Support" = a link from `support.astro`.
 
-| Feature / module                                                         | Onboarding     | Docs                                      | Support link                |
-| ------------------------------------------------------------------------ | -------------- | ----------------------------------------- | --------------------------- |
-| Contacts                                                                 | ✅ tour + card | 🟡 stale (CSV)                            | ❌ not linked               |
-| Leads / Pipeline                                                         | ✅ tour + card | 🟡 stale                                  | ❌ not linked               |
-| Bids (+ sublines, distributed costs, templates)                          | ✅ tour + card | 🟡 partial; distributed/templates missing | ✅                          |
-| Projects (phases, tasks, gantt, templates)                               | ✅ tour + card | 🟡 partial                                | ✅                          |
-| Change Orders                                                            | ❌             | 🟡 partial                                | ✅                          |
-| Pay Apps                                                                 | ❌             | 🟡 partial                                | ✅                          |
-| Site Logs                                                                | ❌             | 🟡 stale (routing)                        | ❌ not linked               |
-| Time Tracking                                                            | ❌             | 🟡 stale (routing)                        | ❌ not linked               |
-| Products / Catalog (kits, categories)                                    | ❌             | ❌                                        | ❌                          |
-| Documents                                                                | ❌             | ❌                                        | ❌                          |
-| Reports                                                                  | ✅ tour        | ❌                                        | ❌                          |
-| Calendar                                                                 | ❌             | ❌                                        | ❌                          |
-| Notifications                                                            | ❌             | ❌                                        | ❌                          |
-| Activity history                                                         | ❌             | ❌                                        | ❌                          |
-| Global search (Cmd+K)                                                    | ❌             | ❌                                        | ❌                          |
-| Settings › Workspace (numbering, terms, tax, rates, pipeline, templates) | ❌             | ❌                                        | ❌                          |
-| Settings › Security (2FA, passkeys)                                      | ❌             | ❌                                        | ❌                          |
-| Settings › Org & Branding                                                | ❌             | 🟡 stale                                  | ✅                          |
-| Billing (Stripe)                                                         | ❌             | ✅                                        | ✅                          |
-| Google Workspace integration                                             | ❌             | ✅                                        | ✅ (via docs)               |
-| QuickBooks (QBO) integration                                             | ❌             | ❌                                        | ❌                          |
-| CSV import templates                                                     | ❌             | 🟡 wrong flow                             | ❌                          |
-| Deleted-records recovery                                                 | ❌             | ❌                                        | ❌                          |
-| REST API v1 + keys + webhooks                                            | n/a            | ✅                                        | ✅                          |
+| Feature / module                                                         | Onboarding     | Docs                                      | Support link  |
+| ------------------------------------------------------------------------ | -------------- | ----------------------------------------- | ------------- |
+| Contacts                                                                 | ✅ tour + card | 🟡 stale (CSV)                            | ❌ not linked |
+| Leads / Pipeline                                                         | ✅ tour + card | 🟡 stale                                  | ❌ not linked |
+| Bids (+ sublines, distributed costs, templates)                          | ✅ tour + card | 🟡 partial; distributed/templates missing | ✅            |
+| Projects (phases, tasks, gantt, templates)                               | ✅ tour + card | 🟡 partial                                | ✅            |
+| Change Orders                                                            | ❌             | 🟡 partial                                | ✅            |
+| Pay Apps                                                                 | ❌             | 🟡 partial                                | ✅            |
+| Site Logs                                                                | ❌             | 🟡 stale (routing)                        | ❌ not linked |
+| Time Tracking                                                            | ❌             | 🟡 stale (routing)                        | ❌ not linked |
+| Products / Catalog (kits, categories)                                    | ❌             | ❌                                        | ❌            |
+| Documents                                                                | ❌             | ❌                                        | ❌            |
+| Reports                                                                  | ✅ tour        | ❌                                        | ❌            |
+| Calendar                                                                 | ❌             | ❌                                        | ❌            |
+| Notifications                                                            | ❌             | ❌                                        | ❌            |
+| Activity history                                                         | ❌             | ❌                                        | ❌            |
+| Global search (Cmd+K)                                                    | ❌             | ❌                                        | ❌            |
+| Settings › Workspace (numbering, terms, tax, rates, pipeline, templates) | ❌             | ❌                                        | ❌            |
+| Settings › Security (2FA, passkeys)                                      | ❌             | ❌                                        | ❌            |
+| Settings › Org & Branding                                                | ❌             | 🟡 stale                                  | ✅            |
+| Billing (Stripe)                                                         | ❌             | ✅                                        | ✅            |
+| Google Workspace integration                                             | ❌             | ✅                                        | ✅ (via docs) |
+| QuickBooks (QBO) integration                                             | ❌             | ❌                                        | ❌            |
+| CSV import templates                                                     | ❌             | 🟡 wrong flow                             | ❌            |
+| Deleted-records recovery                                                 | ❌             | ❌                                        | ❌            |
+| REST API v1 + keys + webhooks                                            | n/a            | ✅                                        | ✅            |
 
 ---
 
