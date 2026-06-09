@@ -3,6 +3,8 @@ title: What is BuildWorkPro?
 description: An overview of BuildWorkPro and how it helps subcontractors manage their business
 sidebar:
   order: 1
+lastUpdated: 2026-06-09
+appVersion: v1.0
 ---
 
 BuildWorkPro is a construction management platform built specifically for subcontractors. It brings bidding, project management, billing, and field operations into one place so you can stop juggling spreadsheets and disconnected tools.
@@ -24,3 +26,10 @@ BuildWorkPro is designed for specialty trade contractors -- electrical, plumbing
 - **Team management** -- Role-based access control so your team sees exactly what they need.
 
 BuildWorkPro is a multi-tenant SaaS platform. Each organization gets its own isolated workspace with separate data, users, and billing.
+
+## Next steps
+
+- [Quick Start](/docs/getting-started/quick-start/) -- create your account, set up your company, and invite your team.
+- [Your dashboard](/docs/getting-started/dashboard/) -- understand your home screen.
+- [Navigation and search](/docs/getting-started/navigation-and-search/) -- find anything with the sidebar and the command palette.
+- [Your first project](/docs/getting-started/first-project/) -- create a project and start tracking work.

@@ -1,0 +1,63 @@
+---
+title: Navigation and Search
+description: Move around with the sidebar and find anything with the command palette
+sidebar:
+  order: 4
+lastUpdated: 2026-06-09
+appVersion: v1.0
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+BuildWorkPro has two ways to get anywhere: the sidebar for browsing and the command palette for jumping straight to a record.
+
+{/* TODO(media): GIF of opening the command palette with Cmd+K and jumping to a record, per docs-rewrite-plan Batch 1. */}
+
+## The sidebar
+
+The sidebar is a dark navy icon rail down the left edge. Click an icon to open its flyout menu. The main destinations are:
+
+- **Dashboard** -- your home screen.
+- **Sales** -- Contacts, Pipeline, and Bids.
+- **Projects** -- All Projects, Change Orders, Pay Apps, Invoices, Site Logs, and Time Tracking.
+- **Calendar** -- the app-wide calendar.
+- **Documents** -- your document library.
+- **Products** -- your product catalog.
+- **Reports** -- pipeline, bid, project, and activity reports.
+- **Activity** -- the org-wide activity history.
+- **Settings** -- account and company settings, at the bottom of the rail.
+
+What you see depends on your role. Field Crew, for example, does not see Bids or billing.
+
+<Aside type="note">
+  Notifications are not in the sidebar. Open them from the bell icon in the top header.
+</Aside>
+
+On a phone, the sidebar collapses to a bottom bar with Dashboard, Pipeline, Projects, Site Logs, and Time, plus a **More** button for everything else.
+
+## The command palette
+
+The command palette is the fastest way to find a specific record. Press <kbd>Cmd</kbd>+<kbd>K</kbd> on a Mac or <kbd>Ctrl</kbd>+<kbd>K</kbd> on Windows or Linux. You can also click the search box in the header.
+
+Start typing and the palette searches across your whole workspace:
+
+Contacts, Leads, Projects, Bids, Change Orders, Pay Apps, Invoices, Site Logs, Documents, Products, Tasks, and CSV Import Templates.
+
+Select a result to jump straight to it. Before you type, the palette also lists quick actions and your recent searches.
+
+<Aside type="tip">
+  Narrow a search to one record type with a `type:` prefix. For example, `type:bid oak valley` searches only bids. Aliases include `type:contact`, `type:project`, `type:co` for change orders, and `type:payapp` for pay apps.
+</Aside>
+
+## Keyboard shortcuts
+
+| Shortcut | Action |
+| --- | --- |
+| <kbd>Cmd</kbd>+<kbd>K</kbd> / <kbd>Ctrl</kbd>+<kbd>K</kbd> | Open the command palette |
+| <kbd>Cmd</kbd>+<kbd>Enter</kbd> / <kbd>Ctrl</kbd>+<kbd>Enter</kbd> | Save the open form |
+| <kbd>Esc</kbd> | Close a dialog, flyout, or inline editor |
+
+## What's next
+
+- [Your dashboard](/docs/getting-started/dashboard/) -- the home screen you land on.
+- [Your first project](/docs/getting-started/first-project/) -- start tracking work.
