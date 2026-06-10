@@ -1,0 +1,76 @@
+---
+title: Phases and Tasks
+description: Break a project into phases and tasks, with checklists, dependencies, and schedules
+sidebar:
+  order: 2
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Phases and tasks give a project structure. Open a project and click the **Phases & Tasks** tab. Phases are the major stages of the job; tasks are the work inside each phase.
+
+{/* TODO(media): screenshot of the Phases & Tasks tab with a couple of phases and tasks, per docs-rewrite-plan Batch 3. */}
+
+## Add a phase
+
+<Steps>
+
+1. **Open Phases & Tasks.** Open the project and click the **Phases & Tasks** tab.
+
+2. **Name the phase.** Type a name in the **Add new phase...** field and click **Add Phase**.
+
+</Steps>
+
+A phase has its own status -- **Pending**, **In Progress**, or **Completed** -- which you set from the phase header.
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, or Member. Editing phases and tasks needs the project edit permission, so Field Crew and Viewer cannot change them.
+</Aside>
+
+## Add a task
+
+Each phase has an **Add task...** field. Type a task name and press Enter or click the add button. New tasks start in the **To Do** status.
+
+Tasks have:
+
+- **Status** -- **To Do**, **In Progress**, or **Done**. Click the status dot on a task to cycle through the three.
+- **Priority** -- **Low**, **Medium**, **High**, or **Urgent**.
+- **Assignee** -- the team member responsible.
+
+Drag tasks within a phase to reorder them.
+
+## Filter tasks
+
+The **Filter tasks** control narrows the list to:
+
+- **All Tasks** -- everything in the project.
+- **Overdue** -- tasks past their end date that are not done.
+- **Unassigned** -- tasks with no assignee.
+
+## Schedule a task
+
+Click a task to open the **Edit Task** dialog. There you set:
+
+- **Start Date** and **Duration (days)** -- BuildWorkPro counts workdays and skips weekends to compute the end date.
+- **End Date** -- set directly, or let the duration calculate it.
+- **Assignee** and **Priority**.
+
+These dates drive the [Gantt chart](/docs/projects/gantt/).
+
+## Checklists and dependencies
+
+The Edit Task dialog also holds two ways to add detail:
+
+- **Checklist** -- break a task into smaller items. Type in **Add a checklist item...** and check items off as you go.
+- **Dependencies** -- under **This task depends on:**, link the tasks that must finish first. BuildWorkPro highlights the project's critical path from these links.
+
+<Aside type="tip">
+  Setting dependencies and durations lets the Gantt chart show how a slip in one task pushes the ones that depend on it.
+</Aside>
+
+## What's next
+
+- [Gantt chart](/docs/projects/gantt/) -- see and adjust the schedule visually.
+- [Projects overview](/docs/projects/overview/) -- statuses, views, and filters.

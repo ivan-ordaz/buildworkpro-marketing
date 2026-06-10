@@ -1,0 +1,58 @@
+---
+title: Gantt Chart
+description: View and reschedule a project timeline by dragging task bars
+sidebar:
+  order: 3
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The Gantt chart shows a project's phases and tasks as horizontal bars on a timeline, so you can see how work overlaps and reschedule it by dragging. It is a view of the **Phases & Tasks** tab, not a separate tab.
+
+{/* TODO(media): GIF of dragging a task bar to reschedule it on the Gantt chart, per docs-rewrite-plan Batch 3. */}
+
+## Open the Gantt view
+
+<Steps>
+
+1. **Open Phases & Tasks.** Open the project and click the **Phases & Tasks** tab.
+
+2. **Switch to Gantt.** In the tab header, click **Gantt**. Click **List** to switch back.
+
+</Steps>
+
+Only tasks with dates appear on the timeline. Set a **Start Date** and **Duration** on a task -- see [phases and tasks](/docs/projects/phases-tasks/) -- to place it on the chart.
+
+## Read the timeline
+
+- Each task is a bar; phases roll up into a summary bar above their tasks.
+- A red vertical line marks **today**. Click **Today** in the toolbar to scroll back to it.
+- Dependency arrows connect tasks that depend on one another.
+- The legend at the bottom maps bar colors to **To Do**, **In Progress**, and **Done**.
+
+## Change the zoom
+
+Use the zoom buttons to fit more or less of the schedule on screen. Three levels are available -- **day**, **week**, and **month** -- with the current level shown between the buttons. Day view shades weekends.
+
+## Reschedule by dragging
+
+<Steps>
+
+1. **Move a task.** Drag a bar left or right to shift its start and end dates together.
+
+2. **Change its length.** Drag the right edge of a bar to extend or shorten it; this updates the end date and duration.
+
+3. **Edit details.** Hover a bar and click the pencil to open the task dialog.
+
+</Steps>
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, or Member. Field Crew and Viewer can view the Gantt chart but cannot drag tasks to reschedule them.
+</Aside>
+
+## What's next
+
+- [Phases and tasks](/docs/projects/phases-tasks/) -- add the tasks and dates the Gantt chart draws from.
+- [Projects overview](/docs/projects/overview/) -- the full project tab set.
