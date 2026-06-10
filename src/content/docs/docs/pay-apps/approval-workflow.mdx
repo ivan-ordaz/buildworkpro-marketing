@@ -1,0 +1,63 @@
+---
+title: Approval Workflow
+description: Move a pay app from draft through approval to paid
+sidebar:
+  order: 3
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A pay app moves through a fixed set of statuses, with role-gated actions at each step. A workflow stepper on the detail page shows where it stands and who acted.
+
+{/* TODO(media): GIF of submitting a pay app and approving it, per docs-rewrite-plan Batch 4. */}
+
+## Pay app statuses
+
+- **Draft** -- being prepared and edited.
+- **Submitted** -- sent for approval.
+- **Approved** -- approved for payment.
+- **Rejected** -- sent back with a reason.
+- **Paid** -- payment recorded.
+
+A pay app can go straight from Draft to Approved, or be rejected back to Draft.
+
+## Submit for approval
+
+<Steps>
+
+1. **Finish the SOV.** Confirm this period's progress is entered.
+
+2. **Submit.** Click **Submit for Approval**. The pay app moves to **Submitted** and locks for editing.
+
+</Steps>
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, or Member can submit a draft.
+</Aside>
+
+## Approve, reject, or mark paid
+
+<Steps>
+
+1. **Review.** Open the submitted pay app and check the schedule of values.
+
+2. **Decide.** Click **Approve** to approve it for payment, or **Reject** and enter a **Rejection Reason** to send it back.
+
+3. **Record payment.** Once approved, click **Mark as Paid** when payment is received.
+
+</Steps>
+
+<Aside type="note">
+  **Role required:** Company Admin or Manager. Approving, rejecting, and marking a pay app paid all need the pay-app approve permission, so Members cannot perform them.
+</Aside>
+
+<Aside type="tip">
+  After a pay app is approved or paid, click **Create Invoice** to bill from it directly.
+</Aside>
+
+## What's next
+
+- [PDF and email](/docs/pay-apps/pdf-and-email/) -- send the pay app to your customer.
+- [Schedule of values](/docs/pay-apps/schedule-of-values/) -- report progress before submitting.

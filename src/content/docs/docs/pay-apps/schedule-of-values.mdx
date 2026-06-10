@@ -1,0 +1,53 @@
+---
+title: Schedule of Values
+description: Build the SOV line items and report progress for each billing period
+sidebar:
+  order: 2
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The schedule of values (SOV) breaks the contract into line items and tracks how much of each is complete. You report progress against the SOV every billing period, and BuildWorkPro rolls it up into the amount due.
+
+{/* TODO(media): GIF of adding an SOV line item and entering this-period progress, per docs-rewrite-plan Batch 4. */}
+
+## The SOV table
+
+On a pay app's detail page, the **Schedule of Values** card lists your line items. The columns are:
+
+- **Item** -- the item number.
+- **Description** -- what the line covers.
+- **Scheduled Value** -- the contract amount for the line.
+- **Previous Apps** -- completed and billed in prior pay apps.
+- **This Period** -- completed in the current period.
+- **Materials Stored** -- materials on site but not yet installed.
+- **Total to Date** -- the sum of previous, this period, and materials stored.
+
+A **Grand Total** row sums every line.
+
+## Add a line item
+
+<Steps>
+
+1. **Add a line.** Click **Add Line Item**.
+
+2. **Describe it.** Enter an **Item Number**, a **Description**, and the **Scheduled Value**.
+
+3. **Report progress.** Enter **This Period** and any **Materials Stored** for the current billing period.
+
+</Steps>
+
+<Aside type="note">
+  **Previous Apps** is carried forward from the prior pay app and cannot be edited here. It locks once an earlier pay app exists for the project.
+</Aside>
+
+## How the SOV is seeded
+
+The SOV is not imported with a button. On the first pay app, BuildWorkPro seeds it from any pending approved change orders, and the **Original Contract Sum** prefills from the project's accepted bid. Each later pay app carries forward the lines and previous-period totals from the one before it. Add or adjust lines with **Add Line Item** as the job evolves.
+
+## What's next
+
+- [Approval workflow](/docs/pay-apps/approval-workflow/) -- submit and approve the pay app.
+- [Creating a pay app](/docs/pay-apps/creating/) -- start a new billing period.

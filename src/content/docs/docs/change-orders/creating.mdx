@@ -1,0 +1,57 @@
+---
+title: Creating a Change Order
+description: Document a scope change and add its cost items
+sidebar:
+  order: 1
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A change order records a change to a project's scope and its cost impact. When approved, it adjusts the project's contract value.
+
+![The Change Orders list showing CO number, project, amount, and status](/docs-screenshots/change-orders/change-orders-list.png)
+
+## Where change orders live
+
+Open **Change Orders** from the sidebar to see every change order across your projects, with its CO number, project, title, reason, amount, and status. Filter by status -- Draft, Submitted, Approved, Rejected, or Void -- or by reason. You can also reach a project's change orders from the **Change Orders** tab inside that project.
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, or Member to create a change order. Viewer is read-only and Field Crew has no access.
+</Aside>
+
+## Create a change order
+
+<Steps>
+
+1. **Start a new change order.** Click **New Change Order**.
+
+2. **Pick the project.** Choose the **Project** the change applies to.
+
+3. **Describe the change.** Enter a **Title**, choose a **Reason** -- Customer Request, Field Conditions, Design Change, or Other -- and add a **Description**.
+
+4. **Create.** The change order is created in **Draft** with an automatic number like `CO-001`, incrementing per project.
+
+</Steps>
+
+## Add cost items (marks)
+
+A new change order has no cost yet. Add the priced changes -- called marks -- on its detail page.
+
+<Steps>
+
+1. **Add a mark.** Click **Add Change Order Mark**.
+
+2. **Set the change.** Choose a **Change Type** -- Add, Modify, or Remove -- and reference the bid mark it affects if relevant.
+
+3. **Price it.** Enter the quantity, unit price, and any labor and tax. The line's amount rolls into the change order total.
+
+</Steps>
+
+The change order total can be positive or negative -- a deductive change order lowers the contract value. Change orders capture a cost impact only; there is no separate schedule-impact field.
+
+## What's next
+
+- [Change order approval](/docs/change-orders/approval/) -- submit and approve a change order.
+- [PDF and email](/docs/pay-apps/pdf-and-email/) -- send a change order to your customer.
