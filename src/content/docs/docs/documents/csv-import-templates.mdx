@@ -1,0 +1,51 @@
+---
+title: CSV Import Templates
+description: Build reusable column maps that import a vendor spreadsheet into a bid
+sidebar:
+  order: 2
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A CSV import template is a reusable map from a spreadsheet's columns to bid line-item fields. Set one up once, and estimators can import a vendor or supplier CSV straight into a bid's estimate without re-mapping columns each time.
+
+{/* TODO(media): GIF of building a CSV import template through the wizard, per docs-rewrite-plan Batch 6. */}
+
+## Where templates live
+
+Templates are managed under **Settings -> Bid Templates**, in the **CSV Import Templates** card. Click **New template** to open the wizard.
+
+<Aside type="note">
+  **Role required:** Company Admin or Manager. Managing CSV import templates needs the bid-template permission.
+</Aside>
+
+## Build a template
+
+The wizard has four steps:
+
+<Steps>
+
+1. **Sample.** Upload a sample CSV so the wizard can read your column headers and preview rows.
+
+2. **Map columns.** Match each CSV column to a bid line-item field.
+
+3. **Group and transforms.** Choose whether each row is its own line item or whether rows group into a line item with sub-items, and apply transforms -- such as converting a price to currency or feet-and-inches to inches.
+
+4. **Name and save.** Give the template a name and save it.
+
+</Steps>
+
+## Use a template on a bid
+
+When importing a CSV into a bid's estimate, pick a saved template and BuildWorkPro applies the mapping automatically, turning the spreadsheet rows into line items and sub-items.
+
+<Aside type="tip">
+  To import data into BuildWorkPro programmatically, see the developer recipe for [building records from a spreadsheet](/api/recipes/08-create-change-order-from-spreadsheet/). To import contacts, products, leads, or projects from CSV, use [Data Management](/docs/settings/data-management/).
+</Aside>
+
+## What's next
+
+- [Line items](/docs/bids/line-items/) -- where imported rows land on a bid.
+- [Document library](/docs/documents/library/) -- manage uploaded files.
