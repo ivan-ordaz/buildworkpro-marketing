@@ -1,0 +1,70 @@
+---
+title: Workspace Defaults
+description: Set numbering, branding, pipeline stages, categories, and bid defaults
+sidebar:
+  order: 6
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The **Workspace** tab holds the defaults that apply across your organization -- numbering, branding, pipeline stages, product categories, and bid defaults. Open it from **Settings -> Workspace**.
+
+{/* TODO(media): screenshot of the Workspace settings sub-tabs, per docs-rewrite-plan Batch 5. */}
+
+<Aside type="note">
+  **Role required:** Company Admin. Non-admins see only the Application Preferences card; the configuration sub-tabs below require settings-edit access.
+</Aside>
+
+The tab is split into sub-tabs:
+
+## General
+
+Application preferences (restart the onboarding tour, view keyboard shortcuts) and **Bid & Project Numbering** -- set a **Prefix** and **Starting number** for bids and projects so documents number the way your office expects.
+
+## Pipeline
+
+**Lead Pipeline Stages** -- add, rename, reorder, and color your sales stages, and mark which stages count as Won or Lost. These stages drive the [CRM pipeline board](/docs/crm/pipeline/).
+
+## Categories
+
+**Product Categories** -- create and organize the categories used to group your [product catalog](/docs/products/catalog/), including parent and child categories.
+
+## Bid Defaults
+
+Defaults applied to every new bid:
+
+- **Bid rates** -- default labor, markup, and overhead rates.
+- **Tax defaults** -- default purchase and sales tax rates.
+- **Currency display** -- whole-dollar rounding.
+- **Bid validity and terms** -- default validity in days, estimator SLA, and default terms and conditions text.
+
+## Email Templates
+
+Reusable email templates for bids, change orders, and pay apps, used by the **Send to Customer** flows.
+
+## Project Templates
+
+Reusable phase-and-task structures for new projects. See [project templates](/docs/projects/templates/) for how to build and apply them.
+
+## Branding
+
+**Company Branding** controls how your documents look:
+
+- **Layout** -- Clean, Classic, or Bold.
+- **Company Logo** -- upload a PNG, JPG, SVG, or WebP (up to 2 MB).
+- **Company Name**, **Tagline**, and **Footer**.
+- **Accent Color** -- choose a preset or enter a hex value.
+- **Font** -- Sans or Serif.
+
+A live preview shows your changes before you save.
+
+<Aside type="tip">
+  Reusable **Payment Terms** and **Terms & Conditions** clause libraries live on the separate **Bid Templates** tab, available to Company Admins and Managers.
+</Aside>
+
+## What's next
+
+- [Organization settings](/docs/settings/organization/) -- your company name and team.
+- [Project templates](/docs/projects/templates/) -- reuse a project structure.

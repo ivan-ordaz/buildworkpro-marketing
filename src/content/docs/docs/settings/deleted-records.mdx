@@ -1,0 +1,41 @@
+---
+title: Deleted Records
+description: Restore records that were soft-deleted
+sidebar:
+  order: 10
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+When you delete a contact, lead, bid, project, product, or pay app, BuildWorkPro soft-deletes it -- the record is hidden but not destroyed. The **Deleted Records** tab lets you bring it back.
+
+{/* TODO(media): screenshot of the Deleted Records manager, per docs-rewrite-plan Batch 5. */}
+
+<Aside type="note">
+  **Role required:** Company Admin. Deleted Records is only available to Company Admins.
+</Aside>
+
+## Restore a record
+
+<Steps>
+
+1. **Open Deleted Records.** Go to **Settings -> Deleted Records**.
+
+2. **Pick a type.** Choose the record type from the dropdown -- Contacts, Leads, Bids, Projects, Products, or Pay Apps. The list shows what has been deleted.
+
+3. **Restore.** Click the restore icon on a row, or select several and click **Restore Selected** to bring them all back at once.
+
+</Steps>
+
+A restored record returns to its module with its data intact.
+
+<Aside type="tip">
+  Soft delete is why a removed record can be recovered. Deleting from any module sends the record here rather than erasing it.
+</Aside>
+
+## What's next
+
+- [Data management](/docs/settings/data-management/) -- import and export records.
+- [Team and roles](/docs/settings/team-roles/) -- who can delete and restore.
