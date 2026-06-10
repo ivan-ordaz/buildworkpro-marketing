@@ -1,0 +1,40 @@
+---
+title: Integrations
+description: Connect Google, Claude and ChatGPT, and other apps to BuildWorkPro
+sidebar:
+  order: 7
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The **Integrations** tab connects BuildWorkPro to the other tools you use. Open it from **Settings -> Integrations**. Each integration is a card showing its status.
+
+{/* TODO(media): screenshot of the Integrations settings tab, per docs-rewrite-plan Batch 5. */}
+
+## Available integrations
+
+- **Google Workspace** -- connect Gmail and Google Calendar to send email from your own address and sync project dates. See [connect Google](/docs/settings/connect-google/).
+- **Claude and ChatGPT (MCP)** -- use BuildWorkPro from Claude or ChatGPT through the Model Context Protocol. See the [MCP overview](/api/mcp/overview/) in the developer docs.
+
+## Coming soon
+
+- **Zapier**
+- **QuickBooks**
+- **Xero**
+
+These appear with a **Coming Soon** badge until they are available.
+
+## Connected apps and developer tools
+
+The **Developer** tab is the home for programmatic access -- **API Keys**, **Webhook Endpoints**, and the **Connected Apps** you have authorized. API keys and webhooks are managed by Company Admins; see the [developer documentation](/api/) for how to use them.
+
+<Aside type="note">
+  **Role required:** Connecting Google and viewing the integrations list is open to all roles. Managing API keys and webhooks requires Company Admin.
+</Aside>
+
+## What's next
+
+- [Connect Google](/docs/settings/connect-google/) -- Gmail and Calendar setup.
+- [Developer documentation](/api/) -- API keys, webhooks, and MCP.

@@ -1,0 +1,39 @@
+---
+title: Organization Settings
+description: Set your organization name and find team, branding, and workspace defaults
+sidebar:
+  order: 3
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The **Organization** tab holds your company's identity and is the entry point to team management. Open it from **Settings -> Organization**.
+
+{/* TODO(media): screenshot of the Organization settings tab, per docs-rewrite-plan Batch 5. */}
+
+## Organization details
+
+The **Organization Details** card shows:
+
+- **Organization Name** -- your company's name as it appears in the app. Company Admins can edit it.
+- **Slug** -- a read-only short identifier for your workspace.
+
+<Aside type="note">
+  **Role required:** Company Admin to change the organization name. Other roles see the details but cannot edit them.
+</Aside>
+
+## Team management
+
+The same tab contains the **User Management** section, where Company Admins invite teammates, edit roles, and deactivate accounts. See [team and roles](/docs/settings/team-roles/) for the full role matrix and the invite flow.
+
+## Where branding and defaults live
+
+Your logo, accent color, and document layout are not on this tab -- they are on the **Workspace** tab, along with numbering, tax defaults, and bid rates. See [workspace defaults](/docs/settings/workspace-defaults/) to set them.
+
+## What's next
+
+- [Team and roles](/docs/settings/team-roles/) -- invite users and review permissions.
+- [Workspace defaults](/docs/settings/workspace-defaults/) -- branding, numbering, and bid defaults.
+- [Billing and plans](/docs/settings/billing/) -- manage your subscription.
