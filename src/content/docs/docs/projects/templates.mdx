@@ -1,0 +1,57 @@
+---
+title: Project Templates
+description: Save a phase-and-task structure and reuse it on new projects
+sidebar:
+  order: 4
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A project template captures a reusable set of phases, tasks, and checklist items. Apply one when you create a project so recurring job types start with their work already laid out.
+
+{/* TODO(media): screenshot of the Project Templates settings panel, per docs-rewrite-plan Batch 3. */}
+
+## Manage templates
+
+Templates live in **Settings -> Workspace -> Project Templates**. From there you can create, edit, duplicate, and delete templates. A template editor lets you build phases, tasks, and checklist items from scratch.
+
+<Aside type="note">
+  **Role required:** Company Admin. The Workspace admin tabs, including Project Templates, are only available to users who can edit settings.
+</Aside>
+
+## Save a project as a template
+
+You can turn an existing project into a template instead of building one by hand.
+
+<Steps>
+
+1. **Open the project.** Open the project whose structure you want to reuse.
+
+2. **Save as template.** Click **Save as Template**, enter a **Template Name**, and confirm.
+
+</Steps>
+
+This copies the project's phases and tasks -- including task names, descriptions, priorities, and durations -- into a new template.
+
+## Create a project from a template
+
+<Steps>
+
+1. **Start a new project.** Click **New Project** from the Projects list.
+
+2. **Pick a template.** In the **Start from template** field, choose a template. Leave it on **No template -- start blank** to skip. A preview shows how many phases, tasks, and checklist items will be created.
+
+3. **Save.** The project is created with the template's phases and tasks already in place.
+
+</Steps>
+
+<Aside type="note">
+  The **Start from template** field only appears when you create a project and when at least one template exists.
+</Aside>
+
+## What's next
+
+- [Phases and tasks](/docs/projects/phases-tasks/) -- adjust the work after creating from a template.
+- [Projects overview](/docs/projects/overview/) -- create and track projects.
