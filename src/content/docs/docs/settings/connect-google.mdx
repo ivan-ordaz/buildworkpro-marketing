@@ -2,15 +2,19 @@
 title: Connect Google (Gmail and Calendar)
 description: Connect your Google Workspace account so BuildWorkPro can send emails from your address and sync project dates to Google Calendar
 sidebar:
-  order: 4
+  order: 8
+lastUpdated: 2026-06-10
+appVersion: v1.0
 ---
+
+{/* TODO(media): screenshot of the Google Workspace card in Integrations settings, per docs-rewrite-plan Batch 5. */}
 
 Connecting your Google account lets BuildWorkPro:
 
 - **Send emails from your Gmail address** -- bid emails, change order notifications, and pay app updates go out from `you@yourcompany.com` instead of `noreply@buildworkpro.com`. Replies come back to you directly.
 - **Sync project dates to your Google Calendar** -- BuildWorkPro creates a dedicated calendar in your Google account and pushes project deadlines, phase milestones, task due dates, lead follow-ups, and bid expiry dates to it. Edits in BuildWorkPro update the corresponding calendar event; deletions remove it.
 
-Connecting is optional. Without it, emails still send (from `noreply@buildworkpro.com` via SendGrid) and calendar events stay inside BuildWorkPro.
+Connecting is optional. Without it, emails still send from `noreply@buildworkpro.com` and calendar events stay inside BuildWorkPro.
 
 ## Connecting your account
 
@@ -30,7 +34,7 @@ A new calendar named **BuildWorkPro** is automatically added to your Google Cale
 
 After connecting, you can independently turn each feature on or off without disconnecting your account:
 
-- **Gmail** -- when on, outgoing emails use your Gmail address. When off, emails revert to `noreply@buildworkpro.com`.
+- **Gmail** -- when on, outgoing emails use your Gmail address. When off, emails revert to the default `noreply@buildworkpro.com` sender.
 - **Google Calendar** -- when on, BuildWorkPro pushes project dates to your calendar. When off, no events are created or updated, but existing events stay where they are.
 
 Toggle either feature at **Settings > Integrations > Google Workspace**.

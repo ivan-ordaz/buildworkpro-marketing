@@ -1,0 +1,50 @@
+---
+title: Data Management
+description: Import records from CSV and export your data
+sidebar:
+  order: 9
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The **Data Management** tab imports records from CSV files and exports your data back out. Open it from **Settings -> Data Management**.
+
+{/* TODO(media): screenshot of the Data Management import and export cards, per docs-rewrite-plan Batch 5. */}
+
+<Aside type="note">
+  **Role required:** Company Admin. The Data Management tab is only available to Company Admins.
+</Aside>
+
+## Import data
+
+The **Import Data** card runs guided CSV wizards for:
+
+- **Contacts**
+- **Products**
+- **Leads**
+- **Projects**
+
+<Steps>
+
+1. **Pick a type.** Choose what you are importing and download the sample CSV if you need the column layout.
+
+2. **Upload your file.** Select your CSV and map its columns to BuildWorkPro fields.
+
+3. **Import.** Review the preview and run the import.
+
+</Steps>
+
+<Aside type="tip">
+  For importing vendor price lists into a bid, use the [CSV Import Templates](/docs/documents/csv-import-templates/) feature instead -- it maps spreadsheet columns to bid line items.
+</Aside>
+
+## Export data
+
+The **Export Data** card downloads your records as CSV. Filter by entity, search, and date range, then click **Download CSV** to export just the rows you need.
+
+## What's next
+
+- [Deleted records](/docs/settings/deleted-records/) -- restore soft-deleted records.
+- [CSV import templates](/docs/documents/csv-import-templates/) -- import a vendor CSV into a bid.

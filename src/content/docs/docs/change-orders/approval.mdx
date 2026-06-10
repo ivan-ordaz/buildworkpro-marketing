@@ -1,0 +1,57 @@
+---
+title: Change Order Approval
+description: Submit, approve, and void change orders and adjust the contract
+sidebar:
+  order: 2
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A change order moves through an approval workflow much like a pay app. Approving one adjusts the project's contract value by the net amount of its marks.
+
+{/* TODO(media): screenshot of a change order detail page with the approval actions, per docs-rewrite-plan Batch 4. */}
+
+## Change order statuses
+
+- **Draft** -- being prepared and edited.
+- **Submitted** -- sent for approval.
+- **Approved** -- accepted; the project contract value is updated.
+- **Rejected** -- declined.
+- **Void** -- an approved change order that was later cancelled.
+
+## Submit for approval
+
+<Steps>
+
+1. **Add the marks.** Make sure the change order has at least one cost item -- you cannot submit an empty one.
+
+2. **Submit.** Click **Submit**. The change order moves to **Submitted**.
+
+</Steps>
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, or Member can submit a draft.
+</Aside>
+
+## Approve, reject, or void
+
+<Steps>
+
+1. **Review.** Open the submitted change order and check its marks and total.
+
+2. **Decide.** Click **Approve** to accept it, or **Reject** to decline. Approving adjusts the project's contract value by the change order's net amount.
+
+3. **Void if needed.** To cancel an approved change order, click **Void**. This reverses its effect on the contract.
+
+</Steps>
+
+<Aside type="note">
+  **Role required:** Company Admin or Manager. Approving, rejecting, and voiding all need the change-order approve permission, so Members cannot perform them.
+</Aside>
+
+## What's next
+
+- [Creating a change order](/docs/change-orders/creating/) -- document the change and add marks.
+- [PDF and email](/docs/pay-apps/pdf-and-email/) -- send the change order to your customer.

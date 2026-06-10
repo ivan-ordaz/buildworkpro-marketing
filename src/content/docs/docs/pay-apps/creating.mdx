@@ -1,0 +1,50 @@
+---
+title: Creating a Pay App
+description: Create a progress-billing pay application against a project
+sidebar:
+  order: 1
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A pay application bills a customer for the work completed on a project in a billing period. Each pay app carries a schedule of values, tracks retainage, and moves through an approval workflow.
+
+![The Pay Apps list showing pay app number, project, status, and amounts](/docs-screenshots/pay-apps/pay-apps-list.png)
+
+## Where pay apps live
+
+Open **Pay Apps** from the sidebar to see every pay app across your projects. The list shows each pay app's number, project, status, billing period, current amount due, and total completed to date. Filter by status -- Draft, Submitted, Approved, Rejected, or Paid -- or search by number or project.
+
+You can also reach a project's pay apps from the **Pay Apps** tab inside that project.
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, or Member to create a pay app. Viewer is read-only and Field Crew has no access to pay apps.
+</Aside>
+
+## Create a pay app
+
+<Steps>
+
+1. **Start a new pay app.** Click **New Pay App**.
+
+2. **Pick the project.** Choose the **Project** this pay app bills against. A pay app is always tied to one project.
+
+3. **Set the period and terms.** Set **Period Start** and **Period End**. The **Original Contract Sum** and **Change Orders Total** prefill from the project's accepted bid and approved change orders. Set **Retainage %** (defaults to 10).
+
+4. **Create.** The pay app is created in **Draft** and opens on its detail page.
+
+</Steps>
+
+BuildWorkPro assigns the pay app number automatically as `{project number}-PA001`, incrementing per project. Leave the **Pay App Number** field blank to auto-generate, or set your own.
+
+<Aside type="note">
+  The first pay app on a project seeds its schedule of values from any pending approved change orders. After that, each new pay app carries forward the values from the prior one.
+</Aside>
+
+## What's next
+
+- [Schedule of values](/docs/pay-apps/schedule-of-values/) -- enter line items and report progress.
+- [Approval workflow](/docs/pay-apps/approval-workflow/) -- submit, approve, and mark a pay app paid.
+- [PDF and email](/docs/pay-apps/pdf-and-email/) -- send a pay app to your customer.

@@ -1,0 +1,51 @@
+---
+title: Product Catalog
+description: Manage the materials, labor, and products you price bids from
+sidebar:
+  order: 1
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The **Products** module is your catalog of reusable materials, labor, and other items. Add a product once and pull it into bids and change orders instead of retyping prices. Open it from **Products** in the sidebar.
+
+![The Products catalog listing SKU, name, type, cost, and sell price](/docs-screenshots/products/products-list.png)
+
+## The catalog list
+
+The list shows each product's **SKU**, **Name**, **Type**, **Cost**, **Sell** price, and **Manufacturer**. Search by name, and filter by **Type** -- Material, Labor, Kit, or Other -- or by category.
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, Member, or Viewer can view the catalog. Field Crew has no access. Only Company Admins and Managers can create, edit, or delete products.
+</Aside>
+
+## Add a product
+
+<Steps>
+
+1. **Start a new product.** Click **Add Product**.
+
+2. **Name and classify it.** Enter a **Name** and choose a **Type** -- Material, Labor, or Other. Leave **SKU** blank to auto-generate one, or set your own.
+
+3. **Set prices.** Enter the **Cost Price** and **Sell Price**, and the **Purchase Tax** and **Sales Tax** percentages (prefilled from your tax defaults).
+
+4. **Add details.** Set the **Unit of Measure**, an internal and a sales description, and optionally a **Manufacturer** and manufacturer code.
+
+5. **Save.** The product joins your catalog.
+
+</Steps>
+
+## Categories
+
+Products are grouped by category for filtering. Categories are managed under **Settings -> Workspace -> Categories**, where you can create parent and child categories. See [workspace defaults](/docs/settings/workspace-defaults/).
+
+## Delete and restore
+
+Deleting a product is a soft delete with an undo prompt. A Company Admin can restore a deleted product from [Settings -> Deleted Records](/docs/settings/deleted-records/).
+
+## What's next
+
+- [Product kits](/docs/products/kits/) -- bundle components into a single product.
+- [Line items](/docs/bids/line-items/) -- add catalog products to a bid.

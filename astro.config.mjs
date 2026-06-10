@@ -47,11 +47,15 @@ export default defineConfig({
       sidebar: [
         { label: 'Getting Started', autogenerate: { directory: 'docs/getting-started' } },
         { label: 'Bids & Estimates', autogenerate: { directory: 'docs/bids' } },
+        { label: 'Products & Catalog', autogenerate: { directory: 'docs/products' } },
         { label: 'Project Management', autogenerate: { directory: 'docs/projects' } },
         { label: 'Pay Applications', autogenerate: { directory: 'docs/pay-apps' } },
         { label: 'Change Orders', autogenerate: { directory: 'docs/change-orders' } },
         { label: 'Field Operations', autogenerate: { directory: 'docs/field' } },
         { label: 'CRM & Pipeline', autogenerate: { directory: 'docs/crm' } },
+        { label: 'Documents', autogenerate: { directory: 'docs/documents' } },
+        { label: 'Reports', autogenerate: { directory: 'docs/reports' } },
+        { label: 'Calendar', autogenerate: { directory: 'docs/calendar' } },
         { label: 'Account & Settings', autogenerate: { directory: 'docs/settings' } },
         {
           label: 'Developers',

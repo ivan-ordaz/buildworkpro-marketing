@@ -1,0 +1,73 @@
+---
+title: Profile and Security
+description: Update your profile and secure your account with a password, 2FA, and passkeys
+sidebar:
+  order: 1
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The **Profile** and **Security** tabs in Settings control your own account -- your details, your password, and how you verify sign-ins. They apply to you, not the whole organization, so every role can use them.
+
+{/* TODO(media): GIF of setting up two-factor authentication, per docs-rewrite-plan Batch 5. */}
+
+## Your profile
+
+Open **Settings -> Profile** to update:
+
+- **First Name** and **Last Name**.
+- **Email** -- changing it re-verifies your password.
+- **Email Signature** -- appended to bid emails you send.
+
+Your **Username** and **Role** are shown but cannot be changed here -- ask a Company Admin to change your role.
+
+## Password
+
+On **Settings -> Security**, the password card sends a reset link to your email rather than taking a new password inline. Click **Reset Password** (or **Set Password** if your account signs in with Google or Apple) and follow the link.
+
+## Two-factor authentication
+
+Two-factor authentication (2FA) adds a one-time code from an authenticator app on top of your password.
+
+<Steps>
+
+1. **Start setup.** On the Security tab, click **Set Up 2FA** and confirm your password.
+
+2. **Scan the code.** Scan the QR code with an authenticator app such as Google Authenticator or Authy, or enter the key by hand.
+
+3. **Verify.** Enter the 6-digit **Verification Code** and click **Verify and Enable**.
+
+4. **Save your backup codes.** Copy or download the backup codes shown, then confirm you have saved them. Use them to sign in if you lose your authenticator.
+
+</Steps>
+
+Once enabled, a **2FA Active** badge appears. Click **Disable 2FA** (password plus a current code required) to turn it off.
+
+<Aside type="caution">
+  Store your backup codes somewhere safe. They are the only way back in if you lose access to your authenticator app.
+</Aside>
+
+## Passkeys
+
+A passkey lets you sign in with Face ID, Touch ID, Windows Hello, or a hardware security key instead of a password.
+
+<Steps>
+
+1. **Add a passkey.** On the Security tab, click **Add Passkey** and optionally name it.
+
+2. **Confirm.** Complete your device's prompt. If your account already has a password or 2FA, you re-authenticate first.
+
+</Steps>
+
+Each passkey can be renamed or removed. Passkeys backed up to your device's keychain show a **Synced** badge.
+
+## Connected accounts
+
+The **Connected Accounts** card links a Google or Apple account for one-click sign-in. You can link one social provider at a time, and you can only disconnect it if another sign-in method remains.
+
+## What's next
+
+- [Notifications](/docs/settings/notifications/) -- choose which alerts you receive.
+- [Team and roles](/docs/settings/team-roles/) -- what your role can do.
