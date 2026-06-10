@@ -3,7 +3,31 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import FAQSection from '../../components/FAQSection.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: "What's the difference between GC software and subcontractor software?",
+    answer:
+      'General contractor software is built for coordination: scheduling dozens of trades, leveling incoming bids, managing subcontractor compliance, and reporting to owners. Subcontractor software is built for running one trade’s business: building and sending bids, tracking a sales pipeline, submitting pay applications, pricing change orders, and documenting self-performed field work. The two workflows are close to mirror images — one side buys and approves, the other sells and submits.',
+  },
+  {
+    question: 'Is Procore worth it for a subcontractor?',
+    answer:
+      'For most trade subcontractors, it is hard to justify as your own system of record. Procore’s pricing is quote-based on annual construction volume — independent analyses commonly report $4,500–$10,000+ per year for small contractors — and the platform is organized around GC coordination workflows rather than sub-side bidding, CRM, and pay applications. Many subs use Procore only when a GC requires it on a specific project and run their own business in a sub-focused tool.',
+  },
+  {
+    question: 'What does subcontractor software cost?',
+    answer:
+      'It varies widely. GC-oriented platforms are typically quote-based and commonly run into thousands of dollars per year, and Buildertrend’s entry tiers historically ran around $339–$499+ per month before it moved to quote-based pricing. Purpose-built subcontractor platforms cost far less — BuildWorkPro is $79 per month flat with unlimited users and a 14-day free trial, no credit card required.',
+  },
+  {
+    question: 'Do I still need my own software if my GC gives me Procore access?',
+    answer:
+      'Yes. Collaborator access covers only that GC’s project — your estimates, sales pipeline, pay applications, and records for every other customer live elsewhere. Your own system is what tracks work across all your jobs and stays with you after the project closes out.',
+  },
+];
 ---
 
 <Layout
@@ -36,6 +60,32 @@ import { config } from '../../config';
           helps you make a better buying decision — and stop paying for features that don't serve
           your business.
         </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6">
+          <h2 class="mt-0">Key takeaways</h2>
+          <ul class="mb-0">
+            <li>
+              GC platforms are built for coordination — multi-trade scheduling, bid leveling, owner
+              reporting — not for running a trade business.
+            </li>
+            <li>
+              Subs sell work, so they need CRM, estimating, and bid building; GC software mostly
+              skips all three because GCs buy work.
+            </li>
+            <li>
+              Per-user pricing punishes field access: at $50–75 per user, a 10-person team pays
+              $500–750/month for largely irrelevant features.
+            </li>
+            <li>
+              If a foreman can't file a daily log in about three minutes, field adoption dies and
+              the data never gets entered.
+            </li>
+            <li>
+              Look for flat pricing, sub-side pay apps and change orders, built-in CRM, and field
+              tools your crew will actually use.
+            </li>
+          </ul>
+        </div>
 
         <h2>What General Contractors Need</h2>
         <p>
@@ -70,8 +120,9 @@ import { config } from '../../config';
           </li>
         </ul>
         <p>
-          Popular GC platforms like Procore, Autodesk Construction Cloud, and CMiC are built around
-          these coordination workflows. They're powerful tools — for GCs.
+          Popular GC platforms like <a href="/compare/procore-alternative/">Procore</a>, Autodesk
+          Construction Cloud, and CMiC are built around these coordination workflows. They're
+          powerful tools — for GCs.
         </p>
 
         <h2>What Subcontractors Actually Need</h2>
@@ -82,9 +133,10 @@ import { config } from '../../config';
         </p>
         <ul>
           <li>
-            <strong>Estimating and bidding (sending side).</strong> Subs build bids from scratch — takeoffs,
-            labor pricing, material quotes, markup. You need tools that help you put numbers together,
-            not compare other people's numbers.
+            <strong>Estimating and bidding (sending side).</strong> Subs <a
+              href="/features/construction-bidding/">build bids</a
+            > from scratch — takeoffs, labor pricing, material quotes, markup. You need tools that help
+            you put numbers together, not compare other people's numbers.
           </li>
           <li>
             <strong>CRM and sales pipeline.</strong> Subs need to track leads, follow up with GCs, and
@@ -94,7 +146,8 @@ import { config } from '../../config';
           <li>
             <strong>Pay applications.</strong> Subs submit pay apps. GCs approve them. The workflow is
             completely different. Subs need tools to build SOVs, track completion percentages, and generate
-            pay app forms. GC software focuses on reviewing and approving pay apps from subs.
+            <a href="/features/pay-applications/">pay app forms</a>. GC software focuses on
+            reviewing and approving pay apps from subs.
           </li>
           <li>
             <strong>Change order tracking (from the sub's perspective).</strong> Subs need to identify,
@@ -102,8 +155,9 @@ import { config } from '../../config';
             GC tools track COs from the review and approval side.
           </li>
           <li>
-            <strong>Field documentation.</strong> Daily logs, time tracking, and site reports that document
-            your crew's work and protect you in disputes.
+            <strong>Field documentation.</strong>
+            <a href="/features/site-logs/">Daily logs</a>, time tracking, and site reports that
+            document your crew's work and protect you in disputes.
           </li>
           <li>
             <strong>Project management for your scope.</strong> You don't need to manage 30 trades. You
@@ -128,6 +182,13 @@ import { config } from '../../config';
           a handful of office staff and field foremen who just need to submit daily reports,
           per-user pricing can quickly become prohibitive. At $50-75 per user per month, a 10-person
           team costs $500-750/month for software that's 70% irrelevant.
+        </p>
+        <p>
+          The big platforms don't publish prices at all. Procore quotes based on your annual
+          construction volume — independent analyses commonly report $4,500–$10,000+ per year for
+          small contractors — and <a href="/compare/buildertrend-alternative/">Buildertrend</a> is also
+          quote-based as of 2026, with entry tiers historically running around $339–$499+ per month. Compare
+          that to flat-rate, sub-focused tools like BuildWorkPro at $79/month with unlimited users.
         </p>
 
         <h3>Missing Sub-Specific Features</h3>
@@ -196,6 +257,8 @@ import { config } from '../../config';
           actually work — from chasing leads to collecting final payment.
         </p>
       </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} />
 
       <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
         <h2 class="text-xl font-bold text-slate-900 mb-3">Start using BuildWorkPro</h2>

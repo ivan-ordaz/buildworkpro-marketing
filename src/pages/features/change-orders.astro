@@ -2,26 +2,61 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a change order in construction?',
+    answer:
+      'A change order is a written record of a change to a project’s scope and its cost impact — work added, modified, or removed after the contract was signed. Once approved, it adjusts the contract value so the changed work is billable. For subcontractors, it replaces the verbal go-ahead that too often turns into unpaid work.',
+  },
+  {
+    question: 'How are change orders created and priced in BuildWorkPro?',
+    answer:
+      'You create a change order against a project with a title, a reason — Customer Request, Field Conditions, Design Change, or Other — and a description. It starts in Draft with an automatic number like CO-001, incrementing per project. Then you price it with cost items: each has a change type (Add, Modify, or Remove), a quantity, unit price, labor, and tax, and can reference the bid line it affects. The line amounts roll into the change order total.',
+  },
+  {
+    question: 'What does the approval workflow look like?',
+    answer:
+      'A change order moves through five statuses: Draft, Submitted, Approved, Rejected, and Void. You cannot submit one without at least one cost item, so there is always a priced record behind every approval. Approving, rejecting, or voiding requires a company admin or manager, and approving adjusts the project’s contract value by the change order’s net amount. Voiding an approved change order reverses its effect on the contract.',
+  },
+  {
+    question: 'How do approved change orders affect pay applications?',
+    answer:
+      'When you create a pay application, the Change Orders Total prefills from the project’s approved change orders, alongside the Original Contract Sum from the accepted bid. The first pay app on a project also seeds its schedule of values from pending approved change orders. Approved scope changes show up in your billing without re-entering any numbers.',
+  },
+  {
+    question: 'Why document a scope change before doing the work?',
+    answer:
+      'Because a verbal OK leaves you with nothing if payment is disputed. A change order written and priced before the work starts records exactly what changed, what it costs, and what it does to the contract value. And if the change is rejected, you find out before your crew spends the hours — not after.',
+  },
+  {
+    question: 'How much does it cost?',
+    answer:
+      'Change orders are included in the single BuildWorkPro plan: $79/month (or $790/year) with unlimited users, unlimited projects, and every feature. There is a 14-day free trial with no credit card required.',
+  },
+];
 ---
 
 <Layout
   title="Construction Change Order Management Software | BuildWorkPro"
-  description="Track change orders from request to approval. Automatically update contract values and project budgets. Built for subcontractor workflows."
+  description="Document scope changes as priced line items, get them approved, and bill them on your next pay app. $79/month flat, unlimited users, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Change Order Management for Construction
+          Change Order Software for Subcontractors
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Track every scope change from the initial request through pricing, approval, and contract
-          adjustment. BuildWorkPro keeps your change orders organized and your contract values
-          accurate so nothing falls through the cracks.
+          Document every scope change before the work starts. Price it as line items, move it
+          through a clear approval workflow, and let the approved amount adjust your contract value
+          — so changed work gets billed instead of forgotten.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -40,21 +75,41 @@ import { config } from '../../config';
       </div>
     </section>
 
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <Screenshot
+        src="/screenshots/09-change-order-detail.png"
+        alt="BuildWorkPro change order detail page showing priced cost items and the change order total"
+        caption="A change order in BuildWorkPro: each cost item priced with quantity, unit price, labor, and tax, rolling into the total."
+      />
+    </section>
+
     <!-- Overview -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <div class="prose prose-lg prose-slate mx-auto">
-        <h2>Scope changes happen -- manage them properly</h2>
+        <h2>A verbal OK is not a change order</h2>
         <p>
-          On a typical construction project, change orders can add 5-15% to the original contract
-          value. For subcontractors, untracked changes mean unbilled work and margin erosion.
-          BuildWorkPro gives you a structured process to document every change, price it accurately,
-          get it approved, and fold it into your contract and billing automatically.
+          It happens on every job. The GC asks for something outside the original scope, your crew
+          does it on a nod, and months later the invoice gets questioned because nothing was written
+          down. BuildWorkPro gives that moment a process:
+          <a href="/docs/change-orders/creating/">create the change order</a>, price it as line
+          items, send the customer a PDF, and record the approval before the work starts.
         </p>
         <p>
-          Every change order is linked to a project with a clear audit trail showing who requested
-          it, when it was priced, when it was approved, and how it affected the total contract
-          value. Your team can see pending COs at a glance and follow up before they become
-          disputes.
+          Every change order is tied to a project and numbered automatically — CO-001, CO-002 — so
+          there is always a record to point to. Each one carries a reason (customer request, field
+          conditions, design change) and a status from Draft through Submitted to Approved or
+          Rejected. Cost items can reference the line in the
+          <a href="/features/construction-bidding/">original bid</a> they change, and approving a change
+          order adjusts the project's contract value by its net amount.
+        </p>
+        <p>
+          Approved means billable: the approved total prefills the Change Orders Total on your next
+          <a href="/features/pay-applications/">pay application</a>. For the wider process — pricing
+          changes, getting sign-off, protecting your margin — read our guide on
+          <a href="/blog/construction-change-order-management/"
+            >construction change order management</a
+          >.
         </p>
       </div>
     </section>
@@ -80,10 +135,35 @@ import { config } from '../../config';
                 d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Create and track COs</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Every change order, one list</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Log change orders with a description, reason code, cost breakdown, and supporting
-            documentation. Link each CO to the originating project and contract.
+            See every change order across your projects with its CO number, project, title, reason,
+            amount, and status. Filter by status or reason, or open the Change Orders tab inside any
+            project.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-amber-50 ring-1 ring-amber-100 mb-4">
+            <svg
+              class="w-6 h-6 text-amber-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Line-item pricing</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            Price each change as cost items with a change type — Add, Modify, or Remove — quantity,
+            unit price, labor, and tax. Each line can reference the bid line it affects, and amounts
+            roll into the change order total.
           </p>
         </div>
 
@@ -104,8 +184,9 @@ import { config } from '../../config';
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">Approval workflow</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Move change orders through Draft, Submitted, Approved, and Rejected statuses. Track who
-            approved what and when, with timestamps and notes on every transition.
+            Change orders move through Draft, Submitted, Approved, Rejected, and Void. A change
+            order can't be submitted without at least one cost item, and only company admins and
+            managers can approve, reject, or void.
           </p>
         </div>
 
@@ -125,10 +206,11 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Automatic contract updates</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Contract value adjustment</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            When a change order is approved, BuildWorkPro automatically updates the project contract
-            value. Your schedule of values and pay apps reflect the new totals immediately.
+            Approving a change order adjusts the project's contract value by the net amount of its
+            cost items. Voiding an approved change order reverses the adjustment — the contract
+            always matches what was actually approved.
           </p>
         </div>
 
@@ -144,14 +226,13 @@ import { config } from '../../config';
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
+                d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Cost impact tracking</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Deductive change orders</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            See the financial impact of every change order -- labor, material, and equipment
-            breakdowns. Track how COs affect your project margin in real time.
+            Change order totals can be negative. When scope is removed, a deductive change order
+            lowers the contract value through the same documented workflow — no side agreements.
           </p>
         </div>
 
@@ -171,36 +252,27 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">PDF generation</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Ready for billing</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Generate professional change order documents for GC and client sign-off. Include scope
-            descriptions, cost breakdowns, and approval signature lines.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
-          <div class="inline-flex p-3 rounded-xl bg-amber-50 ring-1 ring-amber-100 mb-4">
-            <svg
-              class="w-6 h-6 text-amber-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Full audit trail</h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Every status change, comment, and document upload is logged with a timestamp. Protect
-            yourself with a complete record if a CO becomes a dispute.
+            Send the change order to your customer as a PDF by email. Once approved, the total
+            prefills the Change Orders Total on your next
+            <a href="/features/pay-applications/" class="text-brand-600 hover:underline"
+              >pay application</a
+            >.
           </p>
         </div>
       </div>
+    </section>
+
+    <!-- Approval screenshot -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <Screenshot
+        src="/screenshots/25-change-order-approved.png"
+        alt="An approved change order in BuildWorkPro after adjusting the project's contract value"
+        caption="An approved change order: the project's contract value is adjusted by the net amount, ready to bill on the next pay app."
+        width={1280}
+        height={720}
+      />
     </section>
 
     <!-- How It Works -->
@@ -214,10 +286,11 @@ import { config } from '../../config';
             1
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Log the change request</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Document the change</h3>
             <p class="text-slate-500">
-              When the GC or owner requests additional scope, create a change order in BuildWorkPro
-              with the description, reason, and any supporting documents.
+              Create a change order against the project with a title, a reason — Customer Request,
+              Field Conditions, Design Change, or Other — and a description. It starts in Draft with
+              an automatic number like CO-001.
             </p>
           </div>
         </div>
@@ -228,10 +301,11 @@ import { config } from '../../config';
             2
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Price the change</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Price it as line items</h3>
             <p class="text-slate-500">
-              Add labor, material, and equipment costs. Apply your standard markup. BuildWorkPro
-              calculates the total and shows the impact on the contract value.
+              Add cost items with a change type, quantity, unit price, labor, and tax, referencing
+              the original bid line where relevant. The total can be positive or negative — removed
+              scope is documented the same way as added scope.
             </p>
           </div>
         </div>
@@ -242,10 +316,11 @@ import { config } from '../../config';
             3
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Submit for approval</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Submit and approve</h3>
             <p class="text-slate-500">
-              Send the CO to the GC or owner. Track the status as it moves through their review
-              process. Follow up on pending COs from your dashboard.
+              Submit the change order to move it to Submitted, and send your customer the PDF. A
+              company admin or manager records the decision — Approve or Reject — and an approval
+              adjusts the contract value by the net amount.
             </p>
           </div>
         </div>
@@ -256,22 +331,38 @@ import { config } from '../../config';
             4
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">
-              Contract updates automatically
-            </h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Bill it on the next pay app</h3>
             <p class="text-slate-500">
-              Once approved, the project contract value and schedule of values update automatically.
-              The change order amount is available for billing on your next pay app.
+              When you create your next pay application, the Change Orders Total prefills from the
+              project's approved change orders alongside the original contract sum — the changed
+              work goes on the invoice, not into a dispute.
             </p>
           </div>
         </div>
       </div>
+      <p class="mt-10 text-center text-sm text-slate-400">
+        Full walkthrough in the docs:
+        <a href="/docs/change-orders/creating/" class="text-brand-600 hover:underline"
+          >Creating a change order</a
+        >
+        ·
+        <a href="/docs/change-orders/approval/" class="text-brand-600 hover:underline"
+          >Change order approval</a
+        >
+      </p>
     </section>
+
+    <FAQSection faqs={faqs} />
 
     <!-- Bottom CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
-      <p class="text-lg text-slate-500 mb-8">14-day free trial. No credit card required.</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+        Get paid for every scope change
+      </h2>
+      <p class="text-lg text-slate-500 mb-8">
+        Change orders are included in the $79/month flat plan — unlimited users, every feature.
+        14-day free trial, no credit card required.
+      </p>
       <a
         href={config.signupUrl}
         class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"

@@ -3,7 +3,31 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import FAQSection from '../../components/FAQSection.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'Why do subcontractors need a CRM?',
+    answer:
+      'Because losing track of opportunities is a visibility problem, not a sales-skills problem. Bid invitations arrive by email, due dates live on whiteboards, and follow-ups slip when the field gets busy. A CRM puts every opportunity in one pipeline so you can see what work is coming, which bids need attention this week, and which GCs actually award you work.',
+  },
+  {
+    question: 'What pipeline stages should a construction CRM have?',
+    answer:
+      'Stages that mirror how subs actually pursue work: lead identified, invitation received, estimating in progress, bid submitted, under review or negotiation, won, and lost or no-bid. Construction-specific stages beat generic labels like "Prospect" because every opportunity gets a status your whole team understands at a glance.',
+  },
+  {
+    question: 'How should subcontractors follow up after submitting a bid?',
+    answer:
+      'Confirm receipt the day after you submit, check in right after known decision milestones, and offer value in each touch — like confirming your number already covers a new addendum. After three follow-ups with no response, note it in the CRM and shift your energy to opportunities that are progressing.',
+  },
+  {
+    question: 'What should a simple construction CRM track?',
+    answer:
+      'Contacts, opportunities, pipeline stages, and follow-up dates. If the CRM takes longer to maintain than the value it provides, nobody will use it — start with those basics, then add win-rate and loss-reason tracking once the habit sticks.',
+  },
+];
 ---
 
 <Layout
@@ -31,11 +55,37 @@ import { config } from '../../config';
           are growing aren't just better at their trade. They're better at managing their pipeline.
         </p>
         <p>
-          A construction CRM (customer relationship management system) isn't a corporate buzzword.
-          It's a structured way to track who you're talking to, what jobs are out there, and where
-          each opportunity stands. Here's how to set one up that actually works for a subcontracting
-          business.
+          A <a href="/features/construction-crm/">construction CRM</a> (customer relationship management
+          system) isn't a corporate buzzword. It's a structured way to track who you're talking to, what
+          jobs are out there, and where each opportunity stands. Here's how to set one up that actually
+          works for a subcontracting business.
         </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6">
+          <h2 class="mt-0">Key takeaways</h2>
+          <ul class="mb-0">
+            <li>
+              A CRM solves a visibility problem: what work is coming, which bids need attention this
+              week, and which GCs actually send you winnable work.
+            </li>
+            <li>
+              Use construction-specific pipeline stages — from lead identified through bid submitted
+              to won or lost — instead of generic sales labels.
+            </li>
+            <li>
+              Track each GC contact's role, project history, and preferences so anyone on the team
+              can respond intelligently.
+            </li>
+            <li>
+              Follow up at decision milestones and offer value in every touch; log the reason each
+              time you lose a bid.
+            </li>
+            <li>
+              Keep it simple: contacts, opportunities, stages, and follow-up dates beat enterprise
+              sales automation.
+            </li>
+          </ul>
+        </div>
 
         <h2>Why Subcontractors Need a CRM</h2>
         <p>
@@ -94,7 +144,9 @@ import { config } from '../../config';
             matters most.
           </li>
           <li>
-            <strong>Won / Awarded.</strong> You got the job. Time to move into project execution.
+            <strong>Won / Awarded.</strong> You got the job. Time to move into <a
+              href="/features/project-management/">project execution</a
+            >.
           </li>
           <li>
             <strong>Lost / No Bid.</strong> You either lost the bid or decided not to pursue it. Track
@@ -103,7 +155,10 @@ import { config } from '../../config';
         </ol>
         <p>
           Having these stages defined means every opportunity in your pipeline has a clear status.
-          At a glance, you know exactly where things stand.
+          At a glance, you know exactly where things stand. In BuildWorkPro, <a
+            href="/docs/crm/pipeline/">pipeline stages are configurable</a
+          > on a kanban board, and a <a href="/docs/crm/leads/">lead</a> converts directly into a bid
+          once you decide to pursue it.
         </p>
 
         <h2>Contact Management for Construction</h2>
@@ -176,7 +231,8 @@ import { config } from '../../config';
         <p>
           The biggest CRM mistake subcontractors make is overcomplicating it. You don't need
           enterprise sales automation. You need a clean list of opportunities, a way to track where
-          each one stands, and reminders to follow up.
+          each one stands, and a follow-up date on every open deal that you actually review each
+          week.
         </p>
         <p>
           If your CRM takes longer to maintain than the value it provides, nobody will use it. Start
@@ -189,6 +245,8 @@ import { config } from '../../config';
           A simple, well-maintained pipeline is how you make that happen.
         </p>
       </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} />
 
       <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
         <h2 class="text-xl font-bold text-slate-900 mb-3">Start using BuildWorkPro</h2>

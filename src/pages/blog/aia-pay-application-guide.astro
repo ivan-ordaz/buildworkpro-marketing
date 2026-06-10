@@ -3,7 +3,31 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import FAQSection from '../../components/FAQSection.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is an AIA pay application?',
+    answer:
+      'An AIA pay application is a standardized progress-billing package published by the American Institute of Architects and used on most commercial construction projects. It consists of the G702 Application and Certificate for Payment and the G703 Continuation Sheet, which together show the contract sum, work completed to date, retainage withheld, and the payment currently due. Subcontractors typically submit one each billing cycle to the general contractor.',
+  },
+  {
+    question: 'What is the difference between the G702 and G703?',
+    answer:
+      'The G702 is the one-page cover sheet: it summarizes the contract amount, total work completed and stored, retainage, previous payments, and the current amount due. The G703 is the continuation sheet behind it — a line-by-line breakdown of the schedule of values showing work completed and materials stored for each item. The totals on the G703 feed directly into the G702, so the detail sheet always gets completed first.',
+  },
+  {
+    question: 'What is retainage?',
+    answer:
+      'Retainage is a percentage of each progress payment — commonly 10% — that the owner or general contractor withholds until the work is complete, as protection against unfinished work or defects. Some contracts reduce the retainage rate after the project passes 50% completion, and the withheld funds are released at or near final completion. Your subcontract spells out the exact rate and release terms.',
+  },
+  {
+    question: 'Does BuildWorkPro generate official AIA forms?',
+    answer:
+      'No — BuildWorkPro produces AIA-style pay applications that follow the familiar G702/G703 structure, with a schedule of values, retainage tracking, and approved change orders rolled into the contract sum. They are not official AIA-licensed documents. If your contract requires the copyrighted AIA forms, you can transfer the same numbers onto them directly.',
+  },
+];
 ---
 
 <Layout
@@ -34,6 +58,32 @@ import { config } from '../../config';
           correctly, and how to avoid the mistakes that slow down approvals.
         </p>
 
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 my-10">
+          <h2 class="mt-0">Key takeaways</h2>
+          <ul class="mb-0">
+            <li>
+              The G702 is the summary cover sheet; the G703 carries the line-item detail — complete
+              the G703 first and the G702 math follows.
+            </li>
+            <li>
+              Structure your schedule of values around how the work actually progresses — you'll
+              bill against those line items every month for the life of the job.
+            </li>
+            <li>
+              Bill defensible percentages: you should be able to walk the GC through the job and
+              show the work in place for every line item.
+            </li>
+            <li>
+              Include all required backup — lien waivers, certified payroll, stored-materials
+              invoices — and submit a few days before the GC's cutoff.
+            </li>
+            <li>
+              Push change orders to approval quickly so each pay app reflects your real contract
+              sum.
+            </li>
+          </ul>
+        </div>
+
         <h2>What Are AIA Pay Applications?</h2>
         <p>
           The American Institute of Architects (AIA) publishes standardized contract documents used
@@ -58,9 +108,10 @@ import { config } from '../../config';
 
         <h2>Setting Up Your Schedule of Values</h2>
         <p>
-          The schedule of values (SOV) is the backbone of every pay application you'll submit on a
-          project. It gets established at the start of the job and stays with you through the final
-          payment. Getting it right upfront saves headaches for the entire project duration.
+          The <a href="/docs/pay-apps/schedule-of-values/">schedule of values</a> (SOV) is the backbone
+          of every pay application you'll submit on a project. It gets established at the start of the
+          job and stays with you through the final payment. Getting it right upfront saves headaches for
+          the entire project duration.
         </p>
         <p>
           Break your contract into meaningful line items that reflect actual phases of work. A
@@ -171,7 +222,9 @@ import { config } from '../../config';
         <ol>
           <li>
             <strong>Submit early.</strong> Don't wait until the deadline. Submit a few days ahead so there's
-            time for questions without missing the cycle.
+            time for questions without missing the cycle. If your office reviews pay apps internally before
+            they go out, build that
+            <a href="/docs/pay-apps/approval-workflow/">approval step</a> into your timeline.
           </li>
           <li>
             <strong>Be conservative on percentages.</strong> It's better to bill 55% when you're at 58%
@@ -183,15 +236,20 @@ import { config } from '../../config';
             prevent rejections.
           </li>
           <li>
-            <strong>Keep your change orders current.</strong> Don't let unapproved change orders pile
-            up. Push for timely approval so your pay app reflects the actual contract value.
+            <strong>Keep your change orders current.</strong> Don't let unapproved
+            <a href="/features/change-orders/">change orders</a> pile up. Push for timely approval so
+            your pay app reflects the actual contract value.
           </li>
           <li>
-            <strong>Track everything digitally.</strong> Using software to manage your pay apps eliminates
-            math errors, keeps a clean audit trail, and makes it easy to generate the forms on demand.
+            <strong>Track everything digitally.</strong> Using software to
+            <a href="/features/pay-applications/">manage your pay apps</a> eliminates math errors, keeps
+            a clean audit trail, and makes it easy to
+            <a href="/docs/pay-apps/creating/">generate the forms</a> on demand.
           </li>
         </ol>
       </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} />
 
       <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
         <h2 class="text-xl font-bold text-slate-900 mb-3">Start using BuildWorkPro</h2>
