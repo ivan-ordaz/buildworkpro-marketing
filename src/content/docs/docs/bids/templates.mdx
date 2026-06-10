@@ -1,0 +1,44 @@
+---
+title: Bid Templates
+description: Save and reuse estimate structures, payment terms, and conditions
+sidebar:
+  order: 6
+lastUpdated: 2026-06-09
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+BuildWorkPro has two kinds of reusable content for bids: **estimate templates** that save a whole line-item structure, and saved **payment terms and conditions** clauses.
+
+{/* TODO(media): screenshot of the Save as Template / Load from Template dialogs, per docs-rewrite-plan Batch 2. */}
+
+## Estimate templates
+
+Save the line items and cost items of a bid as a template, then load them into a new bid to skip re-entry.
+
+<Steps>
+
+1. **Save a template.** On the **Estimate** tab, click **Save Template**. In the **Save as Template** dialog, enter a **Template Name** and an optional **Description**, then click **Save Template**.
+
+2. **Load a template.** On a new bid's **Estimate** tab, click **Load Template**, then click **Load** next to the template you want. Its marks, products, and cost items are restored.
+
+</Steps>
+
+<Aside type="tip">
+  Build a template from a typical job -- a standard service call or a common system install -- so most new bids start 80% complete.
+</Aside>
+
+## Payment terms and conditions
+
+Reusable payment terms and terms-and-conditions clauses are managed separately.
+
+<Steps>
+
+1. **Open the templates settings.** Go to **Settings -> Bid Templates**.
+
+2. **Manage your clauses.** Save reusable **Payment Terms** and **Terms & Conditions** text.
+
+</Steps>
+
+Apply a saved clause to a bid from the **Payment Terms** and **Terms & Conditions** fields on the bid's [Overview tab](/docs/bids/creating-a-bid/).

@@ -1,0 +1,56 @@
+---
+title: Creating a Bid
+description: Start a new bid, set the customer, and enter your terms
+sidebar:
+  order: 1
+lastUpdated: 2026-06-09
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Bids are how you price work and send proposals to general contractors or property owners. This guide creates a bid and fills in its details.
+
+{/* TODO(media): GIF of creating a bid end to end, per docs-rewrite-plan Batch 2. */}
+
+![A bid detail page in BuildWorkPro](/docs-screenshots/bids/bid-detail.png)
+
+## Start a new bid
+
+<Steps>
+
+1. **Open the Bids list.** Click **Bids** in the sidebar.
+
+2. **Create the bid.** Click **New Bid**. A new bid opens on its **Overview** tab with a bid number assigned automatically.
+
+</Steps>
+
+A bid has seven tabs: **Overview**, **Estimate**, **Project Costs**, **Rates**, **Comments**, **Documents**, and **Activity**. The Comments, Documents, and Activity tabs unlock once you save the bid.
+
+## Fill in the details
+
+On the **Overview** tab, complete the **Bid Details** card:
+
+- **Bid Name** -- a descriptive name such as "Marina Bay HVAC Retrofit". It carries into the project if the bid converts.
+- **Customer** -- search for an existing contact or create one on the spot.
+- **Related Lead** -- optionally link the lead this bid came from.
+- **Due Date** -- the GC submission deadline.
+- **Valid Until** -- the date your bid pricing expires.
+- **Discount** -- an optional fixed (**$ Fixed**) or percentage (**% Percent**) discount applied to the bid subtotal.
+- **Site Address** -- the job site location.
+- **Payment Terms** and **Terms & Conditions** -- free text, each with a picker to apply a saved clause.
+
+<Aside type="note">
+  **Status** is set to Draft and stays locked while the bid is new. You change it after the bid is saved -- see [sending a bid](/docs/bids/sending/).
+</Aside>
+
+## Save the bid
+
+Click **Save**. The bid is created in **Draft** status and the remaining tabs unlock. From here you can:
+
+- [Add line items](/docs/bids/line-items/) to build the estimate.
+- [Set your rates](/docs/bids/rates/) for margin and overhead.
+- [Add project costs](/docs/bids/project-costs/) that load into every line.
+- [Send the bid](/docs/bids/sending/) when it is ready.
+
+BuildWorkPro tracks unsaved changes -- the **Save** button appears whenever you have edits, and you are warned before leaving with unsaved work.

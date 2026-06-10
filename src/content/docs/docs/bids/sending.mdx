@@ -1,0 +1,65 @@
+---
+title: Sending a Bid
+description: Send a bid, track its status, and convert a won bid to a project
+sidebar:
+  order: 5
+lastUpdated: 2026-06-09
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+When your bid is ready, send it to the client as a PDF, track their response, and turn a won bid into a project.
+
+{/* TODO(media): GIF of sending a bid and the status changing, per docs-rewrite-plan Batch 2. */}
+
+## Send the bid
+
+<Steps>
+
+1. **Review the bid.** Open the bid and check the line items, rates, and terms.
+
+2. **Open the send dialog.** Click **Send Bid**.
+
+3. **Compose the email.** Choose an **Email Template** if you have one, set the **To** recipient (use **Add Cc** or **Add Bcc** as needed), and edit the **Subject** and **Message**. The bid PDF attaches automatically.
+
+4. **Send.** Click **Preview** to check the email, then click **Send Bid**.
+
+</Steps>
+
+The bid moves to **Sent** status.
+
+## Track bid status
+
+A bid has five statuses:
+
+- **Draft** -- still being prepared.
+- **Sent** -- delivered to the client.
+- **Accepted** -- the client agreed.
+- **Rejected** -- the client declined.
+- **Expired** -- past the **Valid Until** date with no decision.
+
+When a client responds, click **Accept Bid** (enter who accepted it) or **Reject**. You can see every bid's status at a glance on the Bids list.
+
+## Convert a won bid to a project
+
+Once a bid is **Accepted**, turn it into a project.
+
+<Steps>
+
+1. **Start the conversion.** Open the accepted bid and click **Convert to Project**.
+
+2. **Choose a strategy.** Pick a **Conversion Strategy**:
+   - **Map to Phases** -- each line item becomes a project phase.
+   - **Map to Tasks** -- each line item becomes a task.
+   - **Use Template** -- apply a project template and map line items to its phases.
+
+3. **Convert.** Click **Convert to Project**.
+
+</Steps>
+
+The new project links back to the original bid, and its line items can seed the schedule of values for [pay applications](/docs/pay-apps/creating/).
+
+<Aside type="tip">
+  You can also click **Create Invoice** on an accepted bid to bill from it directly.
+</Aside>
