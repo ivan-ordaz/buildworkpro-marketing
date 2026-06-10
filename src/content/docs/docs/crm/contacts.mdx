@@ -1,0 +1,59 @@
+---
+title: Contacts
+description: Manage the people and companies you do business with
+sidebar:
+  order: 1
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Contacts are the people and companies you work with -- customers, general contractors, vendors, and more. Organize them here so the right person is one search away when you build a bid, project, or pay app. Open **Contacts** from the sidebar.
+
+![The Contacts list showing name, type, email, and phone](/docs-screenshots/crm/contacts-list.png)
+
+## Contact types
+
+Every contact has a type that describes the relationship: Customer, General Contractor, Architect, City, HOA, Vendor, Subcontractor, Employee, or Other. Filter the list by type to narrow it.
+
+## Create a contact
+
+<Steps>
+
+1. **Start a new contact.** Click **Add Contact**.
+
+2. **Choose a type.** Pick the **Contact Type**.
+
+3. **Enter details.** Add the company or person's name, **Position / Role**, and contact details. At least one of **Email**, **Phone**, or **Mobile** is required.
+
+4. **Save.** The contact joins your list.
+
+</Steps>
+
+Contacts can be hierarchical -- set a **Parent Company** to nest an employee under the company they work for.
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, or Member to create or edit. Only Company Admin and Manager can delete. Field Crew and Viewer have read-only access.
+</Aside>
+
+## Import contacts from CSV
+
+Bulk import is handled in Settings, not on the Contacts list.
+
+<Steps>
+
+1. **Open Data Management.** Go to **Settings -> Data Management**.
+
+2. **Import contacts.** In the **Import Data** card, choose Contacts and download the sample CSV for the column layout.
+
+3. **Upload and map.** Upload your file, map its columns, and run the import.
+
+</Steps>
+
+See [data management](/docs/settings/data-management/) for the full import and export flow. Importing contacts requires Company Admin.
+
+## What's next
+
+- [Sales pipeline](/docs/crm/pipeline/) -- track leads tied to your contacts.
+- [Leads](/docs/crm/leads/) -- work a lead and convert it.

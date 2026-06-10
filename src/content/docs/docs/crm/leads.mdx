@@ -1,0 +1,50 @@
+---
+title: Leads
+description: Work a lead and convert it to a bid or a project
+sidebar:
+  order: 3
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A lead is one opportunity in your [sales pipeline](/docs/crm/pipeline/). Click a lead to open its detail page, where you track its value, log activity, and convert it into a bid or a project when it advances.
+
+{/* TODO(media): screenshot of a lead detail page, per docs-rewrite-plan Batch 7. */}
+
+## The lead detail page
+
+A lead opens on its **Overview** tab, with **Timeline**, **Comments**, **Documents**, and **Activity** tabs alongside. The Overview holds:
+
+- **Lead Name** and **Stage**.
+- **Contact** -- the person or company the lead is with.
+- **Source** and **Project Type**.
+- **Pipeline Value**, **Probability (%)**, and **Expected Close Date**.
+
+A summary card shows the **Weighted Value** -- pipeline value multiplied by probability -- alongside related bids and activity.
+
+## Log activity
+
+Click **Log Activity** to record a phone call, email, meeting, or note against the lead. Logged activity appears on the Timeline and feeds the pipeline reports.
+
+## Convert a lead
+
+When a lead advances, turn it into a bid or a project:
+
+<Steps>
+
+1. **Create a bid.** Click **Create Bid** to start a bid pre-linked to the lead, carrying its contact and details over.
+
+2. **Convert to a project.** Click **Convert to Project** to create a project from the lead. The lead moves to the Won stage. This cannot be undone.
+
+</Steps>
+
+<Aside type="note">
+  **Role required:** Creating a bid requires bid-create access; converting to a project requires lead-edit access. Both are available to Company Admin, Manager, and Member. Field Crew has no access to leads, and Viewer is read-only.
+</Aside>
+
+## What's next
+
+- [Sales pipeline](/docs/crm/pipeline/) -- move leads through stages.
+- [Creating a bid](/docs/bids/creating-a-bid/) -- build the bid a lead becomes.
