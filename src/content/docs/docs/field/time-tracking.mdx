@@ -1,0 +1,49 @@
+---
+title: Time Tracking
+description: Log hours against projects for job costing
+sidebar:
+  order: 2
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Time tracking logs the hours your crew works on each project, so labor cost rolls into job costing. **Time Tracking** is a top-level module -- open it from the sidebar to see entries across every project. Each project also has its own **Time** tab.
+
+![The Time Tracking page showing hours and cost by entry](/docs-screenshots/field/time-tracking.png)
+
+{/* TODO(media): GIF of logging hours against a project, per docs-rewrite-plan Batch 7. */}
+
+## Log time
+
+<Steps>
+
+1. **Start an entry.** Click **Log Time**.
+
+2. **Pick the project and date.** Choose the **Project** and the **Date**.
+
+3. **Enter hours.** Enter the **Hours** worked (in quarter-hour steps), optionally pick a **Task**, and add **Notes**.
+
+4. **Save.** Click **Log Time**.
+
+</Steps>
+
+Hours are entered manually. The page header totals the hours and cost for the selected period.
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, Member, or Field Crew can log and edit time. Viewer is read-only.
+</Aside>
+
+## How cost is calculated
+
+You do not enter a rate on the time entry. BuildWorkPro applies the labor rate set for the user on that project and shows the computed cost -- for example "$45/hr x 8 hrs". A manager can review entries before they are finalized.
+
+## Browse and filter
+
+Entries are grouped by day, each showing the user, project, hours, cost, and review status. Filter by date range, project, or reviewed status.
+
+## What's next
+
+- [Site logs](/docs/field/site-logs/) -- record daily field reports.
+- [Projects overview](/docs/projects/overview/) -- a project's own Time tab.

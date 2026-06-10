@@ -1,0 +1,51 @@
+---
+title: Sales Pipeline
+description: Track leads through configurable stages on a Kanban board
+sidebar:
+  order: 2
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The sales pipeline tracks potential work from first contact to a won deal. Open it from **Pipeline** in the sidebar, which opens the **Sales Pipeline** page at `/leads` (the `/pipeline` path redirects there).
+
+![The sales pipeline as a Kanban board of leads by stage](/docs-screenshots/crm/pipeline.png)
+
+{/* TODO(media): GIF of dragging a lead across pipeline stages, per docs-rewrite-plan Batch 7. */}
+
+## Views
+
+The page has three layouts, with **Kanban** as the default:
+
+- **Kanban** -- leads as cards in stage columns; drag a card to move it to another stage.
+- **Cards** -- a grid of lead cards.
+- **Table** -- a row-per-lead table.
+
+## Configurable stages
+
+Pipeline stages are not fixed. A new workspace starts with seven default stages -- New Lead, Contacted, Site Visit Scheduled, Bid Sent, Negotiation, Won, and Lost -- and you can add, rename, reorder, and recolor them.
+
+Manage stages under **Settings -> Workspace -> Pipeline**. Mark stages as Won or Lost there; those cannot be deleted, and the default stage is assigned to new leads. See [workspace defaults](/docs/settings/workspace-defaults/).
+
+<Aside type="note">
+  **Role required:** Company Admin, Manager, or Member to create and edit leads. Only Company Admin and Manager can delete. Viewer is read-only. Field Crew has no access to the pipeline.
+</Aside>
+
+## Add a lead
+
+<Steps>
+
+1. **Start a new lead.** Click **Add Lead**.
+
+2. **Enter the opportunity.** Name the lead, link a **Contact**, and set the **Pipeline Value**, **Source**, and **Project Type**.
+
+3. **Save.** The lead starts in your default stage.
+
+</Steps>
+
+## What's next
+
+- [Leads](/docs/crm/leads/) -- the lead detail page and conversion.
+- [Contacts](/docs/crm/contacts/) -- the people behind your leads.
