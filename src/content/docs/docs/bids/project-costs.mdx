@@ -1,0 +1,37 @@
+---
+title: Project Costs
+description: Add bid-level costs that load into every line item's sell price
+sidebar:
+  order: 4
+lastUpdated: 2026-06-09
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The **Project Costs** tab holds bid-level costs -- such as mobilization, a dumpster, or a permit -- that apply to the whole job rather than to one line. BuildWorkPro spreads them across your line items' sell prices.
+
+{/* TODO(media): screenshot of the Project Costs tab with a few costs and the summary box, per docs-rewrite-plan Batch 2. */}
+
+## Add a project cost
+
+<Steps>
+
+1. **Open the Project Costs tab.** Open your bid and click **Project Costs**.
+
+2. **Add a cost.** Click **Add Cost**, pick a **Product**, add a **Description**, and enter a **Rate** in dollars.
+
+</Steps>
+
+The table lists each cost's **Product**, **Description**, **Rate**, and **Per Unit** amount.
+
+## How costs are spread
+
+Project costs are loaded into the sell price of your line items, not shown as a separate charge. The summary box reports:
+
+- **Total Project Costs** -- the sum of every project cost.
+- **Per unit (avg)** -- the total divided by your total line-item quantity.
+
+<Aside type="note">
+  Project costs only spread once you have line items. Add at least one [line item](/docs/bids/line-items/) to see how they affect your loaded sell prices.
+</Aside>
