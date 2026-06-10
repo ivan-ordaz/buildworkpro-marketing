@@ -1,0 +1,50 @@
+---
+title: PDF and Email
+description: Preview, download, and email pay applications and change orders
+sidebar:
+  order: 4
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Pay applications and change orders both render to a PDF and can be emailed to your customer with the PDF attached. The flow is the same for each.
+
+{/* TODO(media): screenshot of the pay app PDF preview dialog, per docs-rewrite-plan Batch 4. */}
+
+## Preview and download a PDF
+
+On a pay app or change order detail page:
+
+- Click **Preview** to open the PDF in a dialog. From there you can **Open** it in a new tab or **Download** it.
+- Click **Download PDF** to save it directly. Files are named after the document, for example `PayApp-P-1024-PA001.pdf` or `ChangeOrder-CO-001.pdf`.
+
+## Email it to your customer
+
+<Steps>
+
+1. **Open the send dialog.** Click **Send to Customer**.
+
+2. **Choose a template.** Pick an **Email Template** to prefill the subject and body, or write your own.
+
+3. **Set recipients.** Fill in **To**, and add **Cc** or **Bcc** as needed.
+
+4. **Send.** Review the message and send. The PDF attaches automatically.
+
+</Steps>
+
+The email body supports merge fields -- such as the document number, project name, and amount -- so a template fills in each customer's details.
+
+<Aside type="note">
+  **Role required:** Company Admin or Manager to send. Email templates are managed by the same roles under Settings.
+</Aside>
+
+<Aside type="caution">
+  Large attachments can exceed your mail provider's limit. BuildWorkPro warns you when an attachment approaches the 25 MB Gmail ceiling.
+</Aside>
+
+## What's next
+
+- [Approval workflow](/docs/pay-apps/approval-workflow/) -- approve a pay app before sending it.
+- [Change order approval](/docs/change-orders/approval/) -- the matching flow for change orders.
