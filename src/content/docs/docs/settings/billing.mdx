@@ -2,40 +2,51 @@
 title: Billing and Plans
 description: BuildWorkPro pricing at $79/month or $790/year with a free trial
 sidebar:
-  order: 3
+  order: 5
+lastUpdated: 2026-06-10
+appVersion: v1.0
 ---
+
+import { Aside } from '@astrojs/starlight/components';
 
 export const supportEmail = import.meta.env.PUBLIC_EMAIL_SUPPORT;
 
-BuildWorkPro offers simple, transparent pricing. You can start with a free trial and upgrade when you are ready.
+BuildWorkPro has one simple plan with transparent pricing. Start with a free trial and subscribe when you are ready. Manage everything from **Settings -> Billing**.
+
+{/* TODO(media): screenshot of the Billing settings tab, per docs-rewrite-plan Batch 5. */}
+
+<Aside type="note">
+  **Role required:** Company Admin. Billing is only visible to, and managed by, Company Admins.
+</Aside>
 
 ## Pricing
 
 - **Monthly** -- $79 per month, billed monthly.
-- **Annual** -- $790 per year, billed annually. You save about $158 compared to monthly billing.
+- **Annual** -- $790 per year, billed annually -- about 17% less than paying monthly.
 
-Both plans include the full feature set. There are no per-user fees and no hidden charges.
+The plan includes everything: unlimited users, unlimited projects, email and calendar integration, pay applications, reports, and API access. There are no per-user fees.
 
 ## Free trial
 
-Every new organization starts with a free trial period. During the trial you have access to all features. No credit card is required to start.
+Every new organization starts with a 14-day free trial with full access to all features. No credit card is required to start. When the trial ends you are prompted to subscribe, and your data is preserved while you decide.
 
-When your trial ends, you will be prompted to select a plan. Your data is preserved -- you will not lose anything by waiting.
+## Manage your subscription
 
-## Managing your subscription
+On **Settings -> Billing** you can see your current status, billing cycle, and next payment date. From there:
 
-1. Go to **Settings > Billing**.
-2. You can see your current plan, billing cycle, and next payment date.
-3. Click **Manage Subscription** to:
-   - Switch between monthly and annual billing.
-   - Update your payment method.
-   - View invoice history and download receipts.
+- Click **Subscribe Now** to start a paid subscription and choose monthly or annual billing.
+- Click **Manage Billing** to update your payment method, switch billing cycle, or download invoices.
+- Use **Cancel subscription** to cancel at the end of the current period, or **Resume subscription** to undo a pending cancellation.
 
-Subscription management is handled through a secure billing portal. BuildWorkPro does not store your credit card details directly.
+A **Payment History** table lists past invoices with links to view or download each receipt.
+
+<Aside type="note">
+  Subscription changes are handled through a secure billing portal. BuildWorkPro does not store your card details.
+</Aside>
 
 ## Cancellation
 
-You can cancel your subscription at any time from the billing portal. Your access continues until the end of your current billing period. After that, your account moves to a read-only state -- your data is not deleted.
+Cancel any time from the billing portal. Access continues until the end of your current billing period, after which the account becomes read-only -- your data is not deleted.
 
 ## Questions
 
