@@ -1,0 +1,59 @@
+---
+title: Line Items
+description: Build the estimate with line items, cost items, and your product catalog
+sidebar:
+  order: 2
+lastUpdated: 2026-06-09
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+Line items are the core of your bid. You build them on the **Estimate** tab, where each line can break down into detailed **Cost Items** for material, labor, and other costs.
+
+{/* TODO(media): GIF of adding line items and cost items on the Estimate tab, per docs-rewrite-plan Batch 2. */}
+
+![The Estimate tab of a bid](/docs-screenshots/bids/bid-estimate.png)
+
+## Add a line item
+
+<Steps>
+
+1. **Open the Estimate tab.** Open your bid and click **Estimate**.
+
+2. **Add a line.** In the **Add Line** form, enter a **Mark**, then optionally a **Product / System**, **Description**, and **Qty**. Click **Add Line**.
+
+</Steps>
+
+The **Mark** is a short identifier for the line, such as `A` or `W-1`. It is required and is how the line is labeled on the bid document -- it is not a markup percentage.
+
+The line-items table shows these columns: **Mark**, **Product / System**, **Qty**, **Cost Items**, **Raw Cost**, **Sell Total**, and **Actions**.
+
+<Aside type="tip">
+  Pick an item from the **Product / System** menu to pull pricing from your [product catalog](/docs/products/catalog/). Keep the catalog current so every bid uses up-to-date numbers.
+</Aside>
+
+## Add cost items
+
+Each line item expands into **Cost Items** -- the individual costs that make up its price.
+
+<Steps>
+
+1. **Expand the line.** Click the line to reveal its Cost Items sub-table.
+
+2. **Add a cost.** Click **Add Cost** and choose a **Type**: **Material**, **Labor**, or **Other**.
+
+3. **Enter the numbers.** Fill in **Description**, **Qty**, **Unit Cost**, and **UoM**. The **Extended** amount calculates automatically. Set **Buy Tax** and **Sell Tax** where they apply.
+
+</Steps>
+
+For a product set up as a kit, click **Import Kit** to pull its components in as cost items.
+
+## Import from a spreadsheet
+
+Use the CSV import button in the Estimate header to bring line items in from a spreadsheet instead of typing them.
+
+## What's next
+
+- [Set your rates](/docs/bids/rates/) -- apply margin, commission, and overhead.
+- [Add project costs](/docs/bids/project-costs/) -- spread bid-level costs across every line.

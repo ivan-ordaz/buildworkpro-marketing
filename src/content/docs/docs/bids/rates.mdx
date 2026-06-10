@@ -1,0 +1,51 @@
+---
+title: Rates
+description: Set margin, commission, and overhead on a bid
+sidebar:
+  order: 3
+lastUpdated: 2026-06-09
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The **Rates** tab controls how your costs become a sell price. It sets the margin, commission, and overhead applied to the bid.
+
+{/* TODO(media): screenshot of the Rates tab (Rate Settings + Display Options), per docs-rewrite-plan Batch 2. */}
+
+## Rate settings
+
+Open the **Rates** tab. The **Rate Settings** card has three percentages, each expressed as a percentage of the selling price:
+
+- **Margin** -- your profit margin.
+- **Commission** -- sales commission.
+- **Company OH** -- company overhead for general business expenses.
+
+Changes save automatically. Click **Reset to Defaults** to return to your organization's default rates.
+
+<Aside type="note">
+  Tax is not set here. Each cost item carries its own **Buy Tax** and **Sell Tax** -- see [line items](/docs/bids/line-items/).
+</Aside>
+
+## Display options
+
+The **Display Options** card controls how the bid document reads:
+
+- **Show Cost Item Details** -- show material and labor cost items under each line item on the bid.
+- **Round to whole dollars** -- round displayed amounts to whole dollars.
+
+## Set defaults for new bids
+
+To pre-fill these rates on every new bid, set your organization defaults.
+
+<Steps>
+
+1. **Open workspace settings.** Go to **Settings -> Workspace**.
+
+2. **Edit Default Bid Rates.** In the **Default Bid Rates** card, set **Margin**, **Commission**, and **Company OH**. New bids start from these values.
+
+</Steps>
+
+<Aside type="note">
+  **Role required:** Company Admin to change workspace defaults. Per-bid rates can be adjusted by anyone who can edit the bid.
+</Aside>
