@@ -1,0 +1,39 @@
+---
+title: Product Kits
+description: Bundle component products into a kit and import it into a bid
+sidebar:
+  order: 2
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A kit is a product made of other products -- an assembly you price as a unit, such as a door with its frame, hardware, and labor. A kit is a flavor of product, marked with a checkbox, not a separate module.
+
+{/* TODO(media): screenshot of the kit components editor, per docs-rewrite-plan Batch 6. */}
+
+## Create a kit
+
+<Steps>
+
+1. **Add a product.** Create a product as usual and check **This is a kit product**, then save.
+
+2. **Add components.** On the product's detail page, use the kit components editor to add each component product and its quantity. The editor totals the kit's cost and sell price as you go.
+
+</Steps>
+
+In the catalog, a kit shows a **Kit** badge. Its cost and sell columns read "See kit" because the price comes from its components.
+
+<Aside type="note">
+  **Role required:** Company Admin or Manager. Building kits uses the same product-edit permission as the rest of the catalog.
+</Aside>
+
+## Use a kit in a bid
+
+Add the kit to a bid line item like any product, then click **Import Kit** in the cost items panel. BuildWorkPro expands the kit into its component cost items on that line, where you can adjust each one. The kit's components become editable cost items rather than a fixed bundle.
+
+## What's next
+
+- [Product catalog](/docs/products/catalog/) -- manage the products a kit is built from.
+- [Line items](/docs/bids/line-items/) -- add a kit to a bid.

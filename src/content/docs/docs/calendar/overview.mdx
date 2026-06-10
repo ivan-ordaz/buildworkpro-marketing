@@ -1,0 +1,48 @@
+---
+title: Calendar
+description: See tasks, projects, leads, bids, and activities on one shared calendar
+sidebar:
+  order: 1
+lastUpdated: 2026-06-10
+appVersion: v1.0
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The **Calendar** module gathers dates from across BuildWorkPro into one view. Open it from **Calendar** in the sidebar. It is read-mostly: you browse what is coming up and reschedule tasks by dragging.
+
+{/* TODO(media): screenshot of the Calendar in month view with mixed event types, per docs-rewrite-plan Batch 6. */}
+
+## What appears on the calendar
+
+The calendar aggregates six kinds of events, all on by default:
+
+- **Tasks** -- task due dates.
+- **Phases** -- phase dates.
+- **Projects** -- project dates.
+- **Leads** -- lead follow-ups and expected close dates.
+- **Activities** -- logged activities.
+- **Bids** -- bid due and valid-until dates.
+
+A color legend maps each type, and you can turn types off in the filters.
+
+## Views and navigation
+
+Switch between **Month**, **Week**, **Day**, and **Agenda** views. Use **Today** and the arrows to move through time.
+
+## Filter events
+
+Open **Filters** to narrow the calendar by **Event Types**, **Assigned To**, and **Project**.
+
+## Reschedule tasks
+
+Drag a task to another day to change its due date. Other event types are read-only on the calendar -- edit them on their own records.
+
+<Aside type="note">
+  **Role required:** All roles can view the calendar. Creating an event with **Create Event** requires Member or above, so Field Crew and Viewer cannot add events.
+</Aside>
+
+## What's next
+
+- [Phases and tasks](/docs/projects/phases-tasks/) -- where task due dates come from.
+- [Connect Google](/docs/settings/connect-google/) -- mirror project dates to Google Calendar.
