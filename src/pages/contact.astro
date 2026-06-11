@@ -199,6 +199,10 @@ import { config } from '../config';
 
         if (!res.ok) throw new Error();
 
+        // Fire the Meta Pixel Lead event (no-op if the pixel hasn't loaded,
+        // i.e. the visitor declined analytics cookies).
+        (window as any).fbq?.('track', 'Lead');
+
         status.textContent = 'Message sent! We\u2019ll get back to you within 24 hours.';
         status.className =
           'text-sm rounded-lg px-4 py-3 bg-green-50 text-green-700 border border-green-200';

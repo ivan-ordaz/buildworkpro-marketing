@@ -148,14 +148,18 @@ import { config } from '../config';
           </table>
         </div>
 
-        <h3>2.3 Analytics Cookies (Consent-Based, Marketing Site Only)</h3>
+        <h3>2.3 Analytics &amp; Advertising Cookies (Consent-Based, Marketing Site Only)</h3>
         <p>
           The BuildWorkPro <strong>marketing website</strong> uses Google Analytics 4 to understand how
-          visitors find and use our pages. These cookies are <strong>not loaded by default</strong>:
-          we use Google Consent Mode v2 with every consent signal denied until you click
+          visitors find and use our pages, and the <strong>Meta (Facebook) Pixel</strong> to measure the
+          performance of our advertising and to show relevant ads to people who have visited the site.
+          These cookies and similar identifiers are
+          <strong>not loaded by default</strong>: for Google Analytics we use Google Consent Mode v2
+          with every signal denied, and the Meta Pixel script is not loaded at all, until you click
           &ldquo;Accept&rdquo; in the cookie banner. If you decline, or simply ignore the banner,
-          the Google Analytics script is never loaded and no analytics cookies are set. You can
-          change your choice at any time via the &ldquo;Cookie settings&rdquo; link in the footer.
+          neither the Google Analytics nor the Meta Pixel script loads and none of these cookies are
+          set. You can change your choice at any time via the &ldquo;Cookie settings&rdquo; link in
+          the footer.
         </p>
 
         <div class="overflow-x-auto">
@@ -183,14 +187,36 @@ import { config } from '../config';
                 >
                 <td>Up to 2 years.</td>
               </tr>
+              <tr>
+                <td><code>_fbp</code></td>
+                <td
+                  >Set by the Meta Pixel (only after you accept) to identify browsers for ad
+                  measurement and delivery.</td
+                >
+                <td>Up to 3 months.</td>
+              </tr>
+              <tr>
+                <td><code>fr</code> / <code>_fbc</code></td>
+                <td
+                  >Set or read by Meta (only after you accept) for advertising attribution and
+                  retargeting when you arrive from or interact with a Meta ad.</td
+                >
+                <td>Up to 3 months.</td>
+              </tr>
             </tbody>
           </table>
         </div>
         <p>
-          Analytics cookies are not used inside the BuildWorkPro application itself. For details on
-          how Google processes this data, see
+          None of these cookies are used inside the BuildWorkPro application itself. For details on
+          how these third parties process data, see
           <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer"
             >Google&rsquo;s Privacy Policy</a
+          >
+          and
+          <a
+            href="https://www.facebook.com/privacy/policy/"
+            target="_blank"
+            rel="noopener noreferrer">Meta&rsquo;s Privacy Policy</a
           >.
         </p>
 
@@ -198,21 +224,18 @@ import { config } from '../config';
         <p>We do not deploy any of the following:</p>
         <ul>
           <li>
-            <strong>Advertising or retargeting cookies:</strong> We do not run advertisements on the Platform
-            and do not use advertising pixels, retargeting tags, or conversion tracking cookies from any
-            advertising network (e.g., Google Ads, Meta Pixel, LinkedIn Insight Tag).
+            <strong>Advertising cookies without consent:</strong> The Meta Pixel described in Section
+            2.3 is the only advertising/retargeting technology we use, and it loads strictly after you
+            accept. We do not use any advertising or conversion-tracking cookies before consent, and we
+            do not use other ad networks&rsquo; tags (e.g., Google Ads remarketing, LinkedIn Insight Tag).
           </li>
           <li>
             <strong>Session recording or heat-mapping tools:</strong> We do not use Hotjar, FullStory,
             or any similar session replay service.
           </li>
           <li>
-            <strong>Social media cookies:</strong> We do not embed social media widgets, share buttons,
-            or login plugins that set third-party tracking cookies.
-          </li>
-          <li>
-            <strong>Cross-site tracking cookies:</strong> We do not engage in cross-site tracking. No
-            cookie on the Platform tracks your activity across unrelated websites.
+            <strong>Social media widget cookies:</strong> We do not embed social media widgets, share
+            buttons, or login plugins that set third-party tracking cookies.
           </li>
         </ul>
 
@@ -239,9 +262,19 @@ import { config } from '../config';
           > for details.
         </p>
         <p>
-          Other than Google Fonts, Cloudflare Turnstile, and the consent-based Google Analytics
-          cookies described in Section 2.3, no third-party service deployed on the Platform sets
-          cookies in your browser.
+          We use the <strong>Meta (Facebook) Pixel</strong> on the marketing site for advertising measurement
+          and retargeting. As described in Section 2.3, it loads only after you accept in the cookie banner;
+          see
+          <a
+            href="https://www.facebook.com/privacy/policy/"
+            target="_blank"
+            rel="noopener noreferrer">Meta&rsquo;s Privacy Policy</a
+          >.
+        </p>
+        <p>
+          Other than Google Fonts, Cloudflare Turnstile, and the consent-based Google Analytics and
+          Meta Pixel described above, no third-party service deployed on the Platform sets cookies
+          in your browser.
         </p>
 
         <h2>4. Legal Basis for Cookie Use</h2>
@@ -259,10 +292,11 @@ import { config } from '../config';
             these by clearing your browser&rsquo;s local storage at any time.
           </li>
           <li>
-            <strong>Analytics cookies (Section 2.3):</strong> Set only with your prior consent (GDPR Art.
-            6(1)(a) and the ePrivacy consent requirement), given through the cookie banner. You may withdraw
-            consent at any time via the &ldquo;Cookie settings&rdquo; link in the footer, after which
-            the analytics script is no longer loaded.
+            <strong>Analytics &amp; advertising cookies (Section 2.3):</strong> Set only with your prior
+            consent (GDPR Art. 6(1)(a) and the ePrivacy consent requirement), given through the cookie
+            banner. You may withdraw consent at any time via the &ldquo;Cookie settings&rdquo; link in
+            the footer; the Google Analytics and Meta Pixel scripts are not loaded unless and until you
+            accept.
           </li>
         </ul>
 
