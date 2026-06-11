@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import FAQSection from '../../components/FAQSection.astro';
 import Screenshot from '../../components/Screenshot.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
 import { config } from '../../config';
 
 const faqs = [
@@ -77,10 +78,11 @@ const faqs = [
 
     <!-- Product proof -->
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-      <Screenshot
-        src="/screenshots/02-pipeline-kanban.png"
-        alt="BuildWorkPro sales pipeline Kanban board with leads as cards in stage columns"
-        caption="The sales pipeline in BuildWorkPro: leads as cards in stage columns, from New Lead through Won."
+      <DemoVideo
+        src="/videos/pipeline-demo.mp4"
+        poster="/videos/pipeline-demo-poster.jpg"
+        label="Demo: expanding the sales menu, opening the pipeline kanban, and clicking into a lead"
+        caption="The sales pipeline in BuildWorkPro: leads as cards in stage columns — opened from the sales menu, with a lead detail one click away."
       />
     </section>
 

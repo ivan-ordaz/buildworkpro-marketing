@@ -62,13 +62,19 @@ import { config } from '../config';
             {config.appUrl}
           </div>
         </div>
-        <!-- Real app screenshot with sidebar flyout expanded -->
-        <img
-          src="/screenshots/00-hero.png"
-          alt="BuildWorkPro dashboard with sales flyout expanded, showing real-time KPIs, pipeline stages, quick actions, and revenue overview"
-          class="w-full h-auto block"
-          loading="eager"
-        />
+        <!-- Live product tour: dashboard → expanded sales flyout → pipeline → bids → projects -->
+        <video
+          src="/videos/product-tour.mp4"
+          poster="/screenshots/00-hero.png"
+          width="1440"
+          height="900"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label="BuildWorkPro product tour: the dashboard, the expanded sales menu with pipeline KPIs and quick actions, the sales pipeline kanban, the bids list, and the projects board"
+          class="w-full h-auto block"></video>
       </div>
       <!-- Glow effect -->
       <div

@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
 import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
 
 const faqs = [
@@ -160,6 +161,12 @@ const faqs = [
           > on a kanban board, and a <a href="/docs/crm/leads/">lead</a> converts directly into a bid
           once you decide to pursue it.
         </p>
+
+        <Screenshot
+          src="/screenshots/02-pipeline-kanban.png"
+          alt="Sales Pipeline kanban board in BuildWorkPro with lead cards organized into New, Qualified, Quote Sent, Negotiation, Won, and Lost columns, each card showing its dollar value"
+          caption="The sales pipeline in BuildWorkPro: every open opportunity sits in a named stage with its dollar value, so you can see at a glance where each deal stands and what the whole pipeline is worth."
+        />
 
         <h2>Contact Management for Construction</h2>
         <p>

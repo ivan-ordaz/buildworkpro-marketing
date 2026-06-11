@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
 import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
 
 const faqs = [
@@ -139,6 +140,12 @@ const faqs = [
             monthly, so they should align with how the work actually progresses.
           </li>
         </ul>
+
+        <Screenshot
+          src="/screenshots/13-pay-app-detail.png"
+          alt="Approved pay application in BuildWorkPro showing a schedule of values table with scheduled value, previous applications, this period, materials stored, and total to date columns, alongside contract sum, 10% retainage, and current payment due"
+          caption="A pay application in BuildWorkPro billing against its schedule of values — each line item carries the same columns as the G703, and the summary rolls up retainage and current payment due like the G702."
+        />
 
         <h2>Filling Out the G702 (Cover Sheet)</h2>
         <p>

@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
 import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
 
 const faqs = [
@@ -165,6 +166,12 @@ const faqs = [
             the project.
           </li>
         </ul>
+
+        <Screenshot
+          src="/screenshots/01-dashboard.png"
+          alt="BuildWorkPro dashboard showing pipeline value, win rate, active projects, and pending bids, with quick actions for adding contacts, leads, and bids, a revenue timeline chart, and a pipeline breakdown by stage"
+          caption="A sub-side dashboard in BuildWorkPro: pipeline value, win rate, pending bids, and active projects on one screen — the selling and self-performing view of the business, rather than multi-trade coordination."
+        />
 
         <h2>The Problem with Using GC Software as a Sub</h2>
         <p>When a sub adopts a GC-focused platform, several problems emerge:</p>

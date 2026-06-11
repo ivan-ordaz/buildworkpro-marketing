@@ -1,0 +1,109 @@
+---
+// Looping product demo video in the same frame style as Screenshot.astro.
+// Muted/inline/looping; lazy by default — the source is attached only when the
+// video nears the viewport, so a page full of demos doesn't download MB up
+// front. Captures are 1440x900 (16:10).
+interface Props {
+  src: string;
+  poster: string;
+  label: string; // accessible description of what the demo shows
+  caption?: string;
+  class?: string;
+  eager?: boolean;
+  width?: number;
+  height?: number;
+}
+
+const {
+  src,
+  poster,
+  label,
+  caption,
+  class: className = '',
+  eager = false,
+  width = 1440,
+  height = 900,
+} = Astro.props;
+---
+
+<figure
+  class={`rounded-2xl border border-slate-200 shadow-xl shadow-slate-900/5 overflow-hidden bg-white ${className}`}
+>
+  {
+    eager ? (
+      <video
+        src={src}
+        poster={poster}
+        width={width}
+        height={height}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        aria-label={label}
+        class="w-full h-auto block"
+      />
+    ) : (
+      <video
+        data-demo-src={src}
+        poster={poster}
+        width={width}
+        height={height}
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-label={label}
+        class="w-full h-auto block"
+      />
+    )
+  }
+  {
+    caption && (
+      <figcaption class="px-5 py-3 text-xs text-slate-400 border-t border-slate-100 bg-slate-50/50">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>
+
+<script is:inline>
+  // Attach demo video sources as they approach the viewport, then autoplay.
+  // Guarded so multiple DemoVideo instances on a page only init once.
+  if (!window.__bwpDemoVideos) {
+    window.__bwpDemoVideos = true;
+    const bwpBindDemoVideos = function () {
+      const vids = document.querySelectorAll('video[data-demo-src]:not([data-bound])');
+      if (!('IntersectionObserver' in window)) {
+        vids.forEach(function (v) {
+          v.setAttribute('data-bound', '1');
+          v.src = v.getAttribute('data-demo-src');
+          v.play().catch(function () {});
+        });
+        return;
+      }
+      const io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            const v = entry.target;
+            io.unobserve(v);
+            v.src = v.getAttribute('data-demo-src');
+            v.play().catch(function () {});
+          });
+        },
+        { rootMargin: '400px 0px' }
+      );
+      vids.forEach(function (v) {
+        v.setAttribute('data-bound', '1');
+        io.observe(v);
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bwpBindDemoVideos);
+    } else {
+      bwpBindDemoVideos();
+    }
+  }
+</script>

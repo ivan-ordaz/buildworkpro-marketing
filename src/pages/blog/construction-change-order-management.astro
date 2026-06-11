@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
 import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
 
 const faqs = [
@@ -181,6 +182,12 @@ const faqs = [
             legitimate.
           </li>
         </ul>
+
+        <Screenshot
+          src="/screenshots/09-change-order-detail.png"
+          alt="Approved change order in BuildWorkPro showing priced line items with quantity, unit price, and amount, a Draft to Submitted to Approved status track, and a contract flow panel adding the change to the original contract sum"
+          caption="A change order in BuildWorkPro: each item priced individually, the status tracked from draft through approval, and the contract flow showing exactly how the approved amount changes the contract sum."
+        />
 
         <h2>The Approval Workflow</h2>
         <p>
