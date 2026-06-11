@@ -1,0 +1,219 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is the difference between markup and margin in construction?',
+    answer:
+      'Markup is a percentage added to your cost to set the price; margin is the percentage of the final price that is profit. They describe the same dollars from different directions, so the percentages are never equal. A 25% markup on a $1,000 cost gives a $1,250 price, but that $250 profit is only a 20% margin of the price.',
+  },
+  {
+    question: 'How do you convert markup to margin?',
+    answer:
+      'Margin = markup / (1 + markup). So a 25% markup is a 20% margin, a 50% markup is a 33.3% margin, and a 100% markup is a 50% margin. Going the other way, markup = margin / (1 - margin). The gap widens as the numbers grow, which is exactly why mixing them up is so costly.',
+  },
+  {
+    question: 'How much should a subcontractor mark up a job?',
+    answer:
+      'There is no single right number — it depends on your overhead, risk, and market. The key is to cover two things: overhead (the cost of running your business whether or not you have a job) and profit (what you actually keep). Many subs run overhead in the 8–15% range and target a separate profit margin on top; price each job to cover both rather than guessing a single number.',
+  },
+  {
+    question: 'Why does confusing markup and margin lose money?',
+    answer:
+      'If you want a 30% profit margin but apply a 30% markup, you only end up with about a 23% margin — you have quietly given away roughly a quarter of your intended profit on every job. Over a year of bids, that gap is the difference between a healthy year and working for free.',
+  },
+  {
+    question: 'How does BuildWorkPro apply markup and margin to a bid?',
+    answer:
+      'BuildWorkPro applies margin, commission, and overhead systematically on the bid Rates tab rather than asking you to hand-mark every line. You set the rates once, and the live preview rolls your material and labor costs up into the customer total — so the price reflects the margin you actually intend.',
+  },
+];
+---
+
+<Layout
+  title="Construction Markup vs. Margin: How to Price a Job | BuildWorkPro"
+  description="Markup and margin aren't the same — and confusing them quietly costs subcontractors profit on every bid. Learn the difference, the conversion formula, and how to price work to hit your real margin."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Construction Markup vs. Margin: How to Price a Job
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published June 12, 2026 · 7 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Two contractors bid the same job. Both have $100,000 in costs. Both say they want "30%."
+          One adds 30% and bills $130,000; the other works backward to a 30% margin and bills
+          $142,857. That's a $12,857 difference on one job — and the first contractor doesn't even
+          realize they left it on the table.
+        </p>
+        <p>
+          Markup and margin are the most commonly confused numbers in construction pricing, and the
+          confusion always costs you, never the customer. Here's the difference, the formula to
+          convert between them, and how to price so you actually hit the profit you intend.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              <strong>Markup</strong> is added to cost; <strong>margin</strong> is profit as a share of
+              price.
+            </li>
+            <li>The two percentages are never equal — margin = markup / (1 + markup).</li>
+            <li>
+              Applying a markup when you meant a margin quietly gives away profit on every job.
+            </li>
+            <li>Price to cover overhead <em>and</em> profit, not a single guessed number.</li>
+            <li>
+              Set your rates once and let the system compute the price, so the margin is the one you
+              intended.
+            </li>
+          </ul>
+        </div>
+
+        <h2>Markup and margin, defined</h2>
+        <p>
+          <strong>Markup</strong> is the percentage you add on top of your cost to reach a price.
+          <strong>Margin</strong> (gross margin) is the percentage of the final price that is profit.
+          Same dollars, opposite reference points:
+        </p>
+        <ul>
+          <li><strong>Markup %</strong> = profit ÷ <em>cost</em></li>
+          <li><strong>Margin %</strong> = profit ÷ <em>price</em></li>
+        </ul>
+        <p>
+          Take a $1,000 cost with a 25% markup. Price is $1,250, profit is $250. But $250 of a
+          $1,250 price is a <strong>20% margin</strong>, not 25%. Because price is always larger
+          than cost, the margin is always the smaller number.
+        </p>
+
+        <h2>The conversion table every estimator should know</h2>
+        <p>
+          The formula is <strong>margin = markup ÷ (1 + markup)</strong>. A few values worth
+          memorizing:
+        </p>
+        <ul>
+          <li>15% markup → 13.0% margin</li>
+          <li>25% markup → 20.0% margin</li>
+          <li>33% markup → 24.8% margin</li>
+          <li>50% markup → 33.3% margin</li>
+          <li>100% markup → 50.0% margin</li>
+        </ul>
+        <p>
+          To go the other way — you know the margin you want and need the markup to apply — use
+          <strong>markup = margin ÷ (1 − margin)</strong>. Want a 30% margin? Apply a 42.9% markup,
+          not 30%.
+        </p>
+
+        <h2>How much markup should a subcontractor use?</h2>
+        <p>
+          There's no universal number, but there is a right way to think about it: your price has to
+          cover <strong>overhead</strong> and <strong>profit</strong> as two separate things.
+        </p>
+        <ul>
+          <li>
+            <strong>Overhead</strong> is the cost of running the business whether or not you have a job
+            — office, insurance, vehicles, software, office staff. Many subs run this in the 8–15% range
+            of revenue.
+          </li>
+          <li>
+            <strong>Profit</strong> is what you keep after overhead is covered. It's a deliberate target,
+            not whatever happens to be left over.
+          </li>
+        </ul>
+        <p>
+          Build both into your price. Our guide on
+          <a href="/blog/how-to-create-construction-bid/">how to create a construction bid</a>
+          walks through layering overhead and profit onto your direct costs the rest of the way.
+        </p>
+
+        <h2>Let the system do the math</h2>
+        <p>
+          The reliable fix for markup/margin confusion is to stop hand-marking line items and set
+          your rates once. In BuildWorkPro, the bid <a href="/features/construction-bidding/"
+            >Rates tab</a
+          > applies margin, commission, and overhead to the whole estimate, and a live preview rolls your
+          material and labor costs up into the customer total — so the price reflects the margin you actually
+          intend, every time:
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/create-bid.mp4"
+          poster="/videos/create-bid-poster.jpg"
+          label="Demo: the BuildWorkPro bid estimate pulling material and labor from the catalog, then the Rates tab applying margin and overhead to roll costs up into the customer total"
+          caption="BuildWorkPro's Rates tab applies margin and overhead to the whole estimate — the live preview rolls material and labor costs into the customer total."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>The bottom line</h2>
+        <p>
+          Markup and margin describe the same profit from different ends, and the percentages never
+          match. Decide the <em>margin</em> you need to run a healthy business, convert it to the markup
+          that produces it, and apply it consistently. Do that on every bid and you stop donating a slice
+          of your profit to arithmetic.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Markup vs. margin FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Price every job at the margin you intend
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          Set margin and overhead once on the Rates tab and BuildWorkPro builds the price for you.
+          14-day free trial, no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Construction Markup vs. Margin: How to Price a Job"
+        description="Markup and margin aren't the same, and confusing them costs subcontractors profit on every bid. The difference, the conversion formula, and how to price to your real margin."
+        datePublished="2026-06-12"
+        related={[
+          {
+            href: '/features/construction-bidding/',
+            title: 'Bidding & Estimating',
+            description:
+              'Apply margin, commission, and overhead on the Rates tab and let the price build itself.',
+          },
+          {
+            href: '/blog/how-to-create-construction-bid/',
+            title: 'How to Create a Construction Bid',
+            description: 'Layer overhead and profit onto your direct costs, step by step.',
+          },
+          {
+            href: '/blog/schedule-of-values-guide/',
+            title: 'How to Create a Schedule of Values',
+            description: 'Turn the bid you win into a billing structure that gets you paid.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
