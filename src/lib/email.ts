@@ -3,36 +3,38 @@ const SENDER_NAME = 'BuildWorkPro';
 const RECIPIENT_EMAIL = 'hello@buildworkpro.com';
 
 export type Env = {
-  BREVO_API_KEY: string;
+  SENDGRID_API_KEY: string;
   TURNSTILE_SECRET_KEY: string;
 };
 
+// Transactional email via SendGrid (matches the main app). SendGrid returns
+// 202 Accepted with an empty body on success — do NOT parse it as JSON.
 export async function sendEmail(
   apiKey: string,
   opts: { subject: string; htmlContent: string; replyTo?: { email: string; name?: string } }
 ) {
-  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+  const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
     method: 'POST',
     headers: {
-      'api-key': apiKey,
+      authorization: `Bearer ${apiKey}`,
       'content-type': 'application/json',
-      accept: 'application/json',
     },
     body: JSON.stringify({
-      sender: { name: SENDER_NAME, email: SENDER_EMAIL },
-      to: [{ email: RECIPIENT_EMAIL }],
+      personalizations: [{ to: [{ email: RECIPIENT_EMAIL }] }],
+      from: { email: SENDER_EMAIL, name: SENDER_NAME },
       subject: opts.subject,
-      htmlContent: opts.htmlContent,
-      ...(opts.replyTo ? { replyTo: opts.replyTo } : {}),
+      content: [{ type: 'text/html', value: opts.htmlContent }],
+      ...(opts.replyTo ? { reply_to: opts.replyTo } : {}),
     }),
   });
 
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`Brevo API error (${res.status}): ${err}`);
+    throw new Error(`SendGrid API error (${res.status}): ${err}`);
   }
 
-  return res.json();
+  // 202 Accepted with no body; nothing to parse.
+  return { status: res.status };
 }
 
 export async function verifyTurnstile(secretKey: string, token: string, ip?: string) {

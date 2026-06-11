@@ -6,14 +6,14 @@ import {
   sanitizeField,
   isValidEmail,
   buildHtmlTable,
-} from '../../lib/brevo';
+} from '../../lib/email';
 import { checkRateLimit, type RateLimiter } from '../../lib/rate-limit';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const apiKey = (env as any).BREVO_API_KEY as string;
+    const apiKey = (env as any).SENDGRID_API_KEY as string;
     const turnstileSecret = (env as any).TURNSTILE_SECRET_KEY as string;
 
     let body: Record<string, string>;

@@ -17,11 +17,11 @@ interface ImportMeta {
 }
 
 // Cloudflare Workers virtual module — exposes Worker env bindings at runtime.
-// Server-only secrets (BREVO_API_KEY, TURNSTILE_SECRET_KEY) live here, not in
+// Server-only secrets (SENDGRID_API_KEY, TURNSTILE_SECRET_KEY) live here, not in
 // import.meta.env. See: https://developers.cloudflare.com/workers/runtime-apis/bindings/
 declare module 'cloudflare:workers' {
   export const env: {
-    BREVO_API_KEY?: string;
+    SENDGRID_API_KEY?: string;
     TURNSTILE_SECRET_KEY?: string;
     [key: string]: string | undefined;
   };
