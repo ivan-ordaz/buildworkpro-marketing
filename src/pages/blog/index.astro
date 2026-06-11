@@ -5,6 +5,20 @@ import Footer from '../../components/Footer.astro';
 
 const posts = [
   {
+    slug: 'construction-markup-vs-margin',
+    title: 'Construction Markup vs. Margin: How to Price a Job',
+    date: 'June 12, 2026',
+    excerpt:
+      "Markup and margin aren't the same, and confusing them costs subcontractors profit on every bid. The difference, the conversion formula, and how to price to your real margin.",
+  },
+  {
+    slug: 'schedule-of-values-guide',
+    title: 'How to Create a Schedule of Values',
+    date: 'June 11, 2026',
+    excerpt:
+      "A subcontractor's guide to building a schedule of values: what to include, how to break down the contract sum, and how the SOV drives progress billing.",
+  },
+  {
     slug: 'how-to-create-construction-bid',
     title: 'How to Create a Construction Bid: Step-by-Step Guide',
     date: 'March 15, 2026',
@@ -71,7 +85,7 @@ const posts = [
         {
           posts.map((post) => (
             <a
-              href={`/blog/${post.slug}`}
+              href={`/blog/${post.slug}/`}
               class="block p-6 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:shadow-lg transition-all"
             >
               <p class="text-sm text-slate-400 mb-2">{post.date}</p>

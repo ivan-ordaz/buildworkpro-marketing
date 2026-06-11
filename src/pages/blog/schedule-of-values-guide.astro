@@ -1,0 +1,257 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a schedule of values in construction?',
+    answer:
+      'A schedule of values (SOV) is a breakdown of the total contract sum into individual line items, each with a dollar value, that together equal the full contract amount. It is the backbone of progress billing: each pay application bills a percentage of completion against each line, so the owner or general contractor can see exactly what they are paying for in every period.',
+  },
+  {
+    question: 'How do you create a schedule of values?',
+    answer:
+      'Start from your accepted bid and group the work into logical line items — by phase, trade activity, or area — so each is large enough to be manageable but small enough to bill accurately. Assign each line a scheduled value, confirm the lines sum to the contract sum, and add any approved change orders. Each billing period you enter the percentage or dollar amount completed for each line.',
+  },
+  {
+    question: 'How many line items should a schedule of values have?',
+    answer:
+      'Enough to bill progress accurately without creating busywork. Too few lines (for example, one lump sum) makes it hard to justify partial billings and slows approvals; too many turns every pay application into a data-entry chore. Most subcontractors break a job into line items that match how the work actually gets installed — mobilization, each major phase, and closeout.',
+  },
+  {
+    question: 'What is front-loading a schedule of values?',
+    answer:
+      'Front-loading is assigning inflated values to early line items (like mobilization or submittals) to collect more cash at the start of a job. General contractors and owners review for it, and an obviously front-loaded SOV can delay approval or damage the relationship. Keep each line value defensible against the actual cost of that work.',
+  },
+  {
+    question: 'How does a schedule of values relate to retainage and pay applications?',
+    answer:
+      'The SOV is the table your pay application bills against. Each period you report work completed and materials stored per line, the pay app totals it, and retainage (often 10%) is withheld from the amount due. In BuildWorkPro the SOV and contract sum prefill from your accepted bid and approved change orders, so the first pay application starts from real numbers instead of a blank sheet.',
+  },
+];
+---
+
+<Layout
+  title="How to Create a Schedule of Values (SOV) in Construction | BuildWorkPro"
+  description="A subcontractor's guide to building a schedule of values: what to include, how to break down the contract sum, how many line items to use, and how the SOV drives progress billing."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          How to Create a Schedule of Values
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published June 11, 2026 · 8 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          On a lump-sum contract, the schedule of values is what turns "the job is about two-thirds
+          done" into a number the general contractor will actually pay. Get it right and your
+          monthly pay applications sail through approval. Get it wrong — too few line items, values
+          that don't match the work, an obvious front-load — and every billing becomes an argument
+          that delays your cash.
+        </p>
+        <p>
+          This guide covers what a schedule of values is, what to put in it, and how to structure it
+          so you get paid for the work you've actually completed.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              A schedule of values breaks the contract sum into line items you bill against each
+              period.
+            </li>
+            <li>
+              Match line items to how the work is installed — granular enough to bill accurately,
+              not so granular it's busywork.
+            </li>
+            <li>
+              Every line value should be defensible against the real cost of that scope; avoid
+              front-loading.
+            </li>
+            <li>The lines plus approved change orders must equal the current contract sum.</li>
+            <li>
+              The SOV feeds your pay applications and retainage — keep it connected to your bid and
+              change orders.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is a schedule of values?</h2>
+        <p>
+          A schedule of values (SOV) is a line-item breakdown of your total contract amount. Each
+          line names a portion of the work and carries a scheduled value, and the lines add up to
+          the contract sum. When you submit a pay application, you report how much of each line is
+          complete; the application bills that percentage. It's the same idea behind the AIA G703
+          continuation sheet that backs up a G702 pay application — a structured way to show what
+          you're billing for and why.
+        </p>
+        <p>
+          If you're new to the billing side of subcontracting, our
+          <a href="/blog/aia-pay-application-guide/">AIA pay application guide</a> walks through how the
+          SOV and the G702/G703 forms fit together.
+        </p>
+
+        <h2>What to include in your schedule of values</h2>
+        <p>Each line item on a typical SOV carries:</p>
+        <ul>
+          <li><strong>Item number</strong> — a sequential reference for the line.</li>
+          <li>
+            <strong>Description</strong> — the scope that line covers (e.g. "Underground rough-in," "Equipment
+            setting").
+          </li>
+          <li><strong>Scheduled value</strong> — the dollar amount allotted to that line.</li>
+          <li><strong>Work completed</strong> — billed in prior periods plus this period.</li>
+          <li>
+            <strong>Materials presently stored</strong> — material delivered and invoiced but not yet
+            installed.
+          </li>
+          <li>
+            <strong>Total completed and stored to date</strong>, and the resulting <strong
+              >percent complete</strong
+            >.
+          </li>
+        </ul>
+        <p>
+          Retainage (commonly 10%) is withheld from the amount due each period and released at
+          closeout. The schedule of values is where that math becomes transparent to everyone
+          signing off on the payment.
+        </p>
+
+        <h2>How to break down the contract sum</h2>
+        <p>
+          Start from your <a href="/blog/how-to-create-construction-bid/">accepted bid</a>. You've
+          already broken the job into costs to price it; the SOV reorganizes those costs into the
+          way you'll bill them. A few principles:
+        </p>
+        <ul>
+          <li>
+            <strong>Follow how the work installs.</strong> Break the job into the phases or activities
+            your crews actually complete in sequence — mobilization, each major phase, and closeout. That
+            makes each monthly percentage easy to justify.
+          </li>
+          <li>
+            <strong>Right-size the lines.</strong> One lump-sum line gives the GC nothing to approve a
+            partial payment against. Fifty hyper-granular lines turn every pay app into data entry. Aim
+            for lines that map to recognizable milestones.
+          </li>
+          <li>
+            <strong>Make every value defensible.</strong> If a reviewer asks "why is mobilization worth
+            that much," you should have a cost answer. That's the test that keeps you out of front-loading
+            trouble.
+          </li>
+          <li>
+            <strong>Reconcile to the contract sum.</strong> The lines must total the current contract
+            amount, including approved <a href="/features/change-orders/">change orders</a>.
+          </li>
+        </ul>
+
+        <h2>See it in the software</h2>
+        <p>
+          In BuildWorkPro the schedule of values lives inside the pay application. The original
+          contract sum and change orders total prefill from your accepted bid and approved change
+          orders, so you start from real numbers — then each period you enter what's complete and
+          what's stored per line, and the payment application summary rolls it up with retainage:
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/pay-app-demo.mp4"
+          poster="/videos/pay-app-demo-poster.jpg"
+          label="Demo: a schedule of values inside a BuildWorkPro pay application, with the per-line This Period and Materials Stored billing dialog and the payment application summary"
+          caption="A schedule of values in a BuildWorkPro pay application — bill This Period and Materials Stored per line; the summary applies retainage and rolls up the amount due."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Common schedule-of-values mistakes</h2>
+        <ul>
+          <li>
+            <strong>Front-loading.</strong> Padding early lines to grab cash up front. Reviewers watch
+            for it; it delays approvals and erodes trust.
+          </li>
+          <li>
+            <strong>Too few line items.</strong> A coarse SOV makes partial billings hard to justify and
+            invites the GC to under-approve your percentage.
+          </li>
+          <li>
+            <strong>Forgetting stored materials.</strong> If you've taken delivery of long-lead equipment,
+            bill it as materials stored instead of waiting until it's installed.
+          </li>
+          <li>
+            <strong>Letting change orders drift.</strong> Every approved change order should update the
+            contract sum and the SOV, or your billings will never reconcile.
+          </li>
+        </ul>
+
+        <p>
+          The schedule of values isn't paperwork for its own sake — it's the structure that gets you
+          paid on time, every period. Build it from your real costs, keep it tied to your bid and
+          change orders, and the monthly billing stops being a negotiation.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Schedule of values FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Build your schedule of values once, bill it every month
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro prefills the SOV from your bid and change orders, then handles progress
+          billing and retainage. 14-day free trial, no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="How to Create a Schedule of Values"
+        description="A subcontractor's guide to building a schedule of values: what to include, how to break down the contract sum, and how the SOV drives progress billing."
+        datePublished="2026-06-11"
+        related={[
+          {
+            href: '/features/pay-applications/',
+            title: 'Pay Applications',
+            description:
+              'AIA-style progress billing with a schedule of values and retainage, prefilled from your bid.',
+          },
+          {
+            href: '/blog/aia-pay-application-guide/',
+            title: 'AIA Pay Application Guide',
+            description: 'How the schedule of values backs up your G702 and G703 forms.',
+          },
+          {
+            href: '/features/change-orders/',
+            title: 'Change Orders',
+            description: 'Keep approved change orders flowing into your contract sum and SOV.',
+          },
+          {
+            href: '/blog/how-to-create-construction-bid/',
+            title: 'How to Create a Construction Bid',
+            description: 'Your SOV starts from the costs you broke out to win the job.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
