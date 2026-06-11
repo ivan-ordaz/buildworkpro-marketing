@@ -64,16 +64,16 @@ Run the full suite locally before pushing: `npm run check && npm run lint && npm
 - `contact.ts` is the POST endpoint used by the marketing contact form. It follows this pattern, and any new form endpoint should match it:
   1. `export const prerender = false;`
   2. Read secrets from `env` imported from `cloudflare:workers` — never from `import.meta.env` for server-only secrets.
-  3. Require and verify a Cloudflare Turnstile token (`verifyTurnstile` in `src/lib/brevo.ts`) before doing anything else; pull the visitor IP from the `CF-Connecting-IP` header.
+  3. Require and verify a Cloudflare Turnstile token (`verifyTurnstile` in `src/lib/email.ts`) before doing anything else; pull the visitor IP from the `CF-Connecting-IP` header.
   4. Run every user field through `sanitizeField()` (truncates per the `MAX_LENGTHS` map) and `isValidEmail()` before use.
   5. Rate-limit with `checkRateLimit()` (`src/lib/rate-limit.ts`) keyed by IP and email, returning `429` when over. It fails open (no-op) when the `RATE_LIMITER` binding is absent, so Turnstile + WAF remain the floor — see the `[[unsafe.bindings]]` ratelimit config in `wrangler.toml`.
-  6. Send via Brevo using `sendEmail()`; build the body with `buildHtmlTable()` (which `escapeHtml`s every value). Don't hand-build HTML strings with user input.
+  6. Send via SendGrid using `sendEmail()` (`src/lib/email.ts`, POSTs to the SendGrid v3 mail/send API; returns 202 with no body); build the body with `buildHtmlTable()` (which `escapeHtml`s every value). Don't hand-build HTML strings with user input.
   7. Return `Response.json({ success: true })` on happy path or `{ error: 'human message' }` with an appropriate status on failure. Log technical details with `console.error` — never leak them to the response.
 
 ### Configuration & environment
 
 - **Public config** is read via `import.meta.env.PUBLIC_*` and centralized in `src/config.ts`. `src/env.d.ts` types the `PUBLIC_*` vars — when adding a new public env var, add it to both `src/env.d.ts` and `.env`, and prefer reading it through `src/config.ts` so defaults stay in one place.
-- **Server-only secrets** (`BREVO_API_KEY`, `TURNSTILE_SECRET_KEY`) live in Cloudflare Worker env vars (set in the Cloudflare dashboard or via `wrangler`) and are accessed inside API routes only, via `import { env } from 'cloudflare:workers'`. They must never be referenced from `.astro` components, client scripts, or anything under `src/components/`.
+- **Server-only secrets** (`SENDGRID_API_KEY`, `TURNSTILE_SECRET_KEY`) live in Cloudflare Worker env vars (set in the Cloudflare dashboard or via `wrangler`) and are accessed inside API routes only, via `import { env } from 'cloudflare:workers'`. They must never be referenced from `.astro` components, client scripts, or anything under `src/components/`.
 - Starlight uses `loadEnv(..., 'PUBLIC_')` at build time to inject `PUBLIC_EMAIL_SUPPORT` into the social links — keep the `PUBLIC_` prefix on anything that needs to be available at config-evaluation time.
 - The Cloudflare adapter is configured with `prerenderEnvironment: 'node'`, so the static prerender step runs under Node — but anything that runs at request time must work under Workers.
 
