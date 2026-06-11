@@ -10985,95 +10985,11 @@
                   "reason": {
                     "type": "string"
                   },
-                  "status": {
-                    "type": "string"
-                  },
-                  "total": {
-                    "type": "string"
-                  },
                   "roundSalesAmounts": {
                     "type": [
                       "boolean",
                       "null"
                     ]
-                  },
-                  "submittedAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "submittedBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
-                  "approvedAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "approvedBy": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "rejectedAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "rejectedBy": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "rejectionReason": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "voidedAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "voidedBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
-                  "voidReason": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "sentAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "sentBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
                   }
                 },
                 "required": [
@@ -11211,11 +11127,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "projectId": {
-                    "type": "integer",
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
                   "changeOrderNumber": {
                     "type": "string"
                   },
@@ -11231,95 +11142,11 @@
                   "reason": {
                     "type": "string"
                   },
-                  "status": {
-                    "type": "string"
-                  },
-                  "total": {
-                    "type": "string"
-                  },
                   "roundSalesAmounts": {
                     "type": [
                       "boolean",
                       "null"
                     ]
-                  },
-                  "submittedAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "submittedBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
-                  "approvedAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "approvedBy": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "rejectedAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "rejectedBy": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "rejectionReason": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "voidedAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "voidedBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
-                  "voidReason": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "sentAt": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "sentBy": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
                   }
                 }
               }
