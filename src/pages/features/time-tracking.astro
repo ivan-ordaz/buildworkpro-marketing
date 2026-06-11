@@ -2,26 +2,61 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is construction time tracking software?',
+    answer:
+      'Construction time tracking software logs crew hours against specific jobs, so you know what labor actually cost on each project — not just what the payroll total was. In BuildWorkPro, every time entry records a project, date, and hours in quarter-hour steps, with an optional task and notes. The labor rate you set for each person on the project turns those hours into a cost automatically.',
+  },
+  {
+    question: 'How do crews log hours in BuildWorkPro?',
+    answer:
+      'They click Log Time, pick the project and date, enter the hours, and save — adding a task or notes if more detail helps. Hours are entered manually in quarter-hour steps, so a texted "8 hours at the school job" becomes a record tied to the actual project. Time Tracking is a top-level module, and every project also has its own Time tab.',
+  },
+  {
+    question: 'Who can enter time?',
+    answer:
+      'Company admins, managers, members, and field crew can all log and edit time entries; viewers get read-only access. That means your on-site crew can record their own hours instead of routing everything through the office.',
+  },
+  {
+    question: 'How do hours tie to projects and job costing?',
+    answer:
+      'Every entry is attached to a project, and its cost comes from the labor rate you set for that person on that project — nobody types rates into entries. Filter the Time Tracking page by project and the header totals the hours and cost for the period. That is your actual labor spend on the job, ready to hold up against what you carried for labor when you bid it.',
+  },
+  {
+    question: 'Can a manager review entries before payroll?',
+    answer:
+      'Yes. A manager can review entries before they are finalized, and each entry shows its review status in the day-by-day list. Filter by reviewed status to see exactly what still needs a look before you run payroll.',
+  },
+  {
+    question: 'How much does construction time tracking software cost?',
+    answer:
+      'Time tracking is included in the single BuildWorkPro plan: $79/month (or $790/year) with unlimited users, unlimited projects, and every feature. There is a 14-day free trial with no credit card required.',
+  },
+];
 ---
 
 <Layout
-  title="Construction Time Tracking Software | BuildWorkPro"
-  description="Track crew hours by project, phase, and task. Simple time entry from any device. Export timesheets for payroll. Built for field crews."
+  title="Construction Time Tracking Software for Crews | BuildWorkPro"
+  description="Log crew hours against projects in quarter-hour steps, apply per-project labor rates, and see labor cost as it adds up. $79/month flat, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Construction Time Tracking
+          Construction Time Tracking Software
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Track crew hours by project, phase, and task with a simple interface your field workers
-          will actually use. Review timesheets, export for payroll, and roll labor costs into your
-          project budgets and pay applications.
+          Crews log hours against the project — not into a group text. BuildWorkPro applies the
+          labor rate you set per project, shows the cost on every entry, and totals hours and
+          dollars for any date range.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -40,21 +75,41 @@ import { config } from '../../config';
       </div>
     </section>
 
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <Screenshot
+        src="/screenshots/28-time-tracking.png"
+        alt="BuildWorkPro time tracking page showing crew time entries grouped by day with hours, computed cost, and review status"
+        caption="The Time Tracking page: entries grouped by day with hours, computed cost, and review status — period totals in the header."
+        width={1280}
+        height={720}
+      />
+    </section>
+
     <!-- Overview -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <div class="prose prose-lg prose-slate mx-auto">
-        <h2>Know where every labor hour goes</h2>
+        <h2>Friday payroll without the text thread</h2>
         <p>
-          Labor is the largest cost on most subcontractor jobs. When you cannot see where hours are
-          going at a project and phase level, you cannot tell if a job is profitable until it is
-          over. BuildWorkPro connects time tracking directly to your projects so you see labor costs
-          accumulating in real time -- not after the fact.
+          If hours arrive by text, a photo of a notepad, or memory, payroll takes an evening and job
+          costing never happens. BuildWorkPro replaces that with one Log Time form: pick the project
+          and the date, enter the hours in quarter-hour steps, and optionally tag a task and add
+          notes. Every hour lands on a specific job from the moment it's logged — visible in the
+          Time Tracking module across all jobs, or on a single project's own Time tab inside
+          <a href="/features/project-management/">project management</a>.
         </p>
         <p>
-          Your field workers log hours through a simple interface that works on any device. They
-          select a project, choose a phase or task, enter their hours, and move on. No complicated
-          timesheets, no separate apps. The data feeds into project cost reports, daily logs, and
-          payroll exports automatically.
+          Rates stay out of the entry form entirely. You set each person's labor rate on the
+          project, and BuildWorkPro computes the cost on every entry — $45/hr × 8 hrs, right next to
+          the hours. The page header totals hours and cost for the period you're viewing, so "what
+          did labor run on that job last week?" takes one filter instead of a spreadsheet. A manager
+          can review entries before they're finalized, and each entry carries its review status.
+        </p>
+        <p>
+          Time tracking sits alongside the rest of your field record:
+          <a href="/features/site-logs/">site logs</a> capture what happened on site each day, and
+          <a href="/features/reports/">reports</a> cover the job's other numbers. The full walkthrough
+          is in the <a href="/docs/field/time-tracking/">time tracking docs</a>.
         </p>
       </div>
     </section>
@@ -81,11 +136,11 @@ import { config } from '../../config';
             </svg>
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">
-            Log hours by project and phase
+            Time entries in quarter-hour steps
           </h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Every time entry is tied to a specific project, phase, and optionally a task. See
-            exactly where labor hours are being spent across your active jobs.
+            Each entry records the project, date, and hours, with an optional task and notes.
+            Quarter-hour increments keep the numbers honest without making anyone do math.
           </p>
         </div>
 
@@ -101,82 +156,16 @@ import { config } from '../../config';
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
+                d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Mobile-friendly entry</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">
+            Labor rates per person, per project
+          </h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            A clean, simple interface that works on phones and tablets. Your crew can log time from
-            the jobsite in under 30 seconds without navigating complex menus.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
-          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
-            <svg
-              class="w-6 h-6 text-teal-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Timesheet review</h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Managers review and approve time entries before they are finalized. Catch errors,
-            missing entries, or misallocated hours before they affect payroll or project costs.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
-          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
-            <svg
-              class="w-6 h-6 text-teal-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Payroll export</h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Export approved timesheets to CSV for your payroll system. Hours are broken down by
-            employee, project, date, and labor classification -- ready for processing.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
-          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
-            <svg
-              class="w-6 h-6 text-teal-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Labor cost reports</h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            See labor costs by project, phase, and time period. Compare actual hours against your
-            bid estimates to identify jobs that are over or under on labor.
+            Nobody types a rate on a time entry. Set each person's labor rate on the project and
+            BuildWorkPro computes the cost automatically — $45/hr × 8 hrs, shown on the entry.
           </p>
         </div>
 
@@ -196,19 +185,170 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Date range filtering</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">A timesheet grouped by day</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Filter time entries by date range, project, or team member. Pull weekly, bi-weekly, or
-            monthly views to match your payroll cycle and reporting needs.
+            Entries are grouped by day, each showing who worked, on which project, for how many
+            hours, at what cost — and whether the entry has been reviewed.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg
+              class="w-6 h-6 text-teal-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Manager review</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            A manager can review entries before they're finalized. Wrong project, wrong date,
+            fat-fingered hours — caught before the numbers feed your payday math.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg
+              class="w-6 h-6 text-teal-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Hours and cost totals</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            The page header totals hours and cost for whatever period you're viewing. Filter by date
+            range, project, or reviewed status and the totals follow.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-teal-50 ring-1 ring-teal-100 mb-4">
+            <svg
+              class="w-6 h-6 text-teal-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Every job, or just one</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            Time Tracking is a top-level module that shows entries across every project. Each
+            project also has its own Time tab, so one job's labor is one click away.
           </p>
         </div>
       </div>
     </section>
 
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">How it works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            1
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Log the hours</h3>
+            <p class="text-slate-500">
+              Click Log Time, pick the project and date, and enter the hours in quarter-hour steps.
+              Tag a task or add notes when the detail matters. Company admins, managers, members,
+              and field crew can all log and edit time.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            2
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Cost computes itself</h3>
+            <p class="text-slate-500">
+              There's no rate field on the entry. BuildWorkPro applies the labor rate set for that
+              person on that project and shows the math — $45/hr × 8 hrs — on the entry.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            3
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Review the entries</h3>
+            <p class="text-slate-500">
+              Entries line up day by day with user, project, hours, cost, and review status. A
+              manager reviews entries before they're finalized, so mistakes get caught early.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            4
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Filter and total</h3>
+            <p class="text-slate-500">
+              Filter by date range, project, or reviewed status. The header totals hours and cost
+              for that period — the numbers you sit down with when you pay the crew, and the record
+              of where labor actually went on each job.
+            </p>
+          </div>
+        </div>
+      </div>
+      <p class="mt-10 text-center text-sm text-slate-400">
+        Full walkthrough in the docs:
+        <a href="/docs/field/time-tracking/" class="text-brand-600 hover:underline">Time tracking</a
+        >
+        ·
+        <a href="/docs/field/site-logs/" class="text-brand-600 hover:underline">Site logs</a>
+        ·
+        <a href="/docs/projects/overview/" class="text-brand-600 hover:underline"
+          >Projects overview</a
+        >
+      </p>
+    </section>
+
+    <FAQSection faqs={faqs} />
+
     <!-- Bottom CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
-      <p class="text-lg text-slate-500 mb-8">14-day free trial. No credit card required.</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+        Know what labor cost while the job is still running
+      </h2>
+      <p class="text-lg text-slate-500 mb-8">
+        Time tracking is included in the $79/month flat plan — unlimited users, every feature.
+        14-day free trial, no credit card required.
+      </p>
       <a
         href={config.signupUrl}
         class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"

@@ -35,7 +35,7 @@ The public `/api/v1/documents` surface is read- and metadata-only at v1 — uplo
 
 3. **Download the file bytes.**
 
-   Unlike job artifacts, document download streams the file directly through BuildWorkPro — there's no R2 redirect.
+   Unlike job artifacts, document download streams the file directly through BuildWorkPro — there's no redirect to a separate download URL.
 
    ```bash
    curl -s \

@@ -2,25 +2,63 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a pay application?',
+    answer:
+      'A pay application (or pay app) is the document a subcontractor submits to a general contractor to bill for work completed during a billing period. It breaks the contract into a schedule of values, shows what was billed in prior periods, what was completed this period, and any materials stored on site, then accounts for retainage to arrive at the current amount due. In BuildWorkPro, each pay app is tied to one project and moves through an approval workflow from Draft to Paid.',
+  },
+  {
+    question: 'How does the schedule of values work in BuildWorkPro?',
+    answer:
+      "When you create a pay app, the Original Contract Sum prefills from the project's accepted bid and the Change Orders Total prefills from approved change orders. The first pay app on a project seeds its schedule of values from any pending approved change orders, and every later pay app carries forward the lines and previous-period totals from the one before it. Each period you enter This Period and Materials Stored for each line, and BuildWorkPro rolls it all up into the amount due.",
+  },
+  {
+    question: 'How does retainage work?',
+    answer:
+      'Every pay app has a Retainage % field, set when you create it. It defaults to 10 and is adjustable per pay app to match whatever your contract specifies. BuildWorkPro tracks retainage on each pay app so the amount you bill reflects what the customer is holding back.',
+  },
+  {
+    question: 'What does the approval workflow look like?',
+    answer:
+      'A pay app moves through five statuses: Draft, Submitted, Approved, Rejected, and Paid. Submitting locks the pay app for editing; a company admin or manager then approves it for payment, or rejects it back to Draft with a written rejection reason. Once approved, Mark as Paid records the payment, and a workflow stepper on the detail page shows where the pay app stands and who acted at each step.',
+  },
+  {
+    question: 'Does BuildWorkPro produce AIA-style PDFs I can send to my GC?',
+    answer:
+      'Yes. Every pay app renders to a PDF you can preview in a dialog, download, or email straight from the detail page — files are named after the document, like PayApp-P-1024-PA001.pdf. The Send to Customer dialog attaches the PDF automatically and supports email templates with merge fields for the document number, project name, and amount. BuildWorkPro produces AIA-style progress billing documents with a schedule of values and retainage — not the copyrighted AIA G702/G703 forms themselves.',
+  },
+  {
+    question: 'How much does it cost?',
+    answer:
+      'Pay applications are included in the single BuildWorkPro plan: $79/month (or $790/year) with unlimited users and every feature included. There is a 14-day free trial with no credit card required.',
+  },
+];
 ---
 
 <Layout
-  title="Construction Pay Application Software – AIA Pay Apps | BuildWorkPro"
-  description="Create AIA-style pay applications with schedule of values, track approvals, and get paid faster. Purpose-built pay app software for subcontractors."
+  title="Pay Application Software — AIA-Style Billing | BuildWorkPro"
+  description="Create AIA-style pay applications with a schedule of values, retainage, and an approval workflow, then email the PDF to your GC. $79/month, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
           Pay Application Software for Subcontractors
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Create industry-standard pay applications with a built-in schedule of values, multi-step
-          approval workflows, and retainage tracking. Submit pay apps faster and get paid on time.
+          Bill your GC each period with AIA-style pay applications: a schedule of values that
+          prefills from your accepted bid and approved change orders, retainage tracked on every pay
+          app, and an approval workflow from draft through paid. Email the PDF without leaving
+          BuildWorkPro.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -39,21 +77,43 @@ import { config } from '../../config';
       </div>
     </section>
 
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <DemoVideo
+        src="/videos/pay-app-demo.mp4"
+        poster="/videos/pay-app-demo-poster.jpg"
+        label="Demo: opening a pay application and walking its schedule of values, retainage, and payment summary"
+        caption="A pay app in BuildWorkPro: schedule of values, retainage, and the payment application summary — opened straight from the pay apps list."
+      />
+    </section>
+
     <!-- Overview -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <div class="prose prose-lg prose-slate mx-auto">
-        <h2>Get paid for the work you have completed</h2>
+        <h2>Bill every period without the end-of-month scramble</h2>
         <p>
-          Subcontractors live and die by cash flow. Late pay apps mean late payments, and errors in
-          your schedule of values can delay approval by weeks. BuildWorkPro structures your pay
-          application workflow so every submission is accurate, complete, and trackable from draft
-          through payment.
+          If you bill a GC monthly, you know the drill: dig out last month's pay app, reconcile what
+          you already billed, chase down approved change orders, rebuild the spreadsheet, and hope
+          the math holds. In BuildWorkPro, a pay app is created against the project — set the period
+          start and end, and the original contract sum prefills from your
+          <a href="/features/construction-bidding/">accepted bid</a> while the change orders total pulls
+          from your <a href="/features/change-orders/">approved change orders</a>. Retainage
+          defaults to 10% and adjusts to whatever your contract says.
         </p>
         <p>
-          Your schedule of values is built automatically from your project data. Each billing
-          period, you update the percentage complete for each line item, and BuildWorkPro calculates
-          the current payment due, retainage held, and cumulative billed to date. No more wrestling
-          with spreadsheet formulas or manual PDF edits.
+          The schedule of values does the bookkeeping between periods. The first pay app on a
+          project seeds its lines from pending approved change orders; every pay app after that
+          carries forward the lines and previous-period totals from the one before it. Each period
+          you enter what was completed and any materials stored, and BuildWorkPro rolls it up into
+          the amount due. Numbering is automatic too — pay apps are assigned per-project numbers
+          like P-1024-PA001. The docs cover the details:
+          <a href="/docs/pay-apps/creating/">creating a pay app</a> and the
+          <a href="/docs/pay-apps/schedule-of-values/">schedule of values</a>.
+        </p>
+        <p>
+          New to progress billing? Our
+          <a href="/blog/aia-pay-application-guide/">guide to AIA pay applications</a> explains the format,
+          the math, and what GCs look for before they approve.
         </p>
       </div>
     </section>
@@ -82,53 +142,9 @@ import { config } from '../../config';
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">Schedule of values</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Build your SOV from bid line items or create it manually. Each line tracks scheduled
-            value, previous billings, current work completed, materials stored, and retainage.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
-          <div class="inline-flex p-3 rounded-xl bg-rose-50 ring-1 ring-rose-100 mb-4">
-            <svg
-              class="w-6 h-6 text-rose-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Industry-standard format</h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Generate pay applications in the format GCs and owners expect. Includes continuation
-            sheets with itemized progress for every line in your schedule of values.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
-          <div class="inline-flex p-3 rounded-xl bg-rose-50 ring-1 ring-rose-100 mb-4">
-            <svg
-              class="w-6 h-6 text-rose-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Approval workflows</h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Track pay apps through Draft, Submitted, Approved, and Paid statuses. Internal review
-            steps ensure your team catches errors before the GC does.
+            Every line tracks scheduled value, previous apps, this period, materials stored, and
+            total to date, with a grand total row summing the contract. Previous billings carry
+            forward from the prior pay app and lock once an earlier pay app exists.
           </p>
         </div>
 
@@ -148,10 +164,11 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Payment tracking</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Prefilled contract sums</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Record payment dates and amounts against each approved pay app. See outstanding
-            receivables across all your projects from a single dashboard.
+            The original contract sum prefills from the project's accepted bid and the change orders
+            total from approved change orders — the contract value on your pay app matches the job,
+            not a stale spreadsheet.
           </p>
         </div>
 
@@ -171,10 +188,34 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Retainage tracking</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Retainage on every pay app</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Track retainage held and released per line item and per billing period. Know exactly how
-            much retainage is outstanding across your entire portfolio.
+            Set Retainage % when you create the pay app — it defaults to 10 and adjusts per pay app
+            to match your contract terms, so the holdback is part of the math instead of an
+            afterthought.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-rose-50 ring-1 ring-rose-100 mb-4">
+            <svg
+              class="w-6 h-6 text-rose-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Approval workflow</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            Draft, Submitted, Approved, Rejected, Paid. Submitting locks the pay app for editing,
+            rejections carry a written reason, and a workflow stepper on the detail page shows who
+            acted at each step.
           </p>
         </div>
 
@@ -194,13 +235,49 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">PDF export</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">AIA-style PDF</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Export pay applications as professional PDFs ready to submit to your GC. Includes the
-            cover sheet and continuation page in the format they expect.
+            Preview the pay app PDF in a dialog or download it directly — files are named after the
+            document, like PayApp-P-1024-PA001.pdf. Progress billing with the schedule of values
+            your GC expects.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-rose-50 ring-1 ring-rose-100 mb-4">
+            <svg
+              class="w-6 h-6 text-rose-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Email from the app</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            Send to Customer emails the pay app with the PDF attached automatically. Pick an email
+            template with merge fields for the document number, project name, and amount, set To,
+            Cc, and Bcc, and send.
           </p>
         </div>
       </div>
+    </section>
+
+    <!-- Pay apps list screenshot -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <Screenshot
+        src="/screenshots/12-pay-apps-list.png"
+        alt="BuildWorkPro pay apps list showing pay app number, project, status, billing period, and amounts"
+        caption="Every pay app across your projects in one list — filter by status or search by number or project."
+        width={1280}
+        height={720}
+      />
     </section>
 
     <!-- How It Works -->
@@ -214,12 +291,11 @@ import { config } from '../../config';
             1
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">
-              Set up your schedule of values
-            </h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Create the pay app</h3>
             <p class="text-slate-500">
-              Import line items from your bid or create them manually. Define scheduled values for
-              each item in your contract.
+              Pick the project and set the period start and end. The original contract sum and
+              change orders total prefill, retainage defaults to 10%, and the pay app number is
+              assigned automatically — or set your own.
             </p>
           </div>
         </div>
@@ -231,11 +307,12 @@ import { config } from '../../config';
           </div>
           <div>
             <h3 class="text-base font-semibold text-slate-900 mb-1">
-              Update progress each billing period
+              Enter this period's progress
             </h3>
             <p class="text-slate-500">
-              Enter the percentage complete or dollar amount for each line item. BuildWorkPro
-              calculates the current payment due and retainage automatically.
+              Work down the schedule of values: enter This Period and any Materials Stored for each
+              line. Previous billings are already carried forward from the prior pay app, so you
+              only touch what changed.
             </p>
           </div>
         </div>
@@ -246,10 +323,11 @@ import { config } from '../../config';
             3
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Review and submit</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Submit for approval</h3>
             <p class="text-slate-500">
-              Your project manager reviews the draft pay app. Once approved internally, export the
-              PDF and submit it to the GC or owner.
+              Submitting locks the pay app for editing. A company admin or manager reviews the
+              schedule of values, then approves it for payment or rejects it back to draft with a
+              reason.
             </p>
           </div>
         </div>
@@ -260,20 +338,42 @@ import { config } from '../../config';
             4
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Track payment</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Send it and record payment</h3>
             <p class="text-slate-500">
-              Record when payment is received and track outstanding amounts. Your dashboard shows
-              total receivables across all projects.
+              Email the PDF to your customer straight from the detail page. When the money lands,
+              Mark as Paid closes the loop — or click Create Invoice to bill from the approved pay
+              app directly.
             </p>
           </div>
         </div>
       </div>
+      <p class="mt-10 text-center text-sm text-slate-400">
+        Full walkthrough in the docs:
+        <a href="/docs/pay-apps/creating/" class="text-brand-600 hover:underline"
+          >Creating a pay app</a
+        >
+        ·
+        <a href="/docs/pay-apps/schedule-of-values/" class="text-brand-600 hover:underline"
+          >Schedule of values</a
+        >
+        ·
+        <a href="/docs/pay-apps/approval-workflow/" class="text-brand-600 hover:underline"
+          >Approval workflow</a
+        >
+      </p>
     </section>
+
+    <FAQSection faqs={faqs} />
 
     <!-- Bottom CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
-      <p class="text-lg text-slate-500 mb-8">14-day free trial. No credit card required.</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+        Get the pay app out the door on time
+      </h2>
+      <p class="text-lg text-slate-500 mb-8">
+        Pay applications are included in the $79/month flat plan — unlimited users, every feature.
+        14-day free trial, no credit card required.
+      </p>
       <a
         href={config.signupUrl}
         class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"

@@ -2,26 +2,62 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What does construction project management software do for a subcontractor?',
+    answer:
+      "It keeps each job's schedule, paperwork, and crew assignments in one place instead of spread across spreadsheets and text threads. In BuildWorkPro, every job is a project with phases, tasks, a Gantt chart, and tabs for change orders, site logs, pay applications, time, and documents. The Projects list shows all of them at once in Kanban, Card, or Table view — useful when you are running work for several GCs at the same time.",
+  },
+  {
+    question: 'How do phases, tasks, and dependencies work?',
+    answer:
+      "Phases are the major stages of a job; tasks are the work inside each phase, each with a status, priority, assignee, and optional checklist. Give a task a start date and a duration in days — BuildWorkPro counts workdays and skips weekends to compute the end date — and it appears on the Gantt chart. Link the tasks that must finish first as dependencies, and BuildWorkPro highlights the project's critical path.",
+  },
+  {
+    question: 'Can I reuse the same project structure on repeat jobs?',
+    answer:
+      "Yes. Save any project as a template — its phases and tasks are copied, including names, priorities, and durations — or build templates from scratch in Settings. When you create a new project, pick one under Start from template and the work breakdown is created with it. A preview shows how many phases, tasks, and checklist items you'll get.",
+  },
+  {
+    question: 'How does a won bid become a project?',
+    answer:
+      "Open an accepted bid and click Convert to Project. You choose how the estimate maps onto the schedule: each line item becomes a phase, each becomes a task, or a project template is applied with line items mapped to its phases. The new project links back to the original bid, and the bid's line items can seed the schedule of values for your first pay application.",
+  },
+  {
+    question: 'Where do project files and discussion live?',
+    answer:
+      'Every project has Documents, Comments, and Activity tabs. Upload contracts, drawings, permits, and photos to Documents and they stay linked to the job — they also appear in the app-wide Documents library. Comments is a threaded discussion where mentioning a teammate notifies them, and Activity is a read-only history of every change on the project.',
+  },
+  {
+    question: 'How much does it cost?',
+    answer:
+      'Project management is included in the single BuildWorkPro plan: $79/month (or $790/year) with unlimited users, unlimited projects, and every feature. There is a 14-day free trial with no credit card required.',
+  },
+];
 ---
 
 <Layout
-  title="Construction Project Management Software | BuildWorkPro"
-  description="Track construction projects from bid to completion with phases, tasks, Gantt charts, and team assignments. Kanban, list, and timeline views for subcontractors."
+  title="Subcontractor Project Management Software | BuildWorkPro"
+  description="Subcontractor project management software with phases, tasks, dependencies, and a drag-to-reschedule Gantt chart. $79/month, unlimited users, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Construction Project Management
+          Project Management Software for Subcontractors
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Track every project from bid award through final closeout. Organize work into phases and
-          tasks, visualize timelines with Gantt charts, and assign your crew -- all from a platform
-          designed for how subcontractors actually run jobs.
+          Break each job into phases and tasks, schedule them on a Gantt chart you can drag to
+          reschedule, and keep change orders, site logs, and pay apps on the same page — for every
+          GC you work for.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -40,22 +76,42 @@ import { config } from '../../config';
       </div>
     </section>
 
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <Screenshot
+        src="/screenshots/16-project-phases-tasks.png"
+        alt="BuildWorkPro project Phases & Tasks tab showing phases broken into tasks with statuses, priorities, and assignees"
+        caption="The Phases & Tasks tab: each phase holds its tasks, with status, priority, and assignee on every one."
+      />
+    </section>
+
     <!-- Overview -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <div class="prose prose-lg prose-slate mx-auto">
-        <h2>Manage your jobs without the complexity</h2>
+        <h2>Run every job from one page</h2>
         <p>
-          Generic project management tools were not built for construction. They do not understand
-          phases, they do not connect to your bids, and they do not track the financial side of a
-          job. BuildWorkPro gives subcontractors a project management experience that fits
-          construction workflows -- where a "project" is a job with a contract value, a schedule, a
-          crew, and a paper trail of pay apps and change orders.
+          A subcontractor's week is rarely one job. It's a rough-in for one GC, a punch list for
+          another, and two more starting Monday — each with its own schedule, paperwork, and crew.
+          The <a href="/docs/projects/overview/">Projects module</a> puts them all in one list with Kanban,
+          Card, and Table views, search, and status filters. When a job moves from Planning to In Progress,
+          drag its card to the next column.
         </p>
         <p>
-          Whether you run three active jobs or thirty, BuildWorkPro gives you a clear view of every
-          project's status, budget health, and schedule progress. Your team sees what they need to
-          see. Your office staff manages the details. And your foremen know exactly what to focus on
-          each day.
+          Inside a project, the Phases & Tasks tab is the work breakdown.
+          <a href="/docs/projects/phases-tasks/">Phases and tasks</a> carry start dates, workday-based
+          durations, assignees, priorities, and checklists. Link the tasks that depend on each other and
+          BuildWorkPro highlights the critical path. The same tab switches to a <a
+            href="/docs/projects/gantt/">Gantt view</a
+          >, where the schedule becomes bars on a timeline you reschedule by dragging.
+        </p>
+        <p>
+          Projects also connect to the money and the field. A won bid from
+          <a href="/features/construction-bidding/">bidding</a> converts straight into a project — line
+          items map to phases or tasks, and they can seed the schedule of values for
+          <a href="/features/pay-applications/">pay applications</a>. The same project page carries
+          tabs for <a href="/features/site-logs/">daily site logs</a>,
+          <a href="/features/time-tracking/">time tracking</a>, change orders, invoices, and
+          documents — so the answer to "where does that live?" is always the project.
         </p>
       </div>
     </section>
@@ -84,9 +140,9 @@ import { config } from '../../config';
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">Phases and tasks</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Organize jobs into phases like Rough-In, Trim, and Finish. Break each phase into tasks
-            with assignees, due dates, and status tracking. Nest work the way you actually structure
-            it on the jobsite.
+            Phases are the stages of the job, each with its own status. Tasks live inside them with
+            a status, priority, assignee, and checklist. Drag to reorder, and filter the list to
+            overdue or unassigned work.
           </p>
         </div>
 
@@ -106,11 +162,37 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Gantt charts</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Gantt chart</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Visualize your project timeline with an interactive Gantt chart. See phase durations,
-            task dependencies, and schedule overlaps. Drag to adjust dates and keep your timeline
-            current.
+            Every dated task is a bar on the timeline. Drag a bar to move it, drag its edge to
+            change the duration, and zoom between day, week, and month. A red line marks today;
+            phases roll up into summary bars.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-brand-50 ring-1 ring-brand-100 mb-4">
+            <svg
+              class="w-6 h-6 text-brand-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">
+            Dependencies and critical path
+          </h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            On any task, link the tasks that must finish first. BuildWorkPro highlights the
+            project's critical path, and dependency arrows on the Gantt show how a slip in one task
+            pushes the work behind it.
           </p>
         </div>
 
@@ -130,33 +212,11 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Kanban boards</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Kanban, Card, and Table views</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            View all your projects on a Kanban board organized by status -- Bidding, Awarded, In
-            Progress, Punch List, Complete. Drag cards between columns as jobs progress.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
-          <div class="inline-flex p-3 rounded-xl bg-brand-50 ring-1 ring-brand-100 mb-4">
-            <svg
-              class="w-6 h-6 text-brand-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Team assignments</h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Assign team members to projects and individual tasks. Track who is working on what, and
-            ensure your foremen and crew leads have clear visibility into their responsibilities.
+            See every project as a card in status columns — Planning, In Progress, On Hold,
+            Closeout, Completed — and drag between them. Prefer a grid or a dense table? Switch
+            views; your choice is remembered.
           </p>
         </div>
 
@@ -176,10 +236,11 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Document management</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Project templates</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Attach plans, specs, submittals, and photos to any project. Keep every document
-            organized by project and accessible to your team from one central location.
+            Save a finished project as a template — phases, tasks, priorities, and durations come
+            with it — or build one from scratch. New projects start from a template with the work
+            breakdown already in place.
           </p>
         </div>
 
@@ -195,17 +256,30 @@ import { config } from '../../config';
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Budget tracking</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">
+            Documents, comments & activity
+          </h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            See contract value, billed to date, change orders, and remaining budget for every
-            project. Spot margin issues early and make informed decisions about resource allocation.
+            Upload contracts, drawings, permits, and photos to the project's Documents tab. Discuss
+            work in threaded comments with mentions, and check the Activity tab for a history of who
+            changed what, and when.
           </p>
         </div>
       </div>
+    </section>
+
+    <!-- Gantt screenshot -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <DemoVideo
+        src="/videos/gantt-demo.mp4"
+        poster="/videos/gantt-demo-poster.jpg"
+        label="Demo: opening a project from the projects menu and switching Phases and Tasks to the Gantt view"
+        caption="The Gantt view of a real schedule — phases and tasks as bars on the timeline, one toggle away from the task list."
+      />
     </section>
 
     <!-- How It Works -->
@@ -219,10 +293,11 @@ import { config } from '../../config';
             1
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Create a project</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Create the project</h3>
             <p class="text-slate-500">
-              Convert an accepted bid into a project or create one from scratch. Add the GC,
-              location, contract value, start and end dates.
+              Click New Project — optionally starting from a template — or convert an accepted bid
+              and choose how its line items map onto the schedule: as phases, as tasks, or onto a
+              template's phases.
             </p>
           </div>
         </div>
@@ -233,10 +308,11 @@ import { config } from '../../config';
             2
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Build your schedule</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Break down the work</h3>
             <p class="text-slate-500">
-              Add phases and tasks with dates, durations, and dependencies. Use the Gantt chart to
-              visualize the timeline and adjust as the project evolves.
+              Add phases for the stages of the job and tasks inside them. Set start dates and
+              durations — BuildWorkPro counts workdays and skips weekends — plus assignees,
+              priorities, checklists, and dependencies.
             </p>
           </div>
         </div>
@@ -247,10 +323,11 @@ import { config } from '../../config';
             3
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Assign your crew</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Work the schedule</h3>
             <p class="text-slate-500">
-              Assign team members to the project and to specific tasks. Everyone sees their
-              responsibilities and the project manager has a clear view of workload.
+              Switch the Phases & Tasks tab to Gantt. Drag bars when dates move, watch dependency
+              arrows show the knock-on effects, and cycle task statuses from To Do to In Progress to
+              Done as the crew works.
             </p>
           </div>
         </div>
@@ -261,20 +338,40 @@ import { config } from '../../config';
             4
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Track progress</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Run the job from one page</h3>
             <p class="text-slate-500">
-              Update task statuses as work is completed. Monitor budget health, review pay apps, and
-              handle change orders -- all from the project detail view.
+              Everything else about the job lives in the same project's tabs: change orders, site
+              logs, pay apps, invoices, time, comments, and documents. Move the project through
+              Closeout to Completed when it wraps.
             </p>
           </div>
         </div>
       </div>
+      <p class="mt-10 text-center text-sm text-slate-400">
+        Full walkthrough in the docs:
+        <a href="/docs/projects/overview/" class="text-brand-600 hover:underline"
+          >Projects overview</a
+        >
+        ·
+        <a href="/docs/projects/phases-tasks/" class="text-brand-600 hover:underline"
+          >Phases and tasks</a
+        >
+        ·
+        <a href="/docs/projects/gantt/" class="text-brand-600 hover:underline">Gantt chart</a>
+      </p>
     </section>
+
+    <FAQSection faqs={faqs} />
 
     <!-- Bottom CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
-      <p class="text-lg text-slate-500 mb-8">14-day free trial. No credit card required.</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+        Every job, every crew, one schedule
+      </h2>
+      <p class="text-lg text-slate-500 mb-8">
+        Project management is included in the $79/month flat plan — unlimited users, every feature.
+        14-day free trial, no credit card required.
+      </p>
       <a
         href={config.signupUrl}
         class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"

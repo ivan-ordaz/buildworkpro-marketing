@@ -1,0 +1,53 @@
+# BuildWorkPro
+
+> BuildWorkPro is construction project management software built specifically for trade subcontractors — electrical, plumbing, HVAC, roofing, concrete, framing, glazing, and other specialty contractors. One flat price ($79/month or $790/year), unlimited users and projects, all features included, 14-day free trial with no credit card required.
+
+BuildWorkPro covers the full subcontractor workflow: bidding and estimating with line items, labor rates, and markup; AIA-style pay applications with schedule of values; change orders with approval workflows; project management with phases, tasks, and Gantt charts; daily site logs; time tracking; a sales pipeline and CRM; document management; and reporting. It is web-based and works on phones, tablets, and desktops.
+
+Unlike platforms built for general contractors (Procore) or residential home builders (Buildertrend), BuildWorkPro is priced and designed for specialty subcontractors: flat pricing instead of construction-volume quotes, self-serve signup instead of sales demos, and workflows centered on sub-to-GC billing rather than owner-facing portals.
+
+## Product
+
+- [Features overview](https://buildworkpro.com/features/): All modules at a glance
+- [Bidding & estimating](https://buildworkpro.com/features/construction-bidding/): Line-item bids, labor rates, markup, PDF proposals, bid-to-project conversion
+- [Pay applications](https://buildworkpro.com/features/pay-applications/): AIA-style progress billing with schedule of values, retainage, and approval workflow
+- [Change orders](https://buildworkpro.com/features/change-orders/): Scoped and priced change orders with approval tracking
+- [Project management](https://buildworkpro.com/features/project-management/): Phases, tasks, dependencies, Gantt charts
+- [Site logs](https://buildworkpro.com/features/site-logs/): Daily reports with personnel, work performed, materials, issues, and photos
+- [Time tracking](https://buildworkpro.com/features/time-tracking/): Crew hours by project and cost code
+- [Construction CRM](https://buildworkpro.com/features/construction-crm/): Leads, pipeline stages, contacts
+- [Reports](https://buildworkpro.com/features/reports/): Win rates, billing status, project profitability
+
+## Who it's for
+
+- [Solutions overview](https://buildworkpro.com/solutions/): By trade
+- [Electrical contractors](https://buildworkpro.com/solutions/electrical-contractors/)
+- [Plumbing contractors](https://buildworkpro.com/solutions/plumbing-contractors/)
+- [HVAC contractors](https://buildworkpro.com/solutions/hvac-contractors/)
+- [Roofing contractors](https://buildworkpro.com/solutions/roofing-contractors/)
+- [Concrete contractors](https://buildworkpro.com/solutions/concrete-contractors/)
+- [Framing contractors](https://buildworkpro.com/solutions/framing-contractors/)
+
+## Comparisons
+
+- [BuildWorkPro vs Procore](https://buildworkpro.com/compare/procore-alternative/): Procore alternative for subcontractors
+- [BuildWorkPro vs Buildertrend](https://buildworkpro.com/compare/buildertrend-alternative/): Buildertrend alternative for trade contractors
+
+## Documentation
+
+- [Product docs](https://buildworkpro.com/docs/): Guides for every module
+- [Developer docs & REST API](https://buildworkpro.com/api/): API keys, webhooks, OpenAPI reference
+- [MCP integration](https://buildworkpro.com/api/mcp/overview/): Connect Claude and ChatGPT to BuildWorkPro
+
+## Pricing
+
+- $79/month or $790/year (two months free on annual billing)
+- Unlimited users, unlimited projects, all features included — no per-user fees, no tiers, no add-on modules
+- 14-day free trial, no credit card required, cancel anytime
+
+## Company
+
+- [About](https://buildworkpro.com/about/)
+- [Contact](https://buildworkpro.com/contact/)
+- [Security](https://buildworkpro.com/security/)
+- [Blog](https://buildworkpro.com/blog/): Practical guides on bidding, AIA pay applications, change orders, site logs, and CRM for subcontractors

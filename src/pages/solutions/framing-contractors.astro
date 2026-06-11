@@ -2,12 +2,57 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+
+const included = [
+  'Unlimited users',
+  'Unlimited projects',
+  'Bids & estimates',
+  'Pay applications',
+  'Change orders',
+  'Site logs & daily reports',
+  'Gantt charts & scheduling',
+  'Sales pipeline & CRM',
+  'Time tracking',
+  'Role-based permissions',
+  'Reports & analytics',
+  'Document management',
+];
+
+const faqs = [
+  {
+    question: 'What is the best software for framing contractors?',
+    answer:
+      'The best framing contractor software handles what framing subs actually deal with: lumber-heavy estimates, crews spread across buildings, and progress billing tied to percent complete. BuildWorkPro is built for trade subcontractors — framing subs use it on residential tracts, multifamily projects, and commercial wood and metal stud jobs. Bidding, scheduling, site logs, time tracking, and AIA-style pay applications are all in one system at one flat price.',
+  },
+  {
+    question: 'How do I keep up with lumber price swings when bidding?',
+    answer:
+      "Keep lumber pricing in your product catalog and re-import your supplier's CSV price list whenever a new quote lands — the column mapping is saved, so refreshing prices takes minutes, not an afternoon. For repeat work, duplicate a past bid and update the costs instead of rebuilding the estimate. Margin, overhead, and commission are set on the Rates tab, so when material costs move, your sell price moves with them.",
+  },
+  {
+    question: 'Can I bill per building or per unit?',
+    answer:
+      "Yes. Pay applications in BuildWorkPro run on a schedule of values you structure however you bill — a line per building, per unit, or per phase like walls, floor systems, and roof framing. Percent complete and retainage are tracked per line, so Building 3's framing bills separately from Building 4's.",
+  },
+  {
+    question: 'How do I track crews across multiple jobsites?',
+    answer:
+      "Crew members log hours against a specific project and task, so you can see who worked which jobsite and what each building's framing actually cost in labor. Project schedules with tasks and Gantt charts show where each crew should be next as buildings dry in. The restricted field-crew role gives workers site logs and time tracking without exposing bids, contracts, or pricing.",
+  },
+  {
+    question: 'How much does framing contractor software cost?',
+    answer:
+      "BuildWorkPro is $79/month flat, or $790/year, with unlimited users and unlimited projects — every module included. There are no per-user fees, so putting your whole crew on it costs nothing extra. The 14-day free trial doesn't require a credit card.",
+  },
+];
 ---
 
 <Layout
-  title="Project Management Software for Framing Contractors | BuildWorkPro"
-  description="Construction management software for framing subcontractors. Track bids, manage crew, handle pay apps. Built for wood and metal framing. $79/month flat."
+  title="Framing Contractor Software | $79/mo Flat | BuildWorkPro"
+  description="Framing contractor software for bidding lumber packages, scheduling crews by building, and billing per unit. $79/month flat, unlimited users, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -18,13 +63,12 @@ import { config } from '../../config';
           For Framing Contractors
         </p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Project Management for Framing Contractors
+          Framing Contractor Software
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
           Manage wall layouts, floor systems, and roof framing across all your jobs from one
-          platform. Track material deliveries, schedule crews for each building or phase, and submit
-          pay apps tied to your percent complete. BuildWorkPro keeps your framing operation running
-          tight.
+          platform. Price lumber packages at current quotes, schedule crews for each building or
+          phase, track material deliveries, and submit pay apps tied to your percent complete.
         </p>
         <div class="mt-8">
           <a
@@ -63,9 +107,11 @@ import { config } from '../../config';
             Organize by building and phase
           </h3>
           <p class="text-sm text-slate-500">
-            Break multi-building projects into phases -- sill plates, wall framing, floor systems,
-            roof trusses, and sheathing. Track completion by building so you always know where your
-            crews stand.
+            Break multi-building projects into phases and tasks — layout, wall framing, floor
+            systems, roof trusses, sheathing — per building or unit. Task dependencies and the Gantt
+            view in <a href="/features/project-management/" class="text-brand-600 hover:underline"
+              >project management</a
+            > show what's framed, what's next, and where every crew stands.
           </p>
         </div>
 
@@ -85,11 +131,15 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Bid from material takeoffs</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">
+            Price lumber packages that hold up
+          </h3>
           <p class="text-sm text-slate-500">
-            Build estimates based on board feet, stud counts, and truss packages. Include labor for
-            wall layout, standing walls, floor deck, and roof framing with your production rates per
-            square foot.
+            Build <a href="/features/construction-bidding/" class="text-brand-600 hover:underline"
+              >bids</a
+            > with line items split into material and labor — stud counts, truss packages, hardware, and
+            your production rates for layout, standing walls, and roof framing. Import your supplier's
+            CSV price list so volatile lumber quotes hit the bid at this week's numbers, not last month's.
           </p>
         </div>
 
@@ -109,10 +159,13 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Track material deliveries</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Track lumber deliveries</h3>
           <p class="text-sm text-slate-500">
-            Log lumber drops, truss deliveries, and hardware shipments. Know when materials are on
-            site so your crew shows up ready to work, not waiting on a truck that hasn't arrived.
+            Log lumber drops, truss deliveries, and hardware shipments in <a
+              href="/features/site-logs/"
+              class="text-brand-600 hover:underline">site logs</a
+            > under Materials Received, tagged Delivery, with photos from the site. Know what's on the
+            ground before the crew shows up — not after they're standing around waiting on a truck.
           </p>
         </div>
 
@@ -132,13 +185,14 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">
-            Pay apps by phase and building
-          </h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Bill per building or per unit</h3>
           <p class="text-sm text-slate-500">
-            Generate pay applications with line items for each building and phase. Bill for
-            first-floor walls, second-floor deck, roof framing, and sheathing separately with
-            accurate percent complete.
+            Build AIA-style <a
+              href="/features/pay-applications/"
+              class="text-brand-600 hover:underline">pay applications</a
+            > on a schedule of values with a line per building, unit, or phase. Bill first-floor walls,
+            second-floor deck, and roof framing separately, with percent complete and retainage tracked
+            per line.
           </p>
         </div>
 
@@ -159,11 +213,14 @@ import { config } from '../../config';
             </svg>
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">
-            Schedule crews across subdivisions
+            Know where every crew hour went
           </h3>
           <p class="text-sm text-slate-500">
-            Assign framing crews to buildings and lots. Balance your workforce between multi-family
-            and single-family projects, move crews as buildings dry in, and keep production on pace.
+            Crews log hours against a specific project and task with <a
+              href="/features/time-tracking/"
+              class="text-brand-600 hover:underline">time tracking</a
+            >, so labor on Building 3 doesn't blur into Building 4. Review and approve hours by job,
+            and compare actual framing labor against what you bid.
           </p>
         </div>
 
@@ -184,14 +241,29 @@ import { config } from '../../config';
             </svg>
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">
-            Inspection-ready documentation
+            Inspection-ready daily records
           </h3>
           <p class="text-sm text-slate-500">
-            Log framing inspections, nailing patterns, hold-down placements, and shear wall details.
-            Keep daily reports that document what was built and what was inspected on every unit.
+            Record work performed, nailing and shear wall details, and inspector visits in daily
+            site logs tagged Inspection, with photos attached. When a question comes up about a unit
+            months later, the record is already there.
           </p>
         </div>
       </div>
+    </section>
+
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 space-y-12">
+      <Screenshot
+        src="/screenshots/17-project-gantt.png"
+        alt="BuildWorkPro Gantt chart showing project phases and tasks with dependencies"
+        caption="The Gantt schedule: layout, walls, floor systems, and roof sequenced per building, with task dependencies so the plan shifts when a truss delivery slips."
+      />
+      <Screenshot
+        src="/screenshots/05-bid-detail-overview.png"
+        alt="BuildWorkPro bid detail page showing line items with material and labor cost breakdowns and totals"
+        caption="A framing bid: lumber package and labor split into material and labor cost items, with margin and overhead applied on the Rates tab."
+      />
     </section>
 
     <!-- What's included -->
@@ -203,166 +275,51 @@ import { config } from '../../config';
         $79/month for unlimited users and projects. No per-user fees.
       </p>
       <div class="grid sm:grid-cols-2 gap-3">
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Unlimited users</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Unlimited projects</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Bids & estimates</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Pay applications</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Change orders</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Site logs & daily reports</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Gantt charts & scheduling</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Sales pipeline & CRM</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Time tracking</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Role-based permissions</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Reports & analytics</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <svg
-            class="w-4 h-4 text-brand-600 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span class="text-sm text-slate-600">Document management</span>
-        </div>
+        {
+          included.map((item) => (
+            <div class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 text-brand-600 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-sm text-slate-600">{item}</span>
+            </div>
+          ))
+        }
       </div>
     </section>
+
+    <FAQSection faqs={faqs} />
 
     <!-- CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
-        Ready to streamline your framing business?
+        Run every framing job from one system
       </h2>
       <p class="text-lg text-slate-500 mb-8">
-        Join other framing contractors who've ditched spreadsheets for BuildWorkPro.
+        $79/month flat for unlimited users — bidding, scheduling, site logs, time tracking, and pay
+        apps included. 14-day free trial, no credit card required.
       </p>
       <a
         href={config.signupUrl}
         class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
         >Start free trial</a
       >
+      <p class="mt-8 text-sm text-slate-400">
+        Comparing platforms? See how BuildWorkPro stacks up as a
+        <a href="/compare/procore-alternative/" class="text-brand-600 hover:underline"
+          >Procore alternative</a
+        >
+        or a
+        <a href="/compare/buildertrend-alternative/" class="text-brand-600 hover:underline"
+          >Buildertrend alternative</a
+        >.
+      </p>
     </section>
   </main>
   <Footer />

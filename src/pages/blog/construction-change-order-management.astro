@@ -3,7 +3,32 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a change order in construction?',
+    answer:
+      'A change order is a formal amendment to a construction contract that modifies the scope of work, the contract price, the schedule, or some combination of the three. Common triggers include owner-directed changes, design errors or omissions, unforeseen field conditions, and new code requirements. Once approved, the change order becomes part of the contract and is billed through the normal pay application process.',
+  },
+  {
+    question: 'When should a subcontractor submit a change order?',
+    answer:
+      'As soon as you recognize that directed work falls outside your original scope. Most subcontracts contain notice requirements — often 48 to 72 hours — and missing that window can jeopardize your right to payment. Confirm the direction in writing immediately, then submit your priced change order proposal promptly, ideally within a week.',
+  },
+  {
+    question: 'Can a subcontractor refuse changed work without a signed change order?',
+    answer:
+      'It depends on the contract. Many subcontracts require you to proceed with directed changes and resolve pricing afterward, while others let you wait for a signed change order before starting. Refusing directed work can expose you to delay claims, so the safer pattern is usually to give written notice, document costs meticulously, and keep pricing moving while the work proceeds. This is general information, not legal advice — review your subcontract and consult an attorney for your specific situation.',
+  },
+  {
+    question: 'How do change orders affect pay applications?',
+    answer:
+      'Approved change orders increase or decrease your contract sum, and that adjusted value is what you bill against on each pay application. In BuildWorkPro, approved change orders roll into the pay app’s contract sum, so progress billing reflects the current contract value. Keep pending change orders moving toward approval so your billing never lags the work you’ve actually performed.',
+  },
+];
 ---
 
 <Layout
@@ -34,6 +59,32 @@ import { config } from '../../config';
           For subcontractors, poor change order management is one of the fastest ways to turn a
           profitable job into a loss. Here's how to handle them right.
         </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 my-10">
+          <h2 class="mt-0">Key takeaways</h2>
+          <ul class="mb-0">
+            <li>
+              Start a paper trail the moment a change is directed — written confirmation,
+              timestamped photos, and costs coded to that specific CO.
+            </li>
+            <li>
+              Notify the GC in writing immediately; most contracts have 48–72 hour notice
+              requirements that can cost you the change if missed.
+            </li>
+            <li>
+              Price the full cost: labor, materials, equipment, sub-tier subs, contractual markup,
+              and the impact costs most subs forget.
+            </li>
+            <li>
+              Keep each change order separate and track every one in a log with status, dollar
+              amount, and submission dates.
+            </li>
+            <li>
+              Bill approved change orders on your next pay application so your contract sum stays
+              current.
+            </li>
+          </ul>
+        </div>
 
         <h2>What Triggers a Change Order</h2>
         <p>
@@ -90,8 +141,9 @@ import { config } from '../../config';
           </li>
           <li>
             <strong>Log everything in your daily report.</strong> Note what was discussed, who directed
-            the change, and what work was performed. Daily logs are admissible in disputes and carry significant
-            weight.
+            the change, and what work was performed.
+            <a href="/blog/construction-site-log-best-practices/">Daily logs</a> are admissible in disputes
+            and carry significant weight.
           </li>
         </ol>
 
@@ -131,6 +183,12 @@ import { config } from '../../config';
           </li>
         </ul>
 
+        <Screenshot
+          src="/screenshots/09-change-order-detail.png"
+          alt="Approved change order in BuildWorkPro showing priced line items with quantity, unit price, and amount, a Draft to Submitted to Approved status track, and a contract flow panel adding the change to the original contract sum"
+          caption="A change order in BuildWorkPro: each item priced individually, the status tracked from draft through approval, and the contract flow showing exactly how the approved amount changes the contract sum."
+        />
+
         <h2>The Approval Workflow</h2>
         <p>
           Change orders have a lifecycle, and knowing where yours stands at any given moment is
@@ -146,21 +204,25 @@ import { config } from '../../config';
             Do this immediately — most contracts have notice requirements (48-72 hours is common).
           </li>
           <li>
-            <strong>Pricing.</strong> You prepare and submit your change order proposal with full backup.
+            <strong>Pricing.</strong> You
+            <a href="/docs/change-orders/creating/">prepare and submit your change order</a> proposal
+            with full backup.
           </li>
           <li>
             <strong>Review.</strong> The GC reviews your pricing, may negotiate, and submits to the owner.
           </li>
           <li>
-            <strong>Approval.</strong> The owner approves the change order and it's incorporated into
-            your contract.
+            <strong>Approval.</strong> The owner
+            <a href="/docs/change-orders/approval/">approves the change order</a> and it's incorporated
+            into your contract.
           </li>
           <li>
             <strong>Execution.</strong> The work is performed (or has already been performed if it was
             time-critical).
           </li>
           <li>
-            <strong>Billing.</strong> The approved change order is added to your pay application.
+            <strong>Billing.</strong> The approved change order is added to your
+            <a href="/features/pay-applications/">pay application</a>.
           </li>
         </ol>
         <p>
@@ -183,7 +245,8 @@ import { config } from '../../config';
             makes it easier for someone to reject the whole package over one disputed item.
           </li>
           <li>
-            <strong>Keep a change order log.</strong> Track every potential, pending, and approved CO
+            <strong>Keep a change order log.</strong>
+            <a href="/features/change-orders/">Track every potential, pending, and approved CO</a>
             in one place with status, dollar amount, and submission dates. Review it weekly.
           </li>
           <li>
@@ -193,6 +256,8 @@ import { config } from '../../config';
           </li>
         </ul>
       </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} />
 
       <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
         <h2 class="text-xl font-bold text-slate-900 mb-3">Start using BuildWorkPro</h2>

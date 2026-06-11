@@ -2,400 +2,299 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+
+const comparisonRows = [
+  {
+    label: 'Built for',
+    bwp: 'Trade subcontractors',
+    other: 'General contractors & owners',
+    bwpWins: true,
+  },
+  {
+    label: 'Pricing',
+    bwp: '$79/month flat, published',
+    other: 'Custom quote based on construction volume',
+    bwpWins: true,
+  },
+  {
+    label: 'Typical annual cost',
+    bwp: '$790/year (annual plan)',
+    other: '$4,500–$10,000+/year for small contractors*',
+    bwpWins: true,
+  },
+  {
+    label: 'Contract',
+    bwp: 'Monthly or yearly, cancel anytime',
+    other: 'Annual contract',
+    bwpWins: true,
+  },
+  {
+    label: 'How you buy',
+    bwp: 'Self-serve signup, 14-day free trial',
+    other: 'Sales demo and quote process',
+    bwpWins: true,
+  },
+  {
+    label: 'Users',
+    bwp: 'Unlimited',
+    other: 'Unlimited',
+    bwpWins: false,
+  },
+  {
+    label: 'Setup',
+    bwp: 'Same-day — import contacts, products & projects from CSV',
+    other: 'Formal implementation, often weeks with training',
+    bwpWins: true,
+  },
+  {
+    label: 'Bidding & estimating for subs',
+    bwp: 'Line items, labor rates, markup, PDF proposals',
+    other: 'Bid management oriented to GCs receiving bids',
+    bwpWins: true,
+  },
+  {
+    label: 'Sales pipeline & CRM',
+    bwp: 'Included',
+    other: 'Separate product',
+    bwpWins: true,
+  },
+  {
+    label: 'Owner/GC-side workflows (RFIs at portfolio scale, BIM)',
+    bwp: 'Not the focus',
+    other: 'Industry leader',
+    bwpWins: false,
+  },
+];
+
+const faqs = [
+  {
+    question: 'What is the best Procore alternative for subcontractors?',
+    answer:
+      'BuildWorkPro is built specifically for trade subcontractors — electrical, plumbing, HVAC, roofing, concrete, and framing companies. It covers bidding, AIA-style pay applications, change orders, project management, site logs, time tracking, and CRM at a flat $79/month with unlimited users, while Procore is priced and designed for general contractors and owners managing large project portfolios.',
+  },
+  {
+    question: 'How much does Procore cost compared to BuildWorkPro?',
+    answer:
+      "Procore doesn't publish pricing — quotes are based on your annual construction volume and which products you license, and independent analyses commonly report $4,500–$10,000+ per year for smaller contractors (as of mid-2026). BuildWorkPro is a published flat rate: $79/month or $790/year, with all features and unlimited users included.",
+  },
+  {
+    question: 'Do I still need my own software if my GC uses Procore?',
+    answer:
+      "Usually, yes. When a GC invites you into their Procore project, you can collaborate there for free — but only on that GC's projects and workflows. Your own bids, pay applications, change orders, crew hours, and sales pipeline across every GC and every job still need a system you control. That's the gap BuildWorkPro fills, and you can keep collaborating in your GCs' Procore accounts alongside it.",
+  },
+  {
+    question: 'Can I switch from Procore to BuildWorkPro?',
+    answer:
+      'Yes. BuildWorkPro has guided CSV import wizards for contacts, leads, products, and projects — export your records from Procore, map the columns once, and import. Most subcontractor teams are running the same day, and the 14-day free trial gives you room to migrate before paying anything.',
+  },
+  {
+    question: 'When is Procore the better choice?',
+    answer:
+      'If you are a general contractor or owner managing many subcontractors across a large portfolio — with needs like portfolio-level RFIs and submittals, BIM coordination, and a large integration marketplace — Procore is the stronger platform, and its cost model reflects that scale. BuildWorkPro is the better fit when you are a specialty sub who needs your own bidding, billing, and field tracking without enterprise pricing.',
+  },
+];
 ---
 
 <Layout
-  title="BuildWorkPro vs Procore – Affordable Alternative for Subcontractors"
-  description="Looking for a Procore alternative built for subcontractors? BuildWorkPro offers bids, pay apps, projects & CRM at $79/month flat vs Procore's custom pricing."
+  title="Procore Alternative for Subcontractors — BuildWorkPro vs Procore"
+  description="Procore is built for GCs with volume-based pricing in the thousands per year. BuildWorkPro covers bids, AIA-style pay apps, change orders & CRM for subs at $79/month flat. See the full comparison."
 >
   <Header />
   <main class="pt-32 pb-20">
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Compare</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Looking for a Procore Alternative?
+          The Procore Alternative Built for Subcontractors
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Procore is a powerful platform built for general contractors and large enterprises. But if
-          you're a subcontractor, you're paying for complexity you don't need. BuildWorkPro gives
-          you bidding, pay apps, project management, and CRM — purpose-built for subs at a fraction
-          of the cost.
+          Procore is an excellent platform — for general contractors and owners managing big
+          portfolios, with pricing to match. If you're a specialty sub, you don't need a
+          volume-based enterprise contract to run bids, pay apps, and crews. BuildWorkPro does the
+          subcontractor's job for $79/month flat.
+        </p>
+      </div>
+    </section>
+
+    <!-- Verdict box (answer-first for skimmers and AI search) -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="rounded-2xl border border-brand-100 bg-brand-50 p-8">
+        <h2 class="text-base font-semibold text-slate-900 mb-3">The short version</h2>
+        <p class="text-slate-600 leading-relaxed text-sm">
+          <strong>Choose Procore</strong> if you're a GC or owner who needs portfolio-level project controls,
+          RFIs and submittals at scale, BIM coordination, and a large integration marketplace — and your
+          construction volume justifies a quote-based annual contract.
+          <strong>Choose BuildWorkPro</strong> if you're a trade subcontractor who needs your own bidding,
+          AIA-style progress billing, change orders, scheduling, field logs, and CRM — self-serve, no
+          sales call, published pricing, unlimited users.
         </p>
       </div>
     </section>
 
     <!-- Comparison table -->
-    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-      <div class="rounded-2xl border border-slate-200 overflow-hidden">
-        <table class="w-full text-sm">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+        BuildWorkPro vs Procore at a glance
+      </h2>
+      <div class="rounded-2xl border border-slate-200 overflow-hidden overflow-x-auto">
+        <table class="w-full text-sm min-w-[640px]">
           <thead>
             <tr class="bg-slate-50">
-              <th class="text-left px-6 py-4 font-semibold text-slate-900">Feature</th>
-              <th class="text-center px-6 py-4 font-semibold text-brand-600">BuildWorkPro</th>
-              <th class="text-center px-6 py-4 font-semibold text-slate-400">Procore</th>
+              <th class="text-left px-6 py-4 font-semibold text-slate-900 w-1/3"></th>
+              <th class="text-left px-6 py-4 font-semibold text-brand-600">BuildWorkPro</th>
+              <th class="text-left px-6 py-4 font-semibold text-slate-500">Procore</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
-            <tr>
-              <td class="px-6 py-4 text-slate-700">Built for</td>
-              <td class="px-6 py-4 text-center font-semibold text-brand-600">Subcontractors</td>
-              <td class="px-6 py-4 text-center text-slate-400">GCs & Enterprises</td>
-            </tr>
-            <tr class="bg-slate-50/50">
-              <td class="px-6 py-4 text-slate-700">Pricing</td>
-              <td class="px-6 py-4 text-center font-semibold text-brand-600">$79/month flat</td>
-              <td class="px-6 py-4 text-center text-slate-400">Custom pricing</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 text-slate-700">Users</td>
-              <td class="px-6 py-4 text-center font-semibold text-brand-600">Unlimited</td>
-              <td class="px-6 py-4 text-center text-slate-400">Per-user fees</td>
-            </tr>
-            <tr class="bg-slate-50/50">
-              <td class="px-6 py-4 text-slate-700">Bidding & Estimates</td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
+            {
+              comparisonRows.map((row, i) => (
+                <tr class={i % 2 === 1 ? 'bg-slate-50/50' : ''}>
+                  <td class="px-6 py-4 font-medium text-slate-700">{row.label}</td>
+                  <td
+                    class={`px-6 py-4 ${row.bwpWins ? 'font-semibold text-brand-700' : 'text-slate-600'}`}
                   >
-                  Yes
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 text-slate-700">Pay Applications</td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-            </tr>
-            <tr class="bg-slate-50/50">
-              <td class="px-6 py-4 text-slate-700">Change Orders</td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 text-slate-700">Site Logs</td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-            </tr>
-            <tr class="bg-slate-50/50">
-              <td class="px-6 py-4 text-slate-700">Time Tracking</td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 text-slate-700">CRM & Pipeline</td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center text-slate-400">Limited</td>
-            </tr>
-            <tr class="bg-slate-50/50">
-              <td class="px-6 py-4 text-slate-700">Gantt Charts</td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <span class="inline-flex items-center gap-1.5 text-emerald-600">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                    ></path></svg
-                  >
-                  Yes
-                </span>
-              </td>
-            </tr>
-            <!-- TODO: Restore QuickBooks row at launch -->
-            <tr class="bg-slate-50/50">
-              <td class="px-6 py-4 text-slate-700">Free Trial</td>
-              <td class="px-6 py-4 text-center font-semibold text-brand-600">
-                14 days, no credit card
-              </td>
-              <td class="px-6 py-4 text-center text-slate-400">Demo only</td>
-            </tr>
+                    {row.bwp}
+                  </td>
+                  <td class="px-6 py-4 text-slate-500">{row.other}</td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>
+      <p class="mt-3 text-xs text-slate-400 px-2">
+        *Procore doesn't publish pricing; quotes are based on annual construction volume and
+        licensed products. Range reflects figures commonly reported in independent pricing analyses
+        as of June 2026. Verify current pricing with Procore.
+      </p>
     </section>
 
-    <!-- Key differences -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Why subcontractors choose BuildWorkPro
+    <!-- Honest section: what Procore does better -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="prose prose-slate max-w-none">
+        <h2 class="text-2xl font-bold text-slate-900">Where Procore genuinely wins</h2>
+        <p class="text-slate-600">
+          A comparison page that pretends the market leader has no strengths isn't worth your time,
+          so here's the honest read. Procore is the deepest platform in construction for
+          <strong>general contractors and owners</strong>: portfolio-wide RFIs and submittals,
+          drawing management, BIM coordination, a huge app marketplace, and the staffing to support
+          enterprise rollouts. If that's your job, pay for it.
+        </p>
+        <p class="text-slate-600">
+          The catch for subcontractors is that you're buying — at construction-volume pricing — a
+          system designed around someone else's workflow. Subs live in a different loop: estimate
+          the work, win the work, bill the work monthly against a schedule of values, document the
+          field, and keep the next job in the pipeline. That loop is all BuildWorkPro does, and it's
+          why it costs $79 instead of thousands.
+        </p>
+        <h2 class="text-2xl font-bold text-slate-900">
+          Already collaborating in a GC's Procore account? Keep doing that.
         </h2>
+        <p class="text-slate-600">
+          When a GC invites you into their Procore project, that access is free — and worth using
+          for their RFIs, drawings, and submittals. But it only covers <em>their</em> jobs, on
+          <em>their</em> terms. It doesn't run your estimates, your pay applications across every client,
+          your crew hours, or your sales pipeline. BuildWorkPro is the system of record for your business;
+          Procore collaboration continues alongside it.
+        </p>
       </div>
+    </section>
 
-      <div class="grid sm:grid-cols-2 gap-8">
-        <!-- Card 1 -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-8">
-          <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center mb-4">
-            <svg
-              class="w-5 h-5 text-brand-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">
-            Built specifically for subcontractors
-          </h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Procore was designed for general contractors managing massive projects with hundreds of
-            stakeholders. BuildWorkPro is purpose-built for specialty subcontractors — electrical,
-            plumbing, HVAC, concrete, and more. Every feature is designed around how subs actually
-            work.
-          </p>
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-4">
+        The subcontractor workflow, end to end
+      </h2>
+      <p class="text-center text-slate-500 max-w-2xl mx-auto mb-10">
+        Estimate it, win it, bill it, document it — without switching tools or paying per seat.
+      </p>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <Screenshot
+            src="/screenshots/05-bid-detail-overview.png"
+            alt="BuildWorkPro bid detail page with line items, labor rates, and markup totals"
+            caption="Bids: line items, labor rates, markup, and a PDF proposal — then convert the win straight into a project."
+          />
         </div>
-
-        <!-- Card 2 -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-8">
-          <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center mb-4">
-            <svg
-              class="w-5 h-5 text-brand-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">
-            Flat $79/month — no per-user fees
-          </h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Procore uses custom, volume-based pricing that can run into thousands per month.
-            BuildWorkPro is a flat $79/month with unlimited users. Add your entire crew — foremen,
-            PMs, office staff — without worrying about the bill going up.
-          </p>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-8">
-          <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center mb-4">
-            <svg
-              class="w-5 h-5 text-brand-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">
-            All features included from day one
-          </h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            No tiered plans, no add-on modules, no upsells. You get bidding, pay apps, change
-            orders, CRM, time tracking, Gantt charts, reports, and everything else the moment you
-            sign up. One plan, every feature.
-          </p>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-8">
-          <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center mb-4">
-            <svg
-              class="w-5 h-5 text-brand-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">
-            Simple to learn, built for the field
-          </h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Procore has a steep learning curve and often requires dedicated training. BuildWorkPro
-            is designed so your field crews can start using it on day one — clean interface,
-            intuitive navigation, and no bloat.
-          </p>
+        <div>
+          <Screenshot
+            src="/screenshots/13-pay-app-detail.png"
+            alt="BuildWorkPro pay application with schedule of values, retainage, and approval status"
+            caption="Pay apps: AIA-style progress billing with schedule of values and retainage, prefilled from your bid and change orders."
+          />
         </div>
       </div>
     </section>
+
+    <!-- Switching guide -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+        Switching takes an afternoon, not a quarter
+      </h2>
+      <ol class="space-y-6">
+        <li class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            1
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Export your records</h3>
+            <p class="text-slate-500 text-sm">
+              Pull your contacts, vendors, and project list out of Procore (or the spreadsheets
+              you've been keeping on the side).
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            2
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Import with guided wizards</h3>
+            <p class="text-slate-500 text-sm">
+              BuildWorkPro's CSV wizards walk you through contacts, leads, products, and projects —
+              download the sample layout, map your columns, review the preview, import. Vendor price
+              lists can be mapped straight into bid line items with reusable templates.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            3
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">
+              Run your next bid and pay app in it
+            </h3>
+            <p class="text-slate-500 text-sm">
+              The 14-day trial is long enough to take one real job through bid → project → pay app
+              before you pay anything. No credit card up front, cancel anytime after.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <FAQSection faqs={faqs} />
 
     <!-- CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <div class="rounded-2xl bg-slate-900 px-8 py-14 sm:px-14">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-          Ready to switch from Procore?
+          Run your business for $79/month, not $7,900/year
         </h2>
         <p class="mt-4 text-slate-400 max-w-xl mx-auto">
-          14-day free trial. No credit card required.
+          Every feature, unlimited users, 14-day free trial. No demo call, no quote process, no
+          annual contract.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -408,9 +307,16 @@ import { config } from '../../config';
             href="/contact/"
             class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
           >
-            Talk to sales
+            Talk to us
           </a>
         </div>
+        <p class="mt-6 text-sm text-slate-500">
+          Also comparing residential platforms? See
+          <a
+            href="/compare/buildertrend-alternative/"
+            class="text-slate-300 underline hover:text-white">BuildWorkPro vs Buildertrend</a
+          >.
+        </p>
       </div>
     </section>
   </main>

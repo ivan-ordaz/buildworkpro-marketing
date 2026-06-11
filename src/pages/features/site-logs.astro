@@ -2,26 +2,61 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a construction daily log?',
+    answer:
+      'A construction daily log (also called a daily report or site log) is a dated record of what happened on a jobsite on a given day: who was on site, what work was performed, what materials arrived, and what problems came up. Crews keep them because memory fades fast — and because a consistent run of daily logs is the project history you reach for when a dispute, delay claim, or payment question surfaces months later.',
+  },
+  {
+    question: 'What does a BuildWorkPro site log record?',
+    answer:
+      'Each log is tied to a project and a date and records personnel on site, an optional title, tags — Progress, Issue, Delay, Safety, Delivery, Inspection, or General — and notes. The detail page adds work performed, materials received, visitors on site, and issues, plus photos from the job site. A manager can mark the log reviewed once checked, and every log carries its own comments, documents, and activity history.',
+  },
+  {
+    question: 'Why do daily logs matter in disputes and delay claims?',
+    answer:
+      'Because they are written the day it happened, not reconstructed later. When a delay claim or payment dispute surfaces, a run of dated logs showing who was on site, what was performed, and which issues held the work up is far stronger evidence than recollection. BuildWorkPro site logs exist for exactly this — a daily project history you can filter by project or tag and walk back through on a timeline.',
+  },
+  {
+    question: 'Who can create site logs in BuildWorkPro?',
+    answer:
+      'Company admins, managers, members, and field crew can all create and edit site logs. Field Crew is a restricted role designed for on-site workers — they can write the daily record without getting access to bids, pricing, or billing. Viewers have read-only access.',
+  },
+  {
+    question: 'Can I attach photos to a site log?',
+    answer:
+      "Yes. Open a log's detail page and attach photos straight from the job site — progress shots, deliveries, or documentation of an issue. Photos live on the log entry, tied to the project and the date, so the visual record sits next to the written one.",
+  },
+  {
+    question: 'How much does it cost?',
+    answer:
+      'Site logs are included in the single BuildWorkPro plan: $79/month (or $790/year) with unlimited users and every feature. There is a 14-day free trial with no credit card required.',
+  },
+];
 ---
 
 <Layout
-  title="Construction Site Log & Daily Report Software | BuildWorkPro"
-  description="Digital daily site logs for construction. Record weather, crew hours, equipment, materials, and notes from the field. Replace paper logs."
+  title="Construction Daily Log & Daily Report Software | BuildWorkPro"
+  description="Daily site logs for construction crews: personnel, work performed, materials, issues, and photos, tagged and reviewed. $79/month flat, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Construction Site Log Software
+          Construction Daily Log Software
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Replace paper daily logs with digital field documentation. Record weather conditions, crew
-          hours, equipment usage, materials delivered, and work performed -- all searchable, all
-          exportable, all tied to the project.
+          Record personnel, work performed, materials received, visitors, and issues for every day
+          on site — with photos, tags, and a reviewed status — so the record exists when a question
+          comes up months later.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -40,22 +75,43 @@ import { config } from '../../config';
       </div>
     </section>
 
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <Screenshot
+        src="/screenshots/10-site-logs-list.png"
+        alt="BuildWorkPro site logs list showing daily entries with date, title, tags, and reviewed status"
+        caption="The site logs list: daily entries across every project with date, title, tags, and reviewed status."
+        width={1280}
+        height={720}
+      />
+    </section>
+
     <!-- Overview -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <div class="prose prose-lg prose-slate mx-auto">
-        <h2>Build an airtight record of every jobsite day</h2>
+        <h2>Get the day on record before everyone forgets it</h2>
         <p>
-          Daily site logs are your first line of defense in disputes, delay claims, and payment
-          disagreements. When a GC says your crew was not on site, a timestamped digital log with
-          weather data, personnel counts, and work descriptions tells a different story.
-          BuildWorkPro makes it fast for your foremen to log the day and easy for your office to
-          review and archive it.
+          When a delay claim shows up months after the pour, nobody remembers what happened on a
+          Tuesday in March. A daily log written that Tuesday does. BuildWorkPro site logs are daily
+          records of what happened on a job — progress, issues, deliveries, and visits — kept for
+          project history and dispute resolution. Each entry is tied to a project and a date, so the
+          record builds itself one day at a time.
         </p>
         <p>
-          Every site log is tied to a specific project and date. Over the course of a job, your logs
-          become a complete daily history of what happened, who was there, and what conditions were
-          like. Search by date range, project, or keyword to find exactly what you need when you
-          need it.
+          Site Logs is a top-level module: open it from the sidebar to see entries across every job,
+          or work from a single project's own Site Logs tab inside
+          <a href="/features/project-management/">project management</a>. Logs capture the narrative
+          of the day; pair them with
+          <a href="/features/time-tracking/">time tracking</a> to log crew hours against the same project.
+          Every log also carries its own comments, documents, and activity history.
+        </p>
+        <p>
+          New to daily logs, or trying to get a crew to keep them consistently? Our guide to
+          <a href="/blog/construction-site-log-best-practices/"
+            >construction site log best practices</a
+          >
+          covers what to record and how to make the habit stick. The full product walkthrough is in the
+          <a href="/docs/field/site-logs/">site logs docs</a>.
         </p>
       </div>
     </section>
@@ -82,10 +138,11 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Daily log entries</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Structured daily entries</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Create a log for each project and date. Structured fields ensure consistent
-            documentation -- your foremen fill in the same data every day without missing anything.
+            Each log is tied to a project and a date (it defaults to today). Record personnel on
+            site, give the entry a title, tag it, and write the notes — the same fields every day,
+            so nothing gets skipped.
           </p>
         </div>
 
@@ -101,14 +158,15 @@ import { config } from '../../config';
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"
+                d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"
               ></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Weather tracking</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Tags that classify the day</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Record temperature, conditions, and weather impacts for every day on site. Weather
-            records are critical for delay claims and schedule impact documentation.
+            Tag each log Progress, Issue, Delay, Safety, Delivery, Inspection, or General. Months
+            later, filter by tag to pull every delay or safety entry on a job in seconds.
           </p>
         </div>
 
@@ -128,10 +186,11 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Crew and personnel</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Personnel and visitors</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Log the number of workers on site by trade, classification, and hours worked. Build a
-            daily manpower record that supports your pay applications and labor claims.
+            Every entry records personnel on site for the day, and the detail page adds visitors on
+            site — the inspector, the GC's super, a delivery driver. Who-was-there questions get
+            answered from the log, not from memory.
           </p>
         </div>
 
@@ -151,10 +210,12 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Equipment and materials</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">
+            Work performed, materials, issues
+          </h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Record equipment used and materials received on site each day. Track deliveries,
-            equipment hours, and material consumption against your project budget.
+            The detail page captures the substance of the day: the work performed, the materials
+            received, and any issues that came up — the three things you'll be asked about later.
           </p>
         </div>
 
@@ -178,10 +239,10 @@ import { config } from '../../config';
                 d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Photo attachments</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Photos from the job site</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Attach photos directly to any site log entry. Document progress, conditions, safety
-            issues, or completed work with visual evidence tied to the date and project.
+            Attach photos directly to the log entry. Progress, deliveries, and problems get
+            documented visually, tied to the project and the date they happened.
           </p>
         </div>
 
@@ -197,23 +258,114 @@ import { config } from '../../config';
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-              ></path>
+                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Export to PDF</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Reviewed status</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Generate PDF reports of your daily logs for archival, sharing with GCs, or submitting as
-            backup documentation with pay apps and delay claims.
+            A manager marks each log reviewed once it's been checked. Filter by reviewed status to
+            see which days still need a look — in timeline or table view, on one project or across
+            all of them.
           </p>
         </div>
       </div>
     </section>
 
+    <!-- Detail page screenshot -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <Screenshot
+        src="/screenshots/11-site-log-detail.png"
+        alt="BuildWorkPro site log detail page with work performed, materials received, visitors on site, issues, and photos"
+        caption="A site log's detail page: work performed, materials received, visitors on site, issues, and photos for the day."
+      />
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">How it works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            1
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Start a log entry</h3>
+            <p class="text-slate-500">
+              Click New Log Entry, pick the project, and set the date — it defaults to today,
+              because the best time to write the log is the day it happened.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            2
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Record the day</h3>
+            <p class="text-slate-500">
+              Enter personnel on site, an optional title, tags, and the notes. Company admins,
+              managers, members, and field crew can all create logs — so the person who was on site
+              writes the record.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            3
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Add the detail</h3>
+            <p class="text-slate-500">
+              Open the log to fill in work performed, materials received, visitors on site, and
+              issues — and attach photos from the field while the day is still fresh.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            4
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Review and find it later</h3>
+            <p class="text-slate-500">
+              A manager marks the log reviewed once it's checked. Browse the timeline or table view,
+              filter by project, tag, or reviewed status, or search by title and notes.
+            </p>
+          </div>
+        </div>
+      </div>
+      <p class="mt-10 text-center text-sm text-slate-400">
+        Full walkthrough in the docs:
+        <a href="/docs/field/site-logs/" class="text-brand-600 hover:underline">Site logs</a>
+        ·
+        <a href="/docs/field/time-tracking/" class="text-brand-600 hover:underline">Time tracking</a
+        >
+        ·
+        <a href="/docs/projects/overview/" class="text-brand-600 hover:underline"
+          >Projects overview</a
+        >
+      </p>
+    </section>
+
+    <FAQSection faqs={faqs} />
+
     <!-- Bottom CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
-      <p class="text-lg text-slate-500 mb-8">14-day free trial. No credit card required.</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+        Every day on site, on the record
+      </h2>
+      <p class="text-lg text-slate-500 mb-8">
+        Site logs are included in the $79/month flat plan — unlimited users, every feature. 14-day
+        free trial, no credit card required.
+      </p>
       <a
         href={config.signupUrl}
         class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"

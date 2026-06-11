@@ -2,26 +2,62 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a construction CRM?',
+    answer:
+      'A construction CRM keeps track of the people you work with and the jobs you are chasing: a contact list for GCs, customers, and vendors, plus a pipeline of leads showing what stage each opportunity is at and what it is worth. In BuildWorkPro, that means contacts with construction-specific types and a drag-and-drop sales pipeline where every lead carries a value, probability, and expected close date — and converts into a bid or project when it lands.',
+  },
+  {
+    question: 'How does the sales pipeline work?',
+    answer:
+      'Leads appear as cards on a Kanban board, organized into stage columns. A new workspace starts with seven stages — New Lead, Contacted, Site Visit Scheduled, Bid Sent, Negotiation, Won, and Lost — and you can add, rename, reorder, and recolor stages to match how you actually sell. Drag a card to move it to another stage, or switch to the Cards or Table view of the same pipeline.',
+  },
+  {
+    question: 'Does a lead connect to a bid?',
+    answer:
+      'Yes. From the lead detail page, Create Bid starts a bid pre-linked to the lead, carrying its contact and details over — no retyping. You can also convert a lead straight into a project, which moves the lead to the Won stage.',
+  },
+  {
+    question: 'How does contact management work?',
+    answer:
+      'Every contact gets a type — Customer, General Contractor, Architect, City, HOA, Vendor, Subcontractor, Employee, or Other — so you can filter the list to exactly who you need. Contacts can be hierarchical: set a parent company to nest a person under the company they work for. You can also bulk-import contacts from CSV with column mapping.',
+  },
+  {
+    question: 'Why use a CRM built into the same tool as bidding?',
+    answer:
+      "A standalone CRM stops at the won deal — then you re-enter everything into whatever you estimate and invoice with. Because BuildWorkPro's CRM lives in the same system as bidding and projects, the lead you win becomes the bid, the bid becomes the project, and the contact behind it stays attached the whole way. One record from first call to final pay app.",
+  },
+  {
+    question: 'How much does a construction CRM cost?',
+    answer:
+      'The CRM is included in the single BuildWorkPro plan: $79/month (or $790/year) with unlimited users and every feature — bidding, projects, pay applications, and more. There is a 14-day free trial with no credit card required.',
+  },
+];
 ---
 
 <Layout
-  title="Construction CRM & Sales Pipeline Software | BuildWorkPro"
-  description="Manage leads, contacts, and your sales pipeline with a visual Kanban board. Track deal values, follow-ups, and win rates. CRM built for subcontractors."
+  title="Construction CRM Software for Subcontractors | BuildWorkPro"
+  description="Track leads on a Kanban pipeline, manage contacts, and turn wins into bids and projects. CRM built for subcontractors — $79/month, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Construction CRM & Sales Pipeline
+          Construction CRM for Subcontractors
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Stop losing leads to sticky notes and spreadsheets. BuildWorkPro gives you a visual
-          pipeline to track every opportunity from first contact through bid submission, with
-          contact management, deal tracking, and follow-up reminders built in.
+          Track every lead from first contact to won job on a drag-and-drop pipeline. Keep GCs,
+          customers, and vendors in one contact list — and when a lead lands, start the bid from the
+          same record instead of retyping it.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -40,21 +76,43 @@ import { config } from '../../config';
       </div>
     </section>
 
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <DemoVideo
+        src="/videos/pipeline-demo.mp4"
+        poster="/videos/pipeline-demo-poster.jpg"
+        label="Demo: expanding the sales menu, opening the pipeline kanban, and clicking into a lead"
+        caption="The sales pipeline in BuildWorkPro: leads as cards in stage columns — opened from the sales menu, with a lead detail one click away."
+      />
+    </section>
+
     <!-- Overview -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <div class="prose prose-lg prose-slate mx-auto">
-        <h2>Win more work by managing your pipeline</h2>
+        <h2>Get your pipeline out of your inbox</h2>
         <p>
-          Most subcontractors track their sales pipeline in their head or on a whiteboard. When you
-          are juggling ITBs from multiple GCs, referrals from past clients, and cold leads from plan
-          rooms, things fall through the cracks. BuildWorkPro gives you a dedicated CRM designed for
-          how subcontractors sell -- relationship-driven, bid-focused, and tied directly to your
-          estimating workflow.
+          If your pipeline is a notepad, a whiteboard, and a pile of plan invites in your inbox, you
+          don't actually know what's in play — what's waiting on a callback, what needs a site
+          visit, what went quiet after you sent the number. BuildWorkPro puts every opportunity on a <a
+            href="/docs/crm/pipeline/">sales pipeline</a
+          >: each lead is a card, each column is a stage, and dragging a card is how the deal moves
+          from New Lead to Contacted to Bid Sent to Won.
         </p>
         <p>
-          Every contact, lead, and opportunity lives in one system. When a lead turns into a bid,
-          the data flows through. When a bid is won, it becomes a project. No re-entering
-          information, no disconnected spreadsheets, no lost context.
+          Each lead tracks a pipeline value, a probability, and an expected close date, and its
+          summary card shows the weighted value — pipeline value times probability — so a long shot
+          doesn't read like sure money. Calls, emails, meetings, and notes get
+          <a href="/docs/crm/leads/">logged against the lead</a> on its timeline. When the deal advances,
+          one click starts a
+          <a href="/features/construction-bidding/">bid</a> pre-linked to the lead, with its contact and
+          details carried over.
+        </p>
+        <p>
+          Underneath it all is a <a href="/docs/crm/contacts/">contact list</a> built for construction:
+          every contact is typed — Customer, General Contractor, Architect, Vendor, and more — and people
+          can nest under a parent company. New to running a pipeline? Start with our <a
+            href="/blog/construction-crm-tips/">construction CRM tips</a
+          >.
         </p>
       </div>
     </section>
@@ -83,8 +141,9 @@ import { config } from '../../config';
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">Contact management</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Centralized database for GCs, owners, architects, and vendors. Store addresses, phone
-            numbers, emails, notes, and tags. Link contacts to projects, bids, and leads.
+            One list for everyone you work with, typed as Customer, General Contractor, Architect,
+            City, HOA, Vendor, Subcontractor, Employee, or Other — filter to exactly who you need,
+            and nest people under a parent company.
           </p>
         </div>
 
@@ -106,9 +165,32 @@ import { config } from '../../config';
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">Kanban pipeline</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Visual drag-and-drop pipeline with customizable stages -- New Lead, Contacted, Bid
-            Invited, Bid Submitted, Negotiation, Won, Lost. See your entire sales funnel at a
-            glance.
+            Leads as cards in stage columns — drag a card to move the deal forward. Prefer a
+            different layout? The same pipeline also comes as a Cards grid and a row-per-lead Table.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
+          <div class="inline-flex p-3 rounded-xl bg-emerald-50 ring-1 ring-emerald-100 mb-4">
+            <svg
+              class="w-6 h-6 text-emerald-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Configurable stages</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            Start with seven default stages — New Lead, Contacted, Site Visit Scheduled, Bid Sent,
+            Negotiation, Won, Lost — then add, rename, reorder, and recolor them to match how you
+            actually sell.
           </p>
         </div>
 
@@ -128,10 +210,11 @@ import { config } from '../../config';
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Deal tracking</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Weighted pipeline value</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Assign deal values and probability to every opportunity. Track your weighted pipeline
-            value so you can forecast revenue and plan your bidding capacity.
+            Every lead carries a pipeline value, probability, and expected close date. Its summary
+            card shows the weighted value — value times probability — so you see realistic numbers
+            instead of wishful ones.
           </p>
         </div>
 
@@ -147,37 +230,15 @@ import { config } from '../../config';
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Follow-up reminders</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Activity timeline</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Set follow-up dates on leads and get reminders when it is time to reach out. Never let
-            an opportunity go cold because you forgot to follow up after a bid submission.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-slate-100 bg-white">
-          <div class="inline-flex p-3 rounded-xl bg-emerald-50 ring-1 ring-emerald-100 mb-4">
-            <svg
-              class="w-6 h-6 text-emerald-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Lead sources</h3>
-          <p class="text-sm text-slate-500 leading-relaxed">
-            Tag leads by source -- referral, plan room, repeat client, website. Track which channels
-            bring you the most work so you can focus your business development effort.
+            Log phone calls, emails, meetings, and notes against a lead. Everything lands on the
+            lead's timeline, so you can see where the conversation stands — and logged activity
+            feeds the pipeline reports.
           </p>
         </div>
 
@@ -199,17 +260,109 @@ import { config } from '../../config';
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">Lead-to-bid conversion</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            When a lead becomes an active opportunity, convert it into a bid with one click. Contact
-            information, project details, and notes carry over automatically.
+            When a lead advances, start a
+            <a href="/features/construction-bidding/" class="text-brand-600 hover:underline">bid</a> pre-linked
+            to it — contact and details carry over. Won without a formal bid? Convert the lead straight
+            into a project.
           </p>
         </div>
       </div>
     </section>
 
+    <!-- Lead detail screenshot -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <Screenshot
+        src="/screenshots/27-lead-detail.png"
+        alt="BuildWorkPro lead detail page showing pipeline value, probability, weighted value, and activity"
+        caption="A lead's detail page: pipeline value, probability, and expected close date, with the weighted value and related activity alongside."
+        width={1280}
+        height={720}
+      />
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">How it works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            1
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Build your contact list</h3>
+            <p class="text-slate-500">
+              Add GCs, customers, and vendors one at a time, or bulk-import from CSV with column
+              mapping. Every contact gets a type and at least one way to reach them — email, phone,
+              or mobile.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            2
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Add a lead</h3>
+            <p class="text-slate-500">
+              Name the opportunity, link a contact, and set the pipeline value, source, and project
+              type. The lead starts in your default stage.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            3
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Work the board</h3>
+            <p class="text-slate-500">
+              Drag leads across stages as deals move. Log calls, emails, meetings, and notes on each
+              lead, and keep the probability and expected close date honest as you learn more.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold"
+          >
+            4
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Convert the win</h3>
+            <p class="text-slate-500">
+              Click Create Bid to start a bid pre-linked to the lead, or Convert to Project to take
+              it straight to execution — the lead moves to the Won stage.
+            </p>
+          </div>
+        </div>
+      </div>
+      <p class="mt-10 text-center text-sm text-slate-400">
+        Full walkthrough in the docs:
+        <a href="/docs/crm/pipeline/" class="text-brand-600 hover:underline">Sales pipeline</a>
+        ·
+        <a href="/docs/crm/leads/" class="text-brand-600 hover:underline">Leads</a>
+        ·
+        <a href="/docs/crm/contacts/" class="text-brand-600 hover:underline">Contacts</a>
+      </p>
+    </section>
+
+    <FAQSection faqs={faqs} />
+
     <!-- Bottom CTA -->
     <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
-      <p class="text-lg text-slate-500 mb-8">14-day free trial. No credit card required.</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+        Run your pipeline from a board, not a notepad
+      </h2>
+      <p class="text-lg text-slate-500 mb-8">
+        The CRM is included in the $79/month flat plan — unlimited users, every feature. 14-day free
+        trial, no credit card required.
+      </p>
       <a
         href={config.signupUrl}
         class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"

@@ -3,7 +3,32 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'How do you create a construction bid?',
+    answer:
+      'Start by reviewing the plans, specifications, and every addendum to confirm exactly where your scope starts and stops. Perform a takeoff to quantify the work, price labor at fully burdened rates and materials from current supplier quotes, then add equipment, sub-tier, and other direct costs. Finally, apply overhead and profit markup and submit a clean proposal that spells out inclusions, exclusions, and assumptions before the deadline.',
+  },
+  {
+    question: 'What should a subcontractor include in a bid proposal?',
+    answer:
+      'A clear scope summary stating what is included and excluded, plus qualifications, clarifications, and assumptions. Common items to clarify: work hours, access and staging assumptions, whether temporary power or hoisting is provided by others, material escalation clauses for long projects, and payment terms including retainage expectations.',
+  },
+  {
+    question: 'How much markup should a construction bid include?',
+    answer:
+      'Markup has to cover overhead and profit. Most subcontractors run 8-15% overhead depending on size and structure, and 5-10% profit is common on competitive bids — specialty or negotiated work can support higher margins. Check whether the bid documents want overhead and profit broken out separately or rolled into a single markup.',
+  },
+  {
+    question: 'What is a fully burdened labor rate?',
+    answer:
+      "The true hourly cost of an employee, not just the wage: payroll taxes (FICA, FUTA, SUTA), workers' comp insurance, health benefits, union contributions, and per diem or travel. A $45/hour mechanic can cost $72/hour once the burden is loaded in, so bidding at base wage significantly understates labor cost.",
+  },
+];
 ---
 
 <Layout
@@ -34,6 +59,32 @@ import { config } from '../../config';
           This guide walks through each step of putting together a construction bid, from reviewing
           plans to submitting your proposal.
         </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6">
+          <h2 class="mt-0">Key takeaways</h2>
+          <ul class="mb-0">
+            <li>
+              Read the full spec book and every addendum before pricing — missed addenda are one of
+              the most common ways subs leave money out of a bid.
+            </li>
+            <li>
+              Price labor at fully burdened rates and your crews' real production rates, not
+              industry averages.
+            </li>
+            <li>
+              Get current supplier quotes with a price hold through bid day, and flag long-lead
+              items in your proposal.
+            </li>
+            <li>
+              Apply overhead (typically 8-15%) and profit (5-10%) deliberately, in the format the
+              bid documents require.
+            </li>
+            <li>
+              Spell out inclusions, exclusions, and assumptions in a clean proposal — and submit it
+              well before the deadline.
+            </li>
+          </ul>
+        </div>
 
         <h2>Step 1: Review the Plans and Specifications</h2>
         <p>
@@ -66,7 +117,9 @@ import { config } from '../../config';
           </li>
           <li>
             <strong>Separate by area or phase.</strong> Breaking your takeoff into zones or phases makes
-            it easier to verify quantities and adjust if the scope changes later.
+            it easier to verify quantities and adjust if the <a
+              href="/blog/construction-change-order-management/">scope changes</a
+            > later.
           </li>
         </ul>
 
@@ -106,8 +159,17 @@ import { config } from '../../config';
           Don't forget the costs that fall between labor and materials. Rented equipment like lifts,
           scaffolding, or trenchers. Any sub-tier subcontractors you're bringing in. Permits,
           testing, inspection fees, temporary protection, and dumpster costs. These items add up
-          quickly and are easy to overlook.
+          quickly and are easy to overlook. Structuring your bid as line items with separate
+          material, labor, and other cost buckets — the way <a href="/docs/bids/creating-a-bid/"
+            >bids are built in BuildWorkPro</a
+          > — makes these stray costs easier to catch.
         </p>
+
+        <Screenshot
+          src="/screenshots/05-bid-detail-overview.png"
+          alt="Bid detail page in BuildWorkPro showing an accepted HVAC bid with a cost breakdown panel listing estimate total, sales tax, customer total, margin, total materials, people costs, total cost, and company overhead"
+          caption="A bid in BuildWorkPro with its cost breakdown panel: materials, people costs, company overhead, and margin tracked as separate buckets — the same cost categories covered in Steps 3 through 6."
+        />
 
         <h2>Step 6: Apply Overhead and Profit</h2>
         <p>
@@ -127,7 +189,10 @@ import { config } from '../../config';
         </ul>
         <p>
           Some contractors roll overhead and profit into a single markup. Others break it out on the
-          bid form. Know what the bid documents require and be consistent.
+          bid form. Know what the bid documents require and be consistent. <a
+            href="/features/construction-bidding/">Bidding software</a
+          > that applies margin and overhead as rates across your line items keeps the math consistent
+          from one bid to the next.
         </p>
 
         <h2>Step 7: Format and Submit Your Proposal</h2>
@@ -143,7 +208,9 @@ import { config } from '../../config';
           <li>Access and staging area assumptions</li>
           <li>Whether temporary power, water, or hoisting is provided by others</li>
           <li>Material price escalation clauses for long-duration projects</li>
-          <li>Payment terms and retainage expectations</li>
+          <li>
+            Payment terms and <a href="/blog/aia-pay-application-guide/">retainage</a> expectations
+          </li>
         </ul>
         <p>
           Submit on time. It sounds obvious, but late bids get thrown out. Build in a buffer — if
@@ -155,7 +222,9 @@ import { config } from '../../config';
         <ul>
           <li>
             <strong>Bidding every job.</strong> Be selective. Chasing too many bids spreads your estimating
-            team thin and leads to sloppy numbers.
+            team thin and leads to sloppy numbers. Reusable <a href="/docs/bids/templates/"
+              >bid templates</a
+            > cut estimating time on the jobs you do pursue.
           </li>
           <li>
             <strong>Forgetting mobilization and demobilization.</strong> Getting your crew and equipment
@@ -171,6 +240,8 @@ import { config } from '../../config';
           </li>
         </ul>
       </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} />
 
       <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
         <h2 class="text-xl font-bold text-slate-900 mb-3">Start using BuildWorkPro</h2>

@@ -1,0 +1,44 @@
+---
+// Real app screenshot in a consistent frame. All marketing captures are 16:9
+// (1920x1080 or 1280x720), so intrinsic dimensions are set to avoid CLS.
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  class?: string;
+  eager?: boolean;
+  width?: number;
+  height?: number;
+}
+
+const {
+  src,
+  alt,
+  caption,
+  class: className = '',
+  eager = false,
+  width = 1920,
+  height = 1080,
+} = Astro.props;
+---
+
+<figure
+  class={`rounded-2xl border border-slate-200 shadow-xl shadow-slate-900/5 overflow-hidden bg-white ${className}`}
+>
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    class="w-full h-auto block"
+  />
+  {
+    caption && (
+      <figcaption class="px-5 py-3 text-xs text-slate-400 border-t border-slate-100 bg-slate-50/50">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>

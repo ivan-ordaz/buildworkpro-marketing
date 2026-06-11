@@ -33,7 +33,7 @@ Use this recipe when sales needs an instant heads-up the moment a customer accep
 
    const app = express();
    const SECRET = process.env.BWP_BID_ACCEPTED_SECRET;
-   const seen = new Set(); // swap for Redis or a DB in production
+   const seen = new Set(); // swap for a database or other durable store in production
 
    app.post('/bwp/bid-accepted', express.raw({ type: 'application/json' }), (req, res) => {
      const sig = req.header('BuildWorkPro-Signature') ?? '';

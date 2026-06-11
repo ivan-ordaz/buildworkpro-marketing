@@ -1,0 +1,70 @@
+---
+// Page-specific FAQ accordion with FAQPage JSON-LD. Use on feature, solution,
+// compare, and blog pages so each carries its own rich-result-eligible Q&A.
+// The homepage keeps its own FAQ.astro (different section styling).
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  faqs: FAQItem[];
+  heading?: string;
+  class?: string;
+  /** Skip the outer container (max-width/padding) when nested inside an article. */
+  bare?: boolean;
+}
+
+const {
+  faqs,
+  heading = 'Frequently asked questions',
+  class: className = 'mb-20',
+  bare = false,
+} = Astro.props;
+
+const wrapperClass = bare ? className : `max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`;
+---
+
+<section class={wrapperClass}>
+  <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">{heading}</h2>
+  <div class="space-y-4">
+    {
+      faqs.map((faq) => (
+        <details class="group border border-slate-200 rounded-xl overflow-hidden">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-left hover:bg-slate-50 transition-colors">
+            <span class="text-base font-semibold text-slate-900 pr-4">{faq.question}</span>
+            <svg
+              class="w-5 h-5 text-slate-400 shrink-0 transition-transform group-open:rotate-45"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+            </svg>
+          </summary>
+          <div class="px-6 pb-5">
+            <p class="text-slate-500 leading-relaxed">{faq.answer}</p>
+          </div>
+        </details>
+      ))
+    }
+  </div>
+
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    })}
+  />
+</section>

@@ -3,7 +3,32 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What should a construction daily log include?',
+    answer:
+      'A complete daily log records weather conditions, the crew on site with hours and assignments, work performed with specific locations, equipment in use, material deliveries, visitors and inspection results, safety observations, and any delays or disruptions. Specificity matters more than length — location references, times, and quantities are what make an entry useful months later. Also note work that was planned but could not be performed, and why.',
+  },
+  {
+    question: 'Are daily logs admissible in construction disputes?',
+    answer:
+      'Daily logs are routinely used as evidence in delay claims and payment disputes, and dated, contemporaneous records generally carry far more weight than recollections or after-the-fact reconstructions. Consistency strengthens credibility — a log kept every day is harder to challenge than sporadic entries. This is general guidance, not legal advice; consult a construction attorney about your specific situation.',
+  },
+  {
+    question: 'Who should write the daily log?',
+    answer:
+      'The foreman or site lead — the person who actually watched the day’s work happen. Make it part of the end-of-day routine with a firm deadline, and have a project manager review logs weekly so gaps and recurring problems get caught early. Reconstructing logs from the office after the fact defeats the purpose of a contemporaneous record.',
+  },
+  {
+    question: 'Should I record weather in my daily log?',
+    answer:
+      'Yes — weather is the most common basis for schedule extension requests, so note temperature, precipitation, wind, and exactly how conditions affected the work. Be specific about times and impact rather than writing one-word summaries. In BuildWorkPro, add weather observations to the notes section of the day’s site log, along with photos of site conditions.',
+  },
+];
 ---
 
 <Layout
@@ -35,6 +60,32 @@ import { config } from '../../config';
           they're useless when it matters. Here's what to record and why.
         </p>
 
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6">
+          <h2 class="mt-0">Key takeaways</h2>
+          <ul class="mb-0">
+            <li>
+              Record specifics, not summaries — "rain 6–11 AM, standing water in trenches" beats
+              "rainy."
+            </li>
+            <li>
+              Log crew, hours, and work locations daily; they back up labor billing, change orders,
+              and delay claims.
+            </li>
+            <li>
+              Document delays caused by others in real time — the most skipped and most valuable
+              category.
+            </li>
+            <li>
+              Contemporaneous daily logs carry far more weight in disputes than after-the-fact
+              reconstructions.
+            </li>
+            <li>
+              Make logging a fixed end-of-day habit: assign it to the foreman and set a hard
+              deadline.
+            </li>
+          </ul>
+        </div>
+
         <h2>What to Log Every Day</h2>
 
         <h3>Weather Conditions</h3>
@@ -52,8 +103,9 @@ import { config } from '../../config';
 
         <h3>Crew and Manpower</h3>
         <p>
-          Document who was on site, their classification (journeyman, apprentice, foreman), hours
-          worked, and what they were assigned to. This serves multiple purposes:
+          Document who was on site, their classification (journeyman, apprentice, foreman), <a
+            href="/features/time-tracking/">hours worked</a
+          >, and what they were assigned to. This serves multiple purposes:
         </p>
         <ul>
           <li>Supports your labor billing on time-and-material work or change orders</li>
@@ -90,7 +142,7 @@ import { config } from '../../config';
           Log all deliveries with quantities, vendor, and where materials were stored. Note any
           damaged or incorrect materials and how you handled them (returned, held for replacement,
           etc.). This creates a chain of custody for materials and supports stored materials billing
-          on your pay applications.
+          on your <a href="/blog/aia-pay-application-guide/">pay applications</a>.
         </p>
 
         <h3>Visitors and Inspections</h3>
@@ -121,6 +173,12 @@ import { config } from '../../config';
           <li>Late material deliveries (especially if caused by others' design changes)</li>
           <li>Schedule changes communicated by the GC</li>
         </ul>
+
+        <Screenshot
+          src="/screenshots/11-site-log-detail.png"
+          alt="Daily site log in BuildWorkPro with sections for notes, work performed, materials received, visitors on site, issues, and photos, plus the log date, project, author, and personnel count"
+          caption="A daily site log in BuildWorkPro captures the categories above — work performed, materials received, visitors, issues, and photos — tied to the project, date, author, and crew count on site."
+        />
 
         <h2>Why Daily Logs Matter</h2>
         <p>
@@ -160,23 +218,28 @@ import { config } from '../../config';
           </li>
         </ul>
         <p>
-          The switch to digital logging doesn't have to be complicated. The best field documentation
-          tools are designed for people wearing gloves on a jobsite — big buttons, simple forms,
-          quick photo capture. If it takes more than five minutes to complete a daily log, the tool
-          is wrong.
+          The switch to <a href="/features/site-logs/">digital site logs</a> doesn't have to be complicated.
+          The best field documentation tools are designed for people wearing gloves on a jobsite — big
+          buttons, simple forms, quick photo capture. If it takes more than five minutes to complete a
+          daily log, the tool is wrong.
         </p>
 
         <h2>Making It a Habit</h2>
         <p>
           The hardest part of daily logging is doing it daily. Make it part of your crew's
           end-of-day routine. Assign it to the foreman. Set a deadline — logs submitted by 6 PM, no
-          exceptions. Review them weekly in your project meetings.
+          exceptions. Review them weekly in your project meetings. If your team uses BuildWorkPro,
+          the <a href="/docs/field/site-logs/">site logs guide</a> walks through filing a complete daily
+          report — personnel on site, work performed, materials received, visitors, and issues — from
+          a phone in a few minutes.
         </p>
         <p>
           The five minutes it takes to fill out a daily log can save you thousands of dollars and
           months of headaches down the road. It's the cheapest insurance you'll ever buy.
         </p>
       </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} />
 
       <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
         <h2 class="text-xl font-bold text-slate-900 mb-3">Start using BuildWorkPro</h2>
@@ -197,7 +260,7 @@ import { config } from '../../config';
             href: '/features/site-logs/',
             title: 'Site Logs & Daily Reports',
             description:
-              'Digital daily logs for weather, crew hours, equipment, materials, and notes.',
+              'Digital daily logs covering personnel, work performed, materials received, issues, photos, and notes.',
           },
           {
             href: '/features/time-tracking/',
