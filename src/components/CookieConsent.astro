@@ -46,6 +46,7 @@
       // the very first pings carry granted consent rather than denied.
       (window as any).bwpGrantAnalyticsConsent?.();
       (window as any).bwpLoadGA?.();
+      (window as any).bwpLoadMetaPixel?.();
     });
     document.getElementById('cookie-decline')?.addEventListener('click', () => {
       localStorage.setItem('bwp-cookies-declined', '1');

@@ -113,13 +113,40 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         gtag('js', new Date());
         gtag('config', 'G-REK78NBR14');
       };
+      // Meta Pixel (Facebook) — loaded only after analytics consent, same gate
+      // as GA. The pixel never loads on decline. Pixel ID is a public client-side
+      // identifier (like the GA measurement ID above).
+      window.bwpLoadMetaPixel = function () {
+        if (window.__bwpPixelLoaded) return;
+        window.__bwpPixelLoaded = true;
+        const n = function (...args) {
+          if (n.callMethod) {
+            n.callMethod(...args);
+          } else {
+            n.queue.push(args);
+          }
+        };
+        window.fbq = n;
+        if (!window._fbq) window._fbq = n;
+        n.push = n;
+        n.loaded = true;
+        n.version = '2.0';
+        n.queue = [];
+        const t = document.createElement('script');
+        t.async = true;
+        t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+        document.head.appendChild(t);
+        window.fbq('init', '689268612776537');
+        window.fbq('track', 'PageView');
+      };
       try {
         if (localStorage.getItem('bwp-cookies-accepted')) {
           window.bwpGrantAnalyticsConsent();
           window.bwpLoadGA();
+          window.bwpLoadMetaPixel();
         }
       } catch {
-        /* localStorage unavailable (private browsing, SSR, etc.) — skip GA load */
+        /* localStorage unavailable (private browsing, SSR, etc.) — skip load */
       }
     </script>
 

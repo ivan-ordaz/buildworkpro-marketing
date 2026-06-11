@@ -131,10 +131,11 @@ import { config } from '../config';
           <li>
             <strong>Cookies and Similar Technologies:</strong> Session identifiers, CSRF tokens, tenant
             context identifiers, and preference storage. The marketing website loads Google Analytics
-            4 only after you explicitly accept analytics cookies via our cookie banner; Google Consent
-            Mode v2 enforces a default-deny posture until consent is granted. The authenticated web and
-            mobile applications do not deploy advertising, analytics, or cross-site tracking cookies.
-            For a detailed explanation, see our <a href="/cookies/">Cookie Policy</a>.
+            4 and the Meta (Facebook) Pixel only after you explicitly accept analytics and advertising
+            cookies via our cookie banner; Google Consent Mode v2 enforces a default-deny posture and
+            the Meta Pixel script does not load until consent is granted. The authenticated web and mobile
+            applications do not deploy advertising, analytics, or cross-site tracking cookies. For a detailed
+            explanation, see our <a href="/cookies/">Cookie Policy</a>.
           </li>
         </ul>
 
@@ -335,6 +336,11 @@ import { config } from '../config';
                 Analytics 4 on the marketing website (aggregate, non-identifying traffic metrics), and,
                 where integrated by your organization, Google Workspace APIs
               </li>
+              <li>
+                <strong>Meta Platforms, Inc.</strong> &mdash; Meta (Facebook) Pixel on the marketing website
+                for advertising measurement and retargeting (loaded only after you accept advertising
+                cookies); receives page-visit and lead events tied to a browser identifier
+              </li>
             </ul>
           </li>
           <li>
@@ -496,9 +502,12 @@ import { config } from '../config';
             <strong>Right to Correct:</strong> You may request correction of inaccurate personal information.
           </li>
           <li>
-            <strong>Right to Opt Out of Sale/Sharing:</strong> BuildWorkPro does not sell personal information
-            and does not share personal information for cross-context behavioral advertising purposes.
-            No opt-out is necessary.
+            <strong>Right to Opt Out of Sale/Sharing:</strong> BuildWorkPro does not sell personal information.
+            On the marketing website, the consent-based Meta (Facebook) Pixel may constitute &ldquo;sharing&rdquo;
+            for cross-context behavioral advertising under certain state laws. It is off by default and
+            loads only if you accept advertising cookies in the banner &mdash; so declining (or ignoring)
+            the banner, or using the &ldquo;Cookie settings&rdquo; link in the footer, is your opt-out.
+            We do not share personal information for advertising in the authenticated application.
           </li>
           <li>
             <strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising
@@ -666,10 +675,14 @@ import { config } from '../config';
 
         <h2>12. Do Not Track Signals</h2>
         <p>
-          The Platform does not respond to &ldquo;Do Not Track&rdquo; browser signals. However, as
-          described in this Policy and in our <a href="/cookies/">Cookie Policy</a>, we do not
-          engage in cross-site tracking, third-party advertising tracking, or behavioral profiling,
-          regardless of your browser&rsquo;s Do Not Track setting.
+          The Platform does not respond to &ldquo;Do Not Track&rdquo; browser signals. The only
+          third-party advertising technology we use is the consent-based Meta (Facebook) Pixel on
+          the marketing website, described in this Policy and in our <a href="/cookies/"
+            >Cookie Policy</a
+          >; it loads only if you accept advertising cookies, and you can withdraw consent at any
+          time via the &ldquo;Cookie settings&rdquo; link in the footer. Apart from that, we do not
+          engage in cross-site tracking or behavioral profiling, and the authenticated application
+          uses no advertising tracking at all.
         </p>
 
         <h2>13. Changes to This Policy</h2>
