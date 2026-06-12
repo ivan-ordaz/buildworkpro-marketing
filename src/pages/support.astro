@@ -9,9 +9,20 @@ const categories = [
     title: 'Getting Started',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
     items: [
-      { label: 'Introduction', href: '/docs/getting-started/introduction/' },
-      { label: 'Quick start guide', href: '/docs/getting-started/quick-start/' },
+      { label: 'What is BuildWorkPro?', href: '/docs/getting-started/introduction/' },
+      { label: 'Quick start', href: '/docs/getting-started/quick-start/' },
       { label: 'Your first project', href: '/docs/getting-started/first-project/' },
+      { label: 'Your dashboard', href: '/docs/getting-started/dashboard/' },
+      { label: 'Navigation & search', href: '/docs/getting-started/navigation-and-search/' },
+    ],
+  },
+  {
+    title: 'CRM & Pipeline',
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    items: [
+      { label: 'Contacts', href: '/docs/crm/contacts/' },
+      { label: 'Leads', href: '/docs/crm/leads/' },
+      { label: 'Sales pipeline', href: '/docs/crm/pipeline/' },
     ],
   },
   {
@@ -19,9 +30,18 @@ const categories = [
     icon: 'M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z',
     items: [
       { label: 'Creating a bid', href: '/docs/bids/creating-a-bid/' },
-      { label: 'Line items & marks', href: '/docs/bids/line-items/' },
-      { label: 'Rates & overhead', href: '/docs/bids/rates/' },
-      { label: 'Sending & tracking', href: '/docs/bids/sending/' },
+      { label: 'Line items', href: '/docs/bids/line-items/' },
+      { label: 'Rates', href: '/docs/bids/rates/' },
+      { label: 'Bid templates', href: '/docs/bids/templates/' },
+      { label: 'Sending a bid', href: '/docs/bids/sending/' },
+    ],
+  },
+  {
+    title: 'Products & Catalog',
+    icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
+    items: [
+      { label: 'Product catalog', href: '/docs/products/catalog/' },
+      { label: 'Product kits', href: '/docs/products/kits/' },
     ],
   },
   {
@@ -31,32 +51,65 @@ const categories = [
       { label: 'Projects overview', href: '/docs/projects/overview/' },
       { label: 'Phases & tasks', href: '/docs/projects/phases-tasks/' },
       { label: 'Gantt chart', href: '/docs/projects/gantt/' },
+      { label: 'Project templates', href: '/docs/projects/templates/' },
+      {
+        label: 'Documents, comments & activity',
+        href: '/docs/projects/documents-comments-activity/',
+      },
     ],
   },
   {
     title: 'Pay Applications',
     icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
     items: [
-      { label: 'Creating pay apps', href: '/docs/pay-apps/creating/' },
+      { label: 'Creating a pay app', href: '/docs/pay-apps/creating/' },
       { label: 'Schedule of values', href: '/docs/pay-apps/schedule-of-values/' },
       { label: 'Approval workflow', href: '/docs/pay-apps/approval-workflow/' },
+      { label: 'PDF & email', href: '/docs/pay-apps/pdf-and-email/' },
     ],
   },
   {
     title: 'Change Orders',
     icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
     items: [
-      { label: 'Creating change orders', href: '/docs/change-orders/creating/' },
-      { label: 'Approval process', href: '/docs/change-orders/approval/' },
+      { label: 'Creating a change order', href: '/docs/change-orders/creating/' },
+      { label: 'Change order approval', href: '/docs/change-orders/approval/' },
     ],
   },
   {
-    title: 'Account & Billing',
+    title: 'Field Operations',
+    icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z',
+    items: [
+      { label: 'Site logs', href: '/docs/field/site-logs/' },
+      { label: 'Time tracking', href: '/docs/field/time-tracking/' },
+    ],
+  },
+  {
+    title: 'Documents',
+    icon: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
+    items: [
+      { label: 'Document library', href: '/docs/documents/library/' },
+      { label: 'CSV import templates', href: '/docs/documents/csv-import-templates/' },
+    ],
+  },
+  {
+    title: 'Reports & Calendar',
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    items: [
+      { label: 'Reports', href: '/docs/reports/overview/' },
+      { label: 'Calendar', href: '/docs/calendar/overview/' },
+    ],
+  },
+  {
+    title: 'Account & Settings',
     icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
     items: [
       { label: 'Team & roles', href: '/docs/settings/team-roles/' },
       { label: 'Organization settings', href: '/docs/settings/organization/' },
-      { label: 'Billing', href: '/docs/settings/billing/' },
+      { label: 'Workspace defaults', href: '/docs/settings/workspace-defaults/' },
+      { label: 'Profile & security', href: '/docs/settings/profile-and-security/' },
+      { label: 'Notifications', href: '/docs/settings/notifications/' },
+      { label: 'Billing & plans', href: '/docs/settings/billing/' },
     ],
   },
   {
