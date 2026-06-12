@@ -1,0 +1,347 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is retainage in construction?',
+    answer:
+      'Retainage (also called retention) is a percentage of each progress payment that the owner or general contractor withholds until the project reaches substantial completion or another milestone defined in the contract. It acts as a financial guarantee that the work will be finished and defects corrected before the final dollar is released.',
+  },
+  {
+    question: 'How much retainage is typical on a construction project?',
+    answer:
+      '10% is the most common rate on commercial work. Some contracts reduce the rate to 5% once the project hits 50% completion — this is often called variable retainage or a step-down. Specialty trade contracts sometimes start at 5%. Whatever the rate, it is defined in your subcontract, so read that clause carefully before signing.',
+  },
+  {
+    question: 'When is retainage released?',
+    answer:
+      'Release timing is set by the contract. Most contracts release retainage at substantial completion — when the work is complete enough that the owner can use it for its intended purpose. Final release often requires a signed lien waiver from the subcontractor. Some contracts hold a portion until the punchlist is fully resolved.',
+  },
+  {
+    question: 'What is the difference between pay-when-paid and pay-if-paid for retainage?',
+    answer:
+      'Pay-when-paid means the GC must pay you within a reasonable time after receiving payment from the owner — it shifts timing, not the obligation to pay. Pay-if-paid attempts to shift the entire financial risk: the GC only owes you if the owner pays first. Many states limit or prohibit pay-if-paid clauses. Know which applies in your state before signing a subcontract.',
+  },
+  {
+    question: 'How does BuildWorkPro track retainage on pay applications?',
+    answer:
+      'Every pay application in BuildWorkPro has a Retainage % field that defaults to 10% and can be adjusted per pay app to match your contract terms. The payment application summary shows the retainage withheld for that period, so the net amount due reflects the holdback. BuildWorkPro produces AIA-style progress billing documents — not the copyrighted AIA G702/G703 forms themselves.',
+  },
+];
+---
+
+<Layout
+  title="Retainage in Construction: How It Works | BuildWorkPro"
+  description="Construction retainage is the percentage withheld from each pay application until project closeout. Learn how it works, typical rates, and how to track your holdback."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Retainage in Construction: How It Works and How to Track It
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published June 12, 2026 · 8 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Retainage is the line on every pay application that never gets paid — until it does. When
+          a general contractor withholds 10% of each progress payment, that money doesn't disappear.
+          It accumulates across every billing period until the job reaches closeout, and then — if
+          the paperwork is in order and the contract terms are met — it comes back to you.
+        </p>
+        <p>
+          Subcontractors who don't understand how retainage works get blindsided by cash-flow gaps
+          that should have been planned for. This guide explains what retainage is, how it compounds
+          over a project's life, when it's released, and how to keep an accurate running balance so
+          nothing gets left on the table.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              Retainage is a contractual holdback — commonly 10% — withheld from each progress
+              payment until a defined project milestone.
+            </li>
+            <li>
+              It accumulates across every billing period and can total a significant sum by the end
+              of a long job.
+            </li>
+            <li>
+              The rate and release conditions are set in your subcontract — read that section before
+              signing.
+            </li>
+            <li>
+              Variable retainage (the rate drops at 50% completion) is worth negotiating on larger
+              projects.
+            </li>
+            <li>
+              Track your running retainage balance on every pay app so you know exactly what you're
+              owed and when to expect it.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is retainage?</h2>
+        <p>
+          Retainage (sometimes called retention in contract language) is a percentage of each
+          progress payment that the owner or general contractor holds back until the project reaches
+          a specified milestone — typically substantial completion. Think of it as collateral: the
+          owner keeps a portion of what you've earned to ensure the work gets finished and defects
+          get corrected before the final dollar is released.
+        </p>
+        <p>
+          For subcontractors on a GC contract, the most common retainage rate on commercial work is
+          10%. On every pay application, that withheld 10% compounds across billing periods. By the
+          time you've billed 90% of a $400,000 contract, retainage is holding $36,000 of money
+          you've already earned and paid your crew for.
+        </p>
+        <p>
+          Retainage isn't unique to subcontractors — the GC faces the same holdback from the owner.
+          But because subs are further down the payment chain, the cash-flow impact lands harder.
+        </p>
+
+        <h2>How much retainage is typical?</h2>
+        <p>
+          10% is the standard on most commercial subcontracts. A few situations where you'll see
+          different rates:
+        </p>
+        <ul>
+          <li>
+            <strong>Variable retainage.</strong> Some contracts reduce the rate from 10% to 5% once the
+            project is 50% complete. This is a common concession on larger or longer jobs and worth asking
+            for — it meaningfully improves cash flow in the back half of the project.
+          </li>
+          <li>
+            <strong>Specialty trades.</strong> HVAC, electrical, and plumbing work is often front-loaded:
+            rough-in happens early and trim-out happens near the end, so a flat 10% holdback can be disproportionate.
+            Some specialty subcontracts negotiate a 5% rate from the start.
+          </li>
+          <li>
+            <strong>Public work.</strong> Government contracts and public projects may cap retainage by
+            statute — sometimes at 5% — with different step-down rules. Know the rules that govern your
+            type of work.
+          </li>
+        </ul>
+        <p>
+          Whatever rate applies, it is written in your subcontract. Read the payment, retainage, and
+          payment-conditions sections before you sign or mobilize. That's also where the release
+          conditions live.
+        </p>
+
+        <h2>How retainage accumulates over a project</h2>
+        <p>
+          The math is straightforward, but the dollar amounts surprise people. On a six-period
+          project with a $500,000 contract and 10% retainage:
+        </p>
+        <ul>
+          <li>Period 1 — bill $80,000, receive $72,000; retainage held: $8,000</li>
+          <li>Period 2 — bill $90,000, receive $81,000; retainage held to date: $17,000</li>
+          <li>Period 3 — bill $95,000, receive $85,500; retainage held to date: $26,500</li>
+          <li>Period 4 — bill $85,000, receive $76,500; retainage held to date: $35,000</li>
+          <li>Period 5 — bill $80,000, receive $72,000; retainage held to date: $43,000</li>
+          <li>Period 6 — bill $70,000, receive $63,000; retainage held to date: $50,000</li>
+        </ul>
+        <p>
+          By the time you've fully billed the contract, $50,000 is sitting in holdback. That's
+          working capital you've spent on labor and materials but can't access until closeout. On a
+          project that runs twelve or eighteen months, the timing of that release becomes a
+          significant line item in your cash-flow forecast.
+        </p>
+
+        <h2>When is retainage released?</h2>
+        <p>
+          Release timing is defined in the contract — there is no universal rule. Common release
+          triggers:
+        </p>
+        <ul>
+          <li>
+            <strong>Substantial completion.</strong> The most common trigger. Substantial completion is
+            the point where the work is complete enough that the owner can occupy and use the space for
+            its intended purpose, even if a punchlist remains. Push your contract to define this concretely
+            (tied to a signed certificate or an agreed inspection) rather than leaving it open to interpretation.
+          </li>
+          <li>
+            <strong>Punchlist completion.</strong> Some contracts hold back a portion — sometimes twice
+            the value of remaining punchlist items — until the list is fully resolved. Know whether your
+            contract uses a single release event or a two-step release.
+          </li>
+          <li>
+            <strong>Required paperwork.</strong> Final retainage release commonly requires a signed lien
+            waiver, a final invoice, or a certificate of substantial completion. Have those documents
+            ready before you request release.
+          </li>
+        </ul>
+        <p>
+          One more wrinkle: your retainage release often flows down from the owner's release to the
+          GC. If the owner is slow — or disputes something — the GC may hold your retainage even
+          after your work is complete. This depends on whether your subcontract contains a
+          <strong>pay-when-paid</strong> or <strong>pay-if-paid</strong> clause. Pay-when-paid shifts
+          the timing; pay-if-paid attempts to shift the entire obligation. Many states limit or prohibit
+          pay-if-paid language. Know which applies to you.
+        </p>
+
+        <h2>Tracking retainage on your pay applications</h2>
+        <p>
+          Every{' '}
+          <a href="/blog/aia-pay-application-guide/">AIA-style pay application</a> should show, for each
+          period:
+        </p>
+        <ul>
+          <li>The amount billed this period</li>
+          <li>The retainage withheld this period</li>
+          <li>The total retainage withheld to date (across all prior pay apps)</li>
+          <li>The net amount due after retainage</li>
+        </ul>
+        <p>
+          The{' '}
+          <a href="/blog/schedule-of-values-guide/">schedule of values</a> is what makes this possible
+          — each line carries a running balance of what's been billed, what's been stored, and what's
+          been withheld, period by period. A well-maintained SOV makes the final retainage balance easy
+          to verify and hard to dispute.
+        </p>
+        <p>
+          In BuildWorkPro, retainage is tracked on every{' '}
+          <a href="/features/pay-applications/">pay application</a>. The Retainage % field defaults
+          to 10% and adjusts per pay app to match your contract terms. The payment application
+          summary shows the retainage withheld for that period, so the net amount due reflects the
+          actual holdback — not a number someone hand-calculated on a spreadsheet:
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/pay-app-demo.mp4"
+          poster="/videos/pay-app-demo-poster.jpg"
+          label="Demo: a BuildWorkPro pay application showing the retainage field, schedule of values billing, and payment application summary with retainage withheld"
+          caption="Retainage tracked on a BuildWorkPro pay application — set the rate when you create the pay app and the payment summary shows exactly what's withheld each period."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Retainage on change orders</h2>
+        <p>
+          Approved change orders increase the contract sum — and unless your contract says
+          otherwise, retainage applies to those amounts too. A $20,000 change order with 10%
+          retainage means $18,000 now and $2,000 at closeout, just like the base contract.
+        </p>
+        <p>
+          This is another reason to keep your{' '}
+          <a href="/features/change-orders/">change orders</a> current and approved before you bill them.
+          An unapproved change order billed on a pay app creates both a retainage exposure and a payment
+          dispute. In BuildWorkPro, the change orders total on a pay app prefills from approved change
+          orders only — so the contract value on your billing reflects what's actually been authorized.
+        </p>
+
+        <h2>Common retainage problems for subcontractors</h2>
+        <p>
+          Retainage disputes are among the most common payment problems in construction. A few to
+          watch for:
+        </p>
+        <ul>
+          <li>
+            <strong>GC holds retainage past substantial completion.</strong> A common tactic: keeping
+            your funds open by citing a punchlist item you've already completed. Document punchlist completion
+            dates in writing and get sign-off when items are resolved. That paper trail is what pushes
+            the release.
+          </li>
+          <li>
+            <strong>Back-charges applied against retainage.</strong> Some GCs apply disputed back-charges
+            directly against your retainage balance rather than resolving them separately. Know what your
+            contract says about how back-charges are documented, disputed, and offset before a dollar
+            disappears from your holdback.
+          </li>
+          <li>
+            <strong>No tracking means no visibility.</strong> Subcontractors who don't track retainage
+            per job sometimes miss the release entirely — the project closes, the GC sends a check, and
+            no one notices if the amount is short. Set a reminder tied to your anticipated substantial
+            completion date and reconcile the full retainage balance against what you receive.
+          </li>
+          <li>
+            <strong>Owner or GC financial trouble.</strong> If the owner runs into problems, your retainage
+            is at risk along with everything else. In most states subcontractors can file a mechanics
+            lien that covers retainage — understand your lien rights and deadlines early, not when there's
+            already a problem.
+          </li>
+        </ul>
+
+        <h2>The bottom line</h2>
+        <p>
+          Retainage is a planned cash-flow gap, not a surprise. If you know the rate going in, track
+          the running balance on every pay application, and know the exact conditions for release,
+          you can manage it. The mistakes happen when retainage is treated as an afterthought and
+          the final payment lands short with no clear record of what should have been there.
+        </p>
+        <p>
+          Read the retainage clause before you sign the subcontract. Track it on every pay app.
+          Document your work at closeout. Those three habits keep the holdback from becoming a
+          dispute.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Construction retainage FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Track retainage on every pay application
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro tracks retainage per pay app, prefills the contract sum from your accepted
+          bid and approved change orders, and produces the AIA-style billing your GC expects. 14-day
+          free trial, no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Retainage in Construction: How It Works and How to Track It"
+        description="Construction retainage is the percentage withheld from each pay application until project closeout. Learn how it works, typical rates, and how to track your holdback."
+        datePublished="2026-06-12"
+        related={[
+          {
+            href: '/features/pay-applications/',
+            title: 'Pay Applications',
+            description:
+              'AIA-style progress billing with retainage tracked on every pay app, prefilled from your accepted bid.',
+          },
+          {
+            href: '/blog/aia-pay-application-guide/',
+            title: 'AIA Pay Application Guide',
+            description:
+              'How to fill out AIA-style progress billing and what GCs review before approval.',
+          },
+          {
+            href: '/blog/schedule-of-values-guide/',
+            title: 'How to Create a Schedule of Values',
+            description:
+              'The SOV is the table your pay application bills against — and where retainage is calculated.',
+          },
+          {
+            href: '/features/change-orders/',
+            title: 'Change Orders',
+            description:
+              'Keep approved change orders flowing into your contract sum and retainage exposure.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
