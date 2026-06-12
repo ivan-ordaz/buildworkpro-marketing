@@ -1419,7 +1419,43 @@
               "null"
             ]
           },
-          "totalCompletedAndStored": {
+          "changeOrdersTotal": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "revisedContractSum": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "previouslyBilled": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "currentBilled": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "materialsStored": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "totalCompleted": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retainagePercent": {
             "type": [
               "string",
               "null"
@@ -1468,7 +1504,13 @@
           "periodStart",
           "periodEnd",
           "contractSum",
-          "totalCompletedAndStored",
+          "changeOrdersTotal",
+          "revisedContractSum",
+          "previouslyBilled",
+          "currentBilled",
+          "materialsStored",
+          "totalCompleted",
+          "retainagePercent",
           "retainageAmount",
           "currentPaymentDue",
           "createdAt",
