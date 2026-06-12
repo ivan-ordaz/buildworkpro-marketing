@@ -7,6 +7,8 @@ import { Aside, Steps } from '@astrojs/starlight/components';
 
 The `POST /api/v1/projects/bulk` endpoint exists, but it only accepts `operation: "delete"` or `operation: "restore"` — it doesn't apply patches. To move a batch of projects to a new status, iterate `PATCH /api/v1/projects/{id}` and use idempotency keys to make the loop safely retryable.
 
+See also: [Projects overview](/docs/projects/overview/) — the in-app view of the projects and statuses this script updates.
+
 <Steps>
 
 1. **Build the id list.**

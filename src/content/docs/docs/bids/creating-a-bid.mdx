@@ -3,7 +3,7 @@ title: Creating a Bid
 description: Start a new bid, set the customer, and enter your terms
 sidebar:
   order: 1
-lastUpdated: 2026-06-09
+lastUpdated: 2026-06-12
 appVersion: v1.0
 ---
 
@@ -11,7 +11,23 @@ import { Steps, Aside } from '@astrojs/starlight/components';
 
 Bids are how you price work and send proposals to general contractors or property owners. This guide creates a bid and fills in its details.
 
-{/* TODO(media): GIF of creating a bid end to end, per docs-rewrite-plan Batch 2. */}
+<figure style="margin: 1.5rem 0;">
+  <video
+    controls
+    preload="none"
+    poster="/videos/create-bid-poster.jpg"
+    width="1440"
+    height="900"
+    style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
+    aria-label="Demo: creating a bid — building the estimate from the catalog and applying margin and overhead on the Rates tab"
+  >
+    <source src="/videos/create-bid.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
+    Creating a bid: the estimate pulls material and labor from your catalog, then margin and
+    overhead on the Rates tab roll raw cost up into the customer total.
+  </figcaption>
+</figure>
 
 ![A bid detail page in BuildWorkPro](/docs-screenshots/bids/bid-detail.png)
 
