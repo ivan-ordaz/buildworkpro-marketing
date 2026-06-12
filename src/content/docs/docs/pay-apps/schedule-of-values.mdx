@@ -3,7 +3,7 @@ title: Schedule of Values
 description: Build the SOV line items and report progress for each billing period
 sidebar:
   order: 2
-lastUpdated: 2026-06-10
+lastUpdated: 2026-06-12
 appVersion: v1.0
 ---
 
@@ -11,7 +11,23 @@ import { Steps, Aside } from '@astrojs/starlight/components';
 
 The schedule of values (SOV) breaks the contract into line items and tracks how much of each is complete. You report progress against the SOV every billing period, and BuildWorkPro rolls it up into the amount due.
 
-{/* TODO(media): GIF of adding an SOV line item and entering this-period progress, per docs-rewrite-plan Batch 4. */}
+<figure style="margin: 1.5rem 0;">
+  <video
+    controls
+    preload="none"
+    poster="/videos/pay-app-demo-poster.jpg"
+    width="1440"
+    height="900"
+    style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
+    aria-label="Demo: a schedule of values inside a pay application, with the per-line This Period and Materials Stored billing dialog and the payment summary"
+  >
+    <source src="/videos/pay-app-demo.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
+    The schedule of values in a pay app: bill This Period and Materials Stored per line — the
+    payment summary rolls everything up into the amount due.
+  </figcaption>
+</figure>
 
 ## The SOV table
 

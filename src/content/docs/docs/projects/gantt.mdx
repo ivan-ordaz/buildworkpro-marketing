@@ -3,7 +3,7 @@ title: Gantt Chart
 description: View and reschedule a project timeline by dragging task bars
 sidebar:
   order: 3
-lastUpdated: 2026-06-10
+lastUpdated: 2026-06-12
 appVersion: v1.0
 ---
 
@@ -11,7 +11,23 @@ import { Steps, Aside } from '@astrojs/starlight/components';
 
 The Gantt chart shows a project's phases and tasks as horizontal bars on a timeline, so you can see how work overlaps and reschedule it by dragging. It is a view of the **Phases & Tasks** tab, not a separate tab.
 
-{/* TODO(media): GIF of dragging a task bar to reschedule it on the Gantt chart, per docs-rewrite-plan Batch 3. */}
+<figure style="margin: 1.5rem 0;">
+  <video
+    controls
+    preload="none"
+    poster="/videos/gantt-demo-poster.jpg"
+    width="1440"
+    height="900"
+    style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
+    aria-label="Demo: opening a project's Phases and Tasks tab and switching to the Gantt view"
+  >
+    <source src="/videos/gantt-demo.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
+    Switching Phases &amp; Tasks to the Gantt view — phases and tasks as bars on the timeline, one
+    toggle away from the task list.
+  </figcaption>
+</figure>
 
 ## Open the Gantt view
 
