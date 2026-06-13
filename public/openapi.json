@@ -3639,6 +3639,123 @@
         "x-rate-limit-cost": 1
       }
     },
+    "/contacts/summary": {
+      "get": {
+        "summary": "Aggregate contact totals and breakdown by type",
+        "description": "Returns the total contact count plus a breakdown by type (customer / vendor / subcontractor / ...). Date filter applies to createdAt and is inclusive on both bounds. Use this instead of contacts list + walk-and-count when you only need roll-ups.",
+        "security": [
+          {
+            "bearerAuth": [
+              "contacts:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "count": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "count"
+                          ]
+                        },
+                        "by_type": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "count"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "totals",
+                        "by_type"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope insufficient",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getContactsSummary",
+        "x-rate-limit-cost": 1
+      }
+    },
     "/contacts/{id}": {
       "get": {
         "summary": "Get contact by id",
@@ -5578,8 +5695,8 @@
     },
     "/projects/summary": {
       "get": {
-        "summary": "Aggregate project totals and breakdown by status",
-        "description": "Returns totals (count, contract_value_total, approved_co_delta_total) plus a breakdown by status. Money values are decimal strings. Date filter applies to createdAt.",
+        "summary": "Aggregate project totals and breakdowns by status and type",
+        "description": "Returns totals (count, contract_value_total, approved_co_delta_total, overdue_count) plus breakdowns by status and by project type. Money values are decimal strings. Date filter applies to createdAt and is inclusive on both bounds.",
         "security": [
           {
             "bearerAuth": [
@@ -5650,12 +5767,16 @@
                             },
                             "approved_co_delta_total": {
                               "type": "string"
+                            },
+                            "overdue_count": {
+                              "type": "integer"
                             }
                           },
                           "required": [
                             "count",
                             "contract_value_total",
-                            "approved_co_delta_total"
+                            "approved_co_delta_total",
+                            "overdue_count"
                           ]
                         },
                         "by_status": {
@@ -5679,11 +5800,37 @@
                               "contract_value_total"
                             ]
                           }
+                        },
+                        "by_type": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "project_type": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "count": {
+                                "type": "integer"
+                              },
+                              "contract_value_total": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "project_type",
+                              "count",
+                              "contract_value_total"
+                            ]
+                          }
                         }
                       },
                       "required": [
                         "totals",
-                        "by_status"
+                        "by_status",
+                        "by_type"
                       ]
                     },
                     "meta": {
