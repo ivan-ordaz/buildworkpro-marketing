@@ -119,12 +119,14 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
       - run: npm ci
-      # Gate on production-runtime exposure only. Dev/build tooling advisories
-      # (Vite, Wrangler, Miniflare, @astrojs/check chain) never ship to the
-      # deployed Cloudflare Worker, so they must not block merges. Bumps for
-      # those are handled deliberately, not forced by CI.
-      - name: npm audit (production deps, high+)
-        run: npm audit --omit=dev --audit-level=high
+      # Gate on production-runtime exposure only. Build/dev-tooling advisories
+      # (esbuild, Vite, Wrangler, @cloudflare/vite-plugin, ws, …) never ship to the
+      # deployed Cloudflare Worker, so an unfixable advisory there must not block
+      # merges. scripts/ci-audit.mjs fails on high/critical production advisories
+      # EXCEPT a reviewed allowlist of such build-tooling advisories; a new,
+      # unreviewed advisory still blocks CI and forces a human decision.
+      - name: npm audit (production deps, allowlist reviewed build-tooling advisories)
+        run: node scripts/ci-audit.mjs
 
   # Aggregate status check for branch protection: require "CI" on main.
   ci:
