@@ -28,3 +28,6 @@ pnpm-debug.log*
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# Generated ad-crop frame assets (rebuild via scripts/ad-vo/build_frame.py)
+scripts/ad-vo/assets/

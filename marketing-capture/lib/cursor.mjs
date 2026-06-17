@@ -59,6 +59,29 @@ export const CURSOR_INIT = `
 })();
 `;
 
+// Opt-in tracking marker (set CAPTURE_TRACK_DOT=1). Appends a tiny pure-magenta
+// dot inside the fake cursor — a colour absent from the whole UI — so the cursor
+// can be located frame-perfectly in the recorded video (for ad crops that pan to
+// follow the cursor). Post-processing paints the dot out; it never ships. Magenta
+// sits on the white arrow interior, so the paint-out is invisible.
+export const TRACK_DOT_INIT = `
+(() => {
+  const add = () => {
+    const c = document.getElementById('__mkt_cursor');
+    if (!c || document.getElementById('__mkt_dot')) return;
+    const dot = document.createElement('div');
+    dot.id = '__mkt_dot';
+    dot.style.cssText =
+      'position:absolute;left:7px;top:6px;width:5px;height:5px;background:#ff00ff;' +
+      'pointer-events:none;z-index:2147483647';
+    c.appendChild(dot);
+  };
+  setInterval(add, 150);
+  if (document.readyState !== 'loading') add();
+  document.addEventListener('DOMContentLoaded', add);
+})();
+`;
+
 // CSS to freeze animations/transitions for crisp, deterministic screenshots.
 export const FREEZE_MOTION = `
 (() => {
