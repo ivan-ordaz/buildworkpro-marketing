@@ -1,16 +1,20 @@
 // Demo video: the bid ESTIMATE — the core differentiator. Show line items
 // built from a material + labor catalog rolling up into the customer total,
 // then the Rates tab applying margin and overhead. Not a generic form.
+// Draft bid to open. Defaults to the current seed's bid; override after a reseed
+// with CAPTURE_BID_ID (any draft bid with estimate line items works).
+const BID_ID = process.env.CAPTURE_BID_ID || '5';
+
 export const meta = {
   name: 'create-bid',
   video: true,
   viewport: 'desktop',
-  warmup: ['/bids', '/bids/105'],
+  warmup: ['/bids', `/bids/${BID_ID}`],
 };
 
 export default async function scene({ goto, click, moveTo, scrollTo, wait, page }) {
   // Open a real draft bid and go straight to the estimate.
-  await goto('/bids/105', 1200);
+  await goto(`/bids/${BID_ID}`, 1200);
   await wait(700);
   await click('[role="tab"]:has-text("Estimate")');
   await wait(1100);

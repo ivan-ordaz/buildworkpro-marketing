@@ -23,7 +23,7 @@ import {
 import { authenticate } from './lib/auth.mjs';
 import { makeHelpers } from './lib/ui.mjs';
 import { makeShot, finalizeVideo, ensureOut } from './lib/capture.mjs';
-import { CURSOR_INIT, FREEZE_MOTION } from './lib/cursor.mjs';
+import { CURSOR_INIT, FREEZE_MOTION, TRACK_DOT_INIT } from './lib/cursor.mjs';
 
 const SCENES_DIR = fileURLToPath(new URL('./scenes/', import.meta.url));
 
@@ -98,6 +98,9 @@ async function main() {
 
   // Inject the on-screen cursor for videos, or freeze motion for crisp stills.
   await context.addInitScript(isVideo ? CURSOR_INIT : FREEZE_MOTION);
+  // Opt-in: add a magenta tracking dot to the cursor for frame-perfect cursor
+  // location in ad crops (painted out in post). Never on for normal captures.
+  if (isVideo && process.env.CAPTURE_TRACK_DOT) await context.addInitScript(TRACK_DOT_INIT);
 
   try {
     await authenticate(context);
