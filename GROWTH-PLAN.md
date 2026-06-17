@@ -75,3 +75,4 @@ Priority = KD 0–20 first (winnable), high-KD head terms earned over time via t
 ## Status log
 
 - 2026-06-10: Plan approved (draft→PR, $10/day, Meta setup-no-spend, 2 posts/wk). Week-1 posts + routines + Meta setup in progress.
+- 2026-06-16: Drafted Track 1 post #3 — "Retainage in Construction: How It Works & How to Track It" (`/blog/retainage-construction-guide/`). All checks pass (format, lint 0 errors, typecheck 0 errors, build). PR opened on branch `content/retainage-construction-guide`.

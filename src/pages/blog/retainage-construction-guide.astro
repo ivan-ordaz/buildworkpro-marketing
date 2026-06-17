@@ -1,0 +1,308 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is retainage in construction?',
+    answer:
+      "Retainage (also called retention) is a percentage of each progress payment withheld by the owner or GC as a performance guarantee, released when the project reaches a specified completion milestone. It accumulates across every pay application and sits as a receivable until the contract's release conditions are met.",
+  },
+  {
+    question: 'What is the standard retainage rate?',
+    answer:
+      "10% is the most common rate on private commercial construction contracts. Some contracts include a step-down provision that reduces the rate to 5% once the project reaches 50% completion. Public works contracts in many states are subject to statutory caps, often 5% or lower — check the applicable statute for the project's state.",
+  },
+  {
+    question: 'When is retainage released?',
+    answer:
+      'Release timing is defined in the contract, not by project completion alone. The most common trigger is substantial completion of the entire project. Some subcontracts include sub-specific provisions where your retainage releases when your scope is substantially complete, which can happen well before the project wraps. Other triggers include final completion, punch list sign-off, and receipt of lien waivers.',
+  },
+  {
+    question: 'How does retainage affect subcontractor cash flow?',
+    answer:
+      'Because retainage withholds a percentage of each billing, the withheld amount compounds across every pay app on every active project. A $1 million subcontract at 10% retainage means $100,000 is withheld by the time the work is done. Tracking withheld retainage separately from billed revenue is part of accurate cash flow forecasting.',
+  },
+  {
+    question: 'Can retainage terms be negotiated?',
+    answer:
+      'Yes — rate, step-down provisions, and release triggers are all negotiable. A step-down from 10% to 5% at 50% completion improves cash flow in the back half of a job. Sub-specific completion triggers release your retainage when your scope is done rather than when the entire project closes out. Both are worth pushing for, especially with GCs you have a good track record with.',
+  },
+];
+---
+
+<Layout
+  title="Retainage in Construction: How It Works & How to Track It | BuildWorkPro"
+  description="Retainage in construction explained: what it is, how it's calculated, when it releases, and how subcontractors can track withheld funds across active jobs."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Retainage in Construction: How It Works & How to Track It
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published June 16, 2026 · 8 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Retainage is money you've earned but can't collect yet. On a typical 10% retainage
+          contract, a subcontractor who's billed $500,000 in completed work has had $50,000 withheld
+          — not because anything went wrong, but because that's what the contract says. That amount
+          grows with every pay application and sits in someone else's account until the project is
+          done and the release conditions are met.
+        </p>
+        <p>
+          For subcontractors running multiple jobs, withheld retainage adds up quickly.
+          Understanding how it accrues, when it releases, and how to keep track of it across
+          projects is basic cash flow management — not optional paperwork.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              Retainage is a percentage of each progress payment withheld until the work is
+              substantially or fully complete.
+            </li>
+            <li>
+              10% is the most common rate, but some contracts step it down to 5% after the project
+              passes a completion threshold.
+            </li>
+            <li>
+              Withheld retainage accumulates across every pay application and sits as a receivable
+              until release.
+            </li>
+            <li>
+              Release timing is defined in the contract — retainage doesn't automatically release
+              when your scope is done.
+            </li>
+            <li>
+              In BuildWorkPro, the retainage rate is set per pay application (defaults to 10%) and
+              the withheld amount is tracked in the payment summary.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is retainage in construction?</h2>
+        <p>
+          Retainage — also called retention — is a contractual holdback. Each billing period, the
+          owner or GC withholds a percentage of the payment you'd otherwise receive and holds it
+          until the project is complete. The intent is to keep a pool of money at stake, giving the
+          owner or GC leverage to ensure the work gets finished and punch list items get resolved.
+        </p>
+        <p>
+          Retainage provisions are set in the contract. On subcontracts, the rate usually flows down
+          from the prime contract — if the GC holds 10% from the owner, expect that same rate on
+          your subcontract. The terms can differ, but they rarely improve as they pass down the
+          chain.
+        </p>
+        <p>
+          If you're still getting your bearings on how pay applications and retainage fit together,
+          the <a href="/blog/aia-pay-application-guide/">AIA pay application guide</a> covers the full
+          billing structure — the G702/G703 forms that most GCs use as the basis for progress billing
+          both show retainage as part of the payment summary.
+        </p>
+
+        <h2>How retainage is calculated</h2>
+        <p>
+          Retainage is a percentage of the total earned in each billing period. The payment summary
+          on an AIA-style pay application applies it this way:
+        </p>
+        <ul>
+          <li>
+            <strong>Gross amount billed</strong> — work completed plus materials stored for the period.
+          </li>
+          <li>
+            <strong>Retainage withheld</strong> — the gross amount multiplied by the retainage rate.
+          </li>
+          <li><strong>Amount due</strong> — gross amount minus retainage withheld.</li>
+        </ul>
+        <p>
+          At 10% retainage on a $100,000 billing: $10,000 is withheld and $90,000 is due. That
+          $10,000 is added to a running balance. Three pay apps at $100,000 each means $30,000 held
+          back — money you've earned, sitting in someone else's account.
+        </p>
+
+        <h2>Retainage rates and step-down provisions</h2>
+        <p>
+          10% is the default on most private commercial construction contracts, but two variations
+          are common:
+        </p>
+        <ul>
+          <li>
+            <strong>Step-down clauses.</strong> Some contracts reduce the retainage rate — often from
+            10% to 5% — once the project reaches a specified completion percentage (50% is common). This
+            improves cash flow in the back half of a job when you're usually the most cash-squeezed. It's
+            worth negotiating if it isn't already in the subcontract.
+          </li>
+          <li>
+            <strong>Public projects.</strong> Many states cap retainage on public works contracts at 5%
+            or lower. A few states have further reduced rates for certain project types. If you work on
+            public projects, check the applicable state statute — the contract rate isn't always the legal
+            ceiling.
+          </li>
+        </ul>
+
+        <h2>When is retainage released?</h2>
+        <p>
+          Release timing is set by the contract — it doesn't happen automatically when your scope is
+          done. The most common trigger is substantial completion of the <em>entire</em> project, meaning
+          you may wait months after finishing your portion while the GC wraps up other scopes. Common
+          release triggers include:
+        </p>
+        <ul>
+          <li>Substantial completion of the project</li>
+          <li>Final completion and punch list sign-off</li>
+          <li>A specified number of days after final completion</li>
+          <li>Owner's receipt of lien waivers from all subs</li>
+        </ul>
+        <p>
+          Some subcontracts include sub-specific completion provisions: your retainage releases when
+          your scope is substantially complete, regardless of the rest of the project. That's a
+          meaningful improvement worth pushing for, especially on large or long projects where you
+          finish well before the overall job closes out.
+        </p>
+
+        <h2>Pay-when-paid retainage clauses</h2>
+        <p>
+          Many subcontracts tie retainage release to the GC first receiving funds from the owner.
+          Even if the GC agrees your work is done and the money is owed, your payment waits until
+          the owner pays the GC. "Pay-when-paid" and "pay-if-paid" provisions differ in what they
+          mean legally, and their enforceability varies by state — some treat them as unenforceable
+          conditional payment obligations, others allow them. Knowing what your contract says and
+          what the law allows in the project's state matters before you sign.
+        </p>
+
+        <h2>Retainage and cash flow</h2>
+        <p>
+          Because retainage accumulates across every pay app, a long project ties up a significant
+          amount of your cash. On a $1 million subcontract at 10% retainage, $100,000 is withheld by
+          the time you're done. Running three projects like that concurrently means up to $300,000
+          withheld — all earned, none yet collectible.
+        </p>
+        <p>
+          This is why tracking retainage per project matters for forecasting. Total billed and total
+          collectible are different numbers for any active job. The gap is the retainage balance —
+          it's a real receivable, but only after the release conditions are met.
+        </p>
+        <p>
+          Keep your <a href="/features/change-orders/">change orders</a> approved and incorporated into
+          the contract sum as well. Each approved change order increases the contract sum, which means
+          the retainage pool grows with it. A change order left unapproved means you're either under-billing
+          or billing without a basis.
+        </p>
+        <p>
+          The <a href="/blog/schedule-of-values-guide/">schedule of values</a> is what ties all of this
+          together — it's the line-by-line breakdown that your pay applications bill against, and keeping
+          it current (including change orders) keeps your retainage math accurate.
+        </p>
+
+        <h2>Tracking retainage in BuildWorkPro</h2>
+        <p>
+          BuildWorkPro's <a href="/features/pay-applications/">pay applications</a> use AIA-style progress
+          billing: each pay app has a schedule of values, and you report work completed and materials
+          stored per line each period. When you create a pay application, you set the retainage percentage
+          — it defaults to 10%, but you can adjust it per pay app for step-down provisions or contracts
+          with different rates. The payment summary shows the retainage amount withheld for the period
+          alongside the amount due:
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/pay-app-demo.mp4"
+          poster="/videos/pay-app-demo-poster.jpg"
+          label="Demo: a BuildWorkPro pay application showing the schedule of values with per-line billing and the payment summary with retainage withheld and amount due"
+          caption="A BuildWorkPro pay application — set the retainage rate per period, bill This Period and Materials Stored per line, and the payment summary calculates the amount due after retainage."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Practical notes on managing retainage</h2>
+        <ul>
+          <li>
+            <strong>Read the retainage provision before you sign.</strong> Know the rate, what triggers
+            release, and whether a pay-when-paid clause applies. These terms are negotiable before signing,
+            and very hard to change after.
+          </li>
+          <li>
+            <strong>Track withheld amounts per project.</strong> Each job's retainage is a receivable
+            — factor it into your cash flow forecast, not just your billed totals.
+          </li>
+          <li>
+            <strong>Negotiate step-downs and sub-specific release triggers.</strong> A GC with whom you
+            have a track record is more likely to agree to these than a new relationship.
+          </li>
+          <li>
+            <strong>Know your closeout requirements.</strong> When retainage releases, the GC typically
+            needs a final pay application, conditional lien waiver, and sometimes a closeout certificate.
+            Know what they need early so you're not the holdout when the project closes.
+          </li>
+        </ul>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Retainage FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Track every dollar of retainage across every job
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro's pay applications track retainage withheld per period alongside the amount
+          due — so you always know what's been earned and what's still held back. 14-day free trial,
+          no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Retainage in Construction: How It Works & How to Track It"
+        description="Retainage in construction explained: what it is, how it's calculated, when it releases, and how subcontractors can track withheld funds across active jobs."
+        datePublished="2026-06-16"
+        related={[
+          {
+            href: '/features/pay-applications/',
+            title: 'Pay Applications',
+            description:
+              'AIA-style progress billing with a schedule of values and retainage tracked per period.',
+          },
+          {
+            href: '/blog/aia-pay-application-guide/',
+            title: 'AIA Pay Application Guide',
+            description:
+              'How the G702 and G703 forms work and how retainage appears in the billing summary.',
+          },
+          {
+            href: '/blog/schedule-of-values-guide/',
+            title: 'How to Create a Schedule of Values',
+            description:
+              'The line-item structure that your pay applications — and retainage — bill against.',
+          },
+          {
+            href: '/features/change-orders/',
+            title: 'Change Orders',
+            description:
+              'Keep approved change orders flowing into your contract sum so retainage stays accurate.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
