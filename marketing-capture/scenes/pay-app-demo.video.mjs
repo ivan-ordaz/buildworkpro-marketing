@@ -1,15 +1,20 @@
 // Demo video: pay applications — the AIA-style core. Show the schedule of
 // values, the per-line "This Period / Materials Stored" billing dialog, and
 // the Payment Application Summary that rolls in change orders and retainage.
+// Pay app to open. Defaults to a current-seed pay app; override after a reseed
+// with CAPTURE_PAYAPP_ID. A draft pay app also shows the Edit/bill-this-period
+// flow; a submitted/approved one still shows the SOV + summary read-only.
+const PAYAPP_ID = process.env.CAPTURE_PAYAPP_ID || '4';
+
 export const meta = {
   name: 'pay-app-demo',
   video: true,
   viewport: 'desktop',
-  warmup: ['/pay-apps', '/pay-apps/45'],
+  warmup: ['/pay-apps', `/pay-apps/${PAYAPP_ID}`],
 };
 
 export default async function scene({ goto, click, moveTo, scrollTo, wait, page }) {
-  await goto('/pay-apps/45', 1200);
+  await goto(`/pay-apps/${PAYAPP_ID}`, 1200);
   await wait(800);
 
   // Top stat row: Contract Sum to Date, Total Completed & Stored, Retainage,
