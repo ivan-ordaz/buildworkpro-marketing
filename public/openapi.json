@@ -65,6 +65,7 @@
           "bids:send",
           "bids:accept_reject",
           "pay_apps:approve",
+          "pay_apps:mark_paid",
           "pay_apps:send",
           "change_orders:approve",
           "change_orders:send",
@@ -77,6 +78,8 @@
           "jobs:write",
           "notifications:read",
           "audit:read",
+          "settings:read",
+          "settings:write",
           "offline_access"
         ],
         "description": "Available API scopes"
@@ -10291,7 +10294,7 @@
         "security": [
           {
             "bearerAuth": [
-              "pay_apps:write"
+              "pay_apps:mark_paid"
             ]
           }
         ],
@@ -16156,7 +16159,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:read"
+              "settings:read"
             ]
           }
         ],
@@ -16228,7 +16231,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:write"
+              "settings:write"
             ]
           }
         ],
@@ -16328,7 +16331,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:read"
+              "settings:read"
             ]
           }
         ],
@@ -16387,7 +16390,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:write"
+              "settings:write"
             ]
           }
         ],
@@ -16492,7 +16495,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:delete"
+              "settings:write"
             ]
           }
         ],
