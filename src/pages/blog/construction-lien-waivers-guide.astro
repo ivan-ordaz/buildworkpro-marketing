@@ -1,0 +1,362 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a lien waiver in construction?',
+    answer:
+      'A lien waiver is a document in which the signing party — a subcontractor, supplier, or lower-tier sub — gives up the right to file a mechanics lien against the property in exchange for payment. The waiver type (conditional or unconditional, progress or final) determines exactly what rights you are releasing and when that release takes effect.',
+  },
+  {
+    question: 'What is the difference between conditional and unconditional lien waivers?',
+    answer:
+      'A conditional waiver takes effect only when payment actually clears — if the check bounces or the wire never arrives, the waiver is void and your lien rights remain intact. An unconditional waiver is effective the moment you sign it, regardless of whether payment is received. Never sign an unconditional waiver before payment has cleared your account.',
+  },
+  {
+    question: 'What are the four types of construction lien waivers?',
+    answer:
+      'The four standard types are: (1) Conditional waiver on progress payment — covers a billing period; takes effect on receipt of that payment. (2) Unconditional waiver on progress payment — covers a billing period; effective immediately on signing. (3) Conditional waiver on final payment — covers all work through final payment; takes effect on receipt. (4) Unconditional waiver on final payment — waives all remaining lien rights; effective immediately on signing.',
+  },
+  {
+    question: 'Can I be required to sign a lien waiver before I am paid?',
+    answer:
+      "GCs commonly require a conditional waiver at the time of payment — that's standard practice and protects both parties because the waiver only activates when payment clears. Some GCs attempt to require unconditional waivers before payment is issued. Whether that's enforceable depends on state law; several states prohibit requiring unconditional waivers as a condition of payment. Know your state's rules before you agree to it.",
+  },
+  {
+    question: "What happens if I sign an unconditional waiver and payment doesn't come through?",
+    answer:
+      "If you signed a conditional waiver, your lien rights are still intact — the waiver never activated because the payment condition was not met. If you signed an unconditional waiver and payment didn't arrive, you have likely waived your lien rights and your remaining recourse is a breach of contract claim, which is harder to pursue with no property lien behind it. That distinction is not a formality.",
+  },
+];
+---
+
+<Layout
+  title="Construction Lien Waivers Explained | BuildWorkPro"
+  description="What are conditional and unconditional lien waivers? A subcontractor's guide to all four types, when to sign each, and what to watch in the language."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Construction Lien Waivers Explained: Conditional vs. Unconditional
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published June 19, 2026 · 8 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Every subcontractor encounters lien waivers — usually with a check attached and a request
+          to sign before payment goes through. Most people sign without reading closely, which is
+          fine right up until something goes wrong. A lien waiver is a legal document. The type you
+          sign, and when you sign it, determines whether you retain any protection if payment
+          doesn't materialize.
+        </p>
+        <p>
+          This guide covers what lien waivers are, the four types used in construction, and the one
+          rule that protects you on every job: never sign an unconditional waiver before payment has
+          cleared.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              A lien waiver trades lien rights for payment — the type you sign determines what you
+              give up and when.
+            </li>
+            <li>
+              Conditional waivers take effect only when payment clears; unconditional waivers are
+              effective immediately on signing.
+            </li>
+            <li>
+              Progress waivers cover a billing period; final waivers release all remaining claims
+              through the final payment.
+            </li>
+            <li>Never sign an unconditional waiver before the payment has cleared your account.</li>
+            <li>
+              Many states prescribe mandatory waiver forms — using the correct state form matters
+              for enforceability.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is a lien waiver?</h2>
+        <p>
+          A mechanics lien is a legal claim a contractor, subcontractor, or supplier can record
+          against a property when they are not paid for work or materials. A lien encumbers the
+          property's title and can block a sale or refinance until the claim is resolved. It is one
+          of the most effective collection tools available to subs and suppliers.
+        </p>
+        <p>
+          A lien waiver is the document that gives up that right — in full or in part — in exchange
+          for payment (or the promise of it). Owners and GCs collect lien waivers throughout a
+          project to confirm that everyone in the payment chain has been paid and the property can
+          close out free of lien claims. They are typically required at each billing period and
+          again at final payment.
+        </p>
+
+        <h2>The four types of construction lien waivers</h2>
+        <p>
+          Two variables define every lien waiver: <strong>conditional vs. unconditional</strong> (when
+          the waiver activates) and <strong>progress vs. final</strong> (what period it covers). Combined,
+          those produce four types:
+        </p>
+        <ul>
+          <li>
+            <strong>Conditional waiver on progress payment.</strong> Covers a specific billing period.
+            Takes effect only when the payment for that period clears. This is the standard form exchanged
+            alongside a progress payment — you provide the waiver, the GC issues the check, and the waiver
+            activates only when payment is received.
+          </li>
+          <li>
+            <strong>Unconditional waiver on progress payment.</strong> Covers a billing period but takes
+            effect immediately on signing, regardless of payment. Appropriate only after a progress payment
+            has already cleared your account.
+          </li>
+          <li>
+            <strong>Conditional waiver on final payment.</strong> Waives all lien rights through the final
+            payment amount, but only takes effect when final payment clears. The standard form to provide
+            when requesting a final payment or retainage release.
+          </li>
+          <li>
+            <strong>Unconditional waiver on final payment.</strong> Waives all lien rights through final
+            payment, effective immediately on signing. Only sign this after final payment has cleared
+            your account — it leaves no recourse if payment is reversed or fails to arrive.
+          </li>
+        </ul>
+
+        <h2>Conditional vs. unconditional: why the difference matters</h2>
+        <p>
+          A <strong>conditional waiver</strong> is contingent on payment. If the check bounces, the wire
+          never arrives, or the GC stops responding, the waiver never activated and your lien rights remain
+          intact. The waiver was a promise contingent on receipt of funds, not a completed transaction.
+        </p>
+        <p>
+          An <strong>unconditional waiver</strong> has no payment condition. You signed it, it is effective,
+          and your lien rights for that scope are gone — even if you were never paid. If payment does
+          not follow an unconditional waiver, your remaining recourse is a breach of contract claim, which
+          is harder to pursue and has no property lien to back it up.
+        </p>
+        <p>
+          GCs commonly request conditional waivers at the time of payment and unconditional waivers
+          after confirming payment has been received. That is a reasonable and standard workflow.
+          The problem arises when a GC tries to require an unconditional waiver before the payment
+          goes out — some do, and some states prohibit it. Know the rule in your state before you
+          agree to it.
+        </p>
+
+        <h2>Progress waivers vs. final waivers</h2>
+        <p>
+          The progress vs. final distinction is about scope. A <strong>progress waiver</strong> covers
+          a defined billing period — typically tied to a pay application payment. It says: "I waive lien
+          rights for work completed and billed through this payment." The next billing period starts fresh;
+          you are not releasing anything beyond the period stated on the waiver.
+        </p>
+        <p>
+          A <strong>final waiver</strong> covers everything — all work performed through the final payment
+          date. When you sign a conditional waiver on final payment alongside your last billing, you are
+          saying that once final payment clears, all lien rights on the project are resolved. That includes
+          any balance remaining, retainage release, and any pending amounts.
+        </p>
+        <p>
+          Lien waiver requirements connect directly to the billing workflow. On AIA-style pay
+          applications, each progress payment cycle typically involves a conditional progress
+          waiver; the final billing — often the same submission that requests retainage release —
+          involves a conditional final waiver. Our
+          <a href="/blog/aia-pay-application-guide/">AIA pay application guide</a> covers how the billing
+          documents and payment cycle fit together.
+        </p>
+
+        <h2>When to sign each type</h2>
+        <p>The right waiver for each situation:</p>
+        <ul>
+          <li>
+            <strong>With a progress payment request:</strong> Conditional waiver on progress payment.
+            Exchange it with the payment or provide it as the payment is issued. The waiver activates
+            only when payment clears.
+          </li>
+          <li>
+            <strong>After a progress payment has cleared:</strong> Unconditional waiver on progress payment.
+            Safe to provide once you have confirmed the funds are in your account.
+          </li>
+          <li>
+            <strong>With a final payment and retainage release request:</strong> Conditional waiver on
+            final payment. Gives the GC and owner the assurance they need for closeout while keeping your
+            protection until the money arrives.
+          </li>
+          <li>
+            <strong>After final payment and retainage have cleared:</strong> Unconditional waiver on final
+            payment. Your lien rights are effectively zero at this point anyway; this closes out the GC's
+            file cleanly.
+          </li>
+        </ul>
+
+        <h2>What to watch out for in waiver language</h2>
+        <p>
+          Not all waivers are written the same way. Beyond the conditional vs. unconditional
+          distinction, watch for:
+        </p>
+        <ul>
+          <li>
+            <strong>Broad release language.</strong> Some waivers attempt to release claims beyond lien
+            rights — including claims for change orders, disputed amounts, or delay damages. If the waiver
+            purports to release anything beyond lien rights for the stated payment, push back or consult
+            an attorney before signing.
+          </li>
+          <li>
+            <strong>Dollar amount and through-date.</strong> Every waiver should specify the payment amount
+            it covers and the date through which work is covered. Waivers with blank or open-ended amounts
+            are a problem.
+          </li>
+          <li>
+            <strong>State-prescribed forms.</strong> Several states — California, Texas, and Arizona among
+            them — have mandatory statutory lien waiver forms. Using non-standard language in those states
+            can affect enforceability. If you are working in a state with mandatory forms, use them.
+          </li>
+          <li>
+            <strong>Who has to sign.</strong> GCs often need lien waivers from your lower-tier subs and
+            material suppliers, not just from you. Know whether you are responsible for collecting those
+            before final payment will be released.
+          </li>
+        </ul>
+
+        <h2>Lien waivers and retainage release</h2>
+        <p>
+          Lien waivers and retainage are linked at closeout. Most contracts require the sub to
+          provide a conditional waiver on final payment before retainage is released — and that
+          release is the last payment on the project. Getting the exchange right matters.
+        </p>
+        <p>
+          The sequence at closeout typically looks like this: you submit a final pay application and
+          provide a conditional final waiver. Once the GC receives it, they process the payment —
+          including the withheld retainage. After you confirm payment has cleared, you provide the
+          unconditional final waiver. The file is closed.
+        </p>
+        <p>
+          If the retainage release is delayed — because the GC has not yet received funds from the
+          owner, or because the punch list is not resolved — your conditional waiver protects you
+          throughout the wait. That is exactly what the conditional form is designed for.
+        </p>
+        <p>
+          For a deeper look at how retainage accumulates, when it releases, and what to negotiate
+          before signing the subcontract, see our <a href="/blog/retainage-construction-guide/"
+            >retainage guide</a
+          >. Your <a href="/features/change-orders/">change orders</a> also feed into this: every approved
+          change increases the contract sum, which means the final payment amount — and the correct dollar
+          amount on the final waiver — should reflect all approved changes.
+        </p>
+
+        <h2>Lien waivers and your pay applications in BuildWorkPro</h2>
+        <p>
+          BuildWorkPro does not generate lien waivers — those are legal documents typically produced
+          from state-specific forms. What it does handle is the billing side of the equation: each
+          <a href="/features/pay-applications/">pay application</a> has a payment summary showing the
+          amount due for the period and the retainage withheld, so you always know the exact dollar figure
+          to reference when completing a conditional waiver.
+        </p>
+        <p>
+          Keeping your pay applications current and accurate is what makes the waiver amounts
+          defensible. The payment summary rolls up the schedule of values, this period's billing,
+          and retainage into a single amount due — that number goes on the conditional waiver.
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/pay-app-demo.mp4"
+          poster="/videos/pay-app-demo-poster.jpg"
+          label="Demo: a BuildWorkPro pay application showing the payment summary with the amount due and retainage withheld — the figures that go on a conditional lien waiver"
+          caption="The payment summary in a BuildWorkPro pay application — the amount due and retainage withheld for the period are the figures you reference when completing a conditional lien waiver."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Practical rules for handling lien waivers</h2>
+        <ul>
+          <li>
+            <strong>Default to conditional until payment clears.</strong> Conditional waivers are standard;
+            there is no legitimate reason to require an unconditional waiver before payment is issued.
+          </li>
+          <li>
+            <strong>Read the dollar amount and through-date before you sign.</strong> Both should match
+            the payment you are receiving. Blank amounts and open-ended dates are red flags.
+          </li>
+          <li>
+            <strong>Watch for extra release language.</strong> A waiver that releases "all claims" rather
+            than specifically "mechanics lien rights" may do far more than you intend.
+          </li>
+          <li>
+            <strong>Know your state's forms.</strong> If your state has mandatory statutory waiver forms,
+            use them — non-standard language may not hold up.
+          </li>
+          <li>
+            <strong>Keep a copy of every waiver you sign.</strong> They are part of the payment record
+            for each project.
+          </li>
+        </ul>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Lien waiver FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Know exactly what you're billing before you sign the waiver
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro pay applications show the exact amount due and retainage withheld each period
+          — so the number on your conditional waiver is always the right one. 14-day free trial, no
+          credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Construction Lien Waivers Explained: Conditional vs. Unconditional"
+        description="The four types of construction lien waivers explained: conditional vs. unconditional, progress vs. final — what you're signing, when to sign, and what to watch out for."
+        datePublished="2026-06-19"
+        related={[
+          {
+            href: '/features/pay-applications/',
+            title: 'Pay Applications',
+            description:
+              'AIA-style progress billing that shows the exact amount due and retainage withheld — the figures your conditional waivers reference.',
+          },
+          {
+            href: '/blog/retainage-construction-guide/',
+            title: 'Retainage in Construction: How It Works & How to Track It',
+            description:
+              'How retainage accumulates, when it releases, and the waiver requirements tied to retainage release.',
+          },
+          {
+            href: '/blog/aia-pay-application-guide/',
+            title: 'AIA Pay Application Guide',
+            description: 'How the billing documents and payment cycle work for subcontractors.',
+          },
+          {
+            href: '/features/change-orders/',
+            title: 'Change Orders',
+            description:
+              'Keep approved change orders in the contract sum so final waiver amounts reflect all approved work.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>

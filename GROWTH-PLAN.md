@@ -76,3 +76,4 @@ Priority = KD 0–20 first (winnable), high-KD head terms earned over time via t
 
 - 2026-06-10: Plan approved (draft→PR, $10/day, Meta setup-no-spend, 2 posts/wk). Week-1 posts + routines + Meta setup in progress.
 - 2026-06-16: Drafted Track 1 post #3 — "Retainage in Construction: How It Works & How to Track It" (`/blog/retainage-construction-guide/`). All checks pass (format, lint 0 errors, typecheck 0 errors, build). PR opened on branch `content/retainage-construction-guide`.
+- 2026-06-19: Drafted Track 1 post #4 — "Construction Lien Waivers Explained: Conditional vs. Unconditional" (`/blog/construction-lien-waivers-guide/`). All checks pass (format, lint 0 errors, typecheck 0 errors, build). E2E skipped — Chromium binary not downloadable in cloud env (same infra constraint as prior run; CI will exercise it). PR opened on branch `content/construction-lien-waivers-guide`.
