@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { config } from '../config';
+---
+
+<Layout
+  title="Delete Your Account - BuildWorkPro"
+  description="How to permanently delete your BuildWorkPro account and the personal data associated with it."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
+        <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Delete Your Account</h1>
+        <p class="mt-3 text-sm text-slate-400">Last Updated: June 20, 2026</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          You can permanently delete your BuildWorkPro account and the personal data associated with
+          it at any time. This page explains who can delete an account, how to do it from inside the
+          mobile app, and what happens to your data afterward.
+        </p>
+
+        <h2>Who can delete an account</h2>
+        <p>
+          Any signed-in BuildWorkPro user can request deletion of their own account. If you are the
+          <strong>only administrator</strong> of an organization, you must first promote another member
+          to administrator (or close the organization) so it is never left without an administrator. The
+          app will tell you if this applies to you and will not delete your account until ownership has
+          been transferred.
+        </p>
+
+        <h2>How to delete your account from the app</h2>
+        <ol>
+          <li>Open the BuildWorkPro mobile app and sign in.</li>
+          <li>Go to the <strong>More</strong> tab.</li>
+          <li>Under <strong>Account</strong>, tap <strong>Delete Account</strong>.</li>
+          <li>Confirm when prompted.</li>
+        </ol>
+
+        <h2>What happens when you delete</h2>
+        <ul>
+          <li>
+            <strong>Immediately:</strong> your account is disabled — you are signed out on every device
+            and can no longer sign in.
+          </li>
+          <li>
+            <strong>30-day grace period:</strong> your data is scheduled for permanent deletion 30 days
+            later. During this window you may contact us to cancel the deletion and restore access.
+          </li>
+          <li>
+            <strong>After 30 days:</strong> your personal account data is permanently deleted. Business
+            records that belong to your organization (for example projects, invoices, and records other
+            members rely on) are retained by the organization as required for its operation and for
+            legal and accounting obligations, as described in our <a href="/privacy/">Privacy Policy</a>.
+          </li>
+          <li>A confirmation email is sent when deletion is scheduled.</li>
+        </ul>
+
+        <h2>If you can&rsquo;t access the app</h2>
+        <p>
+          If you are unable to sign in to complete the steps above, email
+          <a href={`mailto:${config.email.support}`}>{config.email.support}</a> from the address on your
+          account and we will process the deletion request for you.
+        </p>
+
+        <h2>Questions</h2>
+        <p>
+          For privacy questions, contact <a href={`mailto:${config.email.privacy}`}
+            >{config.email.privacy}</a
+          >. See our <a href="/privacy/">Privacy Policy</a> for full details on what data we collect,
+          how long we keep it, and your rights.
+        </p>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
