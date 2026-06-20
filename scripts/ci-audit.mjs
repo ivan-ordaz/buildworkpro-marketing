@@ -22,6 +22,18 @@ const ALLOWLIST = {
     'esbuild dev-server arbitrary file read (Windows) — dev-only; we build on Linux/macOS and deploy to Cloudflare. No fix available.',
   'GHSA-96hv-2xvq-fx4p':
     'ws DoS via wrangler/@cloudflare/vite-plugin build tooling — not used by the deployed Worker (Cloudflare native WebSocket). Fix only via a breaking @astrojs/cloudflare bump.',
+  // undici (high) — pulled in only by miniflare (local Workers simulator) via
+  // @astrojs/cloudflare → @cloudflare/vite-plugin → miniflare. Used at dev/build
+  // time only; the deployed Worker uses Cloudflare's native fetch, never undici.
+  // Fix only via a breaking @astrojs/cloudflare bump. `npm ls undici` confirms the
+  // single path. Revisit when @astrojs/cloudflare ships a miniflare with patched undici.
+  'GHSA-vmh5-mc38-953g': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-pr7r-676h-xcf6': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-p88m-4jfj-68fv': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-vxpw-j846-p89q': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-hm92-r4w5-c3mj': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-35p6-xmwp-9g52': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-g8m3-5g58-fq7m': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
 };
 
 const BLOCKING = new Set(['high', 'critical']);
