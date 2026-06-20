@@ -16,6 +16,20 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  // Permanent (301) redirects for dead URLs Google still crawls, so they resolve
+  // to a live page instead of returning 404 / lingering in Search Console.
+  // - /api/recipes/02-export-bids-to-pdf/  : removed recipe (GSC "Not found 404").
+  // - /api/recipes/                        : only a sidebar group, no index page.
+  // - /api/reference/operations/projectsid/patch/ : stale OpenAPI URL scheme; the
+  //   current page is .../operations/patchprojectsbyid/.
+  redirects: {
+    '/api/recipes/02-export-bids-to-pdf/': { status: 301, destination: '/api/' },
+    '/api/recipes/': { status: 301, destination: '/api/' },
+    '/api/reference/operations/projectsid/patch/': {
+      status: 301,
+      destination: '/api/reference/operations/patchprojectsbyid/',
+    },
+  },
   adapter: cloudflare({
     prerenderEnvironment: 'node',
   }),
