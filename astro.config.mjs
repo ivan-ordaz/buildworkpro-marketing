@@ -16,6 +16,14 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  // Permanent (301) redirects for dead URLs Google still crawls, so they
+  // resolve to a live page instead of returning 404 in Search Console.
+  // `/api/recipes/02-export-bids-to-pdf/` is a removed recipe; `/api/recipes/`
+  // is only a sidebar group (Starlight renders no index page there).
+  redirects: {
+    '/api/recipes/02-export-bids-to-pdf/': { status: 301, destination: '/api/' },
+    '/api/recipes/': { status: 301, destination: '/api/' },
+  },
   adapter: cloudflare({
     prerenderEnvironment: 'node',
   }),
