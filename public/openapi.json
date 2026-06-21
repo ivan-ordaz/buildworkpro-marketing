@@ -65,6 +65,7 @@
           "bids:send",
           "bids:accept_reject",
           "pay_apps:approve",
+          "pay_apps:mark_paid",
           "pay_apps:send",
           "change_orders:approve",
           "change_orders:send",
@@ -77,6 +78,8 @@
           "jobs:write",
           "notifications:read",
           "audit:read",
+          "settings:read",
+          "settings:write",
           "offline_access"
         ],
         "description": "Available API scopes"
@@ -1692,6 +1695,18 @@
               "type": "string"
             }
           },
+          "lat": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "lng": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
           "isReviewed": {
             "type": "boolean"
           },
@@ -1727,6 +1742,8 @@
           "workPerformed",
           "issues",
           "tags",
+          "lat",
+          "lng",
           "isReviewed",
           "createdAt",
           "updatedAt"
@@ -1788,6 +1805,18 @@
               "null"
             ]
           },
+          "lat": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "lng": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
           "isReviewed": {
             "type": "boolean"
           },
@@ -1825,6 +1854,8 @@
           "hourlyRate",
           "totalCost",
           "description",
+          "lat",
+          "lng",
           "isReviewed",
           "createdAt",
           "updatedAt"
@@ -10291,7 +10322,7 @@
         "security": [
           {
             "bearerAuth": [
-              "pay_apps:write"
+              "pay_apps:mark_paid"
             ]
           }
         ],
@@ -12241,6 +12272,22 @@
                       "null"
                     ]
                   },
+                  "lat": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "lng": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -180,
+                    "maximum": 180
+                  },
                   "isReviewed": {
                     "type": "boolean"
                   },
@@ -12457,6 +12504,22 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "lat": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "lng": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -180,
+                    "maximum": 180
                   },
                   "isReviewed": {
                     "type": "boolean"
@@ -13107,6 +13170,22 @@
                       "null"
                     ]
                   },
+                  "lat": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "lng": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -180,
+                    "maximum": 180
+                  },
                   "isReviewed": {
                     "type": "boolean"
                   },
@@ -13260,6 +13339,22 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "lat": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "lng": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -180,
+                    "maximum": 180
                   },
                   "isReviewed": {
                     "type": "boolean"
@@ -16156,7 +16251,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:read"
+              "settings:read"
             ]
           }
         ],
@@ -16228,7 +16323,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:write"
+              "settings:write"
             ]
           }
         ],
@@ -16328,7 +16423,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:read"
+              "settings:read"
             ]
           }
         ],
@@ -16387,7 +16482,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:write"
+              "settings:write"
             ]
           }
         ],
@@ -16492,7 +16587,7 @@
         "security": [
           {
             "bearerAuth": [
-              "projects:delete"
+              "settings:write"
             ]
           }
         ],
