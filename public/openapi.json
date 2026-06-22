@@ -645,8 +645,11 @@
               "null"
             ]
           },
-          "orderIndex": {
+          "order": {
             "type": "integer"
+          },
+          "isDefault": {
+            "type": "boolean"
           },
           "isWon": {
             "type": "boolean"
@@ -664,28 +667,17 @@
                 "type": "string"
               }
             ]
-          },
-          "updatedAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
           }
         },
         "required": [
           "id",
           "name",
           "color",
-          "orderIndex",
+          "order",
+          "isDefault",
           "isWon",
           "isLost",
-          "createdAt",
-          "updatedAt"
+          "createdAt"
         ]
       },
       "CreateLeadStage": {
@@ -701,8 +693,11 @@
               "null"
             ]
           },
-          "orderIndex": {
+          "order": {
             "type": "integer"
+          },
+          "isDefault": {
+            "type": "boolean"
           },
           "isWon": {
             "type": "boolean"
@@ -728,8 +723,11 @@
               "null"
             ]
           },
-          "orderIndex": {
+          "order": {
             "type": "integer"
+          },
+          "isDefault": {
+            "type": "boolean"
           },
           "isWon": {
             "type": "boolean"
@@ -11582,10 +11580,7 @@
                     "minLength": 1,
                     "maxLength": 255
                   }
-                },
-                "required": [
-                  "approvedBy"
-                ]
+                }
               }
             }
           }
