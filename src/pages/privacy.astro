@@ -17,7 +17,7 @@ import { config } from '../config';
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Privacy Policy</h1>
         <p class="mt-3 text-sm text-slate-400">
-          Effective Date: April 9, 2026 &middot; Last Updated: June 10, 2026
+          Effective Date: April 9, 2026 &middot; Last Updated: June 23, 2026
         </p>
       </div>
 
@@ -339,7 +339,10 @@ import { config } from '../config';
                 <strong>Meta Platforms, Inc.</strong> &mdash; Meta (Facebook) Pixel on the marketing website
                 for advertising measurement and retargeting (loaded only after you accept advertising
                 cookies); receives page-visit, content-view, call-to-action, and lead events tied to a
-                browser identifier
+                browser identifier. We also use Meta&rsquo;s server-side Conversions API to measure account-signup
+                conversions: when you create an account, our server sends Meta a hashed (irreversible)
+                form of your email address and name, along with technical signals such as IP address,
+                to attribute the signup to an ad. This is server-to-server and sets no cookie
               </li>
             </ul>
           </li>
@@ -507,7 +510,10 @@ import { config } from '../config';
             for cross-context behavioral advertising under certain state laws. It is off by default and
             loads only if you accept advertising cookies in the banner &mdash; so declining (or ignoring)
             the banner, or using the &ldquo;Cookie settings&rdquo; link in the footer, is your opt-out.
-            We do not share personal information for advertising in the authenticated application.
+            When you create an account, we also share a hashed (irreversible) form of your signup details
+            with Meta via its server-side Conversions API to measure ad-driven signups; this is conversion
+            measurement rather than cross-context behavioral advertising. We do not share personal information
+            for advertising from within the authenticated application.
           </li>
           <li>
             <strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising
@@ -675,14 +681,16 @@ import { config } from '../config';
 
         <h2>12. Do Not Track Signals</h2>
         <p>
-          The Platform does not respond to &ldquo;Do Not Track&rdquo; browser signals. The only
-          third-party advertising technology we use is the consent-based Meta (Facebook) Pixel on
-          the marketing website, described in this Policy and in our <a href="/cookies/"
+          The Platform does not respond to &ldquo;Do Not Track&rdquo; browser signals. The
+          third-party advertising technologies we use are the consent-based Meta (Facebook) Pixel on
+          the marketing website (described in this Policy and in our <a href="/cookies/"
             >Cookie Policy</a
           >; it loads only if you accept advertising cookies, and you can withdraw consent at any
-          time via the &ldquo;Cookie settings&rdquo; link in the footer. Apart from that, we do not
-          engage in cross-site tracking or behavioral profiling, and the authenticated application
-          uses no advertising tracking at all.
+          time via the &ldquo;Cookie settings&rdquo; link in the footer) and Meta&rsquo;s
+          server-side Conversions API, which sends hashed signup details to Meta to measure
+          account-signup conversions. Apart from these, we do not engage in cross-site tracking or
+          behavioral profiling, and the authenticated application sets no advertising cookies or
+          tracking identifiers.
         </p>
 
         <h2>13. Changes to This Policy</h2>
