@@ -5,6 +5,8 @@ import Footer from '../../components/Footer.astro';
 import FAQSection from '../../components/FAQSection.astro';
 import Screenshot from '../../components/Screenshot.astro';
 import DemoVideo from '../../components/DemoVideo.astro';
+import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
+import { productVideos } from '../../data/productVideos';
 import { config } from '../../config';
 
 const faqs = [
@@ -12,6 +14,11 @@ const faqs = [
     question: 'What does construction project management software do for a subcontractor?',
     answer:
       "It keeps each job's schedule, paperwork, and crew assignments in one place instead of spread across spreadsheets and text threads. In BuildWorkPro, every job is a project with phases, tasks, a Gantt chart, and tabs for change orders, site logs, pay applications, time, and documents. The Projects list shows all of them at once in Kanban, Card, or Table view — useful when you are running work for several GCs at the same time.",
+  },
+  {
+    question: 'Is BuildWorkPro construction scheduling software?',
+    answer:
+      'Yes. Scheduling is built in: give each task a start date and a workday-based duration and it lands on a Gantt chart you reschedule by dragging the bars. Link the tasks that must finish first as dependencies and BuildWorkPro highlights the critical path, so you can see what slips when one task moves. Because the schedule lives on the same project as change orders, site logs, pay applications, and time tracking, a date change is visible to everyone working the job — no separate scheduling tool to keep in sync.',
   },
   {
     question: 'How do phases, tasks, and dependencies work?',
@@ -42,8 +49,8 @@ const faqs = [
 ---
 
 <Layout
-  title="Subcontractor Project Management Software | BuildWorkPro"
-  description="Subcontractor project management software with phases, tasks, dependencies, and a drag-to-reschedule Gantt chart. $79/month, unlimited users, 14-day free trial."
+  title="Construction Scheduling & Project Management Software | BuildWorkPro"
+  description="Construction scheduling software for subcontractors: phases, tasks, dependencies, and a drag-to-reschedule Gantt chart, plus change orders, logs & pay apps on the same page. $79/month, unlimited users, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -52,7 +59,7 @@ const faqs = [
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Features</p>
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Project Management Software for Subcontractors
+          Construction Scheduling & Project Management Software
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
           Break each job into phases and tasks, schedule them on a Gantt chart you can drag to
@@ -281,6 +288,25 @@ const faqs = [
         caption="The Gantt view of a real schedule — phases and tasks as bars on the timeline, one toggle away from the task list."
       />
     </section>
+
+    {
+      productVideos.manageProject.id && (
+        <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+          <div class="mb-6 text-center">
+            <h2 class="text-2xl font-bold text-slate-900 sm:text-3xl">
+              Watch the full walkthrough
+            </h2>
+            <p class="mt-2 text-slate-600">
+              A 2½-minute guided tour — running a project from schedule to billing.
+            </p>
+          </div>
+          <YouTubeEmbed
+            video={productVideos.manageProject}
+            caption="Full narrated walkthrough: the command center, Gantt schedule, site logs, change orders, and AIA-style pay apps."
+          />
+        </section>
+      )
+    }
 
     <!-- How It Works -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">

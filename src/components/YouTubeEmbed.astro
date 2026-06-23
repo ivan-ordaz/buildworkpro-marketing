@@ -1,0 +1,97 @@
+---
+// Lightweight, click-to-load YouTube embed (facade pattern) + VideoObject schema.
+// The real YouTube iframe (~1MB of JS) is injected only on click, so a page can
+// carry one of these without hurting Core Web Vitals. Renders NOTHING when the
+// video has no id yet, so it is safe to ship before the video is live.
+import { config } from '../config';
+import type { ProductVideo } from '../data/productVideos';
+
+interface Props {
+  video: ProductVideo;
+  caption?: string;
+  class?: string;
+}
+
+const { video, caption, class: className = '' } = Astro.props;
+const hasId = Boolean(video.id);
+
+const embedUrl = `https://www.youtube-nocookie.com/embed/${video.id}`;
+const watchUrl = `https://www.youtube.com/watch?v=${video.id}`;
+
+const schema = hasId
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: video.title,
+      description: video.description,
+      thumbnailUrl: `${config.siteUrl}${video.poster}`,
+      uploadDate: video.uploadDate,
+      duration: video.durationIso,
+      embedUrl,
+      contentUrl: watchUrl,
+    }
+  : null;
+---
+
+{
+  hasId && (
+    <figure
+      class={`rounded-2xl border border-slate-200 shadow-xl shadow-slate-900/5 overflow-hidden bg-white ${className}`}
+    >
+      <div class="yt-facade relative aspect-video bg-slate-900" data-yt-id={video.id}>
+        <button
+          type="button"
+          class="yt-facade-btn group absolute inset-0 h-full w-full cursor-pointer"
+          aria-label={`Play video: ${video.title}`}
+        >
+          <img
+            src={video.poster}
+            alt={video.title}
+            width={1920}
+            height={1080}
+            loading="lazy"
+            class="h-full w-full object-cover"
+          />
+          <span class="absolute inset-0 bg-slate-900/10 transition-colors group-hover:bg-slate-900/0" />
+          <span class="absolute left-1/2 top-1/2 flex h-[68px] w-[96px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-blue-600/95 shadow-lg transition-transform group-hover:scale-105">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </button>
+      </div>
+      {caption && (
+        <figcaption class="border-t border-slate-100 bg-slate-50/50 px-5 py-3 text-xs text-slate-400">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
+
+{schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+<script is:inline>
+  // One delegated listener swaps the facade for the real iframe on click.
+  if (!window.__bwpYouTubeFacade) {
+    window.__bwpYouTubeFacade = true;
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest && e.target.closest('.yt-facade-btn');
+      if (!btn) return;
+      const wrap = btn.closest('.yt-facade');
+      if (!wrap) return;
+      const id = wrap.getAttribute('data-yt-id');
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src =
+        'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1';
+      iframe.title = 'BuildWorkPro product walkthrough';
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.className = 'absolute inset-0 h-full w-full';
+      wrap.innerHTML = '';
+      wrap.appendChild(iframe);
+    });
+  }
+</script>

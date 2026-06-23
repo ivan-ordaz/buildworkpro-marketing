@@ -1,0 +1,262 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Screenshot from '../../components/Screenshot.astro';
+import { config } from '../../config';
+
+const comparisonRows = [
+  {
+    label: 'Built for',
+    bwp: 'Trade subcontractors who bid to GCs',
+    other: 'Broad all-in-one for GCs, subs, and trades',
+    bwpWins: true,
+  },
+  {
+    label: 'Pricing',
+    bwp: '$79/month flat — every feature, published',
+    other: 'Five tiers (~$49–$249/month billed annually)*',
+    bwpWins: true,
+  },
+  {
+    label: 'Users',
+    bwp: 'Unlimited on the one plan',
+    other: 'Capped on lower tiers; unlimited only on the top tier',
+    bwpWins: true,
+  },
+  {
+    label: 'Feature access',
+    bwp: 'One plan — every feature included',
+    other: 'Features split across tiers; higher tiers unlock more',
+    bwpWins: true,
+  },
+  {
+    label: 'AIA-style pay applications',
+    bwp: 'Core, first-class workflow (schedule of values, retainage)',
+    other: 'Invoicing-oriented; progress billing less central',
+    bwpWins: true,
+  },
+  {
+    label: 'Bidding & estimating',
+    bwp: 'Line items, labor rates, markup, PDF proposals',
+    other: 'Included',
+    bwpWins: false,
+  },
+  {
+    label: 'Change orders, daily logs, time tracking, CRM',
+    bwp: 'Included',
+    other: 'Included',
+    bwpWins: false,
+  },
+  {
+    label: 'Module breadth (inventory, safety, equipment)',
+    bwp: 'Focused on the sub workflow — not the goal',
+    other: 'Broader catalog of modules',
+    bwpWins: false,
+  },
+  {
+    label: 'How you buy',
+    bwp: 'Self-serve signup, 14-day free trial, no card',
+    other: 'Self-serve trial; pricing tier chosen up front',
+    bwpWins: false,
+  },
+];
+
+const faqs = [
+  {
+    question: 'What is the best Contractor Foreman alternative for subcontractors?',
+    answer:
+      'BuildWorkPro. Contractor Foreman is a capable, affordable all-in-one built to serve general contractors, subs, and trades across a wide catalog of modules. BuildWorkPro is built only for trade subcontractors who bid to GCs and bill monthly against a schedule of values — bidding, AIA-style pay applications, change orders, site logs, time tracking, and CRM in one focused workflow at $79/month flat, with every feature and unlimited users on a single plan.',
+  },
+  {
+    question: 'How does Contractor Foreman pricing compare to BuildWorkPro?',
+    answer:
+      'Contractor Foreman uses five tiers — historically from about $49 to $249 per month when billed annually — where the number of users, projects, and available features increases as you move up. BuildWorkPro publishes one flat price: $79/month (or $790/year) with every feature, unlimited users, and unlimited projects included, and a 14-day free trial with no credit card. There are no tiers to compare or outgrow. Verify current Contractor Foreman pricing on their site.',
+  },
+  {
+    question: 'Is Contractor Foreman good for subcontractors?',
+    answer:
+      'Yes — Contractor Foreman serves subcontractors and trades, and its low entry price makes it popular with smaller crews. The difference is focus: Contractor Foreman spreads across many modules and customer types, with features and user counts gated by tier. BuildWorkPro is designed around one loop — estimate to a GC, win the contract, bill progress monthly with retainage, document the field — and gives every customer the full feature set on one plan.',
+  },
+  {
+    question: 'Can I switch from Contractor Foreman to BuildWorkPro?',
+    answer:
+      'Yes. Export your contacts, leads, and job list from Contractor Foreman, then use BuildWorkPro’s guided CSV import wizards to bring in contacts, leads, products, and projects. The 14-day free trial (no credit card) is enough time to run a real bid and a pay application before you decide.',
+  },
+  {
+    question: 'When is Contractor Foreman the better choice?',
+    answer:
+      'If you are a general contractor, or you want the widest catalog of modules — inventory, safety and incident logs, equipment tracking, and a long list of integrations — Contractor Foreman’s breadth is a genuine advantage, and its lowest tier is cheaper to start. BuildWorkPro is the better fit when you are a specialty trade sub who wants depth on the sub-to-GC billing loop and one flat price instead of tiers.',
+  },
+];
+---
+
+<Layout
+  title="Contractor Foreman Alternative for Subcontractors — BuildWorkPro vs Contractor Foreman"
+  description="Contractor Foreman is a broad, tiered all-in-one. BuildWorkPro is built only for trade subs billing GCs — bids, AIA-style pay apps, change orders & CRM at $79/month flat, every feature, unlimited users. Full comparison."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Compare</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          The Contractor Foreman Alternative for Subcontractors
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          Contractor Foreman is a broad all-in-one with tiered plans for GCs, subs, and trades. If
+          you're a specialty sub who wants depth on bidding and AIA-style pay applications — and one
+          flat price instead of five tiers — BuildWorkPro runs your workflow for $79/month flat.
+        </p>
+      </div>
+    </section>
+
+    <!-- Verdict box (answer-first for skimmers and AI search) -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="rounded-2xl border border-brand-100 bg-brand-50 p-8">
+        <h2 class="text-base font-semibold text-slate-900 mb-3">The short version</h2>
+        <p class="text-slate-600 leading-relaxed text-sm">
+          <strong>Choose Contractor Foreman</strong> if you're a GC or want the widest catalog of modules
+          — inventory, safety, equipment — across tiered plans, with the cheapest possible entry price.
+          <strong>Choose BuildWorkPro</strong> if you're a specialty sub — electrical, plumbing, HVAC,
+          roofing, concrete, framing — who bids to GCs, bills monthly against a schedule of values with
+          retainage, and wants every feature and unlimited users on one flat $79/month plan.
+        </p>
+      </div>
+    </section>
+
+    <!-- Comparison table -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+        BuildWorkPro vs Contractor Foreman at a glance
+      </h2>
+      <div class="rounded-2xl border border-slate-200 overflow-hidden overflow-x-auto">
+        <table class="w-full text-sm min-w-[640px]">
+          <thead>
+            <tr class="bg-slate-50">
+              <th class="text-left px-6 py-4 font-semibold text-slate-900 w-1/3"></th>
+              <th class="text-left px-6 py-4 font-semibold text-brand-600">BuildWorkPro</th>
+              <th class="text-left px-6 py-4 font-semibold text-slate-500">Contractor Foreman</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            {
+              comparisonRows.map((row, i) => (
+                <tr class={i % 2 === 1 ? 'bg-slate-50/50' : ''}>
+                  <td class="px-6 py-4 font-medium text-slate-700">{row.label}</td>
+                  <td
+                    class={`px-6 py-4 ${row.bwpWins ? 'font-semibold text-brand-700' : 'text-slate-600'}`}
+                  >
+                    {row.bwp}
+                  </td>
+                  <td class="px-6 py-4 text-slate-500">{row.other}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-3 text-xs text-slate-400 px-2">
+        *Contractor Foreman publishes five tiers whose price and limits change over time; the range
+        reflects its publicly listed annual-billing plans as of June 2026. Verify current pricing,
+        user caps, and per-tier features with Contractor Foreman.
+      </p>
+    </section>
+
+    <!-- Honest section -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="prose prose-slate max-w-none">
+        <h2 class="text-2xl font-bold text-slate-900">Where Contractor Foreman genuinely wins</h2>
+        <p class="text-slate-600">
+          Contractor Foreman earns its reputation as an affordable all-in-one. It spans more modules
+          than BuildWorkPro — inventory, safety and incident logs, equipment tracking, and a long
+          list of integrations — and it serves general contractors as well as subs. If you want the
+          widest feature catalog under one login, or you're a GC coordinating other trades, that
+          breadth is a real advantage, and its lowest tier starts cheaper than $79.
+        </p>
+        <p class="text-slate-600">
+          The trade-off is tiers. On Contractor Foreman, users, projects, and features scale with
+          the plan you pick, so the price you compare today isn't always the price once your crew
+          grows or you need a higher-tier feature. BuildWorkPro takes the opposite approach: one
+          plan, every feature, unlimited users — and a product built around the one loop a sub runs
+          all year, bid → contract → monthly pay app with retainage → closeout, instead of a broad
+          toolkit you assemble yourself.
+        </p>
+      </div>
+    </section>
+
+    <!-- Product proof -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-4">
+        Depth on the sub's workflow
+      </h2>
+      <p class="text-center text-slate-500 max-w-2xl mx-auto mb-10">
+        From a line-item estimate with margin and overhead to a monthly pay application that matches
+        your schedule of values — the numbers stay connected end to end.
+      </p>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <Screenshot
+            src="/screenshots/07-bid-detail-rates.png"
+            alt="BuildWorkPro bid Rates tab applying margin, overhead, and commission to roll cost into the customer total"
+            caption="Estimating with structure: margin, overhead, and commission roll raw cost into the customer total."
+            width={1280}
+            height={720}
+          />
+        </div>
+        <div>
+          <Screenshot
+            src="/screenshots/12-pay-apps-list.png"
+            alt="BuildWorkPro pay applications list showing billing periods, amounts, and approval status"
+            caption="Every pay application across every project and GC, with status from draft to paid."
+            width={1280}
+            height={720}
+          />
+        </div>
+      </div>
+    </section>
+
+    <FAQSection faqs={faqs} />
+
+    <!-- CTA -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="rounded-2xl bg-slate-900 px-8 py-14 sm:px-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          One flat plan, built for how subs get paid
+        </h2>
+        <p class="mt-4 text-slate-400 max-w-xl mx-auto">
+          Every feature, unlimited users, $79/month flat. 14-day free trial — no credit card, no
+          demo call.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Start free trial
+          </a>
+          <a
+            href="/contact/"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
+          >
+            Talk to us
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-slate-500">
+          Comparing other platforms? See
+          <a href="/compare/procore-alternative/" class="text-slate-300 underline hover:text-white"
+            >BuildWorkPro vs Procore</a
+          >
+          and
+          <a
+            href="/compare/buildertrend-alternative/"
+            class="text-slate-300 underline hover:text-white">BuildWorkPro vs Buildertrend</a
+          >.
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
