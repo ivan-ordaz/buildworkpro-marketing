@@ -47,6 +47,9 @@
       (window as any).bwpGrantAnalyticsConsent?.();
       (window as any).bwpLoadGA?.();
       (window as any).bwpLoadMetaPixel?.();
+      // Release any conversion events queued before consent (pricing/feature
+      // views) now that the trackers are loading.
+      (window as any).__bwpFireConsent?.();
     });
     document.getElementById('cookie-decline')?.addEventListener('click', () => {
       localStorage.setItem('bwp-cookies-declined', '1');

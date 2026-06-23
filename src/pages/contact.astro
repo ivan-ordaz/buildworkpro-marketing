@@ -199,9 +199,13 @@ import { config } from '../config';
 
         if (!res.ok) throw new Error();
 
-        // Fire the Meta Pixel Lead event (no-op if the pixel hasn't loaded,
-        // i.e. the visitor declined analytics cookies).
-        (window as any).fbq?.('track', 'Lead');
+        // Fire the contact-form conversion to both the Meta Pixel (Lead) and
+        // GA4 (generate_lead). No-ops for whichever tracker hasn't loaded
+        // (i.e. the visitor declined analytics cookies).
+        (window as any).bwpTrack?.(
+          { name: 'Lead' },
+          { name: 'generate_lead', params: { form: 'contact' } }
+        );
 
         status.textContent = 'Message sent! We\u2019ll get back to you within 24 hours.';
         status.className =
