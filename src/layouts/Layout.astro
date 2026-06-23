@@ -139,11 +139,53 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         window.fbq('init', '689268612776537');
         window.fbq('track', 'PageView');
       };
+      // Unified conversion-event tracker. Fires to the Meta Pixel and/or GA4
+      // only when each has loaded (i.e. the visitor accepted analytics
+      // cookies) — declining suppresses every event, exactly like PageView.
+      // Never throws: analytics must never break the page.
+      window.bwpTrack = function (meta, ga) {
+        try {
+          if (meta && window.fbq) window.fbq('track', meta.name, meta.params || {});
+          if (ga && window.__bwpGALoaded) gtag('event', ga.name, ga.params || {});
+        } catch {
+          /* best-effort — swallow */
+        }
+      };
+      // Consent-ready hook. Page-load-time events (pricing/feature views) must
+      // fire the moment analytics is allowed to load — immediately for
+      // returning visitors with stored consent, or on accept for first-timers —
+      // never in the pre-consent window where bwpTrack would silently no-op.
+      window.__bwpConsentReady = false;
+      window.__bwpConsentQueue = [];
+      window.bwpOnConsent = function (cb) {
+        if (window.__bwpConsentReady) {
+          try {
+            cb();
+          } catch {
+            /* ignore */
+          }
+        } else {
+          window.__bwpConsentQueue.push(cb);
+        }
+      };
+      window.__bwpFireConsent = function () {
+        if (window.__bwpConsentReady) return;
+        window.__bwpConsentReady = true;
+        const queued = window.__bwpConsentQueue.splice(0);
+        for (let i = 0; i < queued.length; i++) {
+          try {
+            queued[i]();
+          } catch {
+            /* ignore */
+          }
+        }
+      };
       try {
         if (localStorage.getItem('bwp-cookies-accepted')) {
           window.bwpGrantAnalyticsConsent();
           window.bwpLoadGA();
           window.bwpLoadMetaPixel();
+          window.__bwpFireConsent();
         }
       } catch {
         /* localStorage unavailable (private browsing, SSR, etc.) — skip load */
@@ -227,5 +269,77 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
   <body class="bg-white text-slate-900 font-sans" data-turnstile-sitekey={config.turnstileSiteKey}>
     <slot />
     <CookieConsent />
+
+    <!-- Conversion-event instrumentation (Meta Pixel + GA4). Runs on every
+         page; every event no-ops unless the matching tracker loaded after
+         cookie consent (see bwpTrack / bwpOnConsent in the head). -->
+    <script is:inline define:vars={{ signupUrl: config.signupUrl }}>
+      (function () {
+        function track(meta, ga) {
+          if (window.bwpTrack) window.bwpTrack(meta, ga);
+        }
+
+        // 1. Primary conversion: every "Start free trial" CTA points at
+        //    config.signupUrl, so one delegated listener instruments all 40+
+        //    of them. User-triggered, so it naturally post-dates consent.
+        function onCtaActivate(e) {
+          const a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a || a.href.indexOf(signupUrl) !== 0) return;
+          track(
+            {
+              name: 'InitiateCheckout',
+              params: { content_name: 'free_trial', content_category: 'signup' },
+            },
+            { name: 'start_trial', params: { cta_href: a.href } }
+          );
+        }
+        document.addEventListener('click', onCtaActivate);
+        document.addEventListener('auxclick', onCtaActivate); // middle-click → new tab
+
+        // 2 & 3. High-intent page views. These fire at load, so gate them on
+        //        consent readiness to avoid the pre-consent no-op window.
+        const onConsent =
+          window.bwpOnConsent ||
+          function (cb) {
+            cb();
+          };
+        onConsent(function () {
+          // Feature detail pages (/features/<slug>/) — not the /features/ hub.
+          const fm = location.pathname.match(/^\/features\/([^/]+)\/?$/);
+          if (fm) {
+            track(
+              { name: 'ViewContent', params: { content_type: 'feature', content_name: fm[1] } },
+              { name: 'view_feature', params: { feature: fm[1] } }
+            );
+          }
+
+          // Pricing is a section (#pricing), not a route — fire once when it
+          // first scrolls into view, a stronger intent signal than page load.
+          const pricing = document.getElementById('pricing');
+          if (pricing && 'IntersectionObserver' in window) {
+            let fired = false;
+            const io = new IntersectionObserver(
+              function (entries) {
+                for (let i = 0; i < entries.length; i++) {
+                  if (entries[i].isIntersecting && !fired) {
+                    fired = true;
+                    io.disconnect();
+                    track(
+                      {
+                        name: 'ViewContent',
+                        params: { content_type: 'pricing', content_name: 'pricing' },
+                      },
+                      { name: 'view_pricing' }
+                    );
+                  }
+                }
+              },
+              { threshold: 0.4 }
+            );
+            io.observe(pricing);
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
