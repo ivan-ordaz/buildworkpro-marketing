@@ -1,8 +1,11 @@
 import { test, expect, type Page } from '@playwright/test';
 
-// Verifies the conversion-event instrumentation wired into Layout.astro:
-// events reach GA4 (window.dataLayer) and the Meta Pixel (window.fbq.queue)
-// only after cookie consent, and the right event fires for each funnel step.
+// Verifies the consent + conversion-event instrumentation wired into
+// Layout.astro. GA loads on every page in cookieless Consent Mode (an
+// automatic, anonymous page_view), while custom funnel events and the Meta
+// Pixel stay gated behind an explicit "Accept". So: the automatic page_view
+// reaches GA4 (window.dataLayer) for everyone, but custom events reach GA4 and
+// the Meta Pixel (window.fbq.queue) only after consent.
 //
 // We block the real fbevents.js / gtag.js network requests so the trackers
 // stay as their local queue stubs — fbq calls accumulate in `fbq.queue` and
@@ -14,6 +17,7 @@ declare global {
     dataLayer: unknown[][];
     fbq?: { queue?: unknown[][] } & ((...args: unknown[]) => void);
     __bwpGALoaded?: boolean;
+    __bwpAnalyticsGranted?: boolean;
   }
 }
 
@@ -104,5 +108,21 @@ test.describe('conversion-event tracking', () => {
       .first()
       .click();
     expect((await gaEvents(page, 'start_trial')).length).toBe(0);
+  });
+
+  test('GA loads in cookieless mode before consent (page_view only, no Meta)', async ({ page }) => {
+    await page.goto('/');
+
+    // GA is loaded for every visitor, even before any cookie choice…
+    expect(await page.evaluate(() => window.__bwpGALoaded === true)).toBe(true);
+    // …but only cookielessly: consent is not granted and no cookies are set.
+    expect(await page.evaluate(() => window.__bwpAnalyticsGranted === true)).toBe(false);
+    // The automatic page_view was sent (gtag('config', …) → dataLayer).
+    const configCalls = await page.evaluate(
+      () => (window.dataLayer || []).filter((d) => d[0] === 'config').length
+    );
+    expect(configCalls).toBeGreaterThan(0);
+    // The Meta Pixel stays strictly opt-in — never loaded pre-consent.
+    expect(await page.evaluate(() => typeof window.fbq)).toBe('undefined');
   });
 });

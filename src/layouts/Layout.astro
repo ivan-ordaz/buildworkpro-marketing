@@ -60,15 +60,23 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google Consent Mode v2 + gtag (loaded only after cookie consent).
-         Default-deny every category until the user explicitly accepts in the
-         CookieConsent banner. The default must run BEFORE the gtag.js loader
-         so signals are scoped correctly from the very first GA call. -->
+    <!-- Google Consent Mode v2 + gtag. GA loads on EVERY page with all storage
+         signals default-denied, so it sends cookieless, anonymous pings (no
+         cookies, no identifiers) that power aggregate reporting for every
+         visitor. Accepting in the CookieConsent banner upgrades GA to full,
+         cookie-based measurement and additionally loads the Meta Pixel. The
+         consent default must run BEFORE the gtag.js loader so signals are
+         scoped correctly from the very first GA call. -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(...args) {
         window.dataLayer.push(args);
       }
+      // True only once the visitor accepts analytics in the banner. Custom
+      // conversion events (start_trial, view_feature, …) gate on this so they
+      // never fire cookielessly — only the automatic page_view does. Distinct
+      // from __bwpGALoaded, which is now true on every load (GA always loads).
+      window.__bwpAnalyticsGranted = false;
       // Consent Mode v2 — default-deny. `wait_for_update` gives the
       // CookieConsent banner ~500ms to update consent before any pings fire,
       // avoiding a denied ping followed immediately by a granted one.
@@ -84,6 +92,7 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
       });
       // Exposed so the CookieConsent component can flip consent on accept.
       window.bwpGrantAnalyticsConsent = function () {
+        window.__bwpAnalyticsGranted = true;
         gtag('consent', 'update', {
           ad_storage: 'granted',
           ad_user_data: 'granted',
@@ -94,6 +103,7 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         });
       };
       window.bwpRevokeAnalyticsConsent = function () {
+        window.__bwpAnalyticsGranted = false;
         gtag('consent', 'update', {
           ad_storage: 'denied',
           ad_user_data: 'denied',
@@ -113,9 +123,10 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         gtag('js', new Date());
         gtag('config', 'G-REK78NBR14');
       };
-      // Meta Pixel (Facebook) — loaded only after analytics consent, same gate
-      // as GA. The pixel never loads on decline. Pixel ID is a public client-side
-      // identifier (like the GA measurement ID above).
+      // Meta Pixel (Facebook) — loaded only after the visitor accepts. Unlike
+      // GA (which has a privacy-safe cookieless Consent Mode), the Pixel has no
+      // such default state, so it stays strictly opt-in and never loads on
+      // decline. Pixel ID is a public client-side identifier (like the GA ID).
       window.bwpLoadMetaPixel = function () {
         if (window.__bwpPixelLoaded) return;
         window.__bwpPixelLoaded = true;
@@ -139,14 +150,16 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         window.fbq('init', '689268612776537');
         window.fbq('track', 'PageView');
       };
-      // Unified conversion-event tracker. Fires to the Meta Pixel and/or GA4
-      // only when each has loaded (i.e. the visitor accepted analytics
-      // cookies) — declining suppresses every event, exactly like PageView.
+      // Unified conversion-event tracker. Custom funnel events fire only after
+      // the visitor accepts analytics — to the Meta Pixel (if loaded) and to
+      // GA4 (gated on __bwpAnalyticsGranted, NOT __bwpGALoaded, since GA now
+      // loads cookielessly for everyone). Declining suppresses every custom
+      // event; only the automatic cookieless page_view is sent pre-consent.
       // Never throws: analytics must never break the page.
       window.bwpTrack = function (meta, ga) {
         try {
           if (meta && window.fbq) window.fbq('track', meta.name, meta.params || {});
-          if (ga && window.__bwpGALoaded) gtag('event', ga.name, ga.params || {});
+          if (ga && window.__bwpAnalyticsGranted) gtag('event', ga.name, ga.params || {});
         } catch {
           /* best-effort — swallow */
         }
@@ -182,13 +195,27 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
       };
       try {
         if (localStorage.getItem('bwp-cookies-accepted')) {
+          // Returning visitor who accepted: full, cookie-based GA + Meta Pixel,
+          // and release any queued page-load conversion events.
           window.bwpGrantAnalyticsConsent();
           window.bwpLoadGA();
           window.bwpLoadMetaPixel();
           window.__bwpFireConsent();
+        } else {
+          // No choice yet, or declined: load GA in cookieless Consent Mode
+          // (consent stays denied, so it sets no cookies and sends only an
+          // anonymous page_view). The Meta Pixel and custom conversion events
+          // stay gated behind an explicit Accept.
+          window.bwpLoadGA();
         }
       } catch {
-        /* localStorage unavailable (private browsing, SSR, etc.) — skip load */
+        // localStorage unavailable (private browsing, etc.) — still load GA
+        // cookielessly so anonymous traffic is measured.
+        try {
+          window.bwpLoadGA();
+        } catch {
+          /* GA unavailable — give up silently */
+        }
       }
     </script>
 

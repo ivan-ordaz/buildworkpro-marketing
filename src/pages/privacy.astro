@@ -130,12 +130,14 @@ import { config } from '../config';
           </li>
           <li>
             <strong>Cookies and Similar Technologies:</strong> Session identifiers, CSRF tokens, tenant
-            context identifiers, and preference storage. The marketing website loads Google Analytics
-            4 and the Meta (Facebook) Pixel only after you explicitly accept analytics and advertising
-            cookies via our cookie banner; Google Consent Mode v2 enforces a default-deny posture and
-            the Meta Pixel script does not load until consent is granted. The authenticated web and mobile
-            applications do not deploy advertising, analytics, or cross-site tracking cookies. For a detailed
-            explanation, see our <a href="/cookies/">Cookie Policy</a>.
+            context identifiers, and preference storage. On the marketing website, Google Analytics 4
+            loads under Google Consent Mode v2 with a default-deny posture, so it runs in cookieless mode
+            &mdash; measuring aggregate, anonymous traffic without setting cookies or identifiers &mdash;
+            and only upgrades to full, cookie-based measurement after you explicitly accept via our cookie
+            banner; the Meta (Facebook) Pixel does not load at all until consent is granted. No analytics
+            or advertising cookies are set unless you accept. The authenticated web and mobile applications
+            do not deploy advertising, analytics, or cross-site tracking cookies. For a detailed explanation,
+            see our <a href="/cookies/">Cookie Policy</a>.
           </li>
         </ul>
 

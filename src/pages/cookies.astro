@@ -153,12 +153,16 @@ import { config } from '../config';
           The BuildWorkPro <strong>marketing website</strong> uses Google Analytics 4 to understand how
           visitors find and use our pages, and the <strong>Meta (Facebook) Pixel</strong> to measure the
           performance of our advertising and to show relevant ads to people who have visited the site.
-          These cookies and similar identifiers are
-          <strong>not loaded by default</strong>: for Google Analytics we use Google Consent Mode v2
-          with every signal denied, and the Meta Pixel script is not loaded at all, until you click
-          &ldquo;Accept&rdquo; in the cookie banner. If you decline, or simply ignore the banner,
-          neither the Google Analytics nor the Meta Pixel script loads and none of these cookies are
-          set. You can change your choice at any time via the &ldquo;Cookie settings&rdquo; link in
+          We handle these two tools differently. <strong>Google Analytics 4</strong> loads on every page
+          under Google Consent Mode v2 with all storage signals denied by default, so it runs in
+          <strong>cookieless mode</strong>: it measures aggregate, anonymous traffic
+          <strong>without setting any cookies or identifiers</strong> on your device. When you click &ldquo;Accept&rdquo;,
+          Analytics upgrades to full, cookie-based measurement. The
+          <strong>Meta (Facebook) Pixel</strong> is gated more strictly: its script is
+          <strong>not loaded at all</strong> until you accept, and it never loads if you decline or ignore
+          the banner. In every case, <strong
+            >no analytics or advertising cookies are set unless you click &ldquo;Accept&rdquo;</strong
+          >. You can change your choice at any time via the &ldquo;Cookie settings&rdquo; link in
           the footer.
         </p>
 
