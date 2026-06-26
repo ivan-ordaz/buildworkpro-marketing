@@ -69,8 +69,16 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
          is scoped correctly. -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(...args) {
-        window.dataLayer.push(args);
+      // CRITICAL: gtag must push the `arguments` object, exactly as in Google's
+      // canonical snippet. gtag.js distinguishes an `arguments` object (a gtag
+      // API command: consent/config/js/get) from a plain array (a generic
+      // dataLayer event). A rest-param `(...args)` pushed as an array makes
+      // gtag.js silently treat `consent`/`config` as events, so consent never
+      // resolves and NO hit is ever sent — the property stays empty. Do NOT
+      // "modernize" this to rest params (the eslint-disable below guards it).
+      function gtag() {
+        // eslint-disable-next-line prefer-rest-params
+        window.dataLayer.push(arguments);
       }
       // Consent Mode v2 — default-deny. `wait_for_update` gives the
       // CookieConsent banner ~500ms to update consent before any pings fire,
