@@ -306,6 +306,10 @@
             "type": "string",
             "enum": [
               "customer",
+              "general_contractor",
+              "architect",
+              "city",
+              "hoa",
               "vendor",
               "subcontractor",
               "supplier",
@@ -351,6 +355,10 @@
             "type": "string",
             "enum": [
               "customer",
+              "general_contractor",
+              "architect",
+              "city",
+              "hoa",
               "vendor",
               "subcontractor",
               "supplier",
@@ -1672,7 +1680,25 @@
               "null"
             ]
           },
+          "personnelCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
           "workPerformed": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "materialsReceived": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "visitorsOnSite": {
             "type": [
               "string",
               "null"
@@ -1737,7 +1763,10 @@
           "logDate",
           "title",
           "notes",
+          "personnelCount",
           "workPerformed",
+          "materialsReceived",
+          "visitorsOnSite",
           "issues",
           "tags",
           "lat",
