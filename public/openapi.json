@@ -81,6 +81,8 @@
           "jobs:write",
           "notifications:read",
           "notifications:write",
+          "messaging:read",
+          "messaging:send",
           "audit:read",
           "settings:read",
           "settings:write",
