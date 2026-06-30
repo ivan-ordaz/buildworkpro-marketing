@@ -83,6 +83,7 @@
           "notifications:write",
           "messaging:read",
           "messaging:send",
+          "support:read",
           "audit:read",
           "settings:read",
           "settings:write",
