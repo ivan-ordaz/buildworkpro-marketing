@@ -73,10 +73,14 @@
           "invoices:mark_paid",
           "invoices:void",
           "users:read",
+          "comments:read",
+          "comments:write",
+          "comments:delete",
           "webhooks:manage",
           "jobs:read",
           "jobs:write",
           "notifications:read",
+          "notifications:write",
           "audit:read",
           "settings:read",
           "settings:write",
@@ -15000,6 +15004,116 @@
         },
         "operationId": "deleteProductsByIdKitItemsByItemId",
         "x-rate-limit-cost": 5
+      },
+      "patch": {
+        "summary": "Update a kit item",
+        "description": "Updates a kit component's quantity / override cost / sort order.",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": true,
+            "name": "itemId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "defaultQuantity": {
+                    "type": "string"
+                  },
+                  "overrideCostPrice": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated kit item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ProductKitItem"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patchProductsByIdKitItemsByItemId",
+        "x-rate-limit-cost": 5
       }
     },
     "/products/exports": {
@@ -15318,6 +15432,637 @@
         },
         "operationId": "postProductsBulk",
         "x-rate-limit-cost": 100
+      }
+    },
+    "/products/get-many": {
+      "post": {
+        "summary": "Bulk-fetch products by ID",
+        "description": "Fetch up to 50 products by ID in one round-trip. IDs that don't exist or belong to another tenant are silently omitted — compare meta.requested to meta.returned to detect missing.",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ResponseMeta"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "requested": {
+                              "type": "integer"
+                            },
+                            "returned": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "requested",
+                            "returned"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postProductsGetMany",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/products/{id}/usage": {
+      "get": {
+        "summary": "Product usage counts",
+        "description": "Returns how many active bids and kits reference the product ({ bidsCount, kitsCount }).",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "bidsCount": {
+                          "type": "integer"
+                        },
+                        "kitsCount": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "bidsCount",
+                        "kitsCount"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getProductsByIdUsage",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/products/{id}/restore": {
+      "post": {
+        "summary": "Restore a soft-deleted product",
+        "description": "Clears the product's deletedAt. Gated at products:delete because restoring a soft-deleted record is a delete-class operation.",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:delete"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Restored product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Product"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postProductsByIdRestore",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/products/{id}/duplicate": {
+      "post": {
+        "summary": "Duplicate a product",
+        "description": "Creates a copy of the product (with a new SKU) and returns the new row.",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Duplicated product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Product"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postProductsByIdDuplicate",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/products/bulk-delete": {
+      "post": {
+        "summary": "Bulk soft-delete products",
+        "description": "Soft-deletes up to 500 products by id. Returns { deletedCount }.",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:delete"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1,
+                    "maxItems": 500
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Deleted count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "deletedCount": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "deletedCount"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postProductsBulkDelete",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/products/bulk-restore": {
+      "post": {
+        "summary": "Bulk restore products",
+        "description": "Restores up to 500 soft-deleted products by id. Returns { restoredCount }. Gated at products:delete.",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:delete"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1,
+                    "maxItems": 500
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Restored count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "restoredCount": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "restoredCount"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postProductsBulkRestore",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/products/{id}/kit-items/reorder": {
+      "put": {
+        "summary": "Reorder kit items",
+        "description": "Sets the sortOrder of a kit's component items to the given orderedIds order.",
+        "security": [
+          {
+            "bearerAuth": [
+              "products:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderedIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    }
+                  }
+                },
+                "required": [
+                  "orderedIds"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reordered kit items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ProductKitItem"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "putProductsByIdKitItemsReorder",
+        "x-rate-limit-cost": 5
       }
     },
     "/documents/count": {
@@ -17337,11 +18082,14 @@
                         "contact.deleted",
                         "lead.created",
                         "lead.updated",
-                        "lead.deleted"
+                        "lead.deleted",
+                        "product.created",
+                        "product.updated",
+                        "product.deleted"
                       ]
                     },
                     "minItems": 1,
-                    "maxItems": 29
+                    "maxItems": 32
                   },
                   "description": {
                     "type": [
@@ -17524,11 +18272,14 @@
                         "contact.deleted",
                         "lead.created",
                         "lead.updated",
-                        "lead.deleted"
+                        "lead.deleted",
+                        "product.created",
+                        "product.updated",
+                        "product.deleted"
                       ]
                     },
                     "minItems": 1,
-                    "maxItems": 29
+                    "maxItems": 32
                   },
                   "description": {
                     "type": [
