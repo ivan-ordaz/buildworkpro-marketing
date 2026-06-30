@@ -84,6 +84,7 @@
           "messaging:read",
           "messaging:send",
           "support:read",
+          "reports:read",
           "audit:read",
           "settings:read",
           "settings:write",
