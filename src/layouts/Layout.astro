@@ -60,14 +60,25 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google Consent Mode v2 + gtag (loaded only after cookie consent).
-         Default-deny every category until the user explicitly accepts in the
-         CookieConsent banner. The default must run BEFORE the gtag.js loader
-         so signals are scoped correctly from the very first GA call. -->
+    <!-- Google Consent Mode v2. GA4 loads on EVERY page with consent
+         default-denied, so it sends cookieless, anonymized pings (no cookies,
+         no ad identifiers) for visitors who have not chosen yet. On Accept it
+         upgrades to full measurement; on Decline it is fully disabled. The
+         Meta Pixel has no cookieless mode, so it loads only on Accept. The
+         consent default must run BEFORE the gtag.js loader so the first ping
+         is scoped correctly. -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(...args) {
-        window.dataLayer.push(args);
+      // CRITICAL: gtag must push the `arguments` object, exactly as in Google's
+      // canonical snippet. gtag.js distinguishes an `arguments` object (a gtag
+      // API command: consent/config/js/get) from a plain array (a generic
+      // dataLayer event). A rest-param `(...args)` pushed as an array makes
+      // gtag.js silently treat `consent`/`config` as events, so consent never
+      // resolves and NO hit is ever sent — the property stays empty. Do NOT
+      // "modernize" this to rest params (the eslint-disable below guards it).
+      function gtag() {
+        // eslint-disable-next-line prefer-rest-params
+        window.dataLayer.push(arguments);
       }
       // Consent Mode v2 — default-deny. `wait_for_update` gives the
       // CookieConsent banner ~500ms to update consent before any pings fire,
@@ -82,8 +93,12 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         security_storage: 'granted',
         wait_for_update: 500,
       });
+      // Redact ad-click identifiers from requests while consent is denied, so
+      // the default cookieless pings stay anonymous.
+      gtag('set', 'ads_data_redaction', true);
       // Exposed so the CookieConsent component can flip consent on accept.
       window.bwpGrantAnalyticsConsent = function () {
+        window['ga-disable-G-REK78NBR14'] = false;
         gtag('consent', 'update', {
           ad_storage: 'granted',
           ad_user_data: 'granted',
@@ -93,7 +108,10 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
           personalization_storage: 'granted',
         });
       };
+      // Called on explicit Decline (and via "Cookie settings"). A decline is a
+      // real opt-out: fully disable GA so not even cookieless pings are sent.
       window.bwpRevokeAnalyticsConsent = function () {
+        window['ga-disable-G-REK78NBR14'] = true;
         gtag('consent', 'update', {
           ad_storage: 'denied',
           ad_user_data: 'denied',
@@ -113,9 +131,9 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         gtag('js', new Date());
         gtag('config', 'G-REK78NBR14');
       };
-      // Meta Pixel (Facebook) — loaded only after analytics consent, same gate
-      // as GA. The pixel never loads on decline. Pixel ID is a public client-side
-      // identifier (like the GA measurement ID above).
+      // Meta Pixel (Facebook) — loaded only on Accept. It has no cookieless
+      // mode, so unlike GA4 it does NOT load by default and never loads on
+      // decline. Pixel ID is a public client-side identifier (like the GA id).
       window.bwpLoadMetaPixel = function () {
         if (window.__bwpPixelLoaded) return;
         window.__bwpPixelLoaded = true;
@@ -139,10 +157,10 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         window.fbq('init', '689268612776537');
         window.fbq('track', 'PageView');
       };
-      // Unified conversion-event tracker. Fires to the Meta Pixel and/or GA4
-      // only when each has loaded (i.e. the visitor accepted analytics
-      // cookies) — declining suppresses every event, exactly like PageView.
-      // Never throws: analytics must never break the page.
+      // Unified conversion-event tracker. GA4 is always loaded (cookieless
+      // until consent), so GA events flow for every visitor; Meta events fire
+      // only once the pixel has loaded (i.e. after Accept). Never throws:
+      // analytics must never break the page.
       window.bwpTrack = function (meta, ga) {
         try {
           if (meta && window.fbq) window.fbq('track', meta.name, meta.params || {});
@@ -151,44 +169,24 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
           /* best-effort — swallow */
         }
       };
-      // Consent-ready hook. Page-load-time events (pricing/feature views) must
-      // fire the moment analytics is allowed to load — immediately for
-      // returning visitors with stored consent, or on accept for first-timers —
-      // never in the pre-consent window where bwpTrack would silently no-op.
-      window.__bwpConsentReady = false;
-      window.__bwpConsentQueue = [];
-      window.bwpOnConsent = function (cb) {
-        if (window.__bwpConsentReady) {
-          try {
-            cb();
-          } catch {
-            /* ignore */
-          }
-        } else {
-          window.__bwpConsentQueue.push(cb);
-        }
-      };
-      window.__bwpFireConsent = function () {
-        if (window.__bwpConsentReady) return;
-        window.__bwpConsentReady = true;
-        const queued = window.__bwpConsentQueue.splice(0);
-        for (let i = 0; i < queued.length; i++) {
-          try {
-            queued[i]();
-          } catch {
-            /* ignore */
-          }
-        }
-      };
+      // Apply any stored choice, then load. Three postures:
+      //  • Declined     → fully disable GA, load nothing.
+      //  • Accepted     → grant consent + full GA + Meta Pixel.
+      //  • No choice yet → GA loads cookieless (default-deny); no pixel.
+      let bwpAccepted = false;
+      let bwpDeclined = false;
       try {
-        if (localStorage.getItem('bwp-cookies-accepted')) {
-          window.bwpGrantAnalyticsConsent();
-          window.bwpLoadGA();
-          window.bwpLoadMetaPixel();
-          window.__bwpFireConsent();
-        }
+        bwpAccepted = !!localStorage.getItem('bwp-cookies-accepted');
+        bwpDeclined = !!localStorage.getItem('bwp-cookies-declined');
       } catch {
-        /* localStorage unavailable (private browsing, SSR, etc.) — skip load */
+        /* localStorage unavailable (private browsing, SSR) — treat as no choice */
+      }
+      if (bwpDeclined) {
+        window['ga-disable-G-REK78NBR14'] = true;
+      } else {
+        if (bwpAccepted) window.bwpGrantAnalyticsConsent();
+        window.bwpLoadGA();
+        if (bwpAccepted) window.bwpLoadMetaPixel();
       }
     </script>
 
@@ -271,8 +269,8 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
     <CookieConsent />
 
     <!-- Conversion-event instrumentation (Meta Pixel + GA4). Runs on every
-         page; every event no-ops unless the matching tracker loaded after
-         cookie consent (see bwpTrack / bwpOnConsent in the head). -->
+         page. GA4 events flow cookielessly for every visitor; Meta events fire
+         only once the pixel loads on Accept (see bwpTrack in the head). -->
     <script is:inline define:vars={{ signupUrl: config.signupUrl }}>
       (function () {
         function track(meta, ga) {
@@ -296,14 +294,10 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
         document.addEventListener('click', onCtaActivate);
         document.addEventListener('auxclick', onCtaActivate); // middle-click → new tab
 
-        // 2 & 3. High-intent page views. These fire at load, so gate them on
-        //        consent readiness to avoid the pre-consent no-op window.
-        const onConsent =
-          window.bwpOnConsent ||
-          function (cb) {
-            cb();
-          };
-        onConsent(function () {
+        // 2 & 3. High-intent page views, fired immediately on load. GA4
+        //        captures them cookielessly for every visitor; Meta captures
+        //        them only when the pixel is already loaded (returning accepters).
+        (function () {
           // Feature detail pages (/features/<slug>/) — not the /features/ hub.
           const fm = location.pathname.match(/^\/features\/([^/]+)\/?$/);
           if (fm) {
@@ -338,7 +332,7 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
             );
             io.observe(pricing);
           }
-        });
+        })();
       })();
     </script>
   </body>

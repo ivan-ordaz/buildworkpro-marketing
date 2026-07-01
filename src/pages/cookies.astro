@@ -153,13 +153,26 @@ import { config } from '../config';
           The BuildWorkPro <strong>marketing website</strong> uses Google Analytics 4 to understand how
           visitors find and use our pages, and the <strong>Meta (Facebook) Pixel</strong> to measure the
           performance of our advertising and to show relevant ads to people who have visited the site.
-          These cookies and similar identifiers are
-          <strong>not loaded by default</strong>: for Google Analytics we use Google Consent Mode v2
-          with every signal denied, and the Meta Pixel script is not loaded at all, until you click
-          &ldquo;Accept&rdquo; in the cookie banner. If you decline, or simply ignore the banner,
-          neither the Google Analytics nor the Meta Pixel script loads and none of these cookies are
-          set. You can change your choice at any time via the &ldquo;Cookie settings&rdquo; link in
-          the footer.
+          We handle these two technologies differently:
+        </p>
+        <ul>
+          <li>
+            <strong>Google Analytics 4</strong> runs under Google Consent Mode v2 with every signal denied
+            by default. In that state it sets <strong>no cookies</strong> and sends only anonymized, aggregated
+            measurement pings (no advertising identifiers). It begins using cookies such as <code
+              >_ga</code
+            > only after you click &ldquo;Accept.&rdquo; If you click &ldquo;Decline,&rdquo; Google Analytics
+            is disabled entirely and sends nothing.
+          </li>
+          <li>
+            The <strong>Meta (Facebook) Pixel</strong> has no cookieless mode, so its script is
+            <strong>not loaded at all</strong> until you click &ldquo;Accept.&rdquo; If you decline or
+            ignore the banner, the Pixel never loads and none of its cookies are set.
+          </li>
+        </ul>
+        <p>
+          You can change your choice at any time via the &ldquo;Cookie settings&rdquo; link in the
+          footer.
         </p>
 
         <div class="overflow-x-auto">
