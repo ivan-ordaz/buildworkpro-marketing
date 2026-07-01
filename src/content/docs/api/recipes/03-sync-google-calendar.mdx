@@ -1,6 +1,7 @@
 ---
 title: Sync to Google Calendar
 description: Pull project tasks, phases, leads, and bid deadlines from BuildWorkPro and push them to a Google Calendar you control.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
@@ -77,5 +78,8 @@ See also: [Calendar](/docs/calendar/overview/) and [Phases & Tasks](/docs/projec
   off-by-N-hours to users. - **The endpoint costs 1 unit per call but caps at 366 days per window.**
   Don't request a multi-year span in one shot — paginate by month. - **Events without start times
   are filtered out automatically.** If a task has no due date set in BuildWorkPro, it simply won't
-  appear; this is intentional. Scope: `projects:read`.
+  appear; this is intentional. - **Scopes are per event type.** `projects:read` covers `task`,
+  `phase`, and project events; add `bids:read` for `bid` events and `leads:read` for `lead` and
+  `activity` events. A `projects:read`-only token silently drops bid and lead events even when you
+  request them via `types=`.
 </Aside>

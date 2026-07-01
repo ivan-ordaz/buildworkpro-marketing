@@ -1,6 +1,7 @@
 ---
 title: API Changelog
 description: Versioned history of changes to the BuildWorkPro public REST API.
+lastUpdated: 2026-06-30
 ---
 
 This changelog tracks public API changes. We follow the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format and [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Breaking changes only ship in a new major version. Additive changes (new endpoints, new optional fields, new event types) ship in minor versions.
@@ -24,6 +25,17 @@ Template for future entries — copy this block, fill in the date and version, d
 
 */}
 
+## [Unreleased]
+
+The API surface below is live in the current OpenAPI spec (still declared `v1.0.0`) but has not yet been cut into a new version tag. It will be assigned a version number and date on the next release.
+
+### Added
+
+- **`pay_apps:mark_paid` scope** with **`POST /api/v1/pay-apps/{id}/mark-paid`** -- mark an approved pay application as paid.
+- **`audit:read` scope** with **`GET /api/v1/usage`** (rate-limit and usage snapshot) and **`GET /api/v1/api-audit-logs`** (API request audit trail).
+- **`settings:read` and `settings:write` scopes** with read/write endpoints under **`/api/v1/settings/`** (branding, data retention).
+- **Expanded webhook catalog from 10 to 29 event types** -- added `bid.updated`, `bid.deleted`, `bid.expired`, `bid.acceptance_reverted`, `project.updated`, `project.deleted`, `pay_app.rejected`, `pay_app.updated`, `pay_app.deleted`, `pay_app.paid`, `change_order.submitted`, `change_order.updated`, `change_order.rejected`, `change_order.voided`, `change_order.deleted`, `contact.updated`, `contact.deleted`, `lead.updated`, and `lead.deleted`.
+
 ## [v1.0.0] — 2026-04-25
 
 Initial public release of the BuildWorkPro REST API.
@@ -31,7 +43,7 @@ Initial public release of the BuildWorkPro REST API.
 ### Added
 
 - **Response envelope** -- All `2xx` responses return `{ "data": ..., "meta": { "request_id": "..." } }`. List responses include `meta.pagination`.
-- **RFC 9457 problem details** -- All errors return `application/problem+json` with stable `code`, machine-readable `type`, human-readable `title`/`detail`, and `request_id`.
+- **RFC 9457 problem details** -- All errors return `application/problem+json` with a machine-readable `type` URL (whose fragment is a stable error code), human-readable `title`/`detail`, and `request_id`.
 - **39-scope catalog** -- 30 resource scopes (10 families x read/write/delete) + 4 workflow scopes (`bids:send`, `bids:accept_reject`, `pay_apps:approve`, `change_orders:approve`) + 5 meta scopes (`users:read`, `webhooks:manage`, `jobs:read`, `jobs:write`, `offline_access`). Enforced uniformly for both API keys and OAuth tokens.
 - **Cursor pagination** -- Opaque, HMAC-signed cursors with `?limit=` (default 25, max 100) on every list endpoint. Stable ordering and tamper-resistant.
 - **Idempotency middleware** -- All mutations accept `Idempotency-Key`. Responses replayed for 24 hours per key.

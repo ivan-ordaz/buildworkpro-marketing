@@ -1,7 +1,7 @@
 ---
 title: Documentation
 description: BuildWorkPro documentation for construction subcontractors
-lastUpdated: 2026-06-09
+lastUpdated: 2026-06-30
 appVersion: v1.0
 ---
 
@@ -21,7 +21,7 @@ Welcome to the BuildWorkPro documentation. Here you will find everything you nee
 - **Pay Apps** -- submit AIA-style payment applications and track approvals.
 - **Change Orders** -- document scope changes and their contract impact.
 - **CRM** -- manage contacts, leads, and your sales pipeline.
-- **Field** -- log daily site activity, weather, photos, and crew hours.
+- **Field** -- log daily site activity, photos, and crew hours.
 - **Products** -- keep a catalog of products and kits to quote from.
 - **Documents** -- store and organize files, linked to the records they belong to.
 - **Reports** -- track pipeline, bids, projects, and activity.

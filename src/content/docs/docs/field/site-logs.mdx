@@ -3,13 +3,31 @@ title: Site Logs
 description: Record daily field reports with notes, tags, and photos
 sidebar:
   order: 1
-lastUpdated: 2026-06-10
+lastUpdated: 2026-06-30
 appVersion: v1.0
 ---
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 
 Site logs are daily records of what happened on a job. They document progress, issues, and visits for project history and dispute resolution. **Site Logs** is a top-level module -- open it from the sidebar to see logs across every project. Each project also has its own **Site Logs** tab showing just that project's entries.
+
+<figure style="margin: 1.5rem 0;">
+  <video
+    controls
+    preload="none"
+    poster="/videos/site-log-create-poster.jpg"
+    width="1440"
+    height="900"
+    style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
+    aria-label="Demo: creating a daily site log in the New Site Log Entry dialog"
+  >
+    <source src="/videos/site-log-create.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
+    Creating a site log: pick the project and date, add personnel on site, tag the entry
+    (Progress, Issue, Delay, Safety, Delivery, Inspection), and write up what happened in the field.
+  </figcaption>
+</figure>
 
 ![The Site Logs list showing date, title, tags, and reviewed status](/docs-screenshots/field/site-logs-list.png)
 
@@ -41,11 +59,11 @@ Open a log to fill in the rest:
 - **Photos** -- attach images from the job site.
 - **Mark Reviewed** -- a manager marks the log reviewed once checked.
 
-The log also has its own Comments, Documents, and Activity.
+The log also has its own Comments, Documents, and Activity. From a log you can link it to related records and create a Change Order directly from the log.
 
 ## Browse and filter
 
-The list has a **Timeline** and a **Table** view. Filter by project, tag, or reviewed status, or search by title and notes.
+The list has a **Timeline** and a **Table** view. Filter by project, tag, or reviewed status, or search by title, notes, or project name.
 
 ## What's next
 

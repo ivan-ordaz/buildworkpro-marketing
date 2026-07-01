@@ -1,6 +1,7 @@
 ---
 title: Attach a Document to a Bid
 description: Discover documents already attached to a bid via the public API, edit metadata, and stream the file bytes for archival or downstream processing.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
@@ -22,7 +23,7 @@ See also: [Creating a bid](/docs/bids/creating-a-bid/) and [Document library](/d
      --data-urlencode "entityId=22"
    ```
 
-   You'll get document metadata back — id, original filename, mime type, size, category, description. Allowed `entityType` values are `contact`, `lead`, `project`, `bid`, `site_log`, `change_order`, `pay_app`, `task`, and `phase`.
+   You'll get document metadata back — id, original filename, mime type, size, category, description. Allowed `entityType` values are `contact`, `lead`, `project`, `bid`, `site_log`, `change_order`, `pay_app`, `task`, `phase`, and `product`.
 
 2. **Update the metadata.**
 

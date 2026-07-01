@@ -3,13 +3,31 @@ title: Change Order Approval
 description: Submit, approve, and void change orders and adjust the contract
 sidebar:
   order: 2
-lastUpdated: 2026-06-12
+lastUpdated: 2026-06-30
 appVersion: v1.0
 ---
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 
 A change order moves through an approval workflow much like a pay app. Approving one adjusts the project's contract value by the net amount of its marks.
+
+<figure style="margin: 1.5rem 0;">
+  <video
+    controls
+    preload="none"
+    poster="/videos/change-order-approval-poster.jpg"
+    width="1440"
+    height="900"
+    style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
+    aria-label="Demo: approving a change order — the status stepper, Approve and Reject actions, and the contract value impact"
+  >
+    <source src="/videos/change-order-approval.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
+    Change order approval: the stepper tracks Draft → Submitted → Approved, and the Contract Flow
+    panel shows the change order's net amount rolling into the project's contract value.
+  </figcaption>
+</figure>
 
 ![A submitted change order with Approve and Reject actions and the contract flow panel](/docs-screenshots/change-orders/change-order-approval.png)
 
@@ -48,7 +66,7 @@ A change order moves through an approval workflow much like a pay app. Approving
 </Steps>
 
 <Aside type="note">
-  **Role required:** Company Admin or Manager. Approving, rejecting, and voiding all need the change-order approve permission, so Members cannot perform them.
+  **Role required:** Approving and rejecting need the change-order approve permission (Company Admin or Manager), so Members cannot perform them. Voiding is restricted to Company Admin only.
 </Aside>
 
 ## What's next

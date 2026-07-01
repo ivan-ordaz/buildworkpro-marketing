@@ -1,6 +1,7 @@
 ---
 title: Generate Change Orders from a Spreadsheet
 description: Read a spreadsheet of cost overruns, POST one change order per row, and use idempotency keys derived from row ids so reruns are safe.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
@@ -26,7 +27,7 @@ See also: [Creating a change order](/docs/change-orders/creating/) and [CSV impo
 
 2. **POST one change order per row.**
 
-   The endpoint is `POST /api/v1/change-orders`. Required fields are `projectId` and `title`; everything else is optional or populated server-side.
+   The endpoint is `POST /api/v1/change-orders`. Required fields are `projectId`, `title`, and `reason` (one of `customer_request`, `field_conditions`, `design_change`, or `other`); everything else is optional or populated server-side.
 
    ```js
    for (const row of rows) {
@@ -41,8 +42,7 @@ See also: [Creating a change order](/docs/change-orders/creating/) and [CSV impo
          projectId: row.projectId,
          title: row.title,
          description: row.notes ?? null,
-         reason: row.reason ?? null,
-         totalAmount: String(row.amount),
+         reason: row.reason ?? 'other',
        }),
      });
      if (!r.ok) {
@@ -52,7 +52,7 @@ See also: [Creating a change order](/docs/change-orders/creating/) and [CSV impo
    }
    ```
 
-   Note that `totalAmount` is a string in the API to avoid floating-point precision loss on currency.
+   A change order's dollar amount is **not** set on create — the `total` is derived server-side from its line items and a bare create lands as a `$0` draft. To carry over the spreadsheet's amounts, POST each row's line items to `POST /api/v1/change-orders/{id}/line-items` after the CO is created (each line item carries its own `amount`); the CO total recalculates on every line-item write.
 
 3. **Submit the drafts in a second pass (optional).**
 
