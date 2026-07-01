@@ -3,13 +3,31 @@ title: Sending a Bid
 description: Send a bid, track its status, and convert a won bid to a project
 sidebar:
   order: 5
-lastUpdated: 2026-06-12
+lastUpdated: 2026-06-30
 appVersion: v1.0
 ---
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 
 When your bid is ready, send it to the client as a PDF, track their response, and turn a won bid into a project.
+
+<figure style="margin: 1.5rem 0;">
+  <video
+    controls
+    preload="none"
+    poster="/videos/bid-send-convert-poster.jpg"
+    width="1440"
+    height="900"
+    style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
+    aria-label="Demo: sending a bid from the Send Bid dialog, then converting an accepted bid into a project"
+  >
+    <source src="/videos/bid-send-convert.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
+    Sending a bid: the Send Bid dialog composes the email from a saved template with the bid PDF
+    attached; an accepted bid then converts into a project, mapping line items to phases or tasks.
+  </figcaption>
+</figure>
 
 ![The Send Bid dialog opened from a draft bid, which sends the bid as a PDF attachment](/docs-screenshots/bids/bid-send-dialog.png)
 

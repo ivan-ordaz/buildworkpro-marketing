@@ -1,6 +1,7 @@
 ---
 title: Rate Limits
 description: Cost-weighted tenant budget plus per-key sub-limits, with standard rate-limit headers.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -56,7 +57,6 @@ On `429`, we also send a `Retry-After` header (seconds) — honor it. The `Retry
   "title": "Rate limited",
   "status": 429,
   "detail": "Tenant hourly budget exceeded",
-  "code": "rate_limited",
   "request_id": "req_a4d8c0e2"
 }
 ```
@@ -72,7 +72,7 @@ Retry-After: 1742
 
 ## Inspect current consumption
 
-To surface live consumption in a developer dashboard — or to back off proactively before hitting `429` — call `GET /api/v1/usage`. It returns the current tenant + per-key counters straight from the rate-limit store:
+To surface live consumption in a developer dashboard — or to back off proactively before hitting `429` — call `GET /api/v1/usage` (requires the `audit:read` scope). It returns the current tenant + per-key counters straight from the rate-limit store:
 
 ```json
 {

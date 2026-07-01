@@ -1,6 +1,7 @@
 ---
 title: Scopes
 description: The full BuildWorkPro scope catalog and how scopes are enforced for both API keys and OAuth.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -39,6 +40,7 @@ State transitions and side-effecting actions get their own dedicated scopes -- s
 | `bids:send`             | Email a bid to a customer from the associated user account. |
 | `bids:accept_reject`    | Transition bids to accepted or rejected.                    |
 | `pay_apps:approve`      | Move pay apps through the approval workflow.                |
+| `pay_apps:mark_paid`    | Confirm payment of an approved pay application -- manager only. |
 | `change_orders:approve` | Approve or reject change orders.                            |
 
 ### Meta scopes
@@ -49,6 +51,9 @@ State transitions and side-effecting actions get their own dedicated scopes -- s
 | `webhooks:manage` | Create, update, and delete webhook endpoints.                                    |
 | `jobs:read`       | Check status and download results of async jobs the caller initiated.            |
 | `jobs:write`      | Enqueue CSV imports/exports, PDFs, bulk ops; cancel or delete jobs.              |
+| `audit:read`      | Read API audit log entries and consumption metrics for the calling tenant.       |
+| `settings:read`   | Read organization-wide configuration such as project templates.                  |
+| `settings:write`  | Manage organization-wide configuration such as project templates. Admin-only.    |
 | `offline_access`  | Issue an OAuth refresh token so the app can stay connected without re-prompting. |
 
 ## Scope intersected with role (OAuth)

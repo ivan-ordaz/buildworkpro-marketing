@@ -1,6 +1,7 @@
 ---
 title: Verifying Signatures
 description: HMAC-SHA256 signature format and verifier code samples for BuildWorkPro webhooks.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
@@ -148,4 +149,6 @@ Network glitches and the retry schedule both mean the same event id can arrive m
 
 ## Rotating the signing secret
 
-If you suspect the secret has leaked, rotate it via `POST /api/v1/webhook-endpoints/{id}/rotate-secret`. The response carries the new secret (shown once). Update your receiver, then verify with the new secret going forward. There is no overlap window -- deliveries already in flight when you rotate will be re-signed with the new secret on their next attempt.
+If you suspect the secret has leaked, rotate it via `POST /api/v1/webhook-endpoints/{id}/rotate-secret`. The response carries the new secret (shown once). Rotation has a **24-hour overlap window**: the previous secret stays valid for ~24 hours so your receiver can move to the new secret on its own schedule without dropping a single delivery.
+
+During the overlap window, each delivery's `BuildWorkPro-Signature` header carries **two** `v1=` tokens -- one signed with the new secret and one with the previous secret (e.g. `t=...,v1=<new>,v1=<previous>`). A receiver that has already switched to the new secret matches the first token; a receiver still on the old secret matches the second. To verify robustly across a rotation, iterate every `v1=` token in the header and accept the delivery if any of them matches your current secret, rather than reading only the first. Once you've confirmed the new secret works, the old one expires automatically at the end of the window.

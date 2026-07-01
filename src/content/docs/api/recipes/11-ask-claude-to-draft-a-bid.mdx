@@ -1,11 +1,12 @@
 ---
 title: Ask Claude to Draft a Bid Follow-Up
 description: Use the draft_bid_followup MCP prompt from Claude Desktop to compose a polite, well-timed nudge to a customer whose bid has gone quiet.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
 
-When a bid has been sitting in `sent` status for a week or more without a reply, a short follow-up often unsticks it. This recipe walks Claude Desktop through composing one — pulling the bid, the customer, and the time-since-sent into context, drafting an email, and (optionally) sending it back through `bids.send`.
+When a bid has been sitting in `sent` status for a week or more without a reply, a short follow-up often unsticks it. This recipe walks Claude Desktop through composing one — loading the bid, resolving the customer, drafting an email, and (optionally) sending it back through `bids.send`.
 
 See also: [Sending a bid](/docs/bids/sending/) — what happens in the app when a bid is sent and the customer responds.
 
@@ -37,7 +38,7 @@ See also: [Sending a bid](/docs/bids/sending/) — what happens in the app when 
 
    > Use the `draft_bid_followup` prompt for bid 123.
 
-   Claude calls `prompts/get` with `bid_id=123`. The prompt loads the bid, the contact, and the time-since-sent, then asks Claude to compose a follow-up that fits the tone (8 days is "gentle nudge" territory, 30+ days is "checking in once more"). Claude returns:
+   Claude calls `prompts/get` with `bid_id=123`. The prompt loads the bid (by `bid_id`) and instructs Claude to draft a short (under 150 words) follow-up that addresses the customer by name and references the bid number and total. Resolving the customer's name and email requires Claude to call `contacts.get` — which is why you granted `contacts:read`. Claude returns:
 
    > **Subject:** Following up on the Storefront Glass quote
    >
@@ -68,6 +69,6 @@ See also: [Sending a bid](/docs/bids/sending/) — what happens in the app when 
   client you don't fully trust. The send is real — it goes to the customer's inbox, with your domain
   in the From header. - The customer's email comes from the contact record. If the contact has the
   wrong email, the follow-up goes to the wrong inbox. Verify before automating. - If the bid has
-  been sent multiple times, `time-since-sent` reflects the most recent send. Ask Claude to summarize
-  the bid's history if you're not sure how many follow-ups have already gone out.
+  been sent multiple times, the bid's `sentAt` reflects only the most recent send. Ask Claude to
+  summarize the bid's history if you're not sure how many follow-ups have already gone out.
 </Aside>

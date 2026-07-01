@@ -1,11 +1,12 @@
 ---
 title: Errors
 description: RFC 9457 problem details, the BuildWorkPro error code catalog, and retry guidance.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-Errors from the v1 API follow [RFC 9457 (Problem Details for HTTP APIs)](https://datatracker.ietf.org/doc/html/rfc9457). They're returned with `Content-Type: application/problem+json` and a stable, machine-readable `code` you can switch on in your client.
+Errors from the v1 API follow [RFC 9457 (Problem Details for HTTP APIs)](https://datatracker.ietf.org/doc/html/rfc9457). They're returned with `Content-Type: application/problem+json` and a machine-readable `type` URL whose trailing fragment is a stable error code you can switch on in your client.
 
 ## Envelope
 
@@ -15,7 +16,6 @@ Errors from the v1 API follow [RFC 9457 (Problem Details for HTTP APIs)](https:/
   "title": "Validation failed",
   "status": 422,
   "detail": "email must be a valid address",
-  "code": "validation_failed",
   "request_id": "req_8f3c1b2a",
   "errors": [{ "field": "email", "code": "invalid_format", "message": "must be a valid address" }]
 }
@@ -27,7 +27,6 @@ Errors from the v1 API follow [RFC 9457 (Problem Details for HTTP APIs)](https:/
 | `title`      | Short human-readable summary. Same for every error of this code. |
 | `status`     | HTTP status code (also returned in the response status line).    |
 | `detail`     | Human-readable explanation of this specific occurrence.          |
-| `code`       | Stable error code -- switch on this in your client.              |
 | `request_id` | Echo this in support tickets to let us trace the request.        |
 | `errors`     | Optional. Per-field validation breakdown on `validation_failed`. |
 
@@ -64,7 +63,6 @@ Errors from the v1 API follow [RFC 9457 (Problem Details for HTTP APIs)](https:/
   "title": "Validation failed",
   "status": 422,
   "detail": "Request body failed validation",
-  "code": "validation_failed",
   "request_id": "req_b91e44d0",
   "errors": [
     {
@@ -79,7 +77,7 @@ Errors from the v1 API follow [RFC 9457 (Problem Details for HTTP APIs)](https:/
 
 ## Recommended client behavior
 
-- Switch on `code`, not `status` or `title`. The codes are stable; titles may be reworded.
-- Treat any 5xx with `retriable: true` as eligible for retry. Retry once for `internal_error`; use exponential backoff for `service_unavailable` and `maintenance`.
+- Switch on the trailing fragment of `type` (e.g. `#validation_failed`), not `status` or `title`. The codes are stable; titles may be reworded.
+- Treat `internal_error`, `service_unavailable`, and `maintenance` as retriable (see the Retry column above). Retry once for `internal_error`; use exponential backoff for `service_unavailable` and `maintenance`.
 - On `rate_limited`, honor `Retry-After` exactly. Don't hammer.
 - On `unauthorized` or `token_expired`, refresh credentials before retrying. Never retry blindly with the same expired token.

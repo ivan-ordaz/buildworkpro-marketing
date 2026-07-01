@@ -3,13 +3,31 @@ title: Leads
 description: Work a lead and convert it to a bid or a project
 sidebar:
   order: 3
-lastUpdated: 2026-06-12
+lastUpdated: 2026-06-30
 appVersion: v1.0
 ---
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 
 A lead is one opportunity in your [sales pipeline](/docs/crm/pipeline/). Click a lead to open its detail page, where you track its value, log activity, and convert it into a bid or a project when it advances.
+
+<figure style="margin: 1.5rem 0;">
+  <video
+    controls
+    preload="none"
+    poster="/videos/lead-convert-poster.jpg"
+    width="1440"
+    height="900"
+    style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
+    aria-label="Demo: the lead actions menu with Create Bid and Convert to Project"
+  >
+    <source src="/videos/lead-convert.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
+    A lead's actions (⋯) menu holds <strong>Create Bid</strong> and <strong>Convert to Project</strong>
+    — the two ways a lead advances as it's won.
+  </figcaption>
+</figure>
 
 ![A lead detail page on the Overview tab with lead information and the Lead Summary panel](/docs-screenshots/crm/lead-detail.png)
 
@@ -30,13 +48,13 @@ Click **Log Activity** to record a phone call, email, meeting, or note against t
 
 ## Convert a lead
 
-When a lead advances, turn it into a bid or a project:
+When a lead advances, open the actions (**...**) menu on its detail page and turn it into a bid or a project:
 
 <Steps>
 
-1. **Create a bid.** Click **Create Bid** to start a bid pre-linked to the lead, carrying its contact and details over.
+1. **Create a bid.** Choose **Create Bid** to start a bid pre-linked to the lead, carrying its contact and details over.
 
-2. **Convert to a project.** Click **Convert to Project** to create a project from the lead. The lead moves to the Won stage. This cannot be undone.
+2. **Convert to a project.** Choose **Convert to Project** to create a project from the lead. The lead moves to the Won stage. This cannot be undone.
 
 </Steps>
 

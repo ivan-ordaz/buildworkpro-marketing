@@ -3,13 +3,31 @@ title: Approval Workflow
 description: Move a pay app from draft through approval to paid
 sidebar:
   order: 3
-lastUpdated: 2026-06-12
+lastUpdated: 2026-06-30
 appVersion: v1.0
 ---
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 
 A pay app moves through a fixed set of statuses, with role-gated actions at each step. A workflow stepper on the detail page shows where it stands and who acted.
+
+<figure style="margin: 1.5rem 0;">
+  <video
+    controls
+    preload="none"
+    poster="/videos/pay-app-approval-poster.jpg"
+    width="1440"
+    height="900"
+    style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
+    aria-label="Demo: the pay application approval workflow — the status stepper and the Approve and Reject actions"
+  >
+    <source src="/videos/pay-app-approval.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
+    The approval workflow: a submitted pay app shows the Draft → Submitted → Approved → Paid stepper,
+    with Approve and Reject in the header and the Payment Application Summary the approver reviews.
+  </figcaption>
+</figure>
 
 ![A submitted pay app with the workflow stepper on Submitted and Approve and Reject actions in the header](/docs-screenshots/pay-apps/pay-app-approval.png)
 
