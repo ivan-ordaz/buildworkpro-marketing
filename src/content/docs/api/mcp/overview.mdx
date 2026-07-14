@@ -1,6 +1,7 @@
 ---
 title: MCP — Use BuildWorkPro from Claude and ChatGPT
 description: Connect BuildWorkPro to Claude Desktop, ChatGPT, and other MCP clients. Read bids, draft follow-ups, summarize projects from your AI assistant.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside, CardGrid, LinkCard } from '@astrojs/starlight/components';
@@ -11,9 +12,9 @@ The Model Context Protocol (MCP) is Anthropic's open standard for connecting lar
 
 The BuildWorkPro MCP server exposes the same domain you already use through the REST API, packaged for LLMs:
 
-- **24 tools** across 7 entity domains plus identity. Read your contacts, leads, bids, projects, pay applications, change orders, and documents. Create new records and drive workflow steps (send a bid, accept a bid, approve a pay app, approve a change order).
-- **2 resources** (`bid://` and `project://` URI schemes) that let the model fetch a single record by id with one round trip and pin it into context.
-- **3 prompts** the model can call by name to compose useful workflows: `draft_bid_followup`, `summarize_open_projects`, and `weekly_status_report`.
+- **56 tools** across 12 entity domains plus identity. Read your contacts, leads, bids, projects, pay applications, change orders, time entries, site logs, products, documents, webhooks, and team members. Create new records and drive workflow steps (send a bid, accept a bid, approve a pay app, approve a change order).
+- **7 resources** (`bid://`, `project://`, `contact://`, `lead://`, `payapp://`, `changeorder://`, and `sitelog://` URI schemes) that let the model fetch a single record by id with one round trip and pin it into context.
+- **11 prompts** the model can call by name to compose useful workflows, including `draft_bid_followup`, `summarize_open_projects`, `weekly_status_report`, `draft_lead_followup`, `explain_pay_app_math`, and `pipeline_weekly_summary`.
 
 Tools are scoped. Listing contacts requires `contacts:read`; creating a bid requires `bids:write`; sending a bid requires `bids:send`. The full inventory is in the [Tools catalog](/api/mcp/tools-catalog/).
 

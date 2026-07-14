@@ -3,7 +3,7 @@ title: What is BuildWorkPro?
 description: An overview of BuildWorkPro and how it helps subcontractors manage their business
 sidebar:
   order: 1
-lastUpdated: 2026-06-09
+lastUpdated: 2026-06-30
 appVersion: v1.0
 ---
 
@@ -21,7 +21,7 @@ BuildWorkPro is designed for specialty trade contractors -- electrical, plumbing
 - **Project management** -- Track work across phases and tasks. Use board, list, or Gantt views to stay on schedule.
 - **Pay applications** -- Create AIA-style pay apps with schedule of values. Submit, track approval, and get paid faster.
 - **Change orders** -- Document scope changes, get approvals, and automatically update contract values.
-- **Field tools** -- Daily site logs, time tracking, weather records, and photo documentation.
+- **Field tools** -- Daily site logs, time tracking, and photo documentation.
 - **CRM** -- Manage contacts, track leads through your pipeline, and convert won deals into projects.
 - **Team management** -- Role-based access control so your team sees exactly what they need.
 

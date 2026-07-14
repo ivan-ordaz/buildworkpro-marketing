@@ -22,7 +22,18 @@ export default defineConfig({
   // - /api/recipes/                        : only a sidebar group, no index page.
   // - /api/reference/operations/projectsid/patch/ : stale OpenAPI URL scheme; the
   //   current page is .../operations/patchprojectsbyid/.
+  // - /pricing/ : pricing is a section on the home page, not a route, but it is
+  //   the URL people type and the one ads and search results point at — so the
+  //   only visitors who ever hit it were arriving from outside, and they got a
+  //   404. Send them to the pricing section. (A standalone pricing page is
+  //   separate, design-approved work; this just stops the bleeding.)
   redirects: {
+    // NOTE: only the trailing-slash form can be expressed here — the site is
+    // trailingSlash:'always', so Astro normalizes a '/pricing' key into
+    // '/pricing/' (adding both just emits the rule twice). Whether the bare
+    // /pricing 301s to /pricing/ is Cloudflare's trailing-slash normalization,
+    // which the dev server does NOT reproduce — verify on the deployed site.
+    '/pricing/': { status: 301, destination: '/#pricing' },
     '/api/recipes/02-export-bids-to-pdf/': { status: 301, destination: '/api/' },
     '/api/recipes/': { status: 301, destination: '/api/' },
     '/api/reference/operations/projectsid/patch/': {

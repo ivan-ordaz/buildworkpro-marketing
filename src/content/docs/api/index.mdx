@@ -1,6 +1,7 @@
 ---
 title: Developer Docs
 description: Public REST API, OAuth 2.1, webhooks, and integration guides for BuildWorkPro.
+lastUpdated: 2026-06-30
 ---
 
 import { CardGrid, LinkCard } from '@astrojs/starlight/components';
@@ -21,7 +22,7 @@ BuildWorkPro is a multi-tenant construction project management platform for subc
   <LinkCard
     title="Webhooks"
     description="Receive real-time events when records change."
-    href="/api/webhooks/"
+    href="/api/webhooks/overview/"
   />
   <LinkCard
     title="API Reference"
@@ -39,7 +40,7 @@ BuildWorkPro is a multi-tenant construction project management platform for subc
 
 - **Base URL:** `https://app.buildworkpro.com/api/v1`
 - **Response envelope:** Successful responses return `{ "data": ..., "meta": { "request_id": "..." } }`. List responses include `meta.pagination`.
-- **Errors:** RFC 9457 problem details (`application/problem+json`) with a stable `code`, machine-readable `type`, and `request_id` for support.
+- **Errors:** RFC 9457 problem details (`application/problem+json`) with a machine-readable `type` URL (whose fragment is a stable error code) and `request_id` for support.
 - **Pagination:** Cursor-based, opaque, HMAC-signed. `?limit=` defaults to 25, max 100.
 - **Idempotency:** Send `Idempotency-Key: <uuid>` on every mutation. Responses are replayed for 24 hours.
 - **Rate limits:** Tenant-wide hourly budget plus per-key per-minute limit. Honor the `RateLimit-*` and `Retry-After` headers.

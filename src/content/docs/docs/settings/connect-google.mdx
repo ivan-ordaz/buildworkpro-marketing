@@ -3,7 +3,7 @@ title: Connect Google (Gmail and Calendar)
 description: Connect your Google Workspace account so BuildWorkPro can send emails from your address and sync project dates to Google Calendar
 sidebar:
   order: 8
-lastUpdated: 2026-06-12
+lastUpdated: 2026-06-30
 appVersion: v1.0
 ---
 
@@ -45,6 +45,7 @@ BuildWorkPro requests the minimum scopes required for the features above:
 
 - `gmail.send` -- send messages on your behalf. We do not read your inbox, drafts, sent mail, or any other Gmail data. We only send.
 - `calendar` -- create, read, update, and delete events in the BuildWorkPro calendar we add to your account. We do not modify any calendar except the one we create.
+- `userinfo.email` and `userinfo.profile` -- read your Google account name and email so we can show which account is connected.
 
 We do not request access to Google Drive, Contacts, or any other Google product.
 

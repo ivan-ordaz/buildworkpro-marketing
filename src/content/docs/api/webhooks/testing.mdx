@@ -1,6 +1,7 @@
 ---
 title: Testing Webhooks Locally
 description: ngrok, the deliveries dashboard, and the replay endpoint for debugging webhook integrations.
+lastUpdated: 2026-06-30
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
@@ -64,7 +65,7 @@ Open **Settings -> Developer -> Webhooks** in the app and click into an endpoint
 - **Status** -- `pending`, `succeeded`, `failed`, or `exhausted`.
 - **Attempt count** -- how many times BuildWorkPro has tried this delivery.
 - **Response status** -- the last HTTP code your receiver returned.
-- **Response body** -- captured up to 10 KB.
+- **Response body** -- captured up to 1 KB (redacted), on failed deliveries only.
 - **Response headers** -- captured: `content-type`, `x-request-id`, `x-trace-id`.
 - **Error message** -- if the attempt failed before getting a response (network error, SSRF check, etc.).
 - **Next attempt at** -- when BuildWorkPro will try again, if applicable.
