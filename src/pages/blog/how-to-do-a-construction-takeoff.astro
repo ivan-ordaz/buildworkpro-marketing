@@ -1,0 +1,366 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a construction takeoff?',
+    answer:
+      'A takeoff is the process of reading a set of construction drawings and counting or measuring every item of work your scope requires — linear feet of conduit, square feet of drywall, number of fixtures, hours of labor by trade — so you have real quantities to price before the bid goes out. The name comes from "taking off" quantities from the plans.',
+  },
+  {
+    question: 'What is the difference between a takeoff and an estimate?',
+    answer:
+      'A takeoff produces quantities (how much of each thing). An estimate applies unit costs to those quantities to produce a dollar total (how much it will cost). You cannot build a defensible estimate without a complete takeoff first — if your quantities are wrong, your price is wrong no matter how accurate your unit costs are.',
+  },
+  {
+    question: 'How do you do a takeoff from construction drawings?',
+    answer:
+      'Start by reading the full drawing set — title sheet, general notes, specifications, and the sheets that cover your scope — before counting anything. Mark your scope boundary clearly, then work through each sheet methodically, scaling or measuring each quantity and recording it in a takeoff sheet. Check your work by comparing totals against the spec quantities or doing a second pass from a different angle.',
+  },
+  {
+    question: 'What is a scope gap in construction bidding?',
+    answer:
+      "A scope gap is work shown on the drawings that nobody has priced — either the GC assumed you'd include it, or it falls between two trade scopes and neither sub claimed it. Scope gaps discovered during construction become change orders, but ones missed entirely become unbillable cost. Reading both the plans and the RFP carefully before bidding is the only way to catch them.",
+  },
+  {
+    question: 'What happens after the takeoff is done?',
+    answer:
+      'You price each quantity — material unit costs from supplier quotes, labor hours by task at your fully burdened rate — then roll the totals into a line-item bid. After applying overhead and margin, the numbers become your proposal price. In BuildWorkPro, each takeoff line becomes a bid line item with material and labor cost items underneath it, and the Rates tab applies margin, commission, and overhead consistently across the whole bid.',
+  },
+];
+---
+
+<Layout
+  title="How to Read Construction Plans and Do a Takeoff | BuildWorkPro"
+  description="How to read construction plans and do a takeoff: what each drawing type covers, how to quantify materials and labor by scope, and how to carry the numbers into a bid."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          How to Read Construction Plans and Do a Takeoff
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published July 14, 2026 · 9 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          The bid price you submit is only as good as the takeoff behind it. Miss a run of conduit,
+          undercount fixtures, or skip a specification section and you'll either eat the cost in the
+          field or walk away from a contract you could have won. Every estimating mistake starts
+          with reading the plans wrong — or not reading them thoroughly enough.
+        </p>
+        <p>
+          This guide walks through how to read a set of construction drawings, what each drawing
+          type tells you, and how to do a complete takeoff so the quantities you price are the
+          quantities the job actually requires.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              Read the full drawing set — title sheet, general notes, specs — before you count a
+              single quantity.
+            </li>
+            <li>
+              Each drawing discipline (architectural, structural, MEP) covers a different slice of
+              the work; your scope may touch more than one.
+            </li>
+            <li>
+              A takeoff produces quantities; pricing those quantities against unit costs produces
+              the estimate — they are separate steps.
+            </li>
+            <li>
+              Mark your scope boundary from the RFP before touching the plans to avoid pricing work
+              that belongs to another sub.
+            </li>
+            <li>
+              Catch scope gaps and conflicts between drawings before bid day — not during
+              construction when they become change orders or losses.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What a drawing set contains</h2>
+        <p>
+          Most commercial construction projects use a full drawing set divided into disciplines.
+          Even if your scope only touches one trade, understanding what each sheet type covers tells
+          you where to look for information that affects your work.
+        </p>
+
+        <p>
+          <strong>G — General / title sheets.</strong> Start here every time. The title sheet lists the
+          project name, address, design team, drawing index, and — critically — the project specifications
+          reference. General notes sheets carry the governing codes, abbreviations, and drawing conventions
+          used throughout the set. If you skip these, you'll misread everything downstream.
+        </p>
+
+        <p>
+          <strong>A — Architectural.</strong> Floor plans, reflected ceiling plans, elevations, sections,
+          and details. For most specialty trades, the architectural sheets define space constraints, ceiling
+          heights, room finishes, and equipment room dimensions. They also show wall types and partition
+          layouts that affect your routing decisions.
+        </p>
+
+        <p>
+          <strong>S — Structural.</strong> Foundation plan, framing plans, beam schedules, column schedules.
+          Structural drawings matter to MEP trades for penetration sizing and blocking requirements, and
+          to concrete or steel subs for quantities directly.
+        </p>
+
+        <p>
+          <strong>M — Mechanical / P — Plumbing / FP — Fire Protection.</strong> HVAC ductwork and equipment,
+          piping systems, plumbing fixtures and rough-in. Each has its own set of plans, equipment schedules,
+          and detail sheets. Mechanical sheets also include control diagrams that describe sequences of
+          operation relevant to your scope.
+        </p>
+
+        <p>
+          <strong>E — Electrical.</strong> Power, lighting, fire alarm, low voltage, and telecommunications.
+          Electrical plans show panel schedules, fixture schedules, circuit layouts, load calculations,
+          and one-line diagrams. If your scope is electrical, the panel schedule is where you'll find
+          most of your breaker and conductor sizing.
+        </p>
+
+        <p>
+          <strong>Specifications (spec book / project manual).</strong> The spec book is a separate document
+          from the drawings — sometimes a physical binder, sometimes a PDF — that governs material quality,
+          substitution procedures, installation standards, and testing requirements. Many subs skip it.
+          Don't. The spec overrides the drawing when they conflict, and upgrade requirements buried in
+          the spec can change your material costs significantly.
+        </p>
+
+        <h2>Read before you count: the pre-takeoff review</h2>
+        <p>
+          Before marking a single quantity, spend time reading the set. This is not wasted time —
+          it's where the job's surprises live.
+        </p>
+
+        <p>
+          <strong>1. Pull the RFP and drawing index first.</strong> The request for proposal (or invitation
+          to bid) defines your scope boundary. Match it against the drawing index to confirm which sheets
+          apply to your trade. Note what is explicitly excluded and what is "by others" in the general
+          contractor's scope.
+        </p>
+
+        <p>
+          <strong>2. Read the general notes and specification sections for your trade.</strong> Look for
+          material substitution restrictions, testing requirements, coordination requirements with other
+          trades, and any performance specs (e.g., "pipe insulation to achieve R-8") that affect your
+          material choices.
+        </p>
+
+        <p>
+          <strong>3. Check the addenda.</strong> On most competitive bids, the GC issues addenda that
+          revise the drawings or specs before the bid due date. Bidding from superseded drawings is a
+          common source of scope errors. Confirm you have the current drawing revision for every sheet
+          in your scope.
+        </p>
+
+        <p>
+          <strong>4. Walk the site if you can.</strong> Even a short site walk reveals conditions the
+          drawings don't show: existing obstructions, floor-to-structure height variations, access constraints.
+          If the job is renovation or tenant improvement work, a site visit is nearly mandatory — as-built
+          conditions rarely match original drawings.
+        </p>
+
+        <h2>How to do the takeoff</h2>
+        <p>
+          A takeoff is a systematic process of measuring or counting every work item in your scope.
+          The discipline is working through the sheets in order, marking what you've counted, and
+          not skipping anything because it "looks small."
+        </p>
+
+        <p>
+          <strong>Set up your takeoff sheet first.</strong> Before touching the plans, build a blank quantity
+          sheet organized by the same line items you plan to use in your bid. Common categories for a
+          mechanical or electrical sub: conduit by type and size, wire/cable by type and size, boxes and
+          fittings, equipment (by schedule number), and labor hours by task. Organizing the sheet before
+          you count forces you to think through the scope up front.
+        </p>
+
+        <p>
+          <strong>Work one sheet at a time, in discipline order.</strong> For each plan sheet, go room
+          by room or zone by zone. Measure runs of conduit or ductwork with a scale (or a digital takeoff
+          tool for PDF plans). Count fixtures, devices, and equipment from the schedules, not just the
+          plan symbols — schedules are the definitive count.
+        </p>
+
+        <p>
+          <strong>Mark what you've counted.</strong> On paper plans, use a highlighter color per system;
+          on PDFs, use the markup tools in your viewer. The discipline is critical: an unmarked item is
+          an item you might count twice or miss entirely.
+        </p>
+
+        <p>
+          <strong>Pull from the schedules.</strong> Equipment and fixture schedules list each item by
+          tag number. Count from the schedule, then verify against the plan. If the schedule shows twelve
+          AHUs and the plan shows eleven, that's a question for the engineer — not an assumption you make.
+        </p>
+
+        <p>
+          <strong>Cross-check the details.</strong> Detail sheets show how assemblies connect. A conduit
+          sleeve through a rated wall has different requirements than an open-ceiling run. Details often
+          reveal extra material — firestopping, sleeves, escutcheons — that the plan view doesn't communicate.
+        </p>
+
+        <p>
+          <strong>Add waste and attic stock.</strong> Most specifications require a percentage of attic
+          stock (extra material left on site for future repairs). For flooring, pipe insulation, or ceiling
+          tile, check the spec section. Standard waste factors vary by material: 5–10% is typical for
+          tile and flooring; 10–15% for sheet goods with complex cuts; less for straight runs of pipe
+          or conduit.
+        </p>
+
+        <p>
+          <strong>Document every assumption.</strong> Where the drawings are unclear, you make an assumption.
+          Write it down. Those assumptions become the exclusions and qualifications in your bid proposal
+          — which protect you if the job turns out differently than the drawings implied.
+        </p>
+
+        <h2>From takeoff quantities to a bid</h2>
+        <p>
+          Once your quantities are complete, you price them. Each line in your takeoff becomes a
+          line item in the bid: material quantities at current supplier pricing, labor hours at your
+          fully burdened rate. For a deeper look at how to price labor correctly, see our post on{
+            ' '
+          }
+          <a href="/blog/how-to-create-construction-bid/">how to create a construction bid</a>,
+          which covers burdened labor rates in detail.
+        </p>
+        <p>
+          After raw costs are entered, you apply overhead and margin to arrive at the sell price.
+          Our guide on{' '}
+          <a href="/blog/construction-markup-vs-margin/">construction markup vs. margin</a> covers why
+          that distinction matters and how to convert between the two so you hit your target profit on
+          every job.
+        </p>
+        <p>
+          In BuildWorkPro's{' '}
+          <a href="/features/construction-bidding/">construction bidding</a> module, each takeoff line
+          maps directly to a bid line item. You break the line into cost items — Material, Labor, or Other
+          — enter the quantities and unit costs, and the raw cost rolls up automatically. The Rates tab
+          then applies your margin, commission, and overhead consistently across the whole bid so the
+          sell price is systematic rather than guessed:
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/create-bid.mp4"
+          poster="/videos/create-bid-poster.jpg"
+          label="Demo: building a bid estimate in BuildWorkPro with line items, material and labor cost items from the catalog, and margin applied on the Rates tab"
+          caption="Takeoff quantities become bid line items in BuildWorkPro — material and labor cost items roll up per line, and margin, commission, and overhead apply on the Rates tab."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Common takeoff mistakes</h2>
+        <ul>
+          <li>
+            <strong>Counting from the wrong drawing revision.</strong> Always confirm you have the current
+            addendum before starting. Superseded sheets can differ significantly from what gets built.
+          </li>
+          <li>
+            <strong>Skipping the spec book.</strong> Material upgrade requirements, testing costs, and
+            coordination requirements live in the spec, not the drawings. Missing them costs money in
+            the field.
+          </li>
+          <li>
+            <strong>Scaling from reduced drawings.</strong> If the drawings have been reduced for printing,
+            the scale bar is wrong. Either work from full-size prints or use the drawing's own scale bar
+            — never assume the printed page is full size.
+          </li>
+          <li>
+            <strong>Pricing from plan symbols instead of schedules.</strong> Symbols can be missed or
+            added without updating the plan. The equipment schedule is the authoritative count.
+          </li>
+          <li>
+            <strong>Leaving scope gaps unresolved.</strong> If you can't tell whether an item is in your
+            scope, ask the GC in writing before bid day. Assumptions that go unchecked become disputes
+            once the contract is signed.
+          </li>
+        </ul>
+
+        <p>
+          A takeoff takes longer than skipping it, but a missed quantity on a fixed-price contract
+          comes out of your margin. The discipline of working through the drawings methodically —
+          sheet by sheet, room by room, schedule by schedule — is what separates bids that hold
+          their margins from bids that erode the moment construction starts.
+        </p>
+
+        <p>
+          Once the job is won and the contract signed, the same line-item structure that organized
+          your bid becomes the{' '}
+          <a href="/blog/schedule-of-values-guide/">schedule of values</a> for your{' '}
+          <a href="/features/pay-applications/">pay applications</a> — so accurate quantities at bid time
+          pay off through the entire life of the job.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Construction takeoff FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Turn your takeoff into a bid in minutes
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro's bid builder structures your takeoff quantities into line items with
+          material, labor, and overhead applied consistently. $79/month, unlimited users, 14-day
+          free trial — no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="How to Read Construction Plans and Do a Takeoff"
+        description="How to read construction plans and do a takeoff: what each drawing type covers, how to quantify materials and labor by scope, and how to carry the numbers into a bid."
+        datePublished="2026-07-14"
+        related={[
+          {
+            href: '/features/construction-bidding/',
+            title: 'Construction Bidding & Estimating',
+            description:
+              'Build line-item bids from your takeoff quantities with material, labor, and overhead applied consistently.',
+          },
+          {
+            href: '/blog/how-to-create-construction-bid/',
+            title: 'How to Create a Construction Bid',
+            description:
+              'Step-by-step guide to pricing your takeoff — labor rates, material costs, markup, and proposal format.',
+          },
+          {
+            href: '/blog/construction-markup-vs-margin/',
+            title: 'Construction Markup vs. Margin',
+            description:
+              'How to apply overhead and profit to your estimate so you hit your target margin on every job.',
+          },
+          {
+            href: '/blog/schedule-of-values-guide/',
+            title: 'How to Create a Schedule of Values',
+            description:
+              'Your bid line items become the schedule of values for progress billing once the contract is won.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
