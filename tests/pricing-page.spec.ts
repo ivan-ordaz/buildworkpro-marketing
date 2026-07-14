@@ -18,7 +18,9 @@ test.describe('/pricing/ page', () => {
     // The redirect must be gone: a 301 to /#pricing would land us on the home
     // page, not here. A redirect and a real page cannot both own this URL.
     expect(new URL(page.url()).pathname).toBe('/pricing/');
-    await expect(page.locator('h1')).toBeVisible();
+    // Scoped to <main>: a bare locator('h1') pierces shadow DOM and also matches
+    // headings inside Astro's dev toolbar.
+    await expect(page.locator('main h1')).toHaveText(/One plan/i);
   });
 
   test('shows the monthly price and the trial terms', async ({ page }) => {
@@ -53,7 +55,9 @@ test.describe('/pricing/ page', () => {
     await expect(cta).toBeVisible();
   });
 
-  test('an ad-attributed visitor keeps their click id through the pricing CTA', async ({ page }) => {
+  test('an ad-attributed visitor keeps their click id through the pricing CTA', async ({
+    page,
+  }) => {
     await page.goto('/pricing/?utm_source=facebook&fbclid=IwAR_pricing_click');
 
     const href = await page.locator(`a[href^="${SIGNUP_ORIGIN}"]`).first().getAttribute('href');
