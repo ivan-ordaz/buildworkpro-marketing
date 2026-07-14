@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+import { config } from '../config';
+import { plan, planFeatures, pricingFaq } from '../data/plan';
+
+// The price card carries id="pricing" on purpose: Layout.astro's
+// IntersectionObserver fires the ViewContent / view_pricing conversion event on
+// that id, so this page reports pricing intent with no new analytics code.
+---
+
+<Layout
+  title="Pricing - BuildWorkPro"
+  description="One plan, everything included. BuildWorkPro is $79/month or $790/year for unlimited users, projects, and contacts — bids, pay applications, change orders, time tracking, and QuickBooks sync. 14-day free trial, no credit card."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Pricing</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+          One plan. Everything included.
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          No tiers to compare. No features locked behind an upgrade. No per-seat bill that grows
+          every time you hire. Every sub gets the whole platform at one flat price.
+        </p>
+      </div>
+
+      <!-- Billing period. Presentation only — it swaps the displayed figure, it
+           does not change what Stripe charges. -->
+      <div class="flex justify-center mb-12">
+        <div class="inline-flex gap-1 p-1 rounded-full bg-slate-100" role="group">
+          <button
+            type="button"
+            data-billing="monthly"
+            aria-pressed="true"
+            class="billing-option px-5 py-2 text-sm font-semibold rounded-full text-slate-500 transition-all"
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            data-billing="yearly"
+            aria-pressed="false"
+            class="billing-option px-5 py-2 text-sm font-semibold rounded-full text-slate-500 transition-all"
+          >
+            Annual <span class="text-emerald-600">save 17%</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="pricing" class="max-w-lg mx-auto">
+        <div
+          class="relative flex flex-col p-10 rounded-2xl bg-white border border-brand-200 shadow-xl shadow-brand-600/10 ring-1 ring-brand-600"
+        >
+          <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+            <span class="bg-brand-600 text-white text-xs font-semibold px-4 py-1.5 rounded-full">
+              Everything, for everyone
+            </span>
+          </div>
+
+          <div class="text-center mb-8">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4">{plan.name}</h2>
+            <div class="flex items-baseline justify-center gap-1">
+              <span
+                class="text-5xl font-extrabold text-slate-900 tabular-nums"
+                data-testid="plan-amount">{plan.monthly}</span
+              >
+              <span class="text-slate-500 text-lg" data-testid="plan-period">/month</span>
+            </div>
+            <p class="text-sm text-brand-600 font-medium mt-2" data-testid="plan-note">
+              Pay yearly and get 2 months free — {plan.yearly}/year
+            </p>
+            <p class="text-xs text-slate-400 mt-1" data-testid="plan-subnote">
+              That's just {plan.yearlyPerMonth}/month billed annually
+            </p>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-3 mb-8">
+            {
+              planFeatures.map((feature) => (
+                <div class="flex items-center gap-2.5">
+                  <svg
+                    class="w-4 h-4 text-brand-600 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-sm text-slate-600">{feature}</span>
+                </div>
+              ))
+            }
+          </div>
+
+          <!-- config.signupUrl, never a hand-written /signup: the attribution
+               passthrough only decorates hrefs prefixed with signupUrl, and this
+               page is the one most likely to BE an ad landing page. -->
+          <a
+            href={config.signupUrl}
+            class="block w-full text-center text-base font-semibold py-3.5 px-6 rounded-xl bg-brand-600 hover:bg-brand-700 text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Start {plan.trialDays}-day free trial
+          </a>
+          <p class="text-center text-xs text-slate-400 mt-3">
+            No credit card required. Cancel anytime.
+          </p>
+        </div>
+
+        <div class="mt-10 text-center">
+          <p class="text-sm text-slate-500">
+            Most construction software starts at <span class="line-through text-slate-400"
+              >$299/month</span
+            > and charges per user.
+          </p>
+          <p class="text-sm text-slate-500 mt-1">
+            BuildWorkPro gives you <span class="font-semibold text-slate-700"
+              >everything, for everyone, at one price</span
+            >.
+          </p>
+        </div>
+      </div>
+
+      <!-- Billing FAQ. Questions are deliberately different from the home-page
+           FAQ's, so the two URLs don't publish duplicate FAQPage markup. -->
+      <div class="max-w-2xl mx-auto mt-24" data-testid="pricing-faq">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight text-center">
+          Questions people ask before they start
+        </h2>
+        <dl class="mt-10">
+          {
+            pricingFaq.map((item) => (
+              <div class="border-t border-slate-200 py-6">
+                <dt class="text-base font-semibold text-slate-900">{item.question}</dt>
+                <dd class="mt-2 text-slate-500 leading-relaxed">{item.answer}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </main>
+
+  <CTA />
+  <Footer />
+
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: pricingFaq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    })}
+  />
+
+  <script
+    is:inline
+    define:vars={{
+      monthly: plan.monthly,
+      yearly: plan.yearly,
+      yearlyPerMonth: plan.yearlyPerMonth,
+    }}
+  >
+    (function () {
+      const amount = document.querySelector('[data-testid="plan-amount"]');
+      const period = document.querySelector('[data-testid="plan-period"]');
+      const note = document.querySelector('[data-testid="plan-note"]');
+      const subnote = document.querySelector('[data-testid="plan-subnote"]');
+      const options = document.querySelectorAll('.billing-option');
+
+      const ACTIVE = ['bg-white', 'text-slate-900', 'shadow-sm'];
+
+      function select(choice) {
+        const isYearly = choice === 'yearly';
+        amount.textContent = isYearly ? yearly : monthly;
+        period.textContent = isYearly ? '/year' : '/month';
+        note.textContent = isYearly
+          ? 'Two months free, already applied'
+          : `Pay yearly and get 2 months free — ${yearly}/year`;
+        subnote.textContent = isYearly
+          ? `That's ${yearlyPerMonth}/month, billed once`
+          : `That's just ${yearlyPerMonth}/month billed annually`;
+
+        options.forEach(function (option) {
+          const on = option.dataset.billing === choice;
+          option.setAttribute('aria-pressed', String(on));
+          option.classList.toggle('text-slate-500', !on);
+          ACTIVE.forEach((cls) => option.classList.toggle(cls, on));
+        });
+      }
+
+      options.forEach(function (option) {
+        option.addEventListener('click', function () {
+          select(option.dataset.billing);
+        });
+      });
+
+      select('monthly');
+    })();
+  </script>
+</Layout>
