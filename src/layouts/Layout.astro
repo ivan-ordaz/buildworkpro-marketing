@@ -268,6 +268,108 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
     <slot />
     <CookieConsent />
 
+    <!-- Acquisition-attribution passthrough. Every "Start free trial" CTA
+         renders config.signupUrl — a build-time constant with no query string —
+         so an ad click's UTMs and click ids would die at the
+         buildworkpro.com -> app.buildworkpro.com hop. Capture them on the
+         landing page, hold them for the visit (visitors browse before they
+         convert), and append them to the signup links. The app's signup page
+         reads exactly these keys off its own query string and persists them on
+         the new tenant; the server then rebuilds Meta's `fbc` click id from the
+         forwarded fbclid. Without this hop, Meta receives conversions it cannot
+         match to the ad that paid for them, which is why the ad account could
+         only ever optimize for link clicks.
+
+         Not consent-gated: this is first-party attribution on our own signup
+         link. It sets no cookie, loads no tracker, carries no identifier of its
+         own, and stores nothing at all unless an ad actually sent someone here. -->
+    <script is:inline define:vars={{ signupUrl: config.signupUrl }}>
+      (function () {
+        // The keys the app reads, capped to its column widths so a crafted
+        // long value becomes a clean truncation rather than a rejected signup.
+        const FIELDS = {
+          utm_source: 255,
+          utm_medium: 255,
+          utm_campaign: 255,
+          utm_content: 255,
+          utm_term: 255,
+          fbclid: 512,
+          gclid: 512,
+          landing_page: 1024,
+        };
+        const STORAGE_KEY = 'bwp_attribution';
+
+        // An attributed arrival: at least one attribution param in the URL.
+        // landing_page is ours to synthesize — it is the page the ad pointed
+        // at, not the page the visitor happens to convert from.
+        function fromUrl() {
+          const params = new URLSearchParams(location.search);
+          const found = {};
+          let any = false;
+          for (const key in FIELDS) {
+            if (key === 'landing_page') continue;
+            const value = params.get(key);
+            if (value) {
+              found[key] = value.slice(0, FIELDS[key]);
+              any = true;
+            }
+          }
+          if (!any) return null;
+          found.landing_page = location.pathname.slice(0, FIELDS.landing_page);
+          return found;
+        }
+
+        // sessionStorage can throw (private mode, blocked storage). Attribution
+        // is best-effort — never let it break the page or the CTA.
+        function remember(attribution) {
+          try {
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(attribution));
+          } catch {
+            /* storage unavailable — this page's links still get decorated */
+          }
+        }
+
+        function recall() {
+          try {
+            const raw = sessionStorage.getItem(STORAGE_KEY);
+            return raw ? JSON.parse(raw) : null;
+          } catch {
+            return null;
+          }
+        }
+
+        // Rewrite the hrefs rather than patching them on click, so middle-click,
+        // "open in new tab" and "copy link address" carry attribution too.
+        // Appending a query string keeps signupUrl a PREFIX of the href, which
+        // the conversion-event listener below relies on to spot a CTA.
+        function decorate(attribution) {
+          if (!attribution) return;
+          const links = document.querySelectorAll('a[href^="' + signupUrl + '"]');
+          for (let i = 0; i < links.length; i++) {
+            const url = new URL(links[i].href);
+            for (const key in FIELDS) {
+              const value = attribution[key];
+              // Only known keys, and never clobber a param already on the link.
+              if (typeof value === 'string' && value && !url.searchParams.has(key)) {
+                url.searchParams.set(key, value.slice(0, FIELDS[key]));
+              }
+            }
+            links[i].href = url.toString();
+          }
+        }
+
+        function run() {
+          // Last touch wins: a fresh ad click supersedes an earlier one.
+          const arriving = fromUrl();
+          if (arriving) remember(arriving);
+          decorate(arriving || recall());
+        }
+
+        run();
+        document.addEventListener('astro:page-load', run);
+      })();
+    </script>
+
     <!-- Conversion-event instrumentation (Meta Pixel + GA4). Runs on every
          page. GA4 events flow cookielessly for every visitor; Meta events fire
          only once the pixel loads on Accept (see bwpTrack in the head). -->
