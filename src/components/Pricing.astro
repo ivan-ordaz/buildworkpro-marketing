@@ -1,5 +1,6 @@
 ---
 import { config } from '../config';
+import { plan, planFeatures } from '../data/plan';
 ---
 
 <section id="pricing" class="py-24 lg:py-32 bg-slate-50">
@@ -32,36 +33,21 @@ import { config } from '../config';
         <div class="text-center mb-8">
           <h3 class="text-lg font-semibold text-slate-900 mb-4">BuildWorkPro</h3>
           <div class="flex items-baseline justify-center gap-1">
-            <span class="text-5xl font-extrabold text-slate-900">$79</span>
+            <span class="text-5xl font-extrabold text-slate-900">{plan.monthly}</span>
             <span class="text-slate-500 text-lg">/month</span>
           </div>
           <p class="text-sm text-brand-600 font-medium mt-2">
-            Pay yearly and get 2 months free — $790/year
+            Pay yearly and get 2 months free — {plan.yearly}/year
           </p>
-          <p class="text-xs text-slate-400 mt-1">That's just $65.83/month billed annually</p>
+          <p class="text-xs text-slate-400 mt-1">
+            That's just {plan.yearlyPerMonth}/month billed annually
+          </p>
         </div>
 
         <!-- Features -->
         <div class="grid sm:grid-cols-2 gap-3 mb-8">
           {
-            [
-              'Unlimited users',
-              'Unlimited projects',
-              'Unlimited contacts',
-              'Bids & estimates',
-              'Pay applications',
-              'Change orders',
-              'Site logs',
-              'Time tracking',
-              'Sales pipeline & CRM',
-              'Gantt charts & scheduling',
-              'Reports & analytics',
-              'Role-based permissions',
-              'Document management',
-              'Email integration',
-              'Custom branding',
-              'API access',
-            ].map((feature) => (
+            planFeatures.map((feature) => (
               <div class="flex items-center gap-2.5">
                 <svg
                   class="w-4 h-4 text-brand-600 shrink-0"
@@ -83,7 +69,7 @@ import { config } from '../config';
           href={config.signupUrl}
           class="block w-full text-center text-base font-semibold py-3.5 px-6 rounded-xl bg-brand-600 hover:bg-brand-700 text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
         >
-          Start 14-day free trial
+          Start {plan.trialDays}-day free trial
         </a>
         <p class="text-center text-xs text-slate-400 mt-3">
           No credit card required. Cancel anytime.
