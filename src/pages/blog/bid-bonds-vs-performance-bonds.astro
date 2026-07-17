@@ -1,0 +1,363 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a bid bond in construction?',
+    answer:
+      'A bid bond is a guarantee — backed by a surety company — that the contractor will honor the bid price and sign a contract if selected. If the low bidder walks away, the surety pays the owner the difference between that bid and the next lowest bid, up to the bond penalty (typically 5–10% of the bid amount). Bid bonds protect the owner from wasting time on a bidder who has no intention of following through.',
+  },
+  {
+    question: 'What is a performance bond?',
+    answer:
+      'A performance bond guarantees the contractor will complete the work according to the contract. If the contractor defaults, the surety steps in — either hiring a replacement contractor, completing the work directly, or paying the owner up to the bond amount (usually 100% of the contract value). Performance bonds are typically required on public work and many large commercial projects.',
+  },
+  {
+    question: 'Do subcontractors need bid bonds and performance bonds?',
+    answer:
+      'It depends on the project. On federal public work over $150,000, the Miller Act requires prime contractors to carry payment and performance bonds — and GCs often flow that requirement down to their major subs. State and local government projects have similar "little Miller Act" statutes. Private commercial work varies by owner and GC. When in doubt, check the bid invitation or the subcontract draft before pricing the job.',
+  },
+  {
+    question: 'What is the difference between a performance bond and a payment bond?',
+    answer:
+      "A performance bond protects the owner if the contractor doesn't finish the work. A payment bond protects workers and suppliers if the contractor doesn't pay them. The two are almost always required together — referred to as P&P bonds — because completing the work and paying everyone downstream are two sides of the same obligation.",
+  },
+  {
+    question: 'How do I get a surety bond as a subcontractor?',
+    answer:
+      'Work through a licensed surety agent or broker who specializes in contract bonds. The surety (an insurance company authorized to write bonds) will evaluate your financials, credit history, work-in-progress, and experience before setting a bond limit and rate. Building a relationship with a surety agent before you need a bond — not the night before a bid is due — gives you the best shot at competitive terms.',
+  },
+];
+---
+
+<Layout
+  title="Bid Bonds vs. Performance Bonds: A Sub's Guide | BuildWorkPro"
+  description="What bid bonds, performance bonds, and payment bonds are, when subcontractors need them, how to get bonded, and what the difference means for your bidding strategy."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Bid Bonds vs. Performance Bonds: A Sub's Guide
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published July 17, 2026 · 8 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          If you've ever submitted a bid on public work and been asked to include a bid bond, or
+          signed a subcontract that required a performance bond, you've run up against surety
+          requirements — and possibly had no idea what you were agreeing to. Construction bonds
+          aren't complicated once you understand what each one guarantees and who it protects, but
+          they have real consequences for how you price work and manage your cash.
+        </p>
+        <p>
+          This guide breaks down the three types of contract bonds subcontractors encounter — bid
+          bonds, performance bonds, and payment bonds — explains when you need them, and covers what
+          it takes to get bonded.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              A bid bond guarantees you'll honor your price if selected — the surety covers the
+              owner's re-bid cost if you walk away.
+            </li>
+            <li>
+              A performance bond guarantees you'll complete the work; a payment bond guarantees
+              you'll pay your workers and suppliers. They're almost always required together.
+            </li>
+            <li>
+              Federal public work over $150,000 requires P&amp;P bonds (Miller Act); most states
+              have equivalent statutes. GCs often flow requirements down to major subs.
+            </li>
+            <li>
+              Surety capacity is earned over time through clean financials, credit, and a track
+              record of completed projects. Build the relationship before you need the bond.
+            </li>
+            <li>
+              Bond premiums add 1–3% of contract value to your cost — factor them in before you
+              finalize your bid numbers.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is a bid bond?</h2>
+        <p>
+          A bid bond is a guarantee — backed by a surety company — that you will honor your bid
+          price and execute a contract if you are selected as the low bidder. If you win the job and
+          then refuse to sign at the price you submitted, the surety compensates the owner for the
+          difference between your bid and the next lowest bid, up to the bond penalty amount.
+        </p>
+        <p>
+          Bid bonds are typically set at 5–10% of the bid amount, though some public agencies
+          specify a fixed dollar figure. The bond itself costs nothing to obtain from a surety that
+          has already prequalified you — it's part of the service for an established surety
+          relationship. The cost comes later if you perform the work: performance and payment bond
+          premiums are where the surety earns its fee.
+        </p>
+        <p>
+          The practical effect of a bid bond is simple: it screens out bidders who are fishing for
+          pricing information or who haven't done the homework to know whether they can actually
+          build the job at the number they submitted. Owners and general contractors use them as a
+          threshold filter on public projects and larger commercial contracts.
+        </p>
+
+        <h2>What is a performance bond?</h2>
+        <p>
+          A performance bond guarantees that you will complete the contracted work according to the
+          plans, specifications, and schedule. If you default — whether because you abandon the
+          project, go out of business, or fail to meet contract requirements — the surety steps in.
+          The surety has three options: hire a replacement contractor to finish the work, complete
+          the work using its own forces, or pay the owner up to the bond amount (typically 100% of
+          the contract value).
+        </p>
+        <p>
+          From the owner's or GC's perspective, a performance bond converts your financial risk into
+          the surety's risk. If you have a $500,000 subcontract with a performance bond, the owner
+          knows that $500,000 of coverage stands behind your promise to finish the work.
+        </p>
+
+        <h2>What is a payment bond — and why it's almost always paired with performance</h2>
+        <p>
+          A payment bond guarantees that you will pay your laborers, sub-subcontractors, and
+          material suppliers. It protects the parties downstream from you: the workers who can't
+          file a mechanic's lien on public property, and the suppliers who might not get paid if you
+          have a cash-flow crisis mid-project.
+        </p>
+        <p>
+          Performance bonds and payment bonds are almost always required together — the combination
+          is called a P&amp;P bond. They're two sides of the same obligation: completing the work
+          and paying everyone involved. A project with a performance bond but no payment bond
+          protects the owner from an unfinished building but leaves the framing crew or lumber yard
+          with no recourse if money stops flowing. The Miller Act and state equivalents require both
+          precisely because both protections are needed.
+        </p>
+
+        <h2>When do subcontractors need bonds?</h2>
+        <p>
+          Bond requirements flow from the project owner's contract down to the GC, and the GC
+          decides how much to pass through to subs. Whether you need a bond depends on:
+        </p>
+        <ul>
+          <li>
+            <strong>Federal public work.</strong> The Miller Act (40 U.S.C. §§ 3131–3134) requires prime
+            contractors on federal construction contracts over $150,000 to furnish both performance and
+            payment bonds. GCs frequently flow this requirement to their major subcontractors.
+          </li>
+          <li>
+            <strong>State and local public work.</strong> Every state has enacted a "little Miller Act"
+            with similar requirements, though thresholds and specifics vary. If the project involves a
+            public owner — a state agency, municipality, school district, or transit authority — assume
+            bonds are required until you confirm otherwise.
+          </li>
+          <li>
+            <strong>Private commercial projects.</strong> Bonding is not legally required on private projects,
+            but large institutional owners (hospitals, universities, developers with lender requirements)
+            and cautious GCs may still require it on contracts above a certain dollar threshold. Always
+            check the subcontract or bid invitation language.
+          </li>
+          <li>
+            <strong>GC-imposed requirements.</strong> Even on private work, a GC can require subs to bond
+            as a risk-management practice. The bigger the sub's scope relative to the overall project,
+            the more likely a bond will be requested.
+          </li>
+        </ul>
+        <p>
+          The fastest way to find out whether a specific project requires bonding: read the bid
+          invitation cover page and the draft subcontract before you put pricing together. Bonding
+          requirements are not usually buried in the fine print — they appear in the bid
+          instructions or the general conditions up front.
+        </p>
+
+        <h2>How to factor bond premiums into your bid</h2>
+        <p>
+          Bond premiums are charged as a percentage of the contract value, typically in the range of
+          1–3% depending on your surety rate, the contract size, and the type of work. Premium rates
+          are set per thousand dollars of contract value and often decrease at volume thresholds
+          (e.g., a lower rate on the portion above $500,000).
+        </p>
+        <p>
+          The key rule: include the bond premium in your
+          <a href="/blog/construction-markup-vs-margin/">bid costs</a> before you apply markup. It is
+          a direct cost of performing the contract, not a margin item. If you forget to include it and
+          win the job, you absorb the premium out of your margin.
+        </p>
+        <p>
+          When you're <a href="/blog/how-to-create-construction-bid/">building your estimate</a>,
+          treat the bond premium as a project cost at the top of the bid — similar to mobilization
+          or permit fees — so it's visible and doesn't disappear into overhead. In BuildWorkPro, the
+          <a href="/features/construction-bidding/">Project Costs</a> tab on each bid is where job-wide
+          costs like this go; they spread across your line items automatically so the math stays consistent.
+        </p>
+
+        <h2>See it in the software</h2>
+        <p>
+          When you're bidding bonded work, having your estimate organized before you send it matters
+          — a GC reviewing a bonded sub's bid wants to see a clean, professional proposal, not a
+          number on a napkin. Here's how bid creation works in BuildWorkPro:
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/create-bid.mp4"
+          poster="/videos/create-bid-poster.jpg"
+          label="Demo: creating a bid in BuildWorkPro — building the estimate from the catalog with material and labor line items, applying margin and overhead on the Rates tab"
+          caption="BuildWorkPro bids: line items broken into material and labor from your catalog, margin and overhead applied on the Rates tab, and a PDF proposal ready to send."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>How to get bonded as a subcontractor</h2>
+        <p>
+          Surety bonds are not insurance you purchase off a shelf — they're a form of credit. The
+          surety is guaranteeing your performance, so they need to believe you can actually perform.
+          The prequalification process typically looks at:
+        </p>
+        <ul>
+          <li>
+            <strong>Financial statements.</strong> Two to three years of reviewed or audited financials.
+            Sureties look at working capital (current assets minus current liabilities), net worth, and
+            the ratio of bonded work to equity.
+          </li>
+          <li>
+            <strong>Credit.</strong> Both personal and business credit. A thin personal credit history
+            or outstanding judgments raises red flags even when the business financials look clean.
+          </li>
+          <li>
+            <strong>Experience and capacity.</strong> A track record of completed projects in the same
+            type of work. A surety won't extend a $2M bond limit to a contractor who has only finished
+            $200K projects. Capacity grows with your completed project history.
+          </li>
+          <li>
+            <strong>Work-in-progress schedule.</strong> A summary of current contracts, how far along
+            each is, and what's still to be billed. Sureties use this to assess how much additional bonded
+            work you can absorb without spreading yourself thin.
+          </li>
+        </ul>
+        <p>
+          The practical step: find a surety agent or broker who specializes in contract surety bonds
+          — not a general business insurance broker. A specialist knows which sureties write
+          contractors in your trade and size range, and can help you present your financials in the
+          best light. Start the relationship before you need a bond. If your first call to a surety
+          agent is the day before a bid is due, you will not get a bond in time, and even if you
+          did, you'd be working from scratch without any established bond limit.
+        </p>
+
+        <h2>What to do when you don't have bonding capacity yet</h2>
+        <p>
+          If you're a newer sub without an established surety relationship, or your financials don't
+          yet support a large bond limit, a few options exist:
+        </p>
+        <ul>
+          <li>
+            <strong>Work smaller bonded contracts first.</strong> Most sureties will start small and grow
+            your bond limit as you complete projects. A $200K bonded job this year builds the history
+            that gets you to $1M next year.
+          </li>
+          <li>
+            <strong>Focus on private unbonded work while building capacity.</strong> There's no requirement
+            that all your work be bonded. Winning private commercial jobs, completing them profitably,
+            and strengthening your financials is how you build toward public-work bonding ability.
+          </li>
+          <li>
+            <strong>Consider a co-surety or joint venture.</strong> On specific larger projects, a more
+            established contractor can sponsor you as a joint venture partner with their surety backing
+            the bond. This is project-specific and requires the right relationship, but it does happen.
+          </li>
+          <li>
+            <strong>Don't bid bonded work you can't bond.</strong> Submitting a bid on a job that requires
+            bonding when you haven't confirmed your surety capacity is a recipe for withdrawing at the
+            last minute — which is exactly what a bid bond is designed to penalize.
+          </li>
+        </ul>
+
+        <h2>Track bonded bids separately from your pipeline</h2>
+        <p>
+          One practical habit that helps: tag or note which bids in your pipeline require bonding,
+          so you can see at a glance how much bonded work is pending versus in progress. If you win
+          several large bonded jobs in the same quarter, you can hit your aggregate bond limit —
+          meaning you'd need to turn down new bonded work or wait for existing jobs to reach
+          substantial completion before your capacity opens up.
+        </p>
+        <p>
+          In BuildWorkPro's <a href="/features/construction-bidding/">construction bidding</a>{' '}
+          module, you can add notes or attach documents (like the bond commitment letter from your surety)
+          directly to each bid, and filter your bid pipeline by status — so tracking which open bids are
+          bonded and at what stage is a matter of staying organized in the same workflow you're already
+          using to estimate and propose.
+        </p>
+        <p>
+          Construction bonds are a gateway to a larger class of work. Getting bonded requires time,
+          clean books, and a relationship with a good surety agent — but once you have that
+          capacity, you can pursue public and large commercial contracts that most of your
+          competition can't touch.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Construction bonds FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Keep your bonded bids organized from estimate to project
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro tracks your full bid pipeline — draft, sent, accepted, rejected — with
+          line-item estimates, project costs, and PDF proposals. $79/month flat, unlimited users,
+          14-day free trial with no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Bid Bonds vs. Performance Bonds: A Sub's Guide"
+        description="What bid bonds, performance bonds, and payment bonds are, when subcontractors need them, how to get bonded, and what the difference means for your bidding strategy."
+        datePublished="2026-07-17"
+        related={[
+          {
+            href: '/features/construction-bidding/',
+            title: 'Construction Bidding & Estimating',
+            description:
+              'Build line-item estimates, apply margin and overhead, and send professional PDF proposals.',
+          },
+          {
+            href: '/blog/how-to-create-construction-bid/',
+            title: 'How to Create a Construction Bid',
+            description: 'Step-by-step guide to building an accurate bid from takeoff to proposal.',
+          },
+          {
+            href: '/blog/construction-markup-vs-margin/',
+            title: 'Construction Markup vs. Margin',
+            description:
+              'How to price a job correctly — including direct costs like bond premiums — before applying markup.',
+          },
+          {
+            href: '/features/project-management/',
+            title: 'Project Management',
+            description:
+              'Convert an accepted bonded bid into a project and manage it through closeout.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
