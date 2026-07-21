@@ -445,6 +445,30 @@
               "null"
             ]
           },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "createdAt": {
             "anyOf": [
               {
@@ -560,6 +584,33 @@
               "string",
               "null"
             ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
           }
         },
         "required": [
@@ -643,6 +694,33 @@
               "string",
               "null"
             ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
           }
         }
       },
@@ -858,6 +936,24 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1027,6 +1123,27 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1157,6 +1274,27 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1264,6 +1402,24 @@
             ]
           },
           "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
             "type": [
               "string",
               "null"
@@ -7023,6 +7179,27 @@
                       "null"
                     ]
                   },
+                  "siteCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "siteState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 100
+                  },
+                  "siteZipCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 20
+                  },
                   "latitude": {
                     "type": [
                       "string",
@@ -7324,6 +7501,27 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "siteCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "siteState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 100
+                  },
+                  "siteZipCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 20
                   },
                   "latitude": {
                     "type": [
