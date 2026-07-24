@@ -1,0 +1,329 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a construction daily report?',
+    answer:
+      'A construction daily report (also called a site log or daily log) is a dated record of what happened on a jobsite on a given day: who was on site, what work was performed, what materials arrived, what visitors showed up, and what problems occurred. The value is that it is written contemporaneously — the same day it happened — not reconstructed from memory weeks later when a dispute or delay claim surfaces.',
+  },
+  {
+    question: 'What should a construction daily report template include?',
+    answer:
+      'At a minimum: the date, the project, personnel on site, work performed by area or phase, materials received, visitors on site (inspectors, GC superintendent, delivery personnel), any issues or delays, and photos from the field. An optional title and tags — Progress, Issue, Delay, Safety, Delivery, Inspection, or General — make it far easier to filter specific entry types months after the fact.',
+  },
+  {
+    question: 'How is a daily report different from a site log?',
+    answer:
+      'They are the same thing under different names. General contractors often call it a daily report; subcontractors and field crews tend to say site log or daily log. The content — date, project, personnel, work, materials, issues — is the same regardless of which name your contract uses.',
+  },
+  {
+    question: 'Can I create a change order from a daily report in BuildWorkPro?',
+    answer:
+      'Yes. From a site log detail page you can create a change order directly — useful when an issue or directive documented in the log generates extra-cost work that needs to go through the formal change order process. The log and the change order stay connected.',
+  },
+  {
+    question: 'How long should construction daily reports be kept?',
+    answer:
+      'State statutes of limitations on construction claims typically run three to ten years depending on the state and claim type. Keep daily reports for at least as long as the longest applicable limitation period in your state, stored in a way that lets you find an entry by project and date — not buried in a general email archive.',
+  },
+];
+---
+
+<Layout
+  title="Construction Daily Report: What to Include (+ Template) | BuildWorkPro"
+  description="What goes in a construction daily report: the fields every entry needs, how to tag and review it, and how digital reports protect you when a dispute surfaces."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Construction Daily Report: What to Include (+ Template)
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published July 24, 2026 · 7 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          A delay claim shows up four months after a pour. The GC asks who was on site on a Thursday
+          in March and what work actually got done that day. If you wrote it down that Thursday, you
+          have an answer. If you didn't, you have an argument — and arguments without records tend
+          to go the wrong way.
+        </p>
+        <p>
+          Construction daily reports exist for exactly that moment. This guide covers what goes in a
+          daily report, how to structure it like a template your crew can fill out consistently, and
+          why the fields that feel optional are usually the ones you need most in a dispute.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              Record the project, date, and personnel on site every day — these three fields are
+              non-negotiable.
+            </li>
+            <li>
+              The detail section captures work performed, materials received, visitors on site, and
+              issues.
+            </li>
+            <li>
+              Tag each entry (Progress, Issue, Delay, Safety, Delivery, Inspection) so you can
+              filter by type months later.
+            </li>
+            <li>Photos attached to the log tie a visual record to the exact date and project.</li>
+            <li>
+              A report written the same day carries far more evidentiary weight than one
+              reconstructed after the fact.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is a construction daily report?</h2>
+        <p>
+          A construction daily report — also called a site log, daily log, or field report — is a
+          dated entry for a specific project that captures what happened on the jobsite that day.
+          Who was there, what got done, what came in, who visited, what went wrong.
+        </p>
+        <p>
+          The format matters less than the consistency and timing. A daily report written the day it
+          happened is contemporaneous evidence. That's what makes it valuable when a delay claim,
+          payment dispute, or safety question arises months or years later — the record predates the
+          dispute, so it can't look like it was manufactured to win an argument.
+        </p>
+        <p>
+          In BuildWorkPro, <a href="/features/site-logs/">site logs</a> are the daily report module. Each
+          entry is tied to a project and a date (defaulting to today), so the structure is already there
+          — you fill it in rather than inventing a format from scratch.
+        </p>
+
+        <h2>What a construction daily report template should include</h2>
+        <p>
+          Think of a daily report as two layers: the header fields you fill in when you create the
+          entry, and the detail fields you complete once the entry exists. Together they tell the
+          full story of the day.
+        </p>
+
+        <h2>Header fields (create the entry)</h2>
+        <p>
+          These four fields go in when you open a new log entry. They should take under a minute.
+        </p>
+        <ul>
+          <li>
+            <strong>Project.</strong> Which job this entry belongs to. Every log is tied to a single project
+            so you can filter by job later.
+          </li>
+          <li>
+            <strong>Date.</strong> Should default to today. If you're catching up from yesterday, backdate
+            it — an accurate date beats a wrong one.
+          </li>
+          <li>
+            <strong>Personnel on site.</strong> Who was physically on site for your crew that day. This
+            is the "who was there" question you'll be asked in any dispute.
+          </li>
+          <li>
+            <strong>Tag.</strong> One or more classifications — Progress, Issue, Delay, Safety, Delivery,
+            Inspection, or General. Tagging takes two seconds and makes a month of entries searchable
+            by type in one filter click. If a day had an inspection and a delivery, tag it both.
+          </li>
+          <li>
+            <strong>Notes.</strong> The narrative of the day. What happened, in the order it happened.
+            Include weather conditions and how they affected the work — not because there's a dedicated
+            weather field, but because weather is the most common basis for schedule extension requests
+            and belongs in the written record.
+          </li>
+        </ul>
+
+        <h2>Detail fields (open the entry after creating it)</h2>
+        <p>
+          These fields live on the log's detail page and capture the substance of the day. Fill them
+          in while the day is still fresh.
+        </p>
+        <ul>
+          <li>
+            <strong>Work performed.</strong> A description of the specific scope completed — include locations
+            (floor, zone, grid line) and quantities where possible. "Rough-in completed, floors 3–5, east
+            wing" is more useful than "rough-in." This is what you'll point to when a percent-complete
+            question comes up on a pay application.
+          </li>
+          <li>
+            <strong>Materials received.</strong> What arrived on site, with enough detail to connect to
+            a delivery ticket if one exists. Useful for tracking stored materials and for disputes about
+            when material was available.
+          </li>
+          <li>
+            <strong>Visitors on site.</strong> The GC's superintendent, an owner's representative, the
+            building inspector, a delivery driver, a safety officer. Record who came, why they were there,
+            and any outcomes (passed inspection, issued a directive, flagged a condition).
+          </li>
+          <li>
+            <strong>Issues.</strong> Anything that held up the work, changed the scope, or needs follow-up
+            — a missing material, an RFI not answered, an unsafe condition corrected, a directive from
+            the GC that generates extra cost. If an issue in the log will turn into a <a
+              href="/features/change-orders/">change order</a
+            >, you can create one directly from the log in BuildWorkPro so the paper trail stays
+            connected.
+          </li>
+          <li>
+            <strong>Photos.</strong> Attach images from the field — progress shots, delivery documentation,
+            photos of a condition or issue. Photos are tied to the project and date, so the visual record
+            sits alongside the written one in the same entry.
+          </li>
+        </ul>
+
+        <h2>Why tagging matters more than you'd think</h2>
+        <p>
+          When you're writing a log the same day, adding a tag feels like extra work. Six months
+          later, when you need to pull every delay entry on a job to support an extension request,
+          that two-second step saves hours.
+        </p>
+        <ul>
+          <li>
+            <strong>Delay</strong> entries are the basis of schedule extension claims — filter to Delay
+            logs and you have a timeline of every day the work was held up and why.
+          </li>
+          <li>
+            <strong>Safety</strong> entries create a documented record if an incident is later questioned.
+          </li>
+          <li>
+            <strong>Inspection</strong> entries capture what was inspected, by whom, and what the result
+            was.
+          </li>
+          <li>
+            <strong>Issue</strong> entries are a running log of problems — useful when a GC claims a problem
+            was never reported.
+          </li>
+        </ul>
+        <p>
+          In <a href="/features/site-logs/">site logs</a>, you can filter the timeline or table view
+          by project, tag, or reviewed status and search by title or notes. That's how a year of
+          daily entries stays navigable instead of becoming an undifferentiated wall of text.
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/site-log-create.mp4"
+          poster="/videos/site-log-create-poster.jpg"
+          label="Demo: creating a daily site log in BuildWorkPro — picking a project and date, entering personnel on site, tagging the entry, and writing notes"
+          caption="Creating a site log in BuildWorkPro: pick the project and date, enter personnel on site, tag the entry, and write the day's notes."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>When to write it and who writes it</h2>
+        <p>
+          The answer to both is the same: the person who was on site, the same day. A field log
+          written by someone who wasn't there — or written a week later from memory — loses much of
+          its value as a record.
+        </p>
+        <p>
+          In BuildWorkPro, company admins, managers, members, and field crew can all create site
+          logs. The Field Crew role is specifically designed for on-site workers: they can write the
+          daily record without getting access to bids, pricing, or billing. Make writing the log
+          part of the end-of-day routine for whoever closes out the site.
+        </p>
+        <p>
+          Once the crew writes the log, a manager can mark it reviewed — a step that shows the entry
+          has been checked and creates a second layer of accountability. Filter by reviewed status
+          to find entries that still need a look. Pair site logs with
+          <a href="/features/time-tracking/">time tracking</a> to capture crew hours against the same
+          project on the same day — the log covers the narrative, time tracking covers the labor record.
+        </p>
+        <p>
+          For the habit side — how to get a crew to keep logs consistently and what makes the
+          practice stick — see our guide to
+          <a href="/blog/construction-site-log-best-practices/"
+            >construction site log best practices</a
+          >.
+        </p>
+
+        <h2>What not to include</h2>
+        <p>
+          Daily reports should be factual. Avoid characterizing blame or causation in the log itself
+          ("the GC's bad planning caused our delay") — stick to what happened, what you observed,
+          and what was communicated. If a directive came verbally from the GC's super, note that a
+          verbal directive was given, from whom, about what, and follow up in writing through the
+          proper channel. The daily report is a factual record; arguments about responsibility
+          belong in formal notices.
+        </p>
+        <p>
+          Also: don't leave gaps. A missing entry for a day where something went wrong is worse than
+          a short entry. "Rained all day, no work performed — site flooded east of the utility
+          trench" tells the story. A blank day suggests nothing happened or nothing was tracked —
+          which is a different problem.
+        </p>
+
+        <h2>Connecting daily reports to the rest of the project</h2>
+        <p>
+          A daily report is more useful when it's connected to the work it documents. In
+          BuildWorkPro, each site log lives on the project's own Site Logs tab inside
+          <a href="/features/project-management/">project management</a> — so the day's log is one click
+          away from the project's tasks, phases, and documents. If an issue documented in a log becomes
+          a change order, you can create the change order directly from the log entry, keeping the issue,
+          the log, and the resulting change order linked in one place.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Construction daily report FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Get every day on the record before you need it
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro site logs are included in the $79/month flat plan — unlimited users, every
+          feature. 14-day free trial, no credit card required.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Construction Daily Report: What to Include (+ Template)"
+        description="What goes in a construction daily report: the fields every entry needs, how to tag and review it, and how digital reports protect you when a dispute surfaces."
+        datePublished="2026-07-24"
+        related={[
+          {
+            href: '/features/site-logs/',
+            title: 'Site Logs',
+            description:
+              'Daily reports with personnel, work performed, materials, issues, photos, and tags — reviewed by a manager and searchable by project.',
+          },
+          {
+            href: '/blog/construction-site-log-best-practices/',
+            title: 'Construction Site Log Best Practices',
+            description: 'How to build the daily reporting habit and what to record each day.',
+          },
+          {
+            href: '/features/time-tracking/',
+            title: 'Time Tracking',
+            description: 'Log crew hours against the same project, paired with your daily report.',
+          },
+          {
+            href: '/features/change-orders/',
+            title: 'Change Orders',
+            description:
+              'Create a change order directly from a site log when an issue generates extra cost.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
