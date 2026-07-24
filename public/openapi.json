@@ -297,6 +297,19 @@
             "type": "string",
             "minLength": 1
           },
+          "position": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "parentContactId": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "exclusiveMinimum": 0
+          },
           "email": {
             "type": [
               "string",
@@ -305,6 +318,24 @@
             "format": "email"
           },
           "phone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mobile": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "website": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
             "type": [
               "string",
               "null"
@@ -346,6 +377,19 @@
             "type": "string",
             "minLength": 1
           },
+          "position": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "parentContactId": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "exclusiveMinimum": 0
+          },
           "email": {
             "type": [
               "string",
@@ -354,6 +398,24 @@
             "format": "email"
           },
           "phone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mobile": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "website": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
             "type": [
               "string",
               "null"
@@ -440,6 +502,30 @@
             ]
           },
           "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
             "type": [
               "string",
               "null"
@@ -560,6 +646,33 @@
               "string",
               "null"
             ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
           }
         },
         "required": [
@@ -643,6 +756,33 @@
               "string",
               "null"
             ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
           }
         }
       },
@@ -858,6 +998,24 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1027,6 +1185,27 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1157,6 +1336,27 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1264,6 +1464,24 @@
             ]
           },
           "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
             "type": [
               "string",
               "null"
@@ -7023,6 +7241,27 @@
                       "null"
                     ]
                   },
+                  "siteCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "siteState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 100
+                  },
+                  "siteZipCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 20
+                  },
                   "latitude": {
                     "type": [
                       "string",
@@ -7324,6 +7563,27 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "siteCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "siteState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 100
+                  },
+                  "siteZipCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 20
                   },
                   "latitude": {
                     "type": [
@@ -8203,6 +8463,9 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "unitPrice": {
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -8380,6 +8643,9 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "unitPrice": {
+                    "type": "string"
                   }
                 }
               }
