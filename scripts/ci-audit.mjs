@@ -34,6 +34,23 @@ const ALLOWLIST = {
   'GHSA-hm92-r4w5-c3mj': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-35p6-xmwp-9g52': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-g8m3-5g58-fq7m': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  // Astro XSS advisories (high) — affect the Astro HTML-rendering engine at BUILD time.
+  // The deployed Worker only serves the compiled static output; Astro itself never runs
+  // in the Worker. The XSS vectors (View Transition attributes, renderHTMLElement spread
+  // attrs, transition:* directives) require untrusted user input flowing into those paths —
+  // this marketing site uses only author-controlled static content so none of the vectors
+  // apply in practice. Fix requires upgrading to Astro 7 (breaking change; out of scope).
+  'GHSA-4g3v-8h47-v7g6':
+    'Astro reflected XSS via View Transition animation properties — build-time framework, not in deployed Worker. No user input in View Transition paths. Fix requires Astro 7 (breaking).',
+  'GHSA-f48w-9m4c-m7f5':
+    'Astro XSS via unescaped spread attribute names in renderHTMLElement — build-time framework, not in deployed Worker. No user input in spread attribute paths. Fix requires Astro 7 (breaking).',
+  'GHSA-7pw4-f3q4-r2p2':
+    'Astro XSS via unescaped transition:* directive values on hydrated islands — build-time framework, not in deployed Worker. No hydrated islands with user-controlled content. Fix requires Astro 7 (breaking).',
+  // Sharp (high) — libvips vulnerabilities (CVE-2026-33327/33328/35590/35591). Sharp is
+  // used by Astro at build time for image optimization only; it does not run in the
+  // deployed Cloudflare Worker. Fix requires upgrading to Astro 7 (breaking change).
+  'GHSA-f88m-g3jw-g9cj':
+    'Sharp libvips vulnerabilities (CVE-2026-33327/33328/35590/35591) — sharp is used by Astro at build time for image optimization only, never in the deployed Worker. Fix requires Astro 7 (breaking).',
 };
 
 const BLOCKING = new Set(['high', 'critical']);
