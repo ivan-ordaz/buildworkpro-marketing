@@ -1,0 +1,438 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a construction daily report?',
+    answer:
+      'A construction daily report is a dated, written record of everything that happened on a job site that day — who was there, what work was done, what materials arrived, which visitors came, any safety observations, and any delays or disruptions. It is used for project management, billing support, and as contemporaneous evidence in delay claims or payment disputes.',
+  },
+  {
+    question: 'How is a construction daily report different from a site log?',
+    answer:
+      "They refer to the same document. General contractors often call it a 'daily report'; subcontractors and field software tend to call it a 'site log' or 'daily log.' The content is the same — a dated field record that stands as contemporaneous evidence of conditions and events on the project.",
+  },
+  {
+    question: 'Who should fill out the daily report on a construction site?',
+    answer:
+      "The foreman or site lead — the person who actually watched the work happen. It should be submitted by end of day, not reconstructed the next morning. If you can't trust memory to accurately recall who was on site and what grid lines were roughed in, the log is already less useful. The project manager should review logs weekly to catch gaps and recurring issues early.",
+  },
+  {
+    question: 'Can a daily report be used as evidence in a construction dispute?',
+    answer:
+      'Yes. Contemporaneous daily reports are routinely used as evidence in delay claims, payment disputes, and litigation. Dated, consistent records carry significantly more weight than after-the-fact reconstructions. This is general guidance, not legal advice; consult a construction attorney for your specific situation.',
+  },
+  {
+    question: 'What should I do if the GC provides their own daily report form?',
+    answer:
+      "Fill out the GC's form as required, but also keep your own. The GC form protects the project; your own record protects you. Gaps in the GC-required form — sections that don't capture delays caused by others or equipment standby time, for example — are exactly where your independent record matters most.",
+  },
+];
+---
+
+<Layout
+  title="Construction Daily Report: What to Include + Template | BuildWorkPro"
+  description="A field-ready guide to the construction daily report — what belongs in each section, how to fill it out completely, and a template subcontractors can use today."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Construction Daily Report: What to Include (+ Template)
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published July 31, 2026 · 7 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Many general contractors require subcontractors to submit a daily report form before they
+          sign off on the day's work. But even when no one is asking for it, a complete daily report
+          is one of the cheapest forms of protection a sub can carry. When a delay claim hits, when
+          a GC disputes your change order, or when an inspector questions what was on site last
+          Tuesday — your daily reports are the contemporaneous record that answers the question.
+        </p>
+        <p>
+          This guide breaks down exactly what belongs in each section of a construction daily
+          report, with notes on how to fill each one out so the record is actually useful. At the
+          end you'll also find how to file these digitally so they're searchable and ready when you
+          need them.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              A daily report has eight core sections: identification, personnel, work performed,
+              equipment, materials, visitors/inspections, safety, and delays.
+            </li>
+            <li>
+              Specificity is what makes a report useful — location references, times, and quantities
+              matter far more than paragraph summaries.
+            </li>
+            <li>
+              Delays and disruptions caused by others are the most skipped section and the most
+              valuable one when a claim arises.
+            </li>
+            <li>
+              Contemporaneous daily records carry far more weight in disputes than recollections or
+              after-the-fact reconstructions.
+            </li>
+            <li>
+              Keep your own record even when the GC requires their form — the two serve different
+              purposes.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is a construction daily report?</h2>
+        <p>
+          A construction daily report is a dated record of everything that happened on a job site on
+          a given day. General contractors call it a daily report; subcontractors and field software
+          often call it a site log or daily log. The content is the same: who was on site, what was
+          built, what arrived, who visited, and what went wrong or was delayed.
+        </p>
+        <p>
+          Most GCs have their own daily report forms. Many also have their own project-management
+          portals where subs submit them. Fill out whatever the GC requires — and keep your own
+          record too. The GC form manages the project; your record protects you.
+        </p>
+
+        <h2>The 8 sections every daily report should have</h2>
+
+        <h3>1. Project identification and date</h3>
+        <p>
+          The header ties the report to a specific project and day. At minimum: project name,
+          project number or address, date, and the name of the person filing the report. If you have
+          a contract number or GC-assigned document number, include it. This sounds obvious but
+          matters in disputes — a stack of reports with no header is nearly useless.
+        </p>
+
+        <h3>2. Personnel on site</h3>
+        <p>
+          List everyone your company had on the job that day: name or classification (foreman,
+          journeyman, apprentice, laborer), hours worked, and what area or task they were assigned
+          to. This section:
+        </p>
+        <ul>
+          <li>
+            Supports labor billing on time-and-material work and <a href="/features/change-orders/"
+              >change orders</a
+            > — you can tie hours to scope
+          </li>
+          <li>Demonstrates adequate staffing if a delay claim arises against your schedule</li>
+          <li>Gives you a record of actual vs. planned manpower you can review later</li>
+        </ul>
+        <p>
+          Don't just write a headcount. "4 workers on site" is much weaker than "Foreman J. Reyes
+          (8h, rough-in Building A), 2 journeymen (8h ea., panels 2A and 2B), 1 apprentice (8h,
+          conduit pull 1st floor)."
+        </p>
+
+        <h3>3. Work performed</h3>
+        <p>
+          Describe what your crew actually completed that day. Use location references that match
+          the drawings — building, floor, room number, gridline. "Installed 180 LF of 2-inch EMT
+          conduit, Building A, 3rd floor, Rooms 301–312" is usable evidence. "Continued conduit
+          work" is not.
+        </p>
+        <p>
+          Also document work that was planned but could not be performed, and why. "Unable to start
+          trim-out in Suite 205 — suspended ceiling grid not installed by others" is a
+          contemporaneous record of a delay you did not cause. That entry, dated and filed the day
+          it happened, is far more credible than raising it for the first time at closeout.
+        </p>
+
+        <h3>4. Equipment on site</h3>
+        <p>
+          List major equipment — boom lifts, excavators, welding machines, compressors, generators.
+          Note rental equipment separately with start and end dates. If equipment sat idle due to
+          access issues, weather, or delays caused by other trades, record that explicitly. Idle
+          equipment time is a recoverable cost in many delay and disruption claims — but only if you
+          documented it at the time.
+        </p>
+
+        <h3>5. Materials received and stored</h3>
+        <p>
+          Log all deliveries with quantities, vendor, and where materials were stored on site. Note
+          any damaged or short shipments and how you handled them. This section serves two purposes:
+          it creates a chain of custody for materials, and it supports
+          <a href="/blog/aia-pay-application-guide/">stored materials billing</a> on your pay applications
+          — the GC or owner needs to see that material was delivered and is on site before they'll pay
+          for it.
+        </p>
+        <p>
+          Also note long-lead items that were expected and did not arrive if that affected your
+          schedule.
+        </p>
+
+        <h3>6. Visitors and inspections</h3>
+        <p>
+          Record every visitor to the site: owner's representatives, GC superintendents, architects,
+          engineers, city inspectors. For inspections, note the result — passed, failed, partial —
+          and what was inspected. If an inspector flagged an issue, document the specific item and
+          the required corrective action. If the issue was caused by another trade's work or a
+          design conflict, say that.
+        </p>
+        <p>
+          An inspection that passes without documentation is still just your word. An inspection
+          that fails without documentation is a liability.
+        </p>
+
+        <h3>7. Safety observations</h3>
+        <p>
+          Document safety toolbox meetings: date, topic, and attendance. Note any incidents,
+          near-misses, or hazards — even those involving other trades. If you reported an unsafe
+          condition to the GC or owner, record that you did and when. Safety documentation is both a
+          legal requirement on many projects and a liability shield when incidents are investigated.
+        </p>
+
+        <h3>8. Delays, disruptions, and issues</h3>
+        <p>
+          This is the most important section and the one most subs skip entirely. Any time your work
+          is delayed or disrupted by something outside your control, you need a real-time record:
+        </p>
+        <ul>
+          <li>Areas not accessible or not ready for your trade</li>
+          <li>
+            Missing or late information — RFI responses, shop drawing approvals, design
+            clarifications
+          </li>
+          <li>Other trades blocking your work area</li>
+          <li>Late or incorrect material deliveries caused by others' scope changes</li>
+          <li>Schedule changes communicated by the GC</li>
+          <li>
+            Weather conditions that stopped or slowed work (note times and impact, not just "rain")
+          </li>
+        </ul>
+        <p>
+          The reason to document this in real time — not at the end of the month, not when you're
+          preparing a change order — is credibility. A delay documented the day it happened is
+          contemporaneous evidence. A delay summarized weeks later is a reconstruction, and
+          reconstructions lose to contemporaneous records in almost every dispute.
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/site-log-create.mp4"
+          poster="/videos/site-log-create-poster.jpg"
+          label="Demo: creating a daily site log in BuildWorkPro — picking the project and date, adding personnel on site, tagging the entry, and writing the field notes"
+          caption="Filing a daily report in BuildWorkPro: pick the project and date, add personnel on site, tag the entry (Progress, Issue, Delay, Safety, Delivery, Inspection), and write up what happened."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Daily report template: a section-by-section reference</h2>
+        <p>
+          Use this as a checklist when filing your report each day. Each section maps to one of the
+          eight areas above.
+        </p>
+      </div>
+
+      <div class="my-8 rounded-xl border border-slate-200 overflow-hidden not-prose">
+        <div class="bg-slate-800 px-5 py-3">
+          <p class="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+            Construction Daily Report — Field Checklist
+          </p>
+        </div>
+        <div class="divide-y divide-slate-100">
+          <div class="px-5 py-4 bg-slate-50">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Header</p>
+            <div class="grid grid-cols-2 gap-x-6 gap-y-1 text-sm text-slate-700">
+              <span>Project name</span>
+              <span>Project address / number</span>
+              <span>Report date</span>
+              <span>Prepared by (name + title)</span>
+            </div>
+          </div>
+          <div class="px-5 py-4">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              Personnel on site
+            </p>
+            <p class="text-sm text-slate-600">
+              Name or classification · Hours worked · Area or task assigned
+            </p>
+          </div>
+          <div class="px-5 py-4 bg-slate-50">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              Work performed
+            </p>
+            <p class="text-sm text-slate-600">
+              What was built (include building, floor, room, gridline) · What was planned but not
+              performed, and why
+            </p>
+          </div>
+          <div class="px-5 py-4">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              Equipment on site
+            </p>
+            <p class="text-sm text-slate-600">
+              Equipment type · Owned or rented · Hours in use · Idle time and cause
+            </p>
+          </div>
+          <div class="px-5 py-4 bg-slate-50">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              Materials received / stored
+            </p>
+            <p class="text-sm text-slate-600">
+              Quantity · Description · Vendor · Storage location · Any damage or shorts
+            </p>
+          </div>
+          <div class="px-5 py-4">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              Visitors and inspections
+            </p>
+            <p class="text-sm text-slate-600">
+              Visitor name + affiliation · Inspection type · Result (pass / fail / partial) · Items
+              noted and corrective action required
+            </p>
+          </div>
+          <div class="px-5 py-4 bg-slate-50">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Safety</p>
+            <p class="text-sm text-slate-600">
+              Toolbox topic + attendance · Incidents or near-misses · Hazards observed and reported
+              to whom
+            </p>
+          </div>
+          <div class="px-5 py-4 border-l-4 border-amber-400">
+            <p class="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-2">
+              Delays, disruptions, and issues
+            </p>
+            <p class="text-sm text-slate-600">
+              What was delayed or disrupted · Cause · Who is responsible · Impact on schedule or
+              cost · Weather conditions and effect on work (include times)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>What makes a daily report legally defensible</h2>
+        <p>
+          Filling out a report is not the same as filling it out well. A few practices that separate
+          useful records from ones that get dismissed:
+        </p>
+        <ul>
+          <li>
+            <strong>Specificity over summaries.</strong> "Rain from 7 AM to 10:30 AM, standing water in
+            the excavation, underground rough-in stopped for 3.5 hours" is evidence. "Weather delay" is
+            not.
+          </li>
+          <li>
+            <strong>File it the same day.</strong> Contemporaneous means you wrote it while memory was
+            fresh. If you're filling in reports on Friday for Monday through Thursday, you've already
+            degraded their evidentiary value.
+          </li>
+          <li>
+            <strong>Be consistent.</strong> A log kept every single working day is far harder to challenge
+            than one with gaps. Gaps invite the question of what happened on the missing days.
+          </li>
+          <li>
+            <strong>Attach photos.</strong> A photo with an embedded timestamp of the flooded excavation,
+            the blocked work area, or the delivered material is stronger than words alone.
+          </li>
+          <li>
+            <strong>Don't editorialize.</strong> "Concrete pour delayed 4 hours because GC did not have
+            pump truck on site as scheduled" is a factual statement. "GC completely mismanaged the concrete
+            pour" is an opinion that will be attacked in any proceeding.
+          </li>
+        </ul>
+
+        <h2>Using site logs in BuildWorkPro</h2>
+        <p>
+          In BuildWorkPro, <a href="/features/site-logs/">site logs</a> are a dedicated field module —
+          not an afterthought tacked onto project notes. Each log is tied to a specific project and date.
+          You add personnel on site, write your notes, and tag the entry by type: Progress, Issue, Delay,
+          Safety, Delivery, or Inspection.
+        </p>
+        <p>
+          The detail page lets you fill in Work Performed, Materials Received, Visitors on Site, and
+          Issues as distinct fields — the same sections this template covers. Attach photos directly
+          to the log entry. A manager can mark each log reviewed once it's been checked.
+        </p>
+        <p>
+          When a delay or disruption rises to the level of a scope change, you can create a
+          <a href="/features/change-orders/">change order</a> directly from the log — the field record
+          becomes the paper trail behind the cost. For teams also using
+          <a href="/features/time-tracking/">time tracking</a>, crew hours tie to the same project
+          and date, so labor and field activity are always in sync. See the
+          <a href="/docs/field/site-logs/">site logs documentation</a> for a full walkthrough.
+        </p>
+        <p>
+          If you want the broader picture on daily documentation habits and making logging a
+          consistent crew routine, our
+          <a href="/blog/construction-site-log-best-practices/"
+            >construction site log best practices</a
+          >
+          guide covers the discipline side — what to do when, who should own it, and why paper logs fall
+          short.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Construction daily report FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          File daily reports in minutes, not paperwork
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro's site log module covers every section of this template — personnel, work
+          performed, materials, visitors, issues, and photos — tied to your project and date. 14-day
+          free trial, no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Construction Daily Report: What to Include (+ Template)"
+        description="A field-ready guide to the construction daily report — what belongs in each section, how to fill it out completely, and a section-by-section template."
+        datePublished="2026-07-31"
+        related={[
+          {
+            href: '/features/site-logs/',
+            title: 'Site Logs',
+            description:
+              'Digital daily reports with personnel, work performed, materials, issues, and photos — tagged and searchable by project.',
+          },
+          {
+            href: '/blog/construction-site-log-best-practices/',
+            title: 'Construction Site Log Best Practices',
+            description:
+              'The discipline behind daily reporting: who should own it, when to file it, and how to make it a crew habit.',
+          },
+          {
+            href: '/features/change-orders/',
+            title: 'Change Orders',
+            description:
+              'Turn a delay or disruption logged in the field into a change order with the paper trail already attached.',
+          },
+          {
+            href: '/blog/construction-change-order-management/',
+            title: 'Change Order Management',
+            description:
+              'How to price, document, and track change orders so field events become billable scope instead of absorbed cost.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
