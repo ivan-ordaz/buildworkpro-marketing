@@ -85,6 +85,8 @@
           "messaging:send",
           "support:read",
           "reports:read",
+          "signatures:read",
+          "signatures:send",
           "audit:read",
           "settings:read",
           "settings:write",
@@ -297,6 +299,19 @@
             "type": "string",
             "minLength": 1
           },
+          "position": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "parentContactId": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "exclusiveMinimum": 0
+          },
           "email": {
             "type": [
               "string",
@@ -305,6 +320,24 @@
             "format": "email"
           },
           "phone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mobile": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "website": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
             "type": [
               "string",
               "null"
@@ -346,6 +379,19 @@
             "type": "string",
             "minLength": 1
           },
+          "position": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "parentContactId": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "exclusiveMinimum": 0
+          },
           "email": {
             "type": [
               "string",
@@ -354,6 +400,24 @@
             "format": "email"
           },
           "phone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mobile": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "website": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
             "type": [
               "string",
               "null"
@@ -440,6 +504,30 @@
             ]
           },
           "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
             "type": [
               "string",
               "null"
@@ -560,6 +648,33 @@
               "string",
               "null"
             ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
           }
         },
         "required": [
@@ -643,6 +758,33 @@
               "string",
               "null"
             ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
           }
         }
       },
@@ -858,6 +1000,24 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1027,6 +1187,27 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1157,6 +1338,27 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1264,6 +1466,24 @@
             ]
           },
           "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
             "type": [
               "string",
               "null"
@@ -2983,6 +3203,91 @@
         "required": [
           "tenant",
           "apiKey"
+        ]
+      },
+      "SignatureRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "entityType": {
+            "type": "string",
+            "enum": [
+              "bid",
+              "change_order"
+            ]
+          },
+          "entityId": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "signerName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "signerEmail": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sentAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "signedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "signedDocumentId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "signingUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Present only for callers holding signatures:send, and only while the request is pending or sent."
+          }
+        },
+        "required": [
+          "id",
+          "entityType",
+          "entityId",
+          "status",
+          "signerName",
+          "signerEmail",
+          "sentAt",
+          "signedAt",
+          "signedDocumentId"
         ]
       },
       "OauthClientRegistration": {
@@ -7023,6 +7328,27 @@
                       "null"
                     ]
                   },
+                  "siteCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "siteState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 100
+                  },
+                  "siteZipCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 20
+                  },
                   "latitude": {
                     "type": [
                       "string",
@@ -7324,6 +7650,27 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "siteCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "siteState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 100
+                  },
+                  "siteZipCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 20
                   },
                   "latitude": {
                     "type": [
@@ -8203,6 +8550,9 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "unitPrice": {
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -8380,6 +8730,9 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "unitPrice": {
+                    "type": "string"
                   }
                 }
               }
@@ -18977,6 +19330,356 @@
           }
         },
         "x-rate-limit-cost": 1
+      }
+    },
+    "/signature-requests": {
+      "get": {
+        "summary": "List e-signature requests",
+        "description": "Signature requests across bids and change orders, newest first. The recipient token is never returned; the signing URL requires signatures:send and an active request.",
+        "security": [
+          {
+            "bearerAuth": [
+              "signatures:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Signature Requests"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "bid",
+                "change_order"
+              ]
+            },
+            "required": false,
+            "name": "entityType",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "entityId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Signature requests page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SignatureRequest"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSignatureRequests",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/signature-requests/{id}": {
+      "get": {
+        "summary": "Get an e-signature request",
+        "security": [
+          {
+            "bearerAuth": [
+              "signatures:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Signature Requests"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Signature request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SignatureRequest"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSignatureRequestsById",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/signature-requests/{id}/resend": {
+      "post": {
+        "summary": "Resend an e-signature request",
+        "description": "Re-emails the SAME signing link. No new document is created. 409s when the request is not pending or sent.",
+        "security": [
+          {
+            "bearerAuth": [
+              "signatures:send"
+            ]
+          }
+        ],
+        "tags": [
+          "Signature Requests"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resend result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "emailSent": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "emailSent"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postSignatureRequestsByIdResend",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/signature-requests/{id}/void": {
+      "post": {
+        "summary": "Void an e-signature request",
+        "description": "Cancels an active request and kills its signing link. The stored row is the source of truth; cancelling the remote document is best-effort.",
+        "security": [
+          {
+            "bearerAuth": [
+              "signatures:send"
+            ]
+          }
+        ],
+        "tags": [
+          "Signature Requests"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Voided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SignatureRequest"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postSignatureRequestsByIdVoid",
+        "x-rate-limit-cost": 5
       }
     },
     "/oauth/authorize": {
