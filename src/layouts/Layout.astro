@@ -8,6 +8,8 @@ interface Props {
   description?: string;
   image?: string;
   noindex?: boolean;
+  /** 'article' for blog posts — anything else renders og:type website. */
+  ogType?: 'website' | 'article';
 }
 
 const {
@@ -15,6 +17,7 @@ const {
   description = 'The all-in-one platform for construction companies. Manage projects, contacts, quotes, billing, and your entire team from a single, powerful dashboard.',
   image = '/og-image.png',
   noindex = false,
+  ogType = 'website',
 } = Astro.props;
 
 const ogImageUrl = new URL(image, Astro.site).href;
@@ -294,7 +297,7 @@ const geoDefaultEnabled = import.meta.env.PROD;
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={Astro.url.href} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
@@ -323,7 +326,14 @@ const geoDefaultEnabled = import.meta.env.PROD;
           email: config.email.support,
           contactType: 'customer support',
         },
-        sameAs: [],
+        // Live third-party listings — entity-graph corroboration for a young
+        // domain. Only profiles that actually exist; add new ones as they go
+        // live (SourceForge is still pending review).
+        sameAs: [
+          'https://www.saashub.com/buildworkpro',
+          'https://www.capterra.com/p/10048861/BuildWorkPro/',
+          'https://www.g2.com/products/build-work-pro/reviews',
+        ],
       })}
     />
 

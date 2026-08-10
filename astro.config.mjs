@@ -44,7 +44,18 @@ export default defineConfig({
     prerenderEnvironment: 'node',
   }),
   integrations: [
-    sitemap(),
+    // The sitemap should advertise the pages that can rank, not the whole build
+    // (issue #126): 193 auto-generated /api/reference/operations/* pages (also
+    // noindexed via the Starlight Head override) plus the noindexed legal and
+    // app-store-compliance pages previously made up ~83% of a 285-URL sitemap
+    // on a domain Google is still forming an opinion of.
+    sitemap({
+      filter: (page) =>
+        !page.includes('/api/reference/operations/') &&
+        !['/terms/', '/privacy/', '/cookies/', '/delete-account/'].some((path) =>
+          page.endsWith(path)
+        ),
+    }),
     starlight({
       title: 'BuildWorkPro Docs',
       favicon: '/favicon.png',
@@ -59,6 +70,10 @@ export default defineConfig({
         },
       ],
       customCss: ['./src/styles/docs.css'],
+      components: {
+        // Adds noindex to /api/reference/operations/* — see the component.
+        Head: './src/components/starlight/Head.astro',
+      },
       plugins: [
         starlightOpenAPI([
           {
