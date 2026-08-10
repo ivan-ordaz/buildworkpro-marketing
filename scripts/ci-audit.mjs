@@ -12,6 +12,8 @@
  * and forces a human decision.
  */
 import { execSync } from 'node:child_process';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 // Reviewed advisories that are build/dev tooling only (never shipped to the
 // deployed Worker) and currently have no non-breaking fix. Revisit when fixes land.
@@ -34,7 +36,55 @@ const ALLOWLIST = {
   'GHSA-hm92-r4w5-c3mj': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-35p6-xmwp-9g52': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-g8m3-5g58-fq7m': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  // Second undici batch (2026-08). Same single path — `npm ls undici` still shows
+  // only @astrojs/cloudflare → @cloudflare/vite-plugin → miniflare → undici — so the
+  // reviewed rationale above applies unchanged.
+  'GHSA-8xcm-r25x-g524': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-4cwx-7wf7-3272': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-m8rv-5g2x-5cg5': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-jr45-8vmc-qm54': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-v3r7-h72x-cjcm': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  // sharp → libvips CVEs. Two paths, both build-time: astro's image optimization
+  // (runs under Node during prerender, per prerenderEnvironment: 'node') and
+  // miniflare. Cloudflare's runtime has no libvips and we ship no sharp binary.
+  // npm's only offered fix is a semver-major astro bump — see ASTRO_XSS below.
+  'GHSA-f88m-g3jw-g9cj':
+    'sharp/libvips via astro image optimization + miniflare — build-time only, never in the deployed Worker.',
 };
+
+/**
+ * Astro XSS advisories — CONDITIONAL exemptions, reviewed 2026-08-10.
+ *
+ * Unlike everything in ALLOWLIST, astro DOES run inside the deployed Worker, so
+ * "it's only build tooling" is not available as a reason. These are exempt only
+ * because none of the vulnerable code paths exist in this site, which was verified
+ * against `src/` — and that is a property of our source, not of astro, so it can
+ * silently stop being true the moment someone adds a view transition or an island.
+ *
+ * Each entry therefore carries a precondition. If `src/` starts matching, the
+ * exemption is revoked automatically and CI fails again with a pointed message.
+ * The real fix is astro >= 7.2.0 (semver-major across astro, @astrojs/cloudflare,
+ * starlight, mdx and expressive-code) — tracked separately.
+ */
+const ASTRO_XSS = {
+  'GHSA-4g3v-8h47-v7g6': 'Reflected XSS via unescaped View Transition animation properties',
+  'GHSA-f48w-9m4c-m7f5': 'XSS via unescaped spread attribute names in renderHTMLElement',
+  'GHSA-7pw4-f3q4-r2p2': 'XSS via unescaped transition:* directive values on hydrated islands',
+};
+
+/**
+ * Source patterns that would make the ASTRO_XSS advisories reachable. Verified
+ * absent on 2026-08-10; `SPREAD_BASELINE` pins the one spread attribute that does
+ * exist (`src/pages/developers.astro` — a hardcoded `download` attribute name, not
+ * attacker-controlled, so GHSA-f48w cannot fire on it).
+ */
+const REACHABILITY = [
+  { re: /transition:(name|animate|persist)\b/, why: 'a transition:* directive' },
+  { re: /<(ClientRouter|ViewTransitions)\b/, why: 'the view-transitions router' },
+  { re: /\bclient:(load|idle|visible|only|media)\b/, why: 'a hydrated island' },
+];
+const SPREAD_RE = /\{\s*\.\.\./g;
+const SPREAD_BASELINE = 1;
 
 const BLOCKING = new Set(['high', 'critical']);
 
@@ -49,6 +99,42 @@ function getAuditJson() {
     return err.stdout ? err.stdout.toString() : '';
   }
 }
+
+/** Every source file the site is built from (.astro/.ts/.tsx/.js/.jsx/.md/.mdx). */
+function sourceFiles(dir, acc = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) sourceFiles(path, acc);
+    else if (/\.(astro|[jt]sx?|mdx?)$/.test(entry.name)) acc.push(path);
+  }
+  return acc;
+}
+
+/**
+ * Re-verify the ASTRO_XSS preconditions. Returns [] while the vulnerable features
+ * stay unused; otherwise returns human-readable reasons the exemption is revoked.
+ */
+function astroExemptionBreaks() {
+  const breaks = [];
+  let spreads = 0;
+  for (const file of sourceFiles('src')) {
+    const text = readFileSync(file, 'utf8');
+    for (const { re, why } of REACHABILITY) {
+      if (re.test(text)) breaks.push(`${file} now uses ${why}`);
+    }
+    spreads += (text.match(SPREAD_RE) || []).length;
+  }
+  if (spreads !== SPREAD_BASELINE) {
+    breaks.push(
+      `spread-attribute count changed (${SPREAD_BASELINE} reviewed, ${spreads} found) — ` +
+        're-check that no spread supplies an attacker-controlled attribute NAME, then update SPREAD_BASELINE'
+    );
+  }
+  return breaks;
+}
+
+const astroBreaks = astroExemptionBreaks();
+const astroExempt = astroBreaks.length === 0;
 
 const raw = getAuditJson();
 if (!raw.trim()) {
@@ -71,10 +157,23 @@ for (const [name, vuln] of Object.entries(report.vulnerabilities || {})) {
   // Transitive packages carry no direct GHSA (their `via` lists source package
   // names); they are covered when we evaluate the source package itself.
   if (ids.size === 0) continue;
-  const unreviewed = [...ids].filter((id) => !ALLOWLIST[id]);
+  const unreviewed = [...ids].filter((id) => !ALLOWLIST[id] && !(astroExempt && ASTRO_XSS[id]));
   if (unreviewed.length > 0) {
     offenders.push({ name, severity: vuln.severity, ids: unreviewed });
   }
+}
+
+if (!astroExempt) {
+  console.error(
+    'The conditional Astro XSS exemption has been REVOKED — this site now reaches the\n' +
+      'vulnerable code paths:'
+  );
+  for (const b of astroBreaks) console.error(`  - ${b}`);
+  console.error(
+    '\nThese are real XSS advisories in a package that runs in the deployed Worker.\n' +
+      'Upgrade to astro >= 7.2.0, or remove the usage above. Do NOT move these IDs into\n' +
+      'ALLOWLIST — that list is for build tooling that never ships.'
+  );
 }
 
 if (offenders.length > 0) {
@@ -87,10 +186,13 @@ if (offenders.length > 0) {
       'If it is build/dev tooling with no shippable fix, add its GHSA id to ALLOWLIST ' +
       'in scripts/ci-audit.mjs with a justification.'
   );
-  process.exit(1);
 }
+
+if (!astroExempt || offenders.length > 0) process.exit(1);
 
 console.log(
   `No unreviewed high/critical production advisories ` +
-    `(${Object.keys(ALLOWLIST).length} build-tooling advisory IDs allowlisted).`
+    `(${Object.keys(ALLOWLIST).length} build-tooling advisory IDs allowlisted, ` +
+    `${Object.keys(ASTRO_XSS).length} astro XSS advisories conditionally exempt — ` +
+    `preconditions re-verified against src/).`
 );
