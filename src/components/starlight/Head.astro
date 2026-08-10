@@ -1,0 +1,14 @@
+---
+// Starlight Head override (issue #126). The 193 auto-generated
+// /api/reference/operations/* pages are thin near-duplicates with no meta
+// descriptions and no search demand — developers reach them from the reference
+// index, not Google. On a greenfield domain they dilute crawl priority and
+// quality signals, so they carry noindex (and are filtered from the sitemap in
+// astro.config.mjs). Human docs and the rest of the API docs stay indexable.
+import Default from '@astrojs/starlight/components/Head.astro';
+
+const noindex = Astro.url.pathname.startsWith('/api/reference/operations/');
+---
+
+<Default><slot /></Default>
+{noindex && <meta name="robots" content="noindex, follow" />}

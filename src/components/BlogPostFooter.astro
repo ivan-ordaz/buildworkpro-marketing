@@ -11,10 +11,12 @@ interface Props {
   headline: string;
   description: string;
   datePublished: string; // ISO 8601, e.g. '2026-03-10'
+  /** ISO 8601 — set when a post gets a real content update. */
+  dateModified?: string;
   related?: RelatedLink[];
 }
 
-const { headline, description, datePublished, related = [] } = Astro.props;
+const { headline, description, datePublished, dateModified, related = [] } = Astro.props;
 
 const articleUrl = Astro.url.href;
 const ogImage = new URL('/og-image.png', Astro.site).href;
@@ -25,7 +27,7 @@ const blogPostingSchema = {
   headline,
   description,
   datePublished,
-  dateModified: datePublished,
+  dateModified: dateModified ?? datePublished,
   image: ogImage,
   url: articleUrl,
   mainEntityOfPage: {
