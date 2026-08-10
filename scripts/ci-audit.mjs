@@ -15,6 +15,12 @@ import { execSync } from 'node:child_process';
 
 // Reviewed advisories that are build/dev tooling only (never shipped to the
 // deployed Worker) and currently have no non-breaking fix. Revisit when fixes land.
+//
+// As of the Astro 7 upgrade, every entry below is INERT — `npm audit --omit=dev`
+// reports zero production vulnerabilities. They are kept because each records a
+// standing review of a dependency path (miniflare, esbuild) that can reappear the
+// moment a transitive pin moves; deleting them would force the same analysis to be
+// redone from scratch. A genuinely new advisory still blocks CI either way.
 const ALLOWLIST = {
   'GHSA-gv7w-rqvm-qjhr':
     'esbuild Deno-install integrity RCE — build-time only, installed via npm, never in the deployed Worker. No fix available.',
@@ -34,7 +40,24 @@ const ALLOWLIST = {
   'GHSA-hm92-r4w5-c3mj': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-35p6-xmwp-9g52': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-g8m3-5g58-fq7m': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  // Second undici batch (2026-08). Same single path — `npm ls undici` still shows
+  // only @astrojs/cloudflare → @cloudflare/vite-plugin → miniflare → undici — so the
+  // reviewed rationale above applies unchanged.
+  'GHSA-8xcm-r25x-g524': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-4cwx-7wf7-3272': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-m8rv-5g2x-5cg5': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-jr45-8vmc-qm54': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  'GHSA-v3r7-h72x-cjcm': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
 };
+
+// The three astro XSS advisories (GHSA-4g3v-8h47-v7g6, GHSA-f48w-9m4c-m7f5,
+// GHSA-7pw4-f3q4-r2p2) and the sharp/libvips one (GHSA-f88m-g3jw-g9cj) used to be
+// exempted here — astro conditionally, on the verified basis that this site used no
+// view transitions, islands or dynamic spread attribute names. All four are FIXED
+// as of astro 7.2.0 / sharp 0.35.3, so both the entries and the source-scanning
+// machinery that policed the astro exemption are gone. If any of them ever returns,
+// it should block CI and be re-reviewed on the facts of that day — not inherit a
+// decision made in August 2026 about a version we no longer run.
 
 const BLOCKING = new Set(['high', 'critical']);
 
@@ -87,10 +110,11 @@ if (offenders.length > 0) {
       'If it is build/dev tooling with no shippable fix, add its GHSA id to ALLOWLIST ' +
       'in scripts/ci-audit.mjs with a justification.'
   );
-  process.exit(1);
 }
+
+if (offenders.length > 0) process.exit(1);
 
 console.log(
   `No unreviewed high/critical production advisories ` +
-    `(${Object.keys(ALLOWLIST).length} build-tooling advisory IDs allowlisted).`
+    `(${Object.keys(ALLOWLIST).length} build-tooling advisory IDs allowlisted, all currently inert).`
 );

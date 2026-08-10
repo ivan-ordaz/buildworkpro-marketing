@@ -41,5 +41,16 @@ export default defineConfig({
     timeout: 120_000,
     stdout: 'pipe',
     stderr: 'pipe',
+    env: {
+      // Astro 7 detects coding agents (via `am-i-vibing`) and, when it thinks one
+      // is driving, daemonizes `astro dev` and switches to JSON logging. The
+      // foreground process then exits immediately and Playwright kills the run with
+      // "Process from config.webServer exited early." CI is unaffected — a GitHub
+      // runner is not an agent — but an E2E run started from inside an agent
+      // session dies before the first test. Setting this variable at all (any
+      // value) disables the detection; `astro dev` stays in the foreground for
+      // Playwright to manage and tear down.
+      ASTRO_DEV_BACKGROUND: '0',
+    },
   },
 });
