@@ -5,21 +5,9 @@ import Footer from '../../components/Footer.astro';
 import FAQSection from '../../components/FAQSection.astro';
 import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
+import { solutionsIncluded } from '../../data/included';
 
-const included = [
-  'Unlimited users',
-  'Unlimited projects',
-  'Bids & estimates',
-  'Pay applications',
-  'Change orders',
-  'Site logs & daily reports',
-  'Gantt charts & scheduling',
-  'Sales pipeline & CRM',
-  'Time tracking',
-  'Role-based permissions',
-  'Reports & analytics',
-  'Document management',
-];
+const included = solutionsIncluded;
 
 const faqs = [
   {

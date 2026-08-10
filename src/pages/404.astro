@@ -1,0 +1,58 @@
+---
+// Marketing-branded 404 (issue #127). Without this file, every bad URL —
+// including typos in paid-ad links — landed on Starlight's dark docs 404 with
+// developer chrome and no path back to the funnel. A project 404 page
+// overrides Starlight's.
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { config } from '../config';
+
+const shortcuts = [
+  { label: 'Features', href: '/features/' },
+  { label: 'Pricing', href: '/pricing/' },
+  { label: 'Solutions by trade', href: '/solutions/' },
+  { label: 'Compare', href: '/compare/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Docs', href: '/docs/' },
+];
+---
+
+<Layout title="Page Not Found - BuildWorkPro" description="That page doesn't exist." noindex>
+  <Header />
+  <main class="pt-32 pb-24">
+    <section class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">404</p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+        That page doesn't exist
+      </h1>
+      <p class="mt-6 text-lg text-slate-500 leading-relaxed">
+        The link may be outdated or mistyped. Here's where you probably want to go:
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        {
+          shortcuts.map((item) => (
+            <a
+              href={item.href}
+              class="inline-flex items-center px-4 py-2 rounded-lg border border-slate-200 text-sm font-medium text-slate-700 hover:border-brand-300 hover:text-brand-700 transition-colors"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+      <div class="mt-12">
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+        >
+          Start free trial
+        </a>
+        <p class="mt-3 text-sm text-slate-500">
+          $79/month flat · 14-day free trial · No credit card required
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

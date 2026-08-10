@@ -22,6 +22,7 @@ export const planFeatures: readonly string[] = [
   'Bids & estimates',
   'Pay applications',
   'Change orders',
+  'E-signatures (bids & change orders)',
   'Site logs',
   'Time tracking',
   'Sales pipeline & CRM',
@@ -58,6 +59,6 @@ export const pricingFaq: readonly { question: string; answer: string }[] = [
   {
     question: 'Is anything locked behind a higher tier?',
     answer:
-      'There is no higher tier. Bids, pay applications, change orders, time tracking, QuickBooks sync, and the API are all included in the one price.',
+      'There is no higher tier. Bids, pay applications, change orders, legally-binding e-signatures, time tracking, QuickBooks sync, and the API are all included in the one price.',
   },
 ];

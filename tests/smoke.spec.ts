@@ -60,9 +60,14 @@ test.describe('docs', () => {
 });
 
 test.describe('error handling', () => {
-  test('unknown route returns 404', async ({ page }) => {
+  test('unknown route returns the marketing-branded 404', async ({ page }) => {
     const response = await page.goto('/this-page-does-not-exist-xyz/');
     expect(response?.status()).toBe(404);
+    // src/pages/404.astro must win over Starlight's dark docs 404 — a paid
+    // visitor mistyping a URL should land on marketing chrome with a way back.
+    await expect(page).toHaveTitle(/Page Not Found - BuildWorkPro/);
+    await expect(page.getByRole('heading', { name: "That page doesn't exist" })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Pricing' }).first()).toBeVisible();
   });
 });
 

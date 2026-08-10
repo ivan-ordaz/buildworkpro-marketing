@@ -20,7 +20,9 @@ const softwareApplicationSchema = {
     'Construction project management and ERP software for subcontractors. Bidding, pay applications, change orders, project management, site logs, time tracking, CRM, and reporting in one platform.',
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: 'Construction Management Software',
-  operatingSystem: 'Web, iOS, Android',
+  // 'Web' only until the iOS/Android store listings are live (issue #127) —
+  // structured data must never claim apps that can't be found in the stores.
+  operatingSystem: 'Web',
   url: config.siteUrl,
   image: `${config.siteUrl}/og-image.png`,
   offers: {
