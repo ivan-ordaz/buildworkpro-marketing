@@ -66,14 +66,9 @@ test.describe('error handling', () => {
   });
 });
 
-test.describe('api endpoints (server-side)', () => {
-  test('contact endpoint rejects empty payload', async ({ request }) => {
-    const response = await request.post('/api/contact', {
-      data: {},
-      failOnStatusCode: false,
-    });
-    // Missing turnstile token / missing required fields → 400.
-    expect(response.status()).toBeGreaterThanOrEqual(400);
-    expect(response.status()).toBeLessThan(500);
-  });
-});
+// The server-side API coverage that used to live here moved to
+// `tests/api-contact.spec.ts`, which runs under the `api` project against
+// `astro preview`. It asserted `400 <= status < 500` against `/api/contact` — no
+// trailing slash — and passed on the resulting 404 without ever reaching the
+// endpoint. The dev server cannot execute that route at all; see the runtime split
+// documented in playwright.config.ts.
