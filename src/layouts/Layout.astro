@@ -120,6 +120,9 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
           functionality_storage: 'denied',
           personalization_storage: 'denied',
         });
+        // If the Pixel was already loaded this pageview (geo-default posture),
+        // stop it immediately; the stored decline keeps it from loading again.
+        if (window.fbq) window.fbq('consent', 'revoke');
       };
       window.bwpLoadGA = function () {
         if (window.__bwpGALoaded) return;
@@ -169,10 +172,14 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
           /* best-effort — swallow */
         }
       };
-      // Apply any stored choice, then load. Three postures:
-      //  • Declined     → fully disable GA, load nothing.
-      //  • Accepted     → grant consent + full GA + Meta Pixel.
-      //  • No choice yet → GA loads cookieless (default-deny); no pixel.
+      // Apply any stored choice, then load. Four postures (issue #125):
+      //  • Declined      → fully disable GA, load nothing.
+      //  • Accepted      → grant consent + full GA + Meta Pixel.
+      //  • No choice, EEA/UK/CH or unknown region → GA cookieless (default-deny);
+      //    no pixel until Accept (opt-in, as before).
+      //  • No choice, everywhere else (US target market) → opt-out posture:
+      //    consent granted + pixel loads by default; Decline (banner or the
+      //    footer "Cookie settings" link) revokes and is remembered.
       let bwpAccepted = false;
       let bwpDeclined = false;
       try {
@@ -183,10 +190,84 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
       }
       if (bwpDeclined) {
         window['ga-disable-G-REK78NBR14'] = true;
-      } else {
-        if (bwpAccepted) window.bwpGrantAnalyticsConsent();
+      } else if (bwpAccepted) {
+        window.bwpGrantAnalyticsConsent();
         window.bwpLoadGA();
-        if (bwpAccepted) window.bwpLoadMetaPixel();
+        window.bwpLoadMetaPixel();
+      } else {
+        window.bwpLoadGA();
+        // Opt-in regions: EU/EEA member states + UK + Switzerland. Anything
+        // outside the list defaults to measurement-on with opt-out. A missing
+        // or failed lookup fails CLOSED to the opt-in posture.
+        window.bwpApplyGeoDefault = function (country) {
+          const optInRegions = [
+            'AT',
+            'BE',
+            'BG',
+            'HR',
+            'CY',
+            'CZ',
+            'DK',
+            'EE',
+            'FI',
+            'FR',
+            'DE',
+            'GR',
+            'HU',
+            'IE',
+            'IS',
+            'IT',
+            'LI',
+            'LV',
+            'LT',
+            'LU',
+            'MT',
+            'NL',
+            'NO',
+            'PL',
+            'PT',
+            'RO',
+            'SK',
+            'SI',
+            'ES',
+            'SE',
+            'GB',
+            'CH',
+          ];
+          if (!country || optInRegions.indexOf(country) !== -1) return;
+          // Re-check: an Accept/Decline click may have landed while the geo
+          // lookup was in flight — an explicit choice always wins.
+          try {
+            if (localStorage.getItem('bwp-cookies-declined')) return;
+          } catch {
+            /* unreadable → keep going, same as no choice */
+          }
+          window.bwpGrantAnalyticsConsent();
+          window.bwpLoadMetaPixel();
+        };
+        try {
+          const cachedCountry = sessionStorage.getItem('bwp-geo');
+          if (cachedCountry) {
+            window.bwpApplyGeoDefault(cachedCountry);
+          } else {
+            fetch('/api/geo/')
+              .then((r) => (r.ok ? r.json() : null))
+              .then((d) => {
+                if (!d || !d.country) return;
+                try {
+                  sessionStorage.setItem('bwp-geo', d.country);
+                } catch {
+                  /* best-effort cache */
+                }
+                window.bwpApplyGeoDefault(d.country);
+              })
+              .catch(() => {
+                /* lookup failed → stay opt-in */
+              });
+          }
+        } catch {
+          /* sessionStorage unavailable → stay opt-in */
+        }
       }
     </script>
 

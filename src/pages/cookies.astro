@@ -17,7 +17,7 @@ import { config } from '../config';
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Cookie Policy</h1>
         <p class="mt-3 text-sm text-slate-400">
-          Effective Date: April 9, 2026 &middot; Last Updated: June 23, 2026
+          Effective Date: April 9, 2026 &middot; Last Updated: August 10, 2026
         </p>
       </div>
 
@@ -153,26 +153,36 @@ import { config } from '../config';
           The BuildWorkPro <strong>marketing website</strong> uses Google Analytics 4 to understand how
           visitors find and use our pages, and the <strong>Meta (Facebook) Pixel</strong> to measure the
           performance of our advertising and to show relevant ads to people who have visited the site.
-          We handle these two technologies differently:
+          The default behavior depends on where you are visiting from:
         </p>
         <ul>
           <li>
-            <strong>Google Analytics 4</strong> runs under Google Consent Mode v2 with every signal denied
-            by default. In that state it sets <strong>no cookies</strong> and sends only anonymized, aggregated
-            measurement pings (no advertising identifiers). It begins using cookies such as <code
-              >_ga</code
-            > only after you click &ldquo;Accept.&rdquo; If you click &ldquo;Decline,&rdquo; Google Analytics
-            is disabled entirely and sends nothing.
+            <strong
+              >If you are in the European Economic Area, the United Kingdom, or Switzerland</strong
+            >, these technologies are strictly opt-in. Google Analytics 4 runs under Google Consent
+            Mode v2 with every signal denied by default — in that state it sets
+            <strong>no cookies</strong> and sends only anonymized, aggregated measurement pings (no advertising
+            identifiers) — and begins using cookies such as <code>_ga</code> only after you click &ldquo;Accept.&rdquo;
+            The Meta (Facebook) Pixel has no cookieless mode, so its script is <strong
+              >not loaded at all</strong
+            > until you click &ldquo;Accept.&rdquo;
           </li>
           <li>
-            The <strong>Meta (Facebook) Pixel</strong> has no cookieless mode, so its script is
-            <strong>not loaded at all</strong> until you click &ldquo;Accept.&rdquo; If you decline or
-            ignore the banner, the Pixel never loads and none of its cookies are set.
+            <strong>If you are visiting from anywhere else (including the United States)</strong>,
+            analytics and advertising measurement are on by default: Google Analytics runs with full
+            consent signals and the Meta Pixel loads and may set the cookies listed below, unless
+            and until you opt out. Clicking &ldquo;Decline&rdquo; on the banner (or using the
+            &ldquo;Cookie settings&rdquo; link in the footer at any time) is a full opt-out of this
+            measurement, including any &ldquo;sale&rdquo; or &ldquo;sharing&rdquo; of personal
+            information for cross-context behavioral advertising as those terms are defined under
+            the California Consumer Privacy Act (CCPA/CPRA) and similar U.S. state laws. We honor
+            your choice on this device from that point on.
           </li>
         </ul>
         <p>
-          You can change your choice at any time via the &ldquo;Cookie settings&rdquo; link in the
-          footer.
+          We determine your region from your IP address at the network edge; if it cannot be
+          determined, we apply the stricter opt-in behavior. You can change your choice at any time
+          via the &ldquo;Cookie settings&rdquo; link in the footer.
         </p>
 
         <div class="overflow-x-auto">
@@ -188,31 +198,33 @@ import { config } from '../config';
               <tr>
                 <td><code>_ga</code></td>
                 <td
-                  >Set by Google Analytics (only after you accept) to distinguish unique visitors.</td
+                  >Set by Google Analytics (once analytics/advertising consent applies per Section
+                  2.3) to distinguish unique visitors.</td
                 >
                 <td>Up to 2 years.</td>
               </tr>
               <tr>
                 <td><code>_ga_*</code></td>
                 <td
-                  >Set by Google Analytics (only after you accept) to maintain session state for our
-                  measurement property.</td
+                  >Set by Google Analytics (once analytics/advertising consent applies per Section
+                  2.3) to maintain session state for our measurement property.</td
                 >
                 <td>Up to 2 years.</td>
               </tr>
               <tr>
                 <td><code>_fbp</code></td>
                 <td
-                  >Set by the Meta Pixel (only after you accept) to identify browsers for ad
-                  measurement and delivery.</td
+                  >Set by the Meta Pixel (once analytics/advertising consent applies per Section
+                  2.3) to identify browsers for ad measurement and delivery.</td
                 >
                 <td>Up to 3 months.</td>
               </tr>
               <tr>
                 <td><code>fr</code> / <code>_fbc</code></td>
                 <td
-                  >Set or read by Meta (only after you accept) for advertising attribution and
-                  retargeting when you arrive from or interact with a Meta ad.</td
+                  >Set or read by Meta (once analytics/advertising consent applies per Section 2.3)
+                  for advertising attribution and retargeting when you arrive from or interact with
+                  a Meta ad.</td
                 >
                 <td>Up to 3 months.</td>
               </tr>
@@ -242,10 +254,11 @@ import { config } from '../config';
         <p>We do not deploy any of the following:</p>
         <ul>
           <li>
-            <strong>Advertising cookies without consent:</strong> The Meta Pixel described in Section
-            2.3 is the only advertising/retargeting technology we use, and it loads strictly after you
-            accept. We do not use any advertising or conversion-tracking cookies before consent, and we
-            do not use other ad networks&rsquo; tags (e.g., Google Ads remarketing, LinkedIn Insight Tag).
+            <strong>Undisclosed advertising cookies:</strong> The Meta Pixel described in Section 2.3
+            is the only advertising/retargeting technology we use, and it runs only under the regional
+            consent posture described there (opt-in in the EEA/UK/Switzerland; on by default with a full
+            opt-out everywhere else). We do not use other ad networks&rsquo; tags (e.g., Google Ads remarketing,
+            LinkedIn Insight Tag).
           </li>
           <li>
             <strong>Session recording or heat-mapping tools:</strong> We do not use Hotjar, FullStory,
