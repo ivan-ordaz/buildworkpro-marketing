@@ -147,8 +147,10 @@ const badgeColorMap: Record<string, { bg: string; text: string; check: string }>
           <div
             class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${isLast ? '' : 'mb-28 lg:mb-36'}`}
           >
-            {/* Text content */}
-            <div class={isImageLeft ? 'order-2 lg:order-2' : ''}>
+            {/* Text content. Ordering applies at lg only: below the grid breakpoint the
+                text must always precede its screenshot, or image-left sections stack two
+                adjacent unlabeled screenshots between sections on mobile. */}
+            <div class={isImageLeft ? 'lg:order-2' : ''}>
               <div
                 class={`inline-flex items-center gap-2 ${colors.bg} ${colors.text} px-3 py-1 rounded-full text-sm font-medium mb-6`}
               >
@@ -177,7 +179,7 @@ const badgeColorMap: Record<string, { bg: string; text: string; check: string }>
             </div>
 
             {/* Screenshot */}
-            <div class={isImageLeft ? 'order-1 lg:order-1' : ''}>
+            <div class={isImageLeft ? 'lg:order-1' : ''}>
               <div class="rounded-2xl border border-slate-200/80 shadow-xl overflow-hidden bg-white">
                 <img
                   src={section.image}
