@@ -74,6 +74,23 @@ test.describe('/pricing/ page', () => {
     await expect(faq).toContainText(/14 days are up/i);
     await expect(faq).toContainText(/per user/i);
     await expect(faq).toContainText(/cancel/i);
+    // Issue #128: the two objections that were unhandled — future price
+    // changes, and onboarding/support fees.
+    await expect(faq).toContainText(/price go up/i);
+    await expect(faq).toContainText(/onboarding/i);
+  });
+
+  test('shows the 5-user honest-math table with named competitors', async ({ page }) => {
+    await page.goto('/pricing/');
+
+    const math = page.locator('[data-testid="crew-math"]');
+    // Named anchors replaced the generic strikethrough (issue #128). All five
+    // competitors plus the highlighted BuildWorkPro row must render.
+    for (const name of ['Procore', 'Buildertrend', 'JobTread', 'Knowify', 'Contractor Foreman']) {
+      await expect(math.getByText(name).first()).toBeVisible();
+    }
+    await expect(math).toContainText(/\$79/);
+    await expect(math).toContainText(/verify current pricing/i);
   });
 
   test('the header nav links to the page, so it is not an orphan', async ({ page }) => {
