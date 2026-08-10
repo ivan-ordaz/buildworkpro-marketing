@@ -93,7 +93,7 @@ const integrations: Integration[] = [
     title: 'Zapier',
     description:
       'Connect BuildWorkPro to 6,000+ apps without writing code. Pre-built triggers and actions for the most-used workflows.',
-    href: 'mailto:integrations@buildworkpro.com?subject=Zapier%20Waitlist',
+    href: `mailto:${config.email.hello}?subject=Zapier%20Waitlist`,
     status: 'coming-soon',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
     color: 'indigo',
@@ -218,7 +218,7 @@ const statusBadge: Record<Status, { label: string; classes: string }> = {
           </div>
           <div class="mt-4 md:mt-0 md:ml-8 shrink-0">
             <a
-              href="mailto:integrations@buildworkpro.com?subject=Integration%20Request"
+              href={`mailto:${config.email.hello}?subject=Integration%20Request`}
               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-colors"
             >
               Request an integration

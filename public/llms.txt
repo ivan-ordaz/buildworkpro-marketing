@@ -2,7 +2,7 @@
 
 > BuildWorkPro is construction project management software built specifically for trade subcontractors — electrical, plumbing, HVAC, roofing, concrete, framing, glazing, and other specialty contractors. One flat price ($79/month or $790/year), unlimited users and projects, all features included, 14-day free trial with no credit card required.
 
-BuildWorkPro covers the full subcontractor workflow: bidding and estimating with line items, labor rates, and markup; AIA-style pay applications with schedule of values; change orders with approval workflows; project management with phases, tasks, and Gantt charts; daily site logs; time tracking; a sales pipeline and CRM; document management; and reporting. It is web-based and works on phones, tablets, and desktops.
+BuildWorkPro covers the full subcontractor workflow: bidding and estimating with line items, labor rates, and markup; AIA-style pay applications with schedule of values; change orders with approval workflows; built-in legally-binding e-signatures for bids and change orders; project management with phases, tasks, and Gantt charts; daily site logs; time tracking; a sales pipeline and CRM; QuickBooks Online sync; document management; and reporting. It is web-based and works on phones, tablets, and desktops.
 
 Unlike platforms built for general contractors (Procore) or residential home builders (Buildertrend), BuildWorkPro is priced and designed for specialty subcontractors: flat pricing instead of construction-volume quotes, self-serve signup instead of sales demos, and workflows centered on sub-to-GC billing rather than owner-facing portals.
 
@@ -32,6 +32,7 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 
 - [BuildWorkPro vs Procore](https://buildworkpro.com/compare/procore-alternative/): Procore alternative for subcontractors
 - [BuildWorkPro vs Buildertrend](https://buildworkpro.com/compare/buildertrend-alternative/): Buildertrend alternative for trade contractors
+- [BuildWorkPro vs Contractor Foreman](https://buildworkpro.com/compare/contractor-foreman-alternative/): Contractor Foreman alternative for subcontractors
 
 ## Documentation
 
@@ -41,9 +42,14 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 
 ## Pricing
 
+- [Pricing page](https://buildworkpro.com/pricing/)
 - $79/month or $790/year (two months free on annual billing)
 - Unlimited users, unlimited projects, all features included — no per-user fees, no tiers, no add-on modules
 - 14-day free trial, no credit card required, cancel anytime
+
+## Integrations
+
+- [Integrations overview](https://buildworkpro.com/integrations/): QuickBooks Online, Gmail, Google Calendar, Claude Desktop and ChatGPT via MCP, REST API + webhooks
 
 ## Company
 
