@@ -32,7 +32,12 @@ Run the full suite locally before pushing: `npm run check && npm run lint && npm
 - Open a PR from a feature branch (`feat/...`, `fix/...`, `docs/...`). Cloudflare's auto-deploy only runs on push to `main`, so the merge is the deploy.
 - **CI runs on every PR and every push to `main`** via `.github/workflows/ci.yml`. The aggregate status check is named **`CI`** and is the required check for merging.
 - CI runs six parallel jobs: **Lint** (`eslint`), **Format** (`prettier --check`), **Typecheck** (`astro check`), **Build** (`astro build`), **E2E (Playwright)** (smoke tests in `tests/smoke.spec.ts`), and **Audit** (`npm audit --omit=dev --audit-level=high` — gates production-runtime advisories only; dev/build tooling advisories never ship and don't block merges).
-- E2E uses `astro dev` as a webServer, so SSR routes (`/api/contact`, `/api/request-access`) are exercised alongside prerendered pages. Tests intentionally hit empty payloads to verify the endpoints reject without leaking 5xxs.
+- E2E runs **two servers**, because one runtime cannot cover both halves of the site:
+  - **`chromium` project → `astro dev`** (port 4321) for prerendered pages and docs.
+  - **`api` project → `astro preview`** (port 4322, wrangler → workerd) for `tests/api-*.spec.ts`. The dev server **cannot** execute the SSR routes: `src/pages/api/contact.ts` statically imports `cloudflare:workers`, and dev resolves SSR modules in Astro's Node environment because the adapter is pinned to `prerenderEnvironment: 'node'` — which the build requires, since under workerd `satteri` resolves to its browser entry and fails on `@bruits/satteri-wasm32-wasi`. In dev the route 500s with `FailedToLoadModuleSSR`.
+  - The preview webServer command runs `npm run build` first on purpose — `astro preview` serves whatever is in `dist/`, so a stale bundle would otherwise answer the assertions.
+  - API tests assert **exact** status and body (`400` + `{ error: 'Verification required.' }`) and address the canonical `/api/contact/` form. `trailingSlash: 'always'` makes the un-slashed path a 404 in dev and a redirect in production — the previous test asserted only `400 <= status < 500` against `/api/contact` and passed on that 404 for months without ever reaching the endpoint.
+  - `/api/contact` is currently the **only** SSR route; there is no `/api/request-access` endpoint.
 - **Cloudflare's git auto-deploy still runs the production deploy.** CI verifies code quality; Cloudflare ships it. Don't add a deploy step to GitHub Actions unless we explicitly decide to take over deploys.
 - If CI is failing locally and you can't reproduce, check `playwright-report/` (Playwright leaves an HTML report there on failure) and download the `playwright-report` artifact from the failed CI run.
 
