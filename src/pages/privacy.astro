@@ -17,7 +17,7 @@ import { config } from '../config';
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Privacy Policy</h1>
         <p class="mt-3 text-sm text-slate-400">
-          Effective Date: April 9, 2026 &middot; Last Updated: June 23, 2026
+          Effective Date: April 9, 2026 &middot; Last Updated: August 10, 2026
         </p>
       </div>
 
@@ -131,10 +131,12 @@ import { config } from '../config';
           <li>
             <strong>Cookies and Similar Technologies:</strong> Session identifiers, CSRF tokens, tenant
             context identifiers, and preference storage. On the marketing website, Google Analytics 4
-            runs under Google Consent Mode v2 with consent denied by default &mdash; in that state it
-            sets no cookies and sends only anonymized, aggregated measurement signals (no advertising
-            identifiers); it uses cookies only after you accept, and is disabled entirely if you decline.
-            The Meta (Facebook) Pixel sets cookies and does not load at all until you explicitly accept.
+            and the Meta (Facebook) Pixel run under a regional consent posture: for visitors in the EEA,
+            UK, or Switzerland they are strictly opt-in (Google Analytics runs cookieless under Consent
+            Mode v2 with consent denied, and the Pixel does not load, until you accept); for visitors
+            everywhere else, including the United States, they run by default and declining in the banner
+            or the footer &ldquo;Cookie settings&rdquo; link is a full, persistent opt-out. We determine
+            region from your IP address and apply the stricter opt-in behavior when it cannot be determined.
             The authenticated web and mobile applications do not deploy advertising, analytics, or cross-site
             tracking cookies. For a detailed explanation, see our
             <a href="/cookies/">Cookie Policy</a>.
@@ -508,14 +510,14 @@ import { config } from '../config';
           </li>
           <li>
             <strong>Right to Opt Out of Sale/Sharing:</strong> BuildWorkPro does not sell personal information.
-            On the marketing website, the consent-based Meta (Facebook) Pixel may constitute &ldquo;sharing&rdquo;
-            for cross-context behavioral advertising under certain state laws. It is off by default and
-            loads only if you accept advertising cookies in the banner &mdash; so declining (or ignoring)
-            the banner, or using the &ldquo;Cookie settings&rdquo; link in the footer, is your opt-out.
-            When you create an account, we also share a hashed (irreversible) form of your signup details
-            with Meta via its server-side Conversions API to measure ad-driven signups; this is conversion
-            measurement rather than cross-context behavioral advertising. We do not share personal information
-            for advertising from within the authenticated application.
+            On the marketing website, the Meta (Facebook) Pixel may constitute &ldquo;sharing&rdquo; for
+            cross-context behavioral advertising under certain state laws. For U.S. visitors it runs by
+            default; clicking &ldquo;Decline&rdquo; in the cookie banner, or using the &ldquo;Cookie settings&rdquo;
+            link in the footer at any time, is a full opt-out of that sharing, honored persistently on
+            your device. When you create an account, we also share a hashed (irreversible) form of your
+            signup details with Meta via its server-side Conversions API to measure ad-driven signups;
+            this is conversion measurement rather than cross-context behavioral advertising. We do not
+            share personal information for advertising from within the authenticated application.
           </li>
           <li>
             <strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising

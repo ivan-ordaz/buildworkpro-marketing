@@ -14,3 +14,6 @@ marketing-capture
 # MDX files contain JSX-style comments ({/* ... */}) that Prettier's MDX
 # parser mangles into invalid markdown escapes ({/\* ... \*/}). Skip them.
 **/*.mdx
+
+# Machine-local growth-review reports and sweep data (untracked, not part of the site)
+.growth-review/

@@ -12,6 +12,12 @@ const env = loadEnv('', process.cwd(), 'PUBLIC_');
 // https://astro.build/config
 export default defineConfig({
   site: env.PUBLIC_SITE_URL || 'https://buildworkpro.com',
+  // compressHTML strips the whitespace between a text node and a following inline
+  // element on its own source line, producing run-together copy ("softwarefor
+  // subcontractors", "AIA-stylepay") — 314 instances sitewide including the
+  // homepage hero H1. Prettier's 100-char wrap makes that source shape routine,
+  // so compression must stay off. Guarded by tests/api-no-collapsed-spaces.spec.ts.
+  compressHTML: false,
   trailingSlash: 'always',
   build: {
     format: 'directory',

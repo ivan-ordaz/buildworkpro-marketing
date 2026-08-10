@@ -35,8 +35,9 @@ const compare = [
         <img src="/logo.png" alt="BuildWorkPro" class="h-11 lg:h-12 w-auto" />
       </a>
 
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-6 lg:gap-8" aria-label="Primary">
+      <!-- Desktop Nav. lg:, not md:: at exactly 768px the full nav (5 items + Log in
+           + CTA + 180px logo) cannot fit — "Log in" wraps into "Blog" on iPad portrait. -->
+      <nav class="hidden lg:flex items-center gap-6 lg:gap-8" aria-label="Primary">
         <!-- Features dropdown -->
         <div class="relative group/menu">
           <button
@@ -205,7 +206,7 @@ const compare = [
       </nav>
 
       <!-- CTA Buttons -->
-      <div class="hidden md:flex items-center gap-3">
+      <div class="hidden lg:flex items-center gap-3">
         <a
           href={config.loginUrl}
           class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
@@ -220,28 +221,43 @@ const compare = [
         </a>
       </div>
 
-      <!-- Mobile menu button -->
-      <button
-        id="mobile-menu-btn"
-        class="md:hidden p-2 text-slate-600 hover:text-slate-900"
-        aria-label="Toggle menu"
-        aria-expanded="false"
-      >
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path
-            id="menu-icon"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
+      <!-- Below lg the trial CTA must stay visible in the bar itself — paid mobile
+           traffic previously saw no CTA anywhere without opening the hamburger. -->
+      <div class="flex lg:hidden items-center gap-2">
+        <a
+          href={config.signupUrl}
+          class="text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 px-3.5 py-2 rounded-lg transition-colors whitespace-nowrap"
+        >
+          Start free trial
+        </a>
+        <button
+          id="mobile-menu-btn"
+          class="p-2 text-slate-600 hover:text-slate-900"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              id="menu-icon"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- Mobile Menu -->
   <div
     id="mobile-menu"
-    class="hidden md:hidden bg-white border-t border-slate-100 shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto"
+    class="hidden lg:hidden bg-white border-t border-slate-100 shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto"
   >
     <div class="px-4 py-4 space-y-1">
       <!-- Features accordion -->
