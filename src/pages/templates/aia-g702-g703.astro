@@ -1,0 +1,207 @@
+---
+// First page of the /templates/ hub (issue #134): the AIA G702/G703 cluster —
+// ~7,100 searches/mo across g703, aia g702, g702 form, and aia pay application,
+// all KD 0–3. Ungated download per the Q5 decision (open file = link magnet);
+// the "complete pack" email capture ships with the hub build-out.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { config } from '../../config';
+
+const FILE = '/templates-files/pay-application-template-g702-g703-style.xlsx';
+
+const whatsInside = [
+  'G702-style summary: contract sum, completed & stored, retainage, current payment due',
+  'G703-style continuation sheet with 22 schedule-of-values rows',
+  'Formulas wired end to end — totals, % complete, balance to finish, retainage',
+  'Adjustable retainage rate (defaults to 10%) that drives every line',
+  'Previous-applications column so each period carries forward correctly',
+  'Signature block and a how-to-use sheet',
+];
+
+const faqs = [
+  {
+    question: 'What are the G702 and G703 forms?',
+    answer:
+      'They are the American Institute of Architects’ standard payment paperwork: the G702 Application and Certificate for Payment summarizes what a contractor is owed for a billing period, and the G703 Continuation Sheet breaks the contract into a schedule of values and tracks how much of each line item is complete. Most general contractors expect subcontractors to bill in this format, whether or not the official AIA forms are used.',
+  },
+  {
+    question: 'Is this an official AIA document?',
+    answer:
+      'No. AIA, G702, and G703 are trademarks of The American Institute of Architects, and official forms are licensed through AIA Contract Documents. This is an independent spreadsheet formatted in the same general style, which is what many GCs accept in practice — confirm with your GC whether they require the licensed AIA form or accept a G702-style equivalent.',
+  },
+  {
+    question: 'How do I fill out a pay application?',
+    answer:
+      'Enter your original contract sum and approved change orders, break the contract into schedule-of-values line items on the continuation sheet, then each billing period record the work completed this period and any materials stored on site. The application computes total completed and stored to date, subtracts retainage and previous certificates, and gives you the current payment due. Our full guide walks through every line.',
+  },
+  {
+    question: 'What retainage rate should I use?',
+    answer:
+      'Whatever your contract says — 5% and 10% are the most common in the United States, and some contracts step retainage down after the project passes 50% complete. The template has a single rate cell that drives the retainage math on every line.',
+  },
+  {
+    question: 'How does the template handle my second and third applications?',
+    answer:
+      'After each approved application, move the This Period amounts into the From Previous Applications column and start the new period. That is exactly the part software exists for: BuildWorkPro locks previous applications automatically and carries every value forward, so application #7 takes minutes instead of an afternoon of reconciliation.',
+  },
+];
+---
+
+<Layout
+  title="Free Pay Application Template (G702 & G703 Style) — Excel"
+  description="Free G702/G703-style pay application template for subcontractors: Excel workbook with a schedule of values, retainage math, and formulas wired end to end."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+          Free template
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+          Pay Application Template — G702 &amp; G703 Style
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          A free Excel workbook that does the pay-app math for you: G702-style summary, G703-style
+          continuation sheet, retainage, and carry-forward — the format GCs expect, without
+          hand-filling a PDF.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href={FILE}
+            download
+            data-template="aia-g702-g703"
+            class="template-download inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Download the free template (.xlsx)
+          </a>
+          <a
+            href="/blog/aia-pay-application-guide/"
+            class="inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:border-brand-300 hover:text-brand-700 transition-colors"
+          >
+            Read the how-to guide
+          </a>
+        </div>
+        <p class="mt-3 text-center text-sm text-slate-500">
+          No email required · Works in Excel, Google Sheets &amp; Numbers
+        </p>
+      </div>
+    </section>
+
+    <!-- What's inside -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+        What's in the workbook
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {
+          whatsInside.map((item) => (
+            <div class="flex items-start gap-3">
+              <svg
+                class="w-5 h-5 text-brand-600 mt-0.5 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-slate-600">{item}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- How to use -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">How to use it</h2>
+      <ol class="space-y-6">
+        {
+          [
+            [
+              'Set up the contract',
+              'Fill in the project header, your original contract sum, and net approved change orders on the Pay Application sheet. Set your retainage rate — 5% and 10% are the most common.',
+            ],
+            [
+              'Build your schedule of values',
+              'One row per line item on the continuation sheet, matching how the work actually phases. The three sample rows show the pattern — overwrite them.',
+            ],
+            [
+              'Bill each period',
+              'Enter This Period and Materials Stored per line. Totals, % complete, retainage, and the current payment due compute automatically. After approval, roll This Period into Previous Applications and start the next one.',
+            ],
+          ].map(([title, body], i) => (
+            <li class="flex gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">
+                {i + 1}
+              </div>
+              <div>
+                <h3 class="text-base font-semibold text-slate-900 mb-1">{title}</h3>
+                <p class="text-slate-500 text-sm">{body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <FAQSection faqs={faqs} />
+
+    <!-- CTA -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
+      <div class="rounded-2xl bg-slate-900 px-8 py-14 sm:px-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight text-balance">
+          Application #7 shouldn't take an afternoon
+        </h2>
+        <p class="mt-4 text-slate-400 max-w-xl mx-auto">
+          BuildWorkPro builds the schedule of values from your accepted bid, locks previous
+          applications, carries everything forward each period, and exports the PDF your GC expects
+          — with retainage handled.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Start free trial
+          </a>
+          <a
+            href="/features/pay-applications/"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
+          >
+            See pay applications in BuildWorkPro
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-slate-500">
+          <a href="/pricing/" class="text-slate-300 underline hover:text-white">$79/month flat</a> · 14-day
+          free trial · No credit card required
+        </p>
+      </div>
+      <p class="mt-8 text-xs text-slate-400 max-w-2xl mx-auto">
+        Not an official AIA document. "AIA," "G702," and "G703" are trademarks of The American
+        Institute of Architects; this independent template is formatted in the same general style.
+        Confirm with your GC which form they require.
+      </p>
+    </section>
+  </main>
+  <Footer />
+
+  <script is:inline>
+    // Downloads are the page's conversion event — GA-only (bwpTrack sends GA
+    // for every visitor; Meta standard events don't fit a file download).
+    document.querySelectorAll('.template-download').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (window.bwpTrack)
+          window.bwpTrack(null, {
+            name: 'template_download',
+            params: { template: el.dataset.template },
+          });
+      });
+    });
+  </script>
+</Layout>
