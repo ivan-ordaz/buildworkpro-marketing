@@ -55,6 +55,14 @@ const breadcrumbItems = [
 ];
 
 const showBreadcrumbs = breadcrumbItems.length > 1;
+
+// Geo-gated consent default (issue #125) runs only in production builds. Under
+// `astro dev`, a request to the /api/geo/ SSR route makes Vite re-optimize the
+// SSR dep graph (astro_virtual-modules_middleware) and full-reload every open
+// page, which destabilizes the whole Playwright chromium project. Preview
+// (wrangler/workerd over the built output) and production have no Vite, so the
+// flag is on there — the geo-consent specs run in the preview project.
+const geoDefaultEnabled = import.meta.env.PROD;
 ---
 
 <!doctype html>
@@ -67,7 +75,7 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
          Meta Pixel has no cookieless mode, so it loads only on Accept. The
          consent default must run BEFORE the gtag.js loader so the first ping
          is scoped correctly. -->
-    <script is:inline>
+    <script is:inline define:vars={{ geoDefaultEnabled }}>
       window.dataLayer = window.dataLayer || [];
       // CRITICAL: gtag must push the `arguments` object, exactly as in Google's
       // canonical snippet. gtag.js distinguishes an `arguments` object (a gtag
@@ -245,28 +253,32 @@ const showBreadcrumbs = breadcrumbItems.length > 1;
           window.bwpGrantAnalyticsConsent();
           window.bwpLoadMetaPixel();
         };
-        try {
-          const cachedCountry = sessionStorage.getItem('bwp-geo');
-          if (cachedCountry) {
-            window.bwpApplyGeoDefault(cachedCountry);
-          } else {
-            fetch('/api/geo/')
-              .then((r) => (r.ok ? r.json() : null))
-              .then((d) => {
-                if (!d || !d.country) return;
-                try {
-                  sessionStorage.setItem('bwp-geo', d.country);
-                } catch {
-                  /* best-effort cache */
-                }
-                window.bwpApplyGeoDefault(d.country);
-              })
-              .catch(() => {
-                /* lookup failed → stay opt-in */
-              });
+        // geoDefaultEnabled (define:vars) is false under `astro dev` — see the
+        // frontmatter comment. Off means the pre-#125 opt-in behavior exactly.
+        if (geoDefaultEnabled) {
+          try {
+            const cachedCountry = sessionStorage.getItem('bwp-geo');
+            if (cachedCountry) {
+              window.bwpApplyGeoDefault(cachedCountry);
+            } else {
+              fetch('/api/geo/')
+                .then((r) => (r.ok ? r.json() : null))
+                .then((d) => {
+                  if (!d || !d.country) return;
+                  try {
+                    sessionStorage.setItem('bwp-geo', d.country);
+                  } catch {
+                    /* best-effort cache */
+                  }
+                  window.bwpApplyGeoDefault(d.country);
+                })
+                .catch(() => {
+                  /* lookup failed → stay opt-in */
+                });
+            }
+          } catch {
+            /* sessionStorage unavailable → stay opt-in */
           }
-        } catch {
-          /* sessionStorage unavailable → stay opt-in */
         }
       }
     </script>

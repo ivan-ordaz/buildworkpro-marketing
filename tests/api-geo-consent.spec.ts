@@ -3,15 +3,16 @@ import { test, expect, type Page } from '@playwright/test';
 // Geo-gated consent default (issue #125). US is the target market: visitors
 // outside the EEA/UK/CH get measurement on by default with a working opt-out;
 // opt-in is preserved for the EEA list, and every failure path stays opt-in.
-// The /api/geo/ lookup is stubbed per test so each posture is deterministic.
-
-declare global {
-  interface Window {
-    fbq?: unknown;
-    __bwpPixelLoaded?: boolean;
-    __bwpGALoaded?: boolean;
-  }
-}
+//
+// Runs in the `api-` (preview) project on purpose: the geo default is enabled
+// only in production builds (`geoDefaultEnabled` in Layout.astro), because
+// under `astro dev` the /api/geo/ SSR request makes Vite re-optimize the SSR
+// dep graph and full-reload every open page. The preview server serves the
+// built output, where the flag is on. The /api/geo/ lookup is stubbed per test
+// so each posture is deterministic.
+//
+// Window typings (fbq, __bwpGALoaded, __bwpPixelLoaded) come from the global
+// declaration in analytics.spec.ts — do not redeclare them here.
 
 function stubGeo(page: Page, body: string, status = 200) {
   return page.route('**/api/geo/', (route) =>
@@ -49,7 +50,11 @@ test('stored decline beats the US geo default', async ({ page }) => {
   await page.goto('/');
   await page.waitForTimeout(800);
   expect(await page.evaluate(() => typeof window.fbq)).toBe('undefined');
-  expect(await page.evaluate(() => (window as never)['ga-disable-G-REK78NBR14'])).toBe(true);
+  expect(
+    await page.evaluate(
+      () => (window as unknown as Record<string, unknown>)['ga-disable-G-REK78NBR14']
+    )
+  ).toBe(true);
 });
 
 test('declining after a US default load is remembered on the next pageview', async ({ page }) => {
