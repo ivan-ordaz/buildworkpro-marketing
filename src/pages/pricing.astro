@@ -4,7 +4,7 @@ import Header from '../components/Header.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
 import { config } from '../config';
-import { plan, planFeatures, pricingFaq } from '../data/plan';
+import { plan, planFeatures, pricingFaq, crewMath } from '../data/plan';
 
 // The price card carries id="pricing" on purpose: Layout.astro's
 // IntersectionObserver fires the ViewContent / view_pricing conversion event on
@@ -114,22 +114,117 @@ import { plan, planFeatures, pricingFaq } from '../data/plan';
             Start {plan.trialDays}-day free trial
           </a>
           <p class="text-center text-xs text-slate-400 mt-3">
-            No credit card required. Cancel anytime.
+            No demo call. No custom quote. No per-user math. No credit card. Cancel anytime.
           </p>
         </div>
 
         <div class="mt-10 text-center">
           <p class="text-sm text-slate-500">
-            Most construction software starts at <span class="line-through text-slate-400"
-              >$299/month</span
-            > and charges per user.
+            A 5-person crew on per-seat construction software runs
+            <span class="font-semibold text-slate-700">$2,000–$4,000+ a year</span> before add-ons.
           </p>
           <p class="text-sm text-slate-500 mt-1">
-            BuildWorkPro gives you <span class="font-semibold text-slate-700"
-              >everything, for everyone, at one price</span
-            >.
+            BuildWorkPro is <span class="font-semibold text-slate-700"
+              >{plan.yearly}/year. Flat.</span
+            > Hiring your sixth person costs $0 more.
           </p>
         </div>
+      </div>
+
+      <!-- The honest math (issue #128): named competitors, not a generic
+           strikethrough. Same responsive pattern as the compare pages — a table
+           above md, stacked cards below, so the argument survives a phone. -->
+      <div class="max-w-4xl mx-auto mt-24" data-testid="crew-math">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight text-center">
+          The honest math for a 5-person crew
+        </h2>
+        <p class="mt-4 text-center text-slate-500 max-w-2xl mx-auto">
+          Every price below is what the vendor publishes or what independent pricing analyses
+          report. Follow the links for the full comparisons.
+        </p>
+
+        <div class="hidden md:block mt-10 rounded-2xl border border-slate-200 overflow-hidden">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50">
+                <th class="text-left px-6 py-4 font-semibold text-slate-900">Software</th>
+                <th class="text-left px-6 py-4 font-semibold text-slate-900">Monthly cost</th>
+                <th class="text-left px-6 py-4 font-semibold text-slate-900">Free trial</th>
+                <th class="text-left px-6 py-4 font-semibold text-slate-900">The catch</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {
+                crewMath.map((row) => (
+                  <tr>
+                    <td class="px-6 py-4 font-medium text-slate-700">
+                      {row.href ? (
+                        <a
+                          href={row.href}
+                          class="hover:text-brand-600 underline underline-offset-2"
+                        >
+                          {row.name}
+                        </a>
+                      ) : (
+                        row.name
+                      )}
+                    </td>
+                    <td class="px-6 py-4 text-slate-600 whitespace-nowrap tabular-nums">
+                      {row.monthly}
+                    </td>
+                    <td class="px-6 py-4 text-slate-600">{row.trial}</td>
+                    <td class="px-6 py-4 text-slate-500">{row.theCatch}</td>
+                  </tr>
+                ))
+              }
+              <tr class="bg-brand-50/60">
+                <td class="px-6 py-4 font-bold text-brand-700">BuildWorkPro</td>
+                <td class="px-6 py-4 font-bold text-brand-700 whitespace-nowrap tabular-nums"
+                  >{plan.monthly} flat</td
+                >
+                <td class="px-6 py-4 font-semibold text-brand-700"
+                  >{plan.trialDays} days, every feature, no card</td
+                >
+                <td class="px-6 py-4 font-semibold text-brand-700">None. Unlimited users.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="md:hidden mt-10 space-y-3">
+          {
+            crewMath.map((row) => (
+              <div class="rounded-xl border border-slate-200 overflow-hidden">
+                <div class="bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
+                  {row.href ? (
+                    <a href={row.href} class="underline underline-offset-2">
+                      {row.name}
+                    </a>
+                  ) : (
+                    row.name
+                  )}
+                </div>
+                <div class="px-4 py-3 text-sm text-slate-600">
+                  <span class="font-semibold tabular-nums">{row.monthly}</span> · Trial: {row.trial}
+                  <div class="mt-1 text-slate-500">{row.theCatch}</div>
+                </div>
+              </div>
+            ))
+          }
+          <div class="rounded-xl border border-brand-200 bg-brand-50/60 overflow-hidden">
+            <div class="px-4 py-2 text-sm font-bold text-brand-700">BuildWorkPro</div>
+            <div class="px-4 py-3 text-sm font-semibold text-brand-700">
+              {plan.monthly}/month flat · {plan.trialDays}-day trial, every feature, no card
+              <div class="mt-1">No per-user fees. No tiers. Unlimited users.</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="mt-3 text-xs text-slate-400 px-2">
+          Competitor figures as of August 2026, from published pricing pages and independent pricing
+          analyses; verify current pricing with each vendor. Monthly-cost column assumes 5 users on
+          the plan named.
+        </p>
       </div>
 
       <!-- Billing FAQ. Questions are deliberately different from the home-page
