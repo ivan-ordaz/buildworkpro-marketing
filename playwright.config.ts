@@ -23,6 +23,9 @@ const PREVIEW_URL = `http://127.0.0.1:${PREVIEW_PORT}`;
 /** Specs that need the real Workers runtime rather than the dev server. */
 const API_SPECS = /api-.*\.spec\.ts/;
 
+/** Setup project that absorbs Vite's cold-start reload — see tests/warmup.setup.ts. */
+const WARMUP = /warmup\.setup\.ts/;
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -42,9 +45,16 @@ export default defineConfig({
 
   projects: [
     {
+      // Eats the one cold-start reload so no real test is the first page load.
+      name: 'warmup',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: WARMUP,
+    },
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: API_SPECS,
+      testIgnore: [API_SPECS, WARMUP],
+      dependencies: ['warmup'],
     },
     {
       name: 'api',
