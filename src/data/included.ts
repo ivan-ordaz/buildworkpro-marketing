@@ -18,6 +18,7 @@ export const solutionsIncluded: readonly string[] = [
   'Sales pipeline & CRM',
   'Time tracking',
   'QuickBooks sync',
+  'AI assistant (Claude & ChatGPT)',
   'Role-based permissions',
   'Reports & analytics',
   'Document management',
