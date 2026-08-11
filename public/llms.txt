@@ -47,6 +47,11 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 - Unlimited users, unlimited projects, all features included — no per-user fees, no tiers, no add-on modules
 - 14-day free trial, no credit card required, cancel anytime
 
+## Free templates
+
+- [Templates hub](https://buildworkpro.com/templates/): Free downloadable construction templates, no email required
+- [Pay application template (G702/G703 style)](https://buildworkpro.com/templates/aia-g702-g703/): Excel workbook with schedule of values, retainage math, and carry-forward
+
 ## Integrations
 
 - [Integrations overview](https://buildworkpro.com/integrations/): QuickBooks Online, Gmail, Google Calendar, Claude Desktop and ChatGPT via MCP, REST API + webhooks
