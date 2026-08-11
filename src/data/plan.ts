@@ -69,12 +69,14 @@ export const crewMath: readonly {
     monthly: '~$279',
     trial: 'None',
     theCatch: '$199 base + $20 per user each month; you pay before you can try it',
+    href: '/compare/jobtread-alternative/',
   },
   {
     name: 'Knowify',
     monthly: '$215–$329',
     trial: '14 days, feature-gated',
     theCatch: '+$29 per user; real job costing sits in the $329/month tier',
+    href: '/compare/knowify-alternative/',
   },
   {
     name: 'Contractor Foreman',

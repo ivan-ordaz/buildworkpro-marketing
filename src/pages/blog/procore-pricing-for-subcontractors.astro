@@ -1,0 +1,207 @@
+---
+// Competitor cost-guide post (issue #148/#603). "procore pricing" queries are
+// owned by third-party blogs because Procore quotes on construction volume —
+// proof a low-authority domain can rank here. Figures verified 08-10 from the
+// intel sweep; re-verify before meaningful edits.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+
+const faqs = [
+  {
+    question: 'How much does Procore cost?',
+    answer:
+      "Procore doesn't publish prices — quotes are based on your Annual Construction Volume (the dollar value of the work you run) and which product modules you license. Independent analyses converge on roughly 0.1–0.2% of ACV, about $700–$1,000 per $1M of volume: small contractors commonly land at $4,500–$10,000/year, with typical mid-size contracts at $15,000–$80,000/year. Verify with Procore; every quote is negotiated.",
+  },
+  {
+    question: 'Does Procore charge per user?',
+    answer:
+      "No — and Procore says so prominently: unlimited users, unlimited data, no per-seat fees. The cost driver is your construction volume and module bundle instead. That's genuinely better than per-seat pricing for large teams, but it means your software bill grows because your revenue grew — a percentage tax on your growth.",
+  },
+  {
+    question: 'Is Procore worth it for a small subcontractor?',
+    answer:
+      "Procore's own reviewers answer this one: the consensus in reviews and contractor forums is that it's overkill below roughly $5M in annual revenue — 'a sledgehammer for smaller projects,' as one puts it, with a reviewer at $8M revenue saying they loved the product but couldn't justify the cost. Add implementation (reported at $50,000+ for larger rollouts, with 2–6 months to full adoption) and the entry math rarely works for a small crew.",
+  },
+  {
+    question: 'Is Procore free for subcontractors?',
+    answer:
+      "Collaborating is free; running your business isn't. When a GC invites you into their Procore project, you can use it on that project at no charge — worth doing for their RFIs, drawings, and submittals. But that access covers only their jobs, on their terms. Your own bids, pay applications across every GC, change orders, and crew hours still need a system you control.",
+  },
+  {
+    question: 'What does BuildWorkPro cost compared to Procore?',
+    answer:
+      'BuildWorkPro is $79/month flat ($790/year), published — every feature, unlimited users, 14-day self-serve trial, no demo call. It covers the subcontractor loop Procore prices at enterprise scale: bidding, AIA-style pay applications with schedule of values and retainage, change orders, site logs, time tracking, and CRM.',
+  },
+];
+---
+
+<Layout
+  ogType="article"
+  title="Procore Pricing for Subcontractors: The Real Numbers"
+  description="Procore quotes on your construction volume — roughly 0.1–0.2% of it per year. The real ranges, the implementation costs, and when the math works, with sources."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Procore Pricing for Subcontractors: The Real Numbers
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published August 10, 2026 · 7 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Procore's pricing page explains its philosophy — unlimited users, no hidden fees — and
+          then asks you to build a bundle with a construction expert. What it doesn't show is a
+          number. The number exists, though: enough contractors have shared their quotes that the
+          independent trackers converge on consistent ranges. Here they are, so you know the
+          territory before the sales call — or before you conclude the territory isn't for you.
+        </p>
+
+        <div class="not-prose rounded-2xl border border-slate-200 bg-slate-50 p-6 my-8">
+          <h2 class="mt-0 text-base font-semibold text-slate-900">Key takeaways</h2>
+          <ul class="mb-0 mt-3 space-y-2 text-sm text-slate-600">
+            <li>
+              Procore prices on <strong>Annual Construction Volume</strong> — the reported effective rate
+              is roughly 0.1–0.2% of it (about $700–$1,000 per $1M of work).
+            </li>
+            <li>
+              Small contractors commonly land at <strong>$4,500–$10,000/year</strong>; typical
+              contracts run $15,000–$80,000/year, before implementation.
+            </li>
+            <li>
+              Larger rollouts report implementation at $50,000+ and 2–6 months to full adoption.
+            </li>
+            <li>
+              Reviewer consensus: overkill below ~$5M revenue — "a sledgehammer for smaller
+              projects."
+            </li>
+            <li>
+              If a GC invites you into their Procore, that's free — and it doesn't run your
+              business.
+            </li>
+          </ul>
+        </div>
+
+        <h2>How the ACV model works</h2>
+        <p>
+          Your quote is a function of two inputs: the annual dollar volume of construction you run
+          through the platform, and which modules you license (project management, financials,
+          quality &amp; safety, and so on). Procore's defensive copy is accurate — they really don't
+          charge per user or per project. But the structure has a consequence worth naming plainly: <strong
+            >as your revenue grows, your software bill grows with it</strong
+          >, at roughly a tenth to a fifth of a percent. Win $2M more work next year and the renewal
+          quote knows.
+        </p>
+
+        <h2>The ranges the trackers converge on</h2>
+        <div class="not-prose overflow-x-auto rounded-2xl border border-slate-200 my-6">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50">
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Contractor size</th>
+                <th class="text-left px-5 py-3 font-semibold text-slate-900"
+                  >Reported annual cost</th
+                >
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">Small contractor</td>
+                <td class="px-5 py-3 text-slate-600">$4,500–$10,000/yr</td>
+                <td class="px-5 py-3 text-slate-500">~$375–$835/month effective floor</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">Typical contract</td>
+                <td class="px-5 py-3 text-slate-600">$15,000–$80,000/yr</td>
+                <td class="px-5 py-3 text-slate-500">Scales with ACV and module bundle</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700"
+                  >Implementation (larger rollouts)</td
+                >
+                <td class="px-5 py-3 text-slate-600">$50,000+ first year</td>
+                <td class="px-5 py-3 text-slate-500">Plus 2–6 months to full adoption</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>What Procore is actually worth it for</h2>
+        <p>
+          Fairness matters here: Procore is the deepest platform in construction for general
+          contractors and owners running portfolios — RFIs and submittals at scale, drawing
+          management, BIM coordination, a huge app marketplace. It even courts subcontractors
+          directly, with a dedicated landing page quoting capacity and margin gains for large
+          specialty firms. If you're a $20M mechanical contractor with a project-engineering
+          department, the math can work. The reviewer consensus draws the line lower down: below
+          roughly $5M in revenue, you're buying scale you can't use.
+        </p>
+
+        <h2>The free seat you already have</h2>
+        <p>
+          One more number: $0. When a GC invites you into their Procore project, collaborating there
+          costs you nothing — use it for their RFIs, drawings, and submittals. It just doesn't run <em
+            >your</em
+          > business: your bids across every GC, your
+          <a href="/blog/aia-pay-application-guide/">pay applications</a>, your crew hours, your
+          pipeline. Keeping your own system while collaborating in theirs is the normal setup, and
+          our <a href="/compare/procore-alternative/">BuildWorkPro vs Procore comparison</a> covers how
+          they coexist.
+        </p>
+
+        <h2>The subcontractor math</h2>
+        <p>
+          BuildWorkPro's price is published: <a href="/pricing/">$79/month flat, $790/year</a> — every
+          feature, unlimited users, no implementation fee, running the same day with CSV imports. It does
+          the subcontractor's loop — bids, AIA-style pay applications with retainage, change orders, e-signatures,
+          QuickBooks sync — without pricing it off your volume. At the small-contractor Procore entry
+          of $4,500–$10,000/year, the difference funds a crew member's tools, a truck payment, or simply
+          stays margin.
+        </p>
+      </div>
+
+      <p class="mt-10 text-xs text-slate-400">
+        Sources: procore.com pricing page and subcontractor landing page; Projul, CostBench,
+        ScanManifold, and ITQlick pricing analyses; G2 and Capterra verified reviews. Figures as of
+        August 2026 — every Procore quote is negotiated; verify current pricing with Procore.
+      </p>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Procore pricing FAQ" />
+
+      <BlogPostFooter
+        headline="Procore Pricing for Subcontractors: The Real Numbers"
+        description="Procore quotes on your construction volume — roughly 0.1–0.2% of it per year. The real ranges, the implementation costs, and when the math works, with sources."
+        datePublished="2026-08-10"
+        related={[
+          {
+            href: '/compare/procore-alternative/',
+            title: 'BuildWorkPro vs Procore',
+            description:
+              'The full comparison: where Procore genuinely wins, and what subs run instead.',
+          },
+          {
+            href: '/blog/buildertrend-pricing/',
+            title: 'Buildertrend Pricing (2026)',
+            description:
+              'The other gated-pricing giant, decoded — legacy tiers and the hike pattern.',
+          },
+          {
+            href: '/pricing/',
+            title: 'BuildWorkPro Pricing',
+            description: '$79/month flat, published. The honest math for a 5-person crew.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>

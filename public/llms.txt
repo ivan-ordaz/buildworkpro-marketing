@@ -33,6 +33,8 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 - [BuildWorkPro vs Procore](https://buildworkpro.com/compare/procore-alternative/): Procore alternative for subcontractors
 - [BuildWorkPro vs Buildertrend](https://buildworkpro.com/compare/buildertrend-alternative/): Buildertrend alternative for trade contractors
 - [BuildWorkPro vs Contractor Foreman](https://buildworkpro.com/compare/contractor-foreman-alternative/): Contractor Foreman alternative for subcontractors
+- [BuildWorkPro vs JobTread](https://buildworkpro.com/compare/jobtread-alternative/): JobTread alternative for subcontractors
+- [BuildWorkPro vs Knowify](https://buildworkpro.com/compare/knowify-alternative/): Knowify alternative for subcontractors
 
 ## Documentation
 
