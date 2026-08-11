@@ -14,3 +14,16 @@ for (const [slug, name] of [
     await expect(page.getByText(/Verify current pricing/i).first()).toBeVisible();
   });
 }
+
+// Competitor cost-guide posts (issue #148/#603).
+for (const [slug, h1] of [
+  ['buildertrend-pricing', /Buildertrend Pricing/i],
+  ['procore-pricing-for-subcontractors', /Procore Pricing/i],
+] as const) {
+  test(`/blog/${slug}/ renders with sources and verify disclaimer`, async ({ page }) => {
+    await page.goto(`/blog/${slug}/`);
+    await expect(page.locator('main h1')).toHaveText(h1);
+    await expect(page.getByText(/verify current pricing/i).first()).toBeVisible();
+    await expect(page.getByText(/Key takeaways/i)).toBeVisible();
+  });
+}
