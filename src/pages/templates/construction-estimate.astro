@@ -1,0 +1,177 @@
+---
+// Page 4 of the /templates/ hub (issue #134): the estimate-template cluster —
+// construction estimate template 1,300/mo KD0 + contractor estimate template
+// 1,000/mo KD0 + free variants, one canonical page. Ungated per Q5.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { config } from '../../config';
+
+const FILE = '/templates-files/construction-estimate-template.xlsx';
+
+const whatsInside = [
+  '25 line items with quantity, unit, and a material / labor split',
+  'Labor priced as hours × rate × quantity, computed per line',
+  'Overhead % applied before profit — overhead is a cost, not profit',
+  'Profit priced as true margin (% of price), not markup on cost',
+  'Estimate header with number, date, and a valid-until field',
+  'A Markup vs Margin sheet explaining the pricing math',
+];
+
+const faqs = [
+  {
+    question: 'What should a construction estimate include?',
+    answer:
+      'Line items with quantities and units, material cost and labor cost separated, a direct-cost subtotal, overhead, profit, and the terms of the offer — estimate number, date, and how long the pricing stays valid. Separating material and labor is what makes the estimate defensible when the client pushes back on price.',
+  },
+  {
+    question: 'What is the difference between an estimate, a quote, and a bid?',
+    answer:
+      'In practice the words blur, but roughly: an estimate is an approximation of cost, a quote is a fixed offer you commit to, and a bid is a formal offer in a competitive selection — usually to a GC, against drawings and specs. This template works for all three; what changes is how firm your numbers must be before you send it.',
+  },
+  {
+    question: 'Should I use markup or margin to price the job?',
+    answer:
+      'Price by margin. Markup is a percentage added to cost; margin is a percentage of the selling price — and a 15% markup is only a 13% margin. Contractors who price by markup routinely keep less profit than they think. The template prices by true margin: price = (cost + overhead) ÷ (1 − margin), and the second sheet explains the math.',
+  },
+  {
+    question: 'How do I price labor in an estimate?',
+    answer:
+      'Hours × a fully-loaded labor rate — the wage plus payroll taxes, workers’ comp, insurance, and benefits, not the bare wage. The template computes labor per line as quantity × hours × rate, so unit-based work (fixtures, drops, squares) prices consistently.',
+  },
+  {
+    question: 'How do I turn an estimate into a professional proposal?',
+    answer:
+      'The spreadsheet is the math; the proposal is the presentation. BuildWorkPro builds estimates from your product catalog with labor rates and margin applied systematically, exports a client-ready PDF proposal, sends it for legally-binding e-signature, and converts the win into a project — all included at $79/month.',
+  },
+];
+---
+
+<Layout
+  title="Free Construction Estimate Template (Excel)"
+  description="Free construction estimate template: 25 line items with material/labor split, overhead, and true-margin pricing math — an Excel workbook, no email required."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+          Free template
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+          Construction Estimate Template
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          An Excel estimate that prices the way profitable subs price: material and labor split per
+          line, overhead counted as a cost, and profit set as a true margin — not a markup that
+          quietly shorts you.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href={FILE}
+            download
+            data-template="construction-estimate"
+            class="template-download inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Download the free template (.xlsx)
+          </a>
+          <a
+            href="/blog/construction-markup-vs-margin/"
+            class="inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:border-brand-300 hover:text-brand-700 transition-colors"
+          >
+            Markup vs margin, explained
+          </a>
+        </div>
+        <p class="mt-3 text-center text-sm text-slate-500">
+          No email required · Works in Excel, Google Sheets &amp; Numbers
+        </p>
+      </div>
+    </section>
+
+    <!-- What's inside -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+        What's in the workbook
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {
+          whatsInside.map((item) => (
+            <div class="flex items-start gap-3">
+              <svg
+                class="w-5 h-5 text-brand-600 mt-0.5 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-slate-600">{item}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-8 text-sm text-slate-500 text-center max-w-2xl mx-auto">
+        Won the job? The estimate becomes your
+        <a
+          href="/templates/schedule-of-values/"
+          class="text-brand-600 underline underline-offset-2 font-medium">schedule of values</a
+        >, and the SOV becomes your
+        <a
+          href="/templates/aia-g702-g703/"
+          class="text-brand-600 underline underline-offset-2 font-medium">monthly pay application</a
+        > — both free in the templates hub.
+      </p>
+    </section>
+
+    <FAQSection faqs={faqs} />
+
+    <!-- CTA -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
+      <div class="rounded-2xl bg-slate-900 px-8 py-14 sm:px-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight text-balance">
+          Estimate from a catalog, not a blank spreadsheet
+        </h2>
+        <p class="mt-4 text-slate-400 max-w-xl mx-auto">
+          BuildWorkPro pulls line items from your product and assembly catalog, applies your labor
+          rates and margin systematically, exports a client-ready PDF, and sends it for
+          legally-binding e-signature.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Start free trial
+          </a>
+          <a
+            href="/features/construction-bidding/"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
+          >
+            See estimating in BuildWorkPro
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-slate-500">
+          <a href="/pricing/" class="text-slate-300 underline hover:text-white">$79/month flat</a> · 14-day
+          free trial · No credit card required
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script is:inline>
+    document.querySelectorAll('.template-download').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (window.bwpTrack)
+          window.bwpTrack(null, {
+            name: 'template_download',
+            params: { template: el.dataset.template },
+          });
+      });
+    });
+  </script>
+</Layout>
