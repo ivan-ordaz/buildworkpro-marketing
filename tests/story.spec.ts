@@ -7,7 +7,7 @@ test('the case study leads with the disclosure and the real numbers', async ({ p
   await page.goto('/customers/national-glass/');
   await expect(page.locator('main h1')).toHaveText(/founder's own crew/i);
   await expect(page.getByText(/Full disclosure, up front/i)).toBeVisible();
-  await expect(page.getByText('416').first()).toBeVisible();
+  await expect(page.getByText('3,224').first()).toBeVisible();
   await expect(page.getByText('143').first()).toBeVisible();
 });
 
