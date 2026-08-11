@@ -14,6 +14,24 @@ test.describe('templates hub', () => {
   });
 });
 
+test.describe('/templates/schedule-of-values/', () => {
+  test('renders and the workbook downloads as a real xlsx', async ({ page, request }) => {
+    await page.goto('/templates/schedule-of-values/');
+    await expect(page.locator('main h1')).toHaveText(/Schedule of Values Template/i);
+    const href = await page.locator('a.template-download').first().getAttribute('href');
+    const res = await request.get(href!);
+    expect(res.status()).toBe(200);
+    expect((await res.body()).subarray(0, 2).toString()).toBe('PK');
+  });
+
+  test('the SOV guide post links to the template download', async ({ page }) => {
+    await page.goto('/blog/schedule-of-values-guide/');
+    await expect(
+      page.locator('main a[href="/templates/schedule-of-values/"]').first()
+    ).toBeVisible();
+  });
+});
+
 test.describe('/templates/subcontractor-agreement/', () => {
   test('renders with the download CTA and the not-legal-advice disclaimer', async ({ page }) => {
     await page.goto('/templates/subcontractor-agreement/');
