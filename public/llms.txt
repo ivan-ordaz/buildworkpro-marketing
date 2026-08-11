@@ -2,13 +2,14 @@
 
 > BuildWorkPro is construction project management software built specifically for trade subcontractors — electrical, plumbing, HVAC, roofing, concrete, framing, glazing, and other specialty contractors. One flat price ($79/month or $790/year), unlimited users and projects, all features included, 14-day free trial with no credit card required.
 
-BuildWorkPro covers the full subcontractor workflow: bidding and estimating with line items, labor rates, and markup; AIA-style pay applications with schedule of values; change orders with approval workflows; built-in legally-binding e-signatures for bids and change orders; project management with phases, tasks, and Gantt charts; daily site logs; time tracking; a sales pipeline and CRM; QuickBooks Online sync; document management; and reporting. It is web-based and works on phones, tablets, and desktops.
+BuildWorkPro covers the full subcontractor workflow: bidding and estimating with line items, labor rates, and markup; AIA-style pay applications with schedule of values; change orders with approval workflows; built-in legally-binding e-signatures for bids and change orders; project management with phases, tasks, and Gantt charts; daily site logs; time tracking; a sales pipeline and CRM; QuickBooks Online sync; document management; and reporting. It connects to Claude and ChatGPT via MCP, so bids and projects can be built through natural-language conversation and reviewed in the app. It is web-based and works on phones, tablets, and desktops.
 
 Unlike platforms built for general contractors (Procore) or residential home builders (Buildertrend), BuildWorkPro is priced and designed for specialty subcontractors: flat pricing instead of construction-volume quotes, self-serve signup instead of sales demos, and workflows centered on sub-to-GC billing rather than owner-facing portals.
 
 ## Product
 
 - [Features overview](https://buildworkpro.com/features/): All modules at a glance
+- [AI assistant](https://buildworkpro.com/features/ai-assistant/): Build bids, projects, and site logs by chatting with Claude or ChatGPT (via MCP) — review and send in BuildWorkPro
 - [Bidding & estimating](https://buildworkpro.com/features/construction-bidding/): Line-item bids, labor rates, markup, PDF proposals, bid-to-project conversion
 - [Pay applications](https://buildworkpro.com/features/pay-applications/): AIA-style progress billing with schedule of values, retainage, and approval workflow
 - [Change orders](https://buildworkpro.com/features/change-orders/): Scoped and priced change orders with approval tracking
@@ -69,7 +70,8 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 
 ## Company
 
-- [About](https://buildworkpro.com/about/)
+- [About](https://buildworkpro.com/about/): Founder story — built inside a working glazing contractor
+- [Customer story](https://buildworkpro.com/customers/national-glass/): National Glass and Construction runs on BuildWorkPro (400+ bids, 3,200+ bid line items, 143 projects; founder-owned, disclosed)
 - [Contact](https://buildworkpro.com/contact/)
 - [Security](https://buildworkpro.com/security/)
 - [Blog](https://buildworkpro.com/blog/): Practical guides on bidding, AIA pay applications, change orders, site logs, and CRM for subcontractors
