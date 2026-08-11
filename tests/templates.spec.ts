@@ -14,6 +14,24 @@ test.describe('templates hub', () => {
   });
 });
 
+test.describe('/templates/construction-bid-proposal/', () => {
+  test('renders and the document downloads as a real docx', async ({ page, request }) => {
+    await page.goto('/templates/construction-bid-proposal/');
+    await expect(page.locator('main h1')).toHaveText(/Construction Bid Proposal Template/i);
+    const href = await page.locator('a.template-download').first().getAttribute('href');
+    const res = await request.get(href!);
+    expect(res.status()).toBe(200);
+    expect((await res.body()).subarray(0, 2).toString()).toBe('PK');
+  });
+
+  test('the bidding guide links to the template', async ({ page }) => {
+    await page.goto('/blog/how-to-create-construction-bid/');
+    await expect(
+      page.locator('main a[href="/templates/construction-bid-proposal/"]').first()
+    ).toBeVisible();
+  });
+});
+
 test.describe('/templates/construction-estimate/', () => {
   test('renders and the workbook downloads as a real xlsx', async ({ page, request }) => {
     await page.goto('/templates/construction-estimate/');
