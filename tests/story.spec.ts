@@ -14,7 +14,8 @@ test('the case study leads with the disclosure and the real numbers', async ({ p
 test('the about page is a signed founder letter, not corporate voice', async ({ page }) => {
   await page.goto('/about/');
   await expect(page.locator('main h1')).toHaveText(/Built by a contractor/i);
-  await expect(page.getByText(/Ivan Ordaz/i)).toBeVisible();
+  // Signed with first name only, per Ivan's preference (2026-08-11).
+  await expect(page.getByText(/— Ivan/).first()).toBeVisible();
   await expect(page.locator('main a[href="/customers/national-glass/"]').first()).toBeVisible();
 });
 
