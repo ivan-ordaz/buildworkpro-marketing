@@ -14,6 +14,30 @@ test.describe('templates hub', () => {
   });
 });
 
+test.describe('/templates/subcontractor-agreement/', () => {
+  test('renders with the download CTA and the not-legal-advice disclaimer', async ({ page }) => {
+    await page.goto('/templates/subcontractor-agreement/');
+    await expect(page.locator('main h1')).toHaveText(/Subcontractor Agreement Template/i);
+    await expect(page.locator('a.template-download').first()).toBeVisible();
+    await expect(page.getByText(/Not legal advice/i).first()).toBeVisible();
+  });
+
+  test('the document downloads ungated and is a real docx', async ({ page, request }) => {
+    await page.goto('/templates/subcontractor-agreement/');
+    const href = await page.locator('a.template-download').first().getAttribute('href');
+    const res = await request.get(href!);
+    expect(res.status()).toBe(200);
+    const body = await res.body();
+    expect(body.length).toBeGreaterThan(5000);
+    expect(body.subarray(0, 2).toString()).toBe('PK');
+  });
+
+  test('cross-links to the pay application template', async ({ page }) => {
+    await page.goto('/templates/subcontractor-agreement/');
+    await expect(page.locator('main a[href="/templates/aia-g702-g703/"]').first()).toBeVisible();
+  });
+});
+
 test.describe('/templates/aia-g702-g703/', () => {
   test('renders with the download CTA and the trademark disclaimer', async ({ page }) => {
     await page.goto('/templates/aia-g702-g703/');
