@@ -14,6 +14,32 @@ test.describe('templates hub', () => {
   });
 });
 
+// Pages 6–9 share one page template — loop-verify render + real-file download.
+for (const [slug, h1] of [
+  ['change-order', /Construction Change Order Template/i],
+  ['punch-list', /Construction Punch List Template/i],
+  ['construction-invoice', /Construction Invoice Template/i],
+  ['construction-schedule', /Construction Schedule Template/i],
+] as const) {
+  test(`/templates/${slug}/ renders and its file downloads`, async ({ page, request }) => {
+    await page.goto(`/templates/${slug}/`);
+    await expect(page.locator('main h1')).toHaveText(h1);
+    const href = await page.locator('a.template-download').first().getAttribute('href');
+    const res = await request.get(href!);
+    expect(res.status()).toBe(200);
+    expect((await res.body()).subarray(0, 2).toString()).toBe('PK');
+  });
+}
+
+test('the daily-report post finally delivers its promised download', async ({ page, request }) => {
+  await page.goto('/blog/construction-daily-report-template/');
+  const link = page.locator('main a.template-download').first();
+  await expect(link).toBeVisible();
+  const res = await request.get((await link.getAttribute('href'))!);
+  expect(res.status()).toBe(200);
+  expect((await res.body()).subarray(0, 2).toString()).toBe('PK');
+});
+
 test.describe('/templates/construction-bid-proposal/', () => {
   test('renders and the document downloads as a real docx', async ({ page, request }) => {
     await page.goto('/templates/construction-bid-proposal/');

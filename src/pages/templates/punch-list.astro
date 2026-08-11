@@ -1,0 +1,158 @@
+---
+// Punch list template — punch list template 720/mo + construction punch list template 720/mo, both KD0, navigational intent 0.90.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { config } from '../../config';
+
+const FILE = '/templates-files/punch-list-template.xlsx';
+
+const whatsInside = [
+  '40 rows: location, description, trade, priority, dates, status, verifier',
+  'Live counts of Open / Ready for Review / Complete items',
+  'Status-driven workflow that matches how walkthroughs actually go',
+  'Sample rows showing the level of detail that closes items fast',
+  'Filter-ready columns — sort by trade to hand each sub their list',
+  'Verified-by column so items close once, not three times',
+];
+
+const faqs = [
+  {
+    question: 'What is a punch list?',
+    answer:
+      'The list of items that stand between substantial completion and final payment — touch-ups, adjustments, incomplete details — assembled during the walkthrough near the end of a project. For a sub, the punch list matters because retainage release usually waits on it.',
+  },
+  {
+    question: 'Who creates the punch list?',
+    answer:
+      'On commercial work, typically the architect or GC during the walkthrough — but a sub who self-performs a punch walk first, with their own list, closes out faster and looks better doing it. Use this template for your own pre-punch before the official one.',
+  },
+  {
+    question: 'How should I organize punch list items?',
+    answer:
+      "By location first, then trade. Location-first matches how the walkthrough physically moves; the trade column then lets you sort and hand each responsible party exactly their items. Every item needs enough description that whoever fixes it doesn't need a phone call.",
+  },
+  {
+    question: 'How do I get punch items closed faster?',
+    answer:
+      "Three habits: photograph every item when it's identified, set a priority so crews stop cherry-picking easy ones, and require a verifier other than the person who did the fix. The template carries columns for all three.",
+  },
+];
+---
+
+<Layout
+  title="Free Construction Punch List Template (Excel)"
+  description="Free construction punch list template: 40-row Excel tracker with status counts, priority, responsible trade, and verification columns. No email required."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+          Free template
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+          Construction Punch List Template
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          A 40-row tracker that gets you to zero: every item with a location, a responsible trade, a
+          status, and a verified-by column — with open/complete counts computed at the top.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href={FILE}
+            download
+            data-template="punch-list"
+            class="template-download inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Download the free template (.xlsx)
+          </a>
+          <a
+            href="/templates/"
+            class="inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:border-brand-300 hover:text-brand-700 transition-colors"
+          >
+            See all free templates
+          </a>
+        </div>
+        <p class="mt-3 text-center text-sm text-slate-500">
+          No email required · Works in Excel, Google Sheets &amp; Numbers
+        </p>
+      </div>
+    </section>
+
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+        What's in the template
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {
+          whatsInside.map((item) => (
+            <div class="flex items-start gap-3">
+              <svg
+                class="w-5 h-5 text-brand-600 mt-0.5 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-slate-600">{item}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="mt-8 text-sm text-slate-500 text-center max-w-2xl mx-auto"
+        set:html={`Punch-out is the last mile before <a href="/templates/aia-g702-g703/" class="text-brand-600 underline underline-offset-2 font-medium">final payment and retainage release</a> — track it with the same discipline as billing.`}
+      />
+    </section>
+
+    <FAQSection faqs={faqs} />
+
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
+      <div class="rounded-2xl bg-slate-900 px-8 py-14 sm:px-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight text-balance">
+          Punch items with photos, not spreadsheet rows
+        </h2>
+        <p class="mt-4 text-slate-400 max-w-xl mx-auto">
+          BuildWorkPro tracks project tasks and punch items with photos, assignments, and completion
+          status inside the project record — visible to the office and the field.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Start free trial
+          </a>
+          <a
+            href="/features/project-management/"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
+          >
+            See project management in BuildWorkPro
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-slate-500">
+          <a href="/pricing/" class="text-slate-300 underline hover:text-white">$79/month flat</a> · 14-day
+          free trial · No credit card required
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script is:inline>
+    document.querySelectorAll('.template-download').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (window.bwpTrack)
+          window.bwpTrack(null, {
+            name: 'template_download',
+            params: { template: el.dataset.template },
+          });
+      });
+    });
+  </script>
+</Layout>

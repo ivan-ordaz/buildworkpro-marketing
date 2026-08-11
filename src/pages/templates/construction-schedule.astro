@@ -1,0 +1,159 @@
+---
+// Construction schedule template — 880/mo KD0, $24 CPC (schedulers are buyers).
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { config } from '../../config';
+
+const FILE = '/templates-files/construction-schedule-template.xlsx';
+
+const whatsInside = [
+  '35 task rows grouped by phase',
+  'Duration computed from start and end dates',
+  '% Complete column for the weekly update ritual',
+  'Owner/crew and predecessor-notes columns',
+  'Sample rows showing a real rough-in sequence',
+  'Print-friendly layout for the site trailer wall',
+];
+
+const faqs = [
+  {
+    question: 'What should a construction schedule include?',
+    answer:
+      "Tasks grouped by phase, start and end dates, durations, who owns each task, and what each task waits on. The predecessor column is the one most spreadsheets skip — and it's the difference between a schedule and a wish list.",
+  },
+  {
+    question: 'How detailed should the schedule be?',
+    answer:
+      "Task durations of two days to two weeks are the useful range. Finer than that and you're updating the spreadsheet instead of building; coarser and slippage hides inside long bars until it's too late to react.",
+  },
+  {
+    question: 'What is the difference between this and a Gantt chart?',
+    answer:
+      "Same data, different picture: a Gantt draws the rows as bars on a timeline so overlaps and the critical path are visible. The spreadsheet is fine for a single sub's scope; once tasks depend on each other across phases, a real Gantt with drag-to-reschedule saves the eraser work.",
+  },
+  {
+    question: 'How do I handle delays in the schedule?',
+    answer:
+      'Record them the day they happen — in the notes column here and in your daily report — with the cause. Then reschedule forward honestly rather than compressing everything downstream. A documented delay is a schedule fact and potential time-extension support; an undocumented one is your problem.',
+  },
+];
+---
+
+<Layout
+  title="Free Construction Schedule Template (Excel)"
+  description="Free construction schedule template: 35-task Excel schedule with phases, computed durations, % complete, and predecessor notes. No email required."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+          Free template
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+          Construction Schedule Template
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          A 35-task schedule that stays honest: phases, start and end dates with durations computed,
+          % complete you update weekly, and predecessor notes so the sequence survives contact with
+          the job.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href={FILE}
+            download
+            data-template="construction-schedule"
+            class="template-download inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Download the free template (.xlsx)
+          </a>
+          <a
+            href="/templates/"
+            class="inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:border-brand-300 hover:text-brand-700 transition-colors"
+          >
+            See all free templates
+          </a>
+        </div>
+        <p class="mt-3 text-center text-sm text-slate-500">
+          No email required · Works in Excel, Google Sheets &amp; Numbers
+        </p>
+      </div>
+    </section>
+
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+        What's in the template
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {
+          whatsInside.map((item) => (
+            <div class="flex items-start gap-3">
+              <svg
+                class="w-5 h-5 text-brand-600 mt-0.5 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-slate-600">{item}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="mt-8 text-sm text-slate-500 text-center max-w-2xl mx-auto"
+        set:html={`Delays belong in the daily report the day they happen — the <a href="/blog/construction-daily-report-template/" class="text-brand-600 underline underline-offset-2 font-medium">free daily report template</a> pairs with this schedule.`}
+      />
+    </section>
+
+    <FAQSection faqs={faqs} />
+
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
+      <div class="rounded-2xl bg-slate-900 px-8 py-14 sm:px-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight text-balance">
+          Drag the bar, not the spreadsheet
+        </h2>
+        <p class="mt-4 text-slate-400 max-w-xl mx-auto">
+          BuildWorkPro's Gantt gives you phases, tasks, dependencies, and drag-to-reschedule — tied
+          to the same project your billing, logs, and change orders live in.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Start free trial
+          </a>
+          <a
+            href="/features/project-management/"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
+          >
+            See scheduling in BuildWorkPro
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-slate-500">
+          <a href="/pricing/" class="text-slate-300 underline hover:text-white">$79/month flat</a> · 14-day
+          free trial · No credit card required
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script is:inline>
+    document.querySelectorAll('.template-download').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (window.bwpTrack)
+          window.bwpTrack(null, {
+            name: 'template_download',
+            params: { template: el.dataset.template },
+          });
+      });
+    });
+  </script>
+</Layout>
