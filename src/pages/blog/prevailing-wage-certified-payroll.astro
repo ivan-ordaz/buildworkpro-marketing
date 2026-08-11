@@ -1,0 +1,469 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is prevailing wage in construction?',
+    answer:
+      'Prevailing wage is the minimum hourly pay rate — including benefits — that contractors and subcontractors must pay workers on covered public-works projects. Rates are set by the federal government (under the Davis-Bacon Act) or by individual states for state-funded work. They vary by trade classification and geographic area, and are published in wage determinations that get incorporated into the contract.',
+  },
+  {
+    question: 'Does the Davis-Bacon Act apply to all public construction?',
+    answer:
+      'The Davis-Bacon Act applies to federal and federally assisted construction contracts over $2,000. State prevailing wage laws (sometimes called "little Davis-Bacon" laws) cover state-funded projects and vary significantly: some mirror Davis-Bacon closely, some have higher thresholds, and a handful of states have no prevailing wage law at all. Always read the project contract — the applicable wage determination should be incorporated by reference.',
+  },
+  {
+    question: 'What is a certified payroll report?',
+    answer:
+      'A certified payroll report is a weekly statement — typically on federal Form WH-347 or an approved equivalent — that the prime contractor and each subcontractor submit on prevailing wage jobs. It lists every worker, their trade classification, hours worked each day, hourly rate paid, deductions, and net pay. The contractor or a company officer signs a statement of compliance certifying the information is accurate. Falsifying a certified payroll report is a federal crime.',
+  },
+  {
+    question: 'How do I find the correct prevailing wage rates for a project?',
+    answer:
+      'The wage determination for a federal project is issued by the Department of Labor and should be included in the bid documents or available via the SAM.gov wage determination database. For state projects, check the relevant state labor department. The determination lists rates by trade classification and county or region — confirm you are using the version that was in effect when the contract was awarded, since rates can update mid-project.',
+  },
+  {
+    question: 'What happens if a subcontractor underpays on a prevailing wage job?',
+    answer:
+      'The consequences range from back-wage liability to contract debarment. On federal jobs, underpayment of Davis-Bacon wages can result in withholding of contract funds until wages are made right, and repeated or willful violations can result in debarment — being barred from federal contracting for up to three years. State penalties vary but often include back-pay, liquidated damages, and loss of license. This is general guidance, not legal advice; consult a labor attorney for your specific situation.',
+  },
+];
+---
+
+<Layout
+  ogType="article"
+  title="Prevailing Wage & Certified Payroll Basics | BuildWorkPro"
+  description="What prevailing wage is, which projects require it, how certified payroll reporting works, and the hourly records every subcontractor needs to stay compliant."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Prevailing Wage & Certified Payroll Basics for Subcontractors
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published August 11, 2026 · 9 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Landing a public works job is a win — until you open the contract and find a wage
+          determination, a weekly certified payroll requirement, and a statement of compliance you
+          have to sign under penalty of perjury. For a subcontractor bidding prevailing wage work
+          for the first time, the paperwork side can feel like a second job.
+        </p>
+        <p>
+          This guide explains what prevailing wage is, which projects trigger it, what certified
+          payroll reporting requires, and how to keep the hour-by-hour records that make compliance
+          manageable rather than a quarterly scramble.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              Prevailing wage sets minimum pay rates by trade classification on covered public-works
+              projects — federal or state, depending on the funding source.
+            </li>
+            <li>
+              Certified payroll is a weekly report — typically on federal Form WH-347 — that
+              verifies every worker was paid correctly for every hour worked.
+            </li>
+            <li>
+              Trade classifications matter: paying a worker at the wrong rate (even if higher) can
+              still trigger a violation if the classification doesn't match the work performed.
+            </li>
+            <li>
+              Accurate daily time records per worker and per project are the foundation — without
+              them, certified payroll becomes guesswork.
+            </li>
+            <li>
+              Fringe benefits count: the prevailing wage rate includes an hourly cash wage plus a
+              fringe benefit obligation that can be met through a bona fide benefit plan.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is prevailing wage?</h2>
+        <p>
+          Prevailing wage is the minimum rate of pay — wages plus fringe benefits — that contractors
+          and subcontractors must pay workers on covered government-funded construction projects.
+          The idea is that publicly funded construction should not undercut local wage norms. The
+          rate varies by:
+        </p>
+        <ul>
+          <li>
+            <strong>Trade classification.</strong> Electricians, plumbers, carpenters, laborers, ironworkers,
+            and dozens of other classifications each carry their own rate. Pay an electrician at a laborer
+            rate and you have a violation, even if the worker is fine with it.
+          </li>
+          <li>
+            <strong>Geographic area.</strong> Rates are set county by county or region by region. A project
+            in one county may have a different rate than one twenty miles away.
+          </li>
+          <li>
+            <strong>Funding source.</strong> Federal contracts (and federally assisted contracts over
+            $2,000) fall under the Davis-Bacon Act. State-funded projects fall under the relevant state's
+            prevailing wage law — if it has one.
+          </li>
+        </ul>
+        <p>
+          The applicable wage rates are published in a <strong>wage determination</strong> — a document
+          issued by the Department of Labor (for federal work) or the state labor agency (for state work)
+          that lists the required rates for each classification in the project's area. That wage determination
+          gets incorporated into the prime contract, and your subcontract.
+        </p>
+
+        <h2>Which projects require prevailing wage?</h2>
+        <p>
+          The trigger is the funding source, not the owner's identity. The most common triggers a
+          subcontractor will encounter:
+        </p>
+        <ul>
+          <li>
+            <strong>Federal construction contracts over $2,000</strong> (Davis-Bacon Act), including contracts
+            with federal agencies and most federally assisted housing, highway, and transit projects.
+          </li>
+          <li>
+            <strong>State public works projects</strong> in the roughly 30 states with their own prevailing
+            wage laws. Some match Davis-Bacon closely; others set higher rates or different thresholds.
+          </li>
+          <li>
+            <strong>Projects with federal funding passed through a state agency</strong> — school construction
+            under certain education funding, water and wastewater projects under infrastructure funding,
+            and similar programs often carry Davis-Bacon obligations even when the contracting entity
+            is a local government.
+          </li>
+        </ul>
+        <p>
+          The fastest way to know for certain: read the contract. If prevailing wage applies, the
+          wage determination will be attached or incorporated by reference, and there will be a
+          clause requiring weekly certified payroll submittals.
+        </p>
+
+        <h2>Understanding the wage determination</h2>
+        <p>
+          A wage determination lists trade classifications and their corresponding rates in two
+          parts: the <strong>basic hourly rate</strong> and the <strong>fringe benefit rate</strong
+          >. Together they make up the prevailing wage obligation.
+        </p>
+        <p>
+          The fringe benefit piece is where many subs get caught. You can satisfy the fringe
+          obligation in two ways:
+        </p>
+        <ul>
+          <li>
+            <strong>Pay it in cash.</strong> Add the fringe amount on top of the hourly wage. If the determination
+            shows $38.00 basic + $14.50 fringe, paying $52.50/hr in wages satisfies it.
+          </li>
+          <li>
+            <strong>Fund a bona fide benefit plan.</strong> Health insurance, retirement contributions,
+            apprenticeship training — if the benefit plan qualifies, contributions toward it count toward
+            the fringe obligation hour for hour.
+          </li>
+        </ul>
+        <p>
+          Most subcontractors running a union workforce find that their collective bargaining
+          agreement's wages and benefit contributions naturally meet or exceed prevailing wage. The
+          complexity tends to land on open-shop subs who need to verify their pay structure against
+          the applicable determination before they start the job.
+        </p>
+
+        <h2>Worker classifications: the most common compliance trap</h2>
+        <p>
+          Prevailing wage violations often aren't about intentionally underpaying — they're about
+          misclassifying the work. Every trade classification in a wage determination describes a
+          specific type of work. If a worker is performing electrician work, they must be paid at
+          the electrician rate, even if you call them a laborer on the certified payroll.
+        </p>
+        <p>A few classification patterns that trip subs up:</p>
+        <ul>
+          <li>
+            <strong>Apprentices vs. journeyworkers.</strong> Apprentices enrolled in a registered apprenticeship
+            program can legally be paid at reduced rates set by the program. Workers who are not registered
+            cannot be paid apprentice rates, even if they're in training.
+          </li>
+          <li>
+            <strong>Foremen.</strong> A working foreman who spends most of their day performing craft
+            work must be classified and paid as a journeyworker, not a supervisor. A pure superintendent
+            who isn't performing craft work is generally not covered.
+          </li>
+          <li>
+            <strong>Multi-trade work.</strong> When a worker performs tasks that fall under more than
+            one classification in a single day, they typically must be paid the higher rate for the time
+            spent in each classification. Keeping notes on what was performed helps you document this
+            split.
+          </li>
+        </ul>
+        <p>
+          When you're unsure how work should be classified, the wage determination sometimes
+          includes scope-of-work descriptions for each classification. If it doesn't, request a
+          conformance (an official classification ruling) from the contracting officer before the
+          work starts — not after.
+        </p>
+
+        <h2>What is certified payroll reporting?</h2>
+        <p>
+          Certified payroll is the weekly documentation requirement that goes alongside the wage
+          obligation. Every week you have workers on a prevailing wage project, you submit a payroll
+          report covering that week's work. On federal projects, this is typically done on
+          Department of Labor Form WH-347. Many state agencies have their own required forms.
+        </p>
+        <p>Each week's report lists, for every worker:</p>
+        <ul>
+          <li>Name, address, and the last four digits of their Social Security number</li>
+          <li>Work classification</li>
+          <li>Hours worked each day and total hours for the week</li>
+          <li>Hourly rate paid and overtime rate (if applicable)</li>
+          <li>Gross wages earned</li>
+          <li>All deductions</li>
+          <li>Net wages paid</li>
+        </ul>
+        <p>
+          The report is signed by a company officer or a designated authorized person under a
+          <strong>Statement of Compliance</strong> — a declaration that wages were paid correctly and
+          that the information is accurate. Signing a falsified certified payroll report is a federal
+          crime under 18 U.S.C. § 1001. This is not paperwork formality; it is a legal certification.
+        </p>
+        <p>
+          Reports are typically submitted to the prime contractor, who collects from all subs and
+          forwards them to the contracting agency. The prime is generally liable if a sub fails to
+          comply, which is why most primes require certified payrolls promptly each week and will
+          hold payment until they receive them.
+        </p>
+
+        <h2>Where records break down: the daily hours problem</h2>
+        <p>
+          Accurate certified payroll depends on one thing: knowing exactly who worked, doing what,
+          for how many hours, on which day. When that information lives in text messages, a
+          foreman's memory, or a spreadsheet reconstructed on Friday from the week's notes, errors
+          accumulate before the certified payroll form even opens.
+        </p>
+        <p>Common failure points:</p>
+        <ul>
+          <li>
+            <strong>Hours rounded or estimated.</strong> When time is collected informally, it often gets
+            rounded in ways that, across a crew and a long project, add up to under- or over-reporting.
+          </li>
+          <li>
+            <strong>Project attribution errors.</strong> A crew working across multiple projects in a
+            week needs hours assigned to the correct project. Hours attributed to the wrong job create
+            both certified payroll errors and job cost problems.
+          </li>
+          <li>
+            <strong>Classification not documented in the field.</strong> If the daily record doesn't capture
+            what type of work was performed, classifications have to be reconstructed after the fact.
+          </li>
+          <li>
+            <strong>Overtime missed or miscounted.</strong> Davis-Bacon itself doesn't require overtime
+            pay (the FLSA and CWHSSA do), but the daily and weekly hours totals on the certified payroll
+            must match the actual hours worked. Gaps get noticed in audits.
+          </li>
+        </ul>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/product-tour.mp4"
+          poster="/videos/product-tour-poster.jpg"
+          label="BuildWorkPro product tour: time tracking, projects, and field tools for subcontractors"
+          caption="BuildWorkPro's time tracking module: crew hours logged per project in quarter-hour steps, with per-person labor rates, manager review, and filtered totals — the daily record that feeds certified payroll."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Building the daily record that supports certified payroll</h2>
+        <p>
+          Whatever software or process you use, certified payroll compliance comes down to having a
+          daily record of who worked, on which project, for how many hours. That record has to be
+          captured at the time — not reconstructed at the end of the week.
+        </p>
+        <p>
+          In BuildWorkPro, <a href="/features/time-tracking/">time tracking</a> is built around exactly
+          this: crew members or their supervisors log time entries tied to a specific project and date,
+          with hours recorded in quarter-hour steps. Every entry shows who worked, when, on which job,
+          and for how long. Notes fields let you record the type of work performed — useful for projects
+          where one worker is covering multiple classifications in a week.
+        </p>
+        <p>
+          Labor rates are set per person per project, so the system computes dollar cost
+          automatically. That's primarily useful for job costing and comparing your labor spend to
+          what you carried in the <a href="/blog/how-to-create-construction-bid/">bid</a> — but the accurate
+          hour-per-day record it produces is the same record you need to fill out a certified payroll
+          report.
+        </p>
+        <p>
+          A manager can review entries before they're finalized, which catches the most common
+          errors — wrong project, wrong date, transposed hours — before they become discrepancies in
+          a weekly payroll report. Filter by project and date range and the header totals the hours
+          for that period.
+        </p>
+        <p>
+          For the other half of the daily picture — what work was actually performed, by which
+          workers, in which areas of the project — <a href="/features/site-logs/">site logs</a>
+          capture that in a separate field record tied to the same project and date. Together, the time
+          entry and the site log give you the documentation that both supports certified payroll and <a
+            href="/blog/construction-daily-report-template/">protects you in disputes</a
+          >.
+        </p>
+
+        <h2>Overtime on prevailing wage projects</h2>
+        <p>
+          The Davis-Bacon Act itself sets minimum wage rates but does not independently require
+          overtime pay. However, two other federal laws typically apply simultaneously:
+        </p>
+        <ul>
+          <li>
+            <strong>Contract Work Hours and Safety Standards Act (CWHSSA)</strong> — applies to most federal
+            and federally assisted construction contracts over $100,000 and requires overtime pay (1.5×
+            the basic rate) for hours over eight in a day or 40 in a week.
+          </li>
+          <li>
+            <strong>Fair Labor Standards Act (FLSA)</strong> — requires overtime for non-exempt employees
+            for hours over 40 in a workweek. Prevailing wage classifications don't change FLSA applicability.
+          </li>
+        </ul>
+        <p>
+          State laws may set stricter requirements. On daily-overtime states (California being the
+          most common), workers on state-funded prevailing wage projects often receive daily
+          overtime after eight hours even if they haven't hit 40 for the week.
+        </p>
+        <p>
+          The certified payroll form has separate columns for straight-time and overtime hours. If
+          your time records don't capture daily hours (only weekly totals), you can't accurately
+          complete those columns — which is another reason daily hour-by-hour logs matter more than
+          weekly summaries.
+        </p>
+
+        <h2>Audit exposure and recordkeeping</h2>
+        <p>
+          The Department of Labor's Wage and Hour Division can audit prevailing wage compliance on
+          any covered project. Prime contractors are usually required to make payroll records
+          available to the contracting agency on request, and state agencies conduct their own
+          audits on state-funded work.
+        </p>
+        <p>
+          Federal regulations under Davis-Bacon require payroll records to be maintained for three
+          years after the project's completion. State requirements vary but are generally in the
+          same range. What gets audited:
+        </p>
+        <ul>
+          <li>Certified payroll reports</li>
+          <li>Basic payroll records — hours worked, wages paid, deductions</li>
+          <li>Worker classifications vs. work actually performed</li>
+          <li>Fringe benefit plan documentation (if benefits are being credited)</li>
+          <li>Apprenticeship program registration documents (if apprentice rates are used)</li>
+        </ul>
+        <p>
+          The strongest audit defense is clean records kept contemporaneously — daily time logs that
+          match weekly payroll totals that match certified payroll reports. Discrepancies between
+          any of those three layers are where auditors focus.
+        </p>
+
+        <h2>Before you bid a prevailing wage job</h2>
+        <p>
+          Most compliance problems start at bid time, not on the job. A few things to sort out
+          before your number goes in:
+        </p>
+        <ul>
+          <li>
+            <strong>Get the wage determination early.</strong> It should be in the bid documents. If it
+            isn't, request it — you can't price the labor component without knowing the required rates.
+          </li>
+          <li>
+            <strong>Know which classifications your scope touches.</strong> Check every classification
+            that applies to your trade. Electrical scopes, for example, often span multiple classification
+            tiers depending on the work (inside wireman, communications, HVAC controls).
+          </li>
+          <li>
+            <strong>Confirm your fringe obligation.</strong> If you're meeting the fringe requirement
+            through benefits rather than cash, verify that your benefit plans qualify and that you have
+            documentation of the contribution amounts.
+          </li>
+          <li>
+            <strong>Plan for certified payroll submission frequency.</strong> Weekly certified payroll
+            reporting is the norm. Make sure whoever is handling payroll knows the submission deadline
+            — missing a week's submittal can trigger payment withholding from the prime.
+          </li>
+        </ul>
+        <p>
+          Public-works jobs often carry better cash flow — progress billing with clear payment terms
+          and government backing — but the compliance overhead is real. Pricing the job accurately
+          and setting up the paperwork process before work starts is how experienced subs handle it.
+          Our guide to <a href="/blog/how-to-create-construction-bid/"
+            >creating a construction bid</a
+          >
+          covers how to factor labor rate differences into your estimate when you're pricing prevailing
+          wage work against your usual rate structure.
+        </p>
+      </div>
+
+      <FAQSection
+        bare
+        class="mt-16"
+        faqs={faqs}
+        heading="Prevailing wage & certified payroll FAQ"
+      />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Keep the daily hour record that certified payroll depends on
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro's time tracking logs crew hours against each project in quarter-hour steps,
+          with manager review and per-project totals. $79/month, unlimited users, 14-day free trial,
+          no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Prevailing Wage & Certified Payroll Basics for Subcontractors"
+        description="What prevailing wage is, which projects require it, how certified payroll reporting works, and the hourly records every subcontractor needs to stay compliant."
+        datePublished="2026-08-11"
+        related={[
+          {
+            href: '/features/time-tracking/',
+            title: 'Time Tracking',
+            description:
+              'Crew hours logged per project in quarter-hour steps, with per-person labor rates, manager review, and filtered period totals.',
+          },
+          {
+            href: '/features/site-logs/',
+            title: 'Site Logs',
+            description:
+              'Daily field records tied to your project — who was on site, what work was performed, and what was delivered.',
+          },
+          {
+            href: '/blog/construction-daily-report-template/',
+            title: 'Construction Daily Report: What to Include',
+            description:
+              'The eight sections of a complete daily report and how to fill them out so the record holds up in disputes.',
+          },
+          {
+            href: '/blog/how-to-create-construction-bid/',
+            title: 'How to Create a Construction Bid',
+            description:
+              'How to factor labor rate differences into your estimate when pricing prevailing wage work.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
