@@ -1,0 +1,181 @@
+---
+// The NatGlass disclosed case study (issue #129). Q2 answered: there are no
+// external customers to quote yet, so the trust track leads with the most
+// honest story available — the founder's own company running the product in
+// production, affiliation stated plainly. Numbers verified against prod
+// 2026-08-10; update them when they age.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { config } from '../../config';
+
+const stats = [
+  { n: '3,224', label: 'bid line items priced' },
+  { n: '143', label: 'projects run' },
+  { n: '1,160', label: 'contacts managed' },
+  { n: '17', label: 'months in production' },
+];
+---
+
+<Layout
+  title="How a Glazing Contractor Runs on BuildWorkPro — Customer Story"
+  description="National Glass and Construction runs its whole operation — 400+ bids, 143 projects — on BuildWorkPro. Full disclosure: it's the founder's own company. That's the point."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+          Customer story
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+          The first customer was the founder's own crew
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          National Glass and Construction — a South Florida glass and glazing contractor — runs its
+          entire operation on BuildWorkPro: every bid, every project, every contact.
+        </p>
+      </div>
+    </section>
+
+    <!-- The disclosure IS the credibility -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="rounded-2xl border border-brand-100 bg-brand-50 p-8">
+        <h2 class="text-base font-semibold text-slate-900 mb-3">Full disclosure, up front</h2>
+        <p class="text-slate-600 leading-relaxed text-sm">
+          National Glass and Construction is our founder's own company. BuildWorkPro was built
+          inside it — by a contractor who needed the software, not a software company guessing at
+          what contractors need. We could hide that and print an anonymous testimonial; we'd rather
+          tell you the truth: <strong
+            >every feature below ran real jobs at a real contractor before it ever reached you.</strong
+          >
+        </p>
+      </div>
+    </section>
+
+    <!-- Live production numbers -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {
+          stats.map((s) => (
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 text-center">
+              <div class="text-4xl font-extrabold text-brand-600 tabular-nums">{s.n}</div>
+              <div class="mt-1 text-sm text-slate-500">{s.label}</div>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-3 text-xs text-slate-400 text-center">
+        Live production numbers as of August 2026 — not projections.
+      </p>
+    </section>
+
+    <!-- The story -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="prose prose-slate max-w-none">
+        <h2>The problem was the quote for the software</h2>
+        <p>
+          Glazing work is bid-heavy: storefronts, impact windows and doors, shower enclosures,
+          railings — each one priced from supplier parts, labor, and margin, sent as a proposal, and
+          billed as the work progresses. The software that promised to manage that workflow either
+          charged per user, buried pay applications behind enterprise tiers, or was built for the
+          general contractor on the other side of the table.
+        </p>
+        <p>
+          So National Glass ran on spreadsheets — until its owner started building the tool he
+          couldn't buy.
+        </p>
+
+        <h2>What a real contractor runs every week</h2>
+        <ul>
+          <li>
+            <strong>Bidding from a catalog:</strong> supplier parts and labor rates priced into line-item
+            bids — more than 400 bids and 3,200+ priced line items since going live — with margin applied
+            systematically instead of re-derived in a spreadsheet each time.
+          </li>
+          <li>
+            <strong>Projects, not paperwork piles:</strong> 143 projects with their documents, phases,
+            and billing in one record — the job's whole history findable in seconds.
+          </li>
+          <li>
+            <strong>A CRM that remembers:</strong> 1,160 contacts — GCs, property managers, suppliers,
+            homeowners — with every bid and job tied to them.
+          </li>
+          <li>
+            <strong>Books that agree:</strong> invoices and payments synced to QuickBooks Online, so the
+            office isn't re-typing what the field already recorded.
+          </li>
+        </ul>
+
+        <h2>The newest habit: bids that start as conversations</h2>
+        <p>
+          The way National Glass builds bids has changed again — most of them now start as a chat.
+          BuildWorkPro connects to Claude and ChatGPT, so describing the job in plain English — at a
+          desk or from a phone — is enough to get the bid built in the account, ready to review.
+        </p>
+        <blockquote>
+          <p>
+            "When I start a new bid, I usually just start chatting with Claude on my computer or my
+            phone. I give it the information and it builds the bid for me. When it's done, I review
+            it in BuildWorkPro and send it. Projects work the same way — the team and I run almost
+            everything through natural conversation now."
+          </p>
+          <p class="text-sm text-slate-500">— Ivan, founder</p>
+        </blockquote>
+        <p>
+          No prompts to learn, no technical setup beyond connecting the account — and nothing goes
+          to a customer without a human review. <a href="/features/ai-assistant/"
+            >How the AI assistant works</a
+          >.
+        </p>
+
+        <h2>Why this matters to you</h2>
+        <p>
+          Most construction software is designed in an office and tested in a demo. This one gets
+          tested on Monday mornings — real bids that have to go out, real pay applications a GC has
+          to approve, real crews on real jobs. When something is slow, confusing, or wrong, it costs
+          National Glass money before any customer ever sees it, so it gets fixed. You're not buying
+          a promise about how contractors work. You're buying the tool one already runs on.
+        </p>
+        <p>
+          Read <a href="/about/">the founder's story</a>, or see the workflow National Glass runs:
+          <a href="/features/construction-bidding/">bidding</a>,
+          <a href="/features/pay-applications/">pay applications</a>, and
+          <a href="/features/project-management/">project management</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="rounded-2xl bg-slate-900 px-8 py-14 sm:px-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight text-balance">
+          Run your operation the same way
+        </h2>
+        <p class="mt-4 text-slate-400 max-w-xl mx-auto">
+          Everything National Glass uses — bids, pay applications, change orders, e-signatures,
+          QuickBooks sync — is in the one plan. No tiers, no per-user fees.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Start free trial
+          </a>
+          <a
+            href="/pricing/"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
+          >
+            See pricing
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-slate-500">
+          $79/month flat · 14-day free trial · No credit card required
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
