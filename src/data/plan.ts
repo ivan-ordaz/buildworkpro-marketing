@@ -31,6 +31,7 @@ export const planFeatures: readonly string[] = [
   'Role-based permissions',
   'Document management',
   'QuickBooks sync',
+  'AI assistant (Claude & ChatGPT)',
   'Custom branding',
   'API access',
 ];
