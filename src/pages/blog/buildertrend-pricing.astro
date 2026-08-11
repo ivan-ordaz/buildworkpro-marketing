@@ -1,0 +1,223 @@
+---
+// Competitor cost-guide post (issue #148/#603). "buildertrend pricing" queries
+// are demonstrably winnable by low-authority sites — an entire micro-industry
+// (buildertrendpricing.com, projul, costbench) ranks for them because
+// Buildertrend stopped publishing prices in 2026. Figures verified 08-10 from
+// the intel sweep; re-verify before meaningful edits.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+
+const faqs = [
+  {
+    question: 'How much does Buildertrend cost per month?',
+    answer:
+      'Buildertrend no longer publishes prices — as of 2026, its pricing page collects your builder type, annual construction volume, and contact details, and a sales rep quotes you. The last published tiers, still reported by independent pricing trackers, ran roughly $339–$499/month (Essential), $499–$799 (Advanced), and $829–$1,099 (Complete), with unlimited users. Actual quotes vary by volume and negotiation.',
+  },
+  {
+    question: 'Does Buildertrend have a free trial?',
+    answer:
+      'No. Buildertrend is demo-led: you schedule a call with sales or submit a full contact form to watch a gated demo video. There is no self-serve trial where you can evaluate the product on your own work before talking to a salesperson.',
+  },
+  {
+    question: 'Why did my Buildertrend price go up?',
+    answer:
+      'Price increases at renewal are the most consistent theme in long-term Buildertrend reviews — users report entry prices near $199/month in earlier years being requoted toward $1,000/month. Custom-quote pricing gives the vendor room to reprice each renewal, and after Buildertrend acquired CoConstruct in 2021, the residential mid-market lost its main alternative.',
+  },
+  {
+    question: 'Can I export my data if I leave Buildertrend?',
+    answer:
+      'Not easily, according to recent verified reviews — a December 2025 review reports there is no self-serve bulk export, leaving departing customers to pull files, photos, and proposals item by item. Before signing any construction software contract, ask the vendor to show you the full-account export button. (BuildWorkPro has one; your data leaves with you.)',
+  },
+  {
+    question: 'What does BuildWorkPro cost compared to Buildertrend?',
+    answer:
+      'BuildWorkPro is $79/month flat ($790/year), published on the pricing page — every feature, unlimited users, 14-day free trial with no credit card. It is built for trade subcontractors billing GCs rather than home builders selling to homeowners, so compare workflows, not just prices: if your month ends with a pay application, the fit question answers itself.',
+  },
+];
+---
+
+<Layout
+  ogType="article"
+  title="Buildertrend Pricing (2026): What It Actually Costs"
+  description="Buildertrend stopped publishing prices in 2026. Here's what quotes actually run — legacy tiers, the price-hike pattern, hidden switching costs — with sources."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Buildertrend Pricing (2026): What It Actually Costs
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published August 10, 2026 · 7 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Try to find a price on buildertrend.com and you'll find a form instead: builder type,
+          annual construction volume, name, phone. As of 2026, Buildertrend quotes every customer
+          individually — even the button that says "See pricing" leads to the form. This guide
+          assembles what the quotes actually run, from the last published tiers and the independent
+          pricing trackers that follow them, so you can walk into the sales call knowing the range.
+        </p>
+
+        <div class="not-prose rounded-2xl border border-slate-200 bg-slate-50 p-6 my-8">
+          <h2 class="mt-0 text-base font-semibold text-slate-900">Key takeaways</h2>
+          <ul class="mb-0 mt-3 space-y-2 text-sm text-slate-600">
+            <li>
+              Buildertrend killed public pricing in 2026 — quotes are custom, based on your builder
+              type and construction volume.
+            </li>
+            <li>
+              The last published tiers ran <strong>$339–$1,099/month</strong> (Essential, Advanced, Complete),
+              unlimited users, with ~10% off for paying annually up front.
+            </li>
+            <li>
+              Long-term users report significant renewal increases — entry prices near $199/month in
+              earlier years requoted toward $1,000/month.
+            </li>
+            <li>
+              There is no free trial, and recent verified reviews report no self-serve bulk data
+              export if you leave.
+            </li>
+            <li>
+              Buildertrend's "specialty contractor" means homeowner-facing reno trades — if you bill
+              GCs with pay applications, you're pricing the wrong tool entirely.
+            </li>
+          </ul>
+        </div>
+
+        <h2>How Buildertrend pricing works now</h2>
+        <p>
+          The pricing model is sales-led and volume-informed: the form asks what you build and how
+          much construction volume you run per year (the options climb past $31M), then a rep builds
+          your quote. That structure tells you two things. First, the price is negotiable — treat
+          the first number as an opening. Second, your bill is designed to scale with your business,
+          which is worth weighing against flat-priced alternatives before you're locked into an
+          annual agreement.
+        </p>
+
+        <h2>The numbers, from the last published tiers</h2>
+        <p>
+          Before pricing went behind the form, Buildertrend published three tiers. Independent
+          pricing analyses (Projul, CostBench, and the exact-match site buildertrendpricing.com,
+          which exists precisely because this information is hard to get) still track them as the
+          baseline quotes tend to follow:
+        </p>
+        <div class="not-prose overflow-x-auto rounded-2xl border border-slate-200 my-6">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50">
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Tier</th>
+                <th class="text-left px-5 py-3 font-semibold text-slate-900"
+                  >Last published range</th
+                >
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">Essential</td>
+                <td class="px-5 py-3 text-slate-600">$339–$499/month</td>
+                <td class="px-5 py-3 text-slate-500">Core scheduling, comms, daily logs</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">Advanced</td>
+                <td class="px-5 py-3 text-slate-600">$499–$799/month</td>
+                <td class="px-5 py-3 text-slate-500">Adds financial tools, change orders</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">Complete</td>
+                <td class="px-5 py-3 text-slate-600">$829–$1,099/month</td>
+                <td class="px-5 py-3 text-slate-500">Full feature set, priority support</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          All tiers include unlimited users. Promotions come and go — $300 off the first month has
+          been common — and paying a year up front has typically earned about 10% off.
+        </p>
+
+        <h2>The renewal pattern to price in</h2>
+        <p>
+          The most consistent theme in long-term Buildertrend reviews isn't the entry price — it's
+          what happens to it. Users who started years ago near $199/month describe renewal quotes
+          climbing toward $1,000/month, and one long-time reviewer puts current entry "somewhere
+          north of $900 per month, pricing them out." Custom quotes reprice at every renewal, and
+          since Buildertrend acquired CoConstruct in 2021, the residential mid-market has had one
+          fewer place to go. Budget for the trajectory, not the teaser.
+        </p>
+
+        <h2>The exit cost nobody quotes</h2>
+        <p>
+          A verified December 2025 review reports there is no self-serve bulk data export — leaving
+          means pulling files, photos, and proposals item by item. Whatever software you buy,
+          construction records are your business's memory: make the vendor show you the full-account
+          export before you sign, because switching costs are part of the real price.
+        </p>
+
+        <h2>The question before the price question</h2>
+        <p>
+          Buildertrend's "specialty contractor" segment means outdoor living, kitchen and bath,
+          pools, decks — trades selling projects to homeowners, with client portals, selections, and
+          consumer financing. If that's your business, Buildertrend is a genuine contender and the
+          quote may be worth it. But if your customer is a general contractor and your month ends
+          with a <a href="/blog/aia-pay-application-guide/"
+            >pay application against a schedule of values</a
+          >, you'd be paying four figures for homeowner workflows you'll never open. Our <a
+            href="/compare/buildertrend-alternative/"
+            >full BuildWorkPro vs Buildertrend comparison</a
+          > walks the fit question honestly.
+        </p>
+
+        <h2>The flat-price contrast</h2>
+        <p>
+          BuildWorkPro publishes its price: <a href="/pricing/">$79/month flat, or $790/year</a> — every
+          feature, unlimited users, built for the sub-to-GC loop (bids, AIA-style pay applications, change
+          orders, e-signatures, QuickBooks sync). There's no quote call because there's nothing to quote,
+          and the 14-day trial needs no credit card. A 5-person crew's annual math: $790 vs. roughly $6,000–$13,000
+          at the last published Buildertrend tiers.
+        </p>
+      </div>
+
+      <p class="mt-10 text-xs text-slate-400">
+        Sources: buildertrend.com pricing flow; Projul, CostBench, and buildertrendpricing.com
+        pricing analyses; Capterra and TrustRadius verified reviews. Figures as of August 2026 —
+        custom quotes vary; verify current pricing with Buildertrend.
+      </p>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Buildertrend pricing FAQ" />
+
+      <BlogPostFooter
+        headline="Buildertrend Pricing (2026): What It Actually Costs"
+        description="Buildertrend stopped publishing prices in 2026. Here's what quotes actually run — legacy tiers, the price-hike pattern, hidden switching costs — with sources."
+        datePublished="2026-08-10"
+        related={[
+          {
+            href: '/compare/buildertrend-alternative/',
+            title: 'BuildWorkPro vs Buildertrend',
+            description:
+              'The full comparison: who each platform is really for, and where each genuinely wins.',
+          },
+          {
+            href: '/blog/procore-pricing-for-subcontractors/',
+            title: 'Procore Pricing for Subcontractors',
+            description: 'The other gated-pricing giant, decoded — ACV quotes and the real ranges.',
+          },
+          {
+            href: '/pricing/',
+            title: 'BuildWorkPro Pricing',
+            description: '$79/month flat, published. The honest math for a 5-person crew.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
