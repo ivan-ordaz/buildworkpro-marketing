@@ -527,6 +527,10 @@ const faqs = [
             name: 'template_download',
             params: { template: el.dataset.template },
           });
+        // Post-#125 the pixel runs by default for US visitors — downloads
+        // become a retargeting audience (custom event; not a standard one).
+        if (window.fbq)
+          window.fbq('trackCustom', 'TemplateDownload', { template: el.dataset.template });
       });
     });
   </script>
