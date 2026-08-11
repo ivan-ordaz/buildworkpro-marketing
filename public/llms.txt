@@ -53,6 +53,7 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 - [Pay application template (G702/G703 style)](https://buildworkpro.com/templates/aia-g702-g703/): Excel workbook with schedule of values, retainage math, and carry-forward
 - [Subcontractor agreement template](https://buildworkpro.com/templates/subcontractor-agreement/): 14-section standard-form subcontract as an editable Word doc
 - [Schedule of values template](https://buildworkpro.com/templates/schedule-of-values/): 30-row Excel SOV with % of contract math and a tie-out check
+- [Construction estimate template](https://buildworkpro.com/templates/construction-estimate/): 25-line estimate with material/labor split and true-margin pricing
 
 ## Integrations
 
