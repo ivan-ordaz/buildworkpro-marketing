@@ -67,7 +67,8 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 
 ## Company
 
-- [About](https://buildworkpro.com/about/)
+- [About](https://buildworkpro.com/about/): Founder story — built inside a working glazing contractor
+- [Customer story](https://buildworkpro.com/customers/national-glass/): National Glass and Construction runs on BuildWorkPro (416 bids, 143 projects; founder-owned, disclosed)
 - [Contact](https://buildworkpro.com/contact/)
 - [Security](https://buildworkpro.com/security/)
 - [Blog](https://buildworkpro.com/blog/): Practical guides on bidding, AIA pay applications, change orders, site logs, and CRM for subcontractors

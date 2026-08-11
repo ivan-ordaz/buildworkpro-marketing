@@ -1,4 +1,10 @@
 ---
+// Rewritten as a first-person founder letter (issue #129). The sweep's verdict
+// on the old page: "clear positioning but anonymous — for a solo-founder
+// product selling trust to skeptical contractors, a first-person founder note
+// would outperform this corporate voice." Voice and personal details reviewed
+// by Ivan before merge; the positioning content below carries over from the
+// original page.
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import CTA from '../components/CTA.astro';
@@ -6,64 +12,80 @@ import Footer from '../components/Footer.astro';
 ---
 
 <Layout
-  title="About BuildWorkPro – Construction Software for Subcontractors"
-  description="BuildWorkPro was built to solve the construction software problem for subcontractors. Purpose-built for specialty trades, designed for real workflows."
+  title="About BuildWorkPro – Built by a Contractor Who Needed It"
+  description="BuildWorkPro was built inside a working glazing contractor by its founder — subcontractor-first software at one flat price, tested on real jobs first."
 >
   <Header />
   <main class="pt-32 pb-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">About us</p>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          We're building for the builders
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">About</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+          Built by a contractor who needed it
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Subcontractors are the backbone of the construction industry. They make up the majority of
-          every jobsite, yet the software built for construction has always been designed for
-          general contractors first.
+          BuildWorkPro didn't start in a pitch deck. It started in a glass shop in South Florida,
+          with a stack of bids to get out and software quotes that made no sense.
         </p>
       </div>
 
       <div class="prose prose-lg prose-slate mx-auto">
-        <h2>The problem we saw</h2>
         <p>
-          Most construction management software charges hundreds of dollars per month, scales by
-          user count, and buries the features that subs actually need — pay applications, change
-          orders, and field documentation — behind enterprise tiers. Small and mid-size specialty
-          contractors are left with spreadsheets, paper forms, and disconnected tools.
+          I run <a href="/customers/national-glass/">National Glass and Construction</a> — a glass and
+          glazing contractor. Storefronts, impact windows and doors, showers, railings. The same week-in,
+          week-out loop every specialty sub knows: price the work, win the work, schedule the crew, document
+          the field, bill the work, chase the payment.
         </p>
+        <p>
+          When I went looking for software to run that loop, the industry's answer was software
+          built for the other side of the table — general contractors and owners — at prices
+          designed for them too: per-user fees that punish you for hiring, custom quotes that go up
+          every renewal, and the features subs actually live in — pay applications, change orders,
+          field logs — locked behind enterprise tiers. The affordable options stopped at invoices.
+        </p>
+        <p>So I built the tool I couldn't buy, and ran my own company on it.</p>
 
-        <h2>Our approach</h2>
+        <h2>Every feature ran real jobs first</h2>
         <p>
-          BuildWorkPro is a subcontractor-first platform. Every feature is designed around how
-          specialty trades actually work — from bidding jobs and tracking projects, to submitting
-          pay apps and documenting the field. One plan, one price, everything included.
-        </p>
-        <p>
-          We believe the plumber with a 5-person crew deserves the same quality tools as the GC
-          running a $100M backlog. That's why we built BuildWorkPro at <strong
-            >$79/month flat</strong
-          > — no per-user fees, no feature gates, no surprises.
+          National Glass has put <a href="/customers/national-glass/">416 bids and 143 projects</a> through
+          BuildWorkPro. When a bid takes one click too many or a pay application rounds wrong, it costs
+          my crew before it ever reaches yours. That's the feedback loop this product is built on — contractor
+          first, software second.
         </p>
 
         <h2>What we stand for</h2>
         <ul>
           <li>
             <strong>Subs first.</strong> Every feature decision starts with "does this help a specialty
-            contractor?"
+            contractor?" If it doesn't, we don't build it.
           </li>
           <li>
-            <strong>Simple pricing.</strong> One plan, everything included. We don't penalize you for
-            growing your team.
+            <strong>One price, everything included.</strong> $79/month flat. The plumber with a 5-person
+            crew deserves the same tools as the GC with a $100M backlog — and hiring your sixth person
+            should cost you $0 more.
           </li>
           <li>
-            <strong>Built to be used.</strong> Clean, fast, and practical — not bloated with features
-            nobody asked for.
+            <strong>Built to be used.</strong> Deep on the eight things a sub does every week, instead
+            of shallow on eighty things nobody asked for.
           </li>
           <li>
-            <strong>Your data, your business.</strong> We don't sell your data. We sell software.
+            <strong>Your data, your business.</strong> Full export, any time. We sell software, not your
+            data — and leaving is never a hostage negotiation.
           </li>
         </ul>
+
+        <p>
+          If that sounds like how you'd want your software company run, the
+          <a href="/pricing/">whole platform is $79/month</a> and the first 14 days are free — no credit
+          card, no demo call, no sales rep. Try it on a real job and see.
+        </p>
+
+        <p class="not-prose mt-10 text-slate-700">
+          — <strong>Ivan Ordaz</strong><br />
+          <span class="text-sm text-slate-500"
+            >Founder, BuildWorkPro · Owner, National Glass and Construction</span
+          >
+        </p>
       </div>
     </div>
 
