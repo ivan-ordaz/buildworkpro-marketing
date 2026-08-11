@@ -55,6 +55,11 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 - [Schedule of values template](https://buildworkpro.com/templates/schedule-of-values/): 30-row Excel SOV with % of contract math and a tie-out check
 - [Construction estimate template](https://buildworkpro.com/templates/construction-estimate/): 25-line estimate with material/labor split and true-margin pricing
 - [Construction bid proposal template](https://buildworkpro.com/templates/construction-bid-proposal/): scope, price with alternates, inclusions/exclusions, terms, acceptance block
+- [Change order template](https://buildworkpro.com/templates/change-order/): contract-sum adjustment table, time extension, dual signatures
+- [Punch list template](https://buildworkpro.com/templates/punch-list/): 40-row tracker with live status counts and verification column
+- [Construction invoice template](https://buildworkpro.com/templates/construction-invoice/): line items with computed amounts, tax, and payment terms
+- [Construction schedule template](https://buildworkpro.com/templates/construction-schedule/): 35 tasks by phase with computed durations and predecessor notes
+- [Daily report template](https://buildworkpro.com/blog/construction-daily-report-template/): printable daily construction report with the guide that explains each section
 
 ## Integrations
 

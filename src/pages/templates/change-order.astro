@@ -1,0 +1,162 @@
+---
+// Pages 6-9 of the /templates/ hub (issue #134). This one: change order template — 1,000/mo KD0, transactional intent 0.98. Ungated per Q5.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import { config } from '../../config';
+
+const FILE = '/templates-files/change-order-template.docx';
+
+const whatsInside = [
+  'Description and reason for the change — the fields disputes turn on',
+  'Contract-sum adjustment table: original sum → prior COs → this CO → new sum',
+  'Schedule adjustment with a new completion date',
+  'Full-and-final compensation language covering cumulative impacts',
+  'No-work-before-signature clause',
+  'Dual signature blocks (contractor + owner/GC)',
+];
+
+const faqs = [
+  {
+    question: 'What should a change order include?',
+    answer:
+      "A description of the changed work and why it changed, the price adjustment shown against the running contract sum (original sum, prior change orders, this change, new total), any schedule adjustment, and both parties' signatures. The running-total table matters: it keeps every CO reconciled to the same contract sum your pay applications bill against.",
+  },
+  {
+    question: 'Can I start the changed work on a verbal approval?',
+    answer:
+      "Don't. Unsigned extra work is the most common way subs lose money — 'we'll square up later' becomes an argument about scope, price, and memory. This template says the changed work does not proceed until both parties sign, and holding that line is what makes the paper trail worth anything.",
+  },
+  {
+    question: 'How do change orders affect my pay applications?',
+    answer:
+      'Approved change orders adjust the contract sum, and the changed work becomes billable lines in your schedule of values. On the first pay application after approval, the CO amount shows up in the change-orders total and the new lines carry forward every period after.',
+  },
+  {
+    question: 'What if the GC refuses to sign but directs the work?',
+    answer:
+      "Document the directive in writing the same day — a confirming email works — note it in your daily report, and track the costs separately. State law and your contract's claims provisions control from there; the worst position is doing the work with no record at all.",
+  },
+];
+---
+
+<Layout
+  title="Free Construction Change Order Template (Word)"
+  description="Free construction change order template: description, contract-sum adjustment table, time extension, and dual signatures — an editable Word doc, no email required."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="text-center">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+          Free template
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+          Construction Change Order Template
+        </h1>
+        <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          A verbal OK is not a change order. This one-page form prices the change, adjusts the
+          contract sum and schedule, and gets both signatures before the work starts.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href={FILE}
+            download
+            data-template="change-order"
+            class="template-download inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Download the free template (.docx)
+          </a>
+          <a
+            href="/blog/construction-change-order-management/"
+            class="inline-flex w-full sm:w-auto items-center justify-center px-7 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:border-brand-300 hover:text-brand-700 transition-colors"
+          >
+            Read the change order guide
+          </a>
+        </div>
+        <p class="mt-3 text-center text-sm text-slate-500">
+          No email required · Opens in Word &amp; Google Docs
+        </p>
+      </div>
+    </section>
+
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+        What's in the template
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {
+          whatsInside.map((item) => (
+            <div class="flex items-start gap-3">
+              <svg
+                class="w-5 h-5 text-brand-600 mt-0.5 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-slate-600">{item}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="mt-8 text-sm text-slate-500 text-center max-w-2xl mx-auto"
+        set:html={`Approved change orders flow into the contract sum on your <a href="/templates/aia-g702-g703/" class="text-brand-600 underline underline-offset-2 font-medium">pay application</a> — the two templates are built to reconcile.`}
+      />
+    </section>
+
+    <FAQSection faqs={faqs} />
+
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
+      <div class="rounded-2xl bg-slate-900 px-8 py-14 sm:px-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight text-balance">
+          Approved online, applied automatically
+        </h2>
+        <p class="mt-4 text-slate-400 max-w-xl mx-auto">
+          In BuildWorkPro, change orders are priced with real line items, e-signed by your customer
+          from an emailed link, and applied to the contract value and the next pay application the
+          moment they're approved.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={config.signupUrl}
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Start free trial
+          </a>
+          <a
+            href="/features/change-orders/"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors"
+          >
+            See change orders in BuildWorkPro
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-slate-500">
+          <a href="/pricing/" class="text-slate-300 underline hover:text-white">$79/month flat</a> · 14-day
+          free trial · No credit card required
+        </p>
+      </div>
+      <p class="mt-8 text-xs text-slate-400 max-w-2xl mx-auto">
+        Not legal advice — have your attorney review before relying on it.
+      </p>
+    </section>
+  </main>
+  <Footer />
+
+  <script is:inline>
+    document.querySelectorAll('.template-download').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (window.bwpTrack)
+          window.bwpTrack(null, {
+            name: 'template_download',
+            params: { template: el.dataset.template },
+          });
+      });
+    });
+  </script>
+</Layout>

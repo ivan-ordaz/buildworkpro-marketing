@@ -95,6 +95,22 @@ const faqs = [
           </ul>
         </div>
 
+        <div class="not-prose rounded-2xl border border-brand-100 bg-brand-50 p-6 my-8">
+          <p class="font-semibold text-slate-900">Download the template</p>
+          <p class="mt-1 text-sm text-slate-600">
+            The printable daily report this guide describes — crew table, weather, work performed,
+            deliveries, delays, and safety sections — as an editable Word doc. No email required.
+          </p>
+          <a
+            href="/templates-files/daily-report-template.docx"
+            download
+            data-template="daily-report"
+            class="template-download mt-4 inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-colors"
+          >
+            Download the free template (.docx)
+          </a>
+        </div>
+
         <h2>What is a construction daily report?</h2>
         <p>
           A construction daily report is a dated record of everything that happened on a job site on
@@ -502,4 +518,16 @@ const faqs = [
     </article>
   </main>
   <Footer />
+
+  <script is:inline>
+    document.querySelectorAll('.template-download').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (window.bwpTrack)
+          window.bwpTrack(null, {
+            name: 'template_download',
+            params: { template: el.dataset.template },
+          });
+      });
+    });
+  </script>
 </Layout>
