@@ -12,6 +12,20 @@ test.describe('templates hub', () => {
       page.getByRole('link', { name: /Pay Application Template/i }).first()
     ).toBeVisible();
   });
+
+  test('the complete-pack email form renders without gating the downloads', async ({ page }) => {
+    await page.goto('/templates/');
+    const form = page.locator('#template-pack-form');
+    await expect(form).toBeVisible();
+    await expect(form.locator('input[type="email"]')).toBeVisible();
+    // Consent stays explicit — same GDPR pattern as the contact form.
+    await expect(form.locator('#template-pack-consent')).toBeAttached();
+    // The individual downloads above the form must remain ungated links, not
+    // form-triggered — the open-file strategy is the whole point (Q5).
+    await expect(
+      page.getByRole('link', { name: /Pay Application Template/i }).first()
+    ).toBeVisible();
+  });
 });
 
 // Pages 6–9 share one page template — loop-verify render + real-file download.

@@ -9,9 +9,15 @@ export type Env = {
 
 // Transactional email via SendGrid (matches the main app). SendGrid returns
 // 202 Accepted with an empty body on success — do NOT parse it as JSON.
+// `to` defaults to the internal inbox; pass it explicitly to mail a visitor.
 export async function sendEmail(
   apiKey: string,
-  opts: { subject: string; htmlContent: string; replyTo?: { email: string; name?: string } }
+  opts: {
+    subject: string;
+    htmlContent: string;
+    replyTo?: { email: string; name?: string };
+    to?: { email: string; name?: string };
+  }
 ) {
   const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
     method: 'POST',
@@ -20,7 +26,7 @@ export async function sendEmail(
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      personalizations: [{ to: [{ email: RECIPIENT_EMAIL }] }],
+      personalizations: [{ to: [opts.to ?? { email: RECIPIENT_EMAIL }] }],
       from: { email: SENDER_EMAIL, name: SENDER_NAME },
       subject: opts.subject,
       content: [{ type: 'text/html', value: opts.htmlContent }],
