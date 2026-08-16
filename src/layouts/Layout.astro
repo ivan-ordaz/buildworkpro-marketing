@@ -318,6 +318,7 @@ const geoDefaultEnabled = import.meta.env.PROD;
       set:html={JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Organization',
+        '@id': `${config.siteUrl}/#organization`,
         name: 'BuildWorkPro',
         url: config.siteUrl,
         logo: `${config.siteUrl}/logo.png`,
