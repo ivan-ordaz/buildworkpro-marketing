@@ -1,0 +1,349 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is a construction punch list?',
+    answer:
+      'A punch list (also called a deficiency list or snag list) is a document prepared near the end of a construction project that records all incomplete work, defects, and items that must be corrected before the owner or general contractor will accept the work and authorize final payment. Each item identifies what needs to be fixed, who is responsible, and ideally a target date for correction.',
+  },
+  {
+    question: 'Who creates the punch list?',
+    answer:
+      "In most projects, the general contractor or owner's representative leads the punch list walkthrough and produces the official list. However, a smart subcontractor runs their own internal walk before that meeting — finding and fixing items before the GC sees them is much faster than working from someone else's list, which may be written with less specificity or may flag items you believe are outside your scope.",
+  },
+  {
+    question: 'What does substantial completion mean, and how does it relate to the punch list?',
+    answer:
+      "Substantial completion is the point at which the work is sufficiently complete that the owner can use it for its intended purpose — even if minor items remain. It's a legal and contractual milestone: a Certificate of Substantial Completion (often issued on AIA form G704) is signed by the architect or owner, setting the date and listing what work remains. The punch list is typically attached to or created alongside that certificate. Retainage and liquidated damages often run until substantial or final completion, so the date matters.",
+  },
+  {
+    question: 'How long does punch list take?',
+    answer:
+      "It depends on how well the work was documented and executed throughout the job. A subcontractor who logged site reports, photographed completed work, and addressed quality issues as they arose can often clear a punch list in days. One who ignored minor defects through the job can spend weeks reworking items. The punch list timeline also depends on the GC's review cycle — some will re-inspect within days, others take longer. Running your own list first compresses the total time significantly.",
+  },
+  {
+    question: 'Can punch list items become change orders?',
+    answer:
+      "Sometimes. If the GC's punch list includes items that are genuinely outside your original scope — work that was never contracted, or damage caused by another trade — those items should be documented and handled as a change order, not corrected for free. Get the scope dispute in writing as early as possible rather than quietly doing the work and losing the ability to bill for it later.",
+  },
+];
+---
+
+<Layout
+  ogType="article"
+  title="Punch List Management for Subcontractors | BuildWorkPro"
+  description="What a construction punch list is, how to create one before the GC walks, and how to track items through closeout to protect your retainage."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Punch List Management for Subcontractors
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published August 14, 2026 · 8 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          The punch list is the last mile of a job — and the part where subcontractors most often
+          lose money they already earned. A long punch list, a slow re-inspection cycle, or items on
+          the list that were never your scope can hold your retainage for months after your crew has
+          left the site. Managing it well is not complicated, but it does require organization.
+        </p>
+        <p>
+          This guide covers what a punch list is, what goes on it, how to run your own walkthrough
+          before the GC does, and how to track items through to final acceptance.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              A punch list records every incomplete or defective item the contractor or owner
+              requires corrected before final payment.
+            </li>
+            <li>
+              Run your own internal walkthrough before the GC's — finding items yourself is faster
+              than correcting from a vague external list.
+            </li>
+            <li>
+              Track each item with an assigned crew member, a due date, and a clear status so
+              nothing falls through the cracks.
+            </li>
+            <li>
+              Items outside your original scope should be documented as potential change orders, not
+              absorbed silently.
+            </li>
+            <li>
+              Retainage release is usually tied to substantial or final completion — the faster the
+              punch list closes, the faster you collect.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is a punch list?</h2>
+        <p>
+          A punch list (also called a deficiency list, or a snag list in the UK) is a written record
+          of items that must be completed or corrected before a project reaches final acceptance.
+          It's produced near the end of construction — typically at or after substantial completion
+          — and each item describes a specific problem: a crack in the drywall, a missing cover
+          plate, paint that needs touch-up, a valve that won't seat correctly.
+        </p>
+        <p>
+          The term comes from an older practice of physically punching a hole next to each item on a
+          paper list once it was resolved — a physical confirmation that the item was done. The name
+          stuck even as the format moved to spreadsheets and apps.
+        </p>
+        <p>
+          Subcontractors encounter the punch list in two ways: the GC hands one down listing
+          deficiencies in your scope, or you're coordinating your own subs on a design-build project
+          and issuing the list yourself. Either way, the process is the same — document, assign,
+          track, and get re-inspected.
+        </p>
+
+        <h2>When does the punch list happen?</h2>
+        <p>
+          The punch list is formally triggered at substantial completion, the contractual milestone
+          at which the work is complete enough for its intended use. On most commercial jobs, an
+          architect or GC representative walks the site, the Certificate of Substantial Completion
+          is signed (often using a form like the AIA G704), and the punch list is attached or issued
+          separately. After that, you have a defined window — often specified in the contract — to
+          correct every item.
+        </p>
+        <p>
+          In practice, punch list walks happen throughout a job too. A GC who catches quality issues
+          early may issue informal lists trade by trade before the final walk. Treating those as
+          mini punch lists — assigning them, tracking them, and closing them fast — means the formal
+          final list is short.
+        </p>
+
+        <h2>What belongs on a punch list</h2>
+        <p>
+          A well-written punch list item has four parts: a description of the deficiency, the
+          location on the job site, the responsible trade or subcontractor, and a target completion
+          date. The items that typically appear:
+        </p>
+        <ul>
+          <li>
+            <strong>Incomplete work.</strong> Things that weren't finished — missing hardware, uninstalled
+            fixtures, gaps in the work.
+          </li>
+          <li>
+            <strong>Defects and damage.</strong> Work that was done but doesn't meet the spec or was damaged
+            after installation — scratched surfaces, misaligned framing, cracked tiles.
+          </li>
+          <li>
+            <strong>Specification non-conformance.</strong> Items installed correctly but to the wrong
+            specification — wrong color, wrong model number, wrong dimension.
+          </li>
+          <li>
+            <strong>Code or inspection items.</strong> Anything flagged by the building inspector that
+            must be corrected before a certificate of occupancy is issued.
+          </li>
+          <li>
+            <strong>Cleaning and touch-up.</strong> Paint scuffs, debris removal, final cleaning — often
+            the last items to clear.
+          </li>
+        </ul>
+        <p>
+          What doesn't belong on your punch list: work that was explicitly excluded from your
+          contract, damage caused by another trade, or new scope that crept in without an approved
+          <a href="/features/change-orders/">change order</a>. If any of those items appear, get
+          them in writing and address the scope question before you spend labor fixing them.
+        </p>
+
+        <h2>Run your own walkthrough first</h2>
+        <p>
+          The most effective punch list strategy for a subcontractor is to walk your own work before
+          the GC does. Take a blank list, go through every area in your scope, and document anything
+          you'd flag if you were the inspector. Then fix those items.
+        </p>
+        <p>
+          This approach has two advantages. First, you find and fix things on your schedule rather
+          than reacting to someone else's timeline. Second, when the GC's list arrives it's shorter
+          — and the items that remain are more likely to be genuine scope disputes or damage from
+          other trades, not your crew's work quality.
+        </p>
+        <p>
+          Walk room by room or area by area and bring photos. A photo of a resolved item taken
+          before the re-inspection visit is the fastest way to close a disputed item — the GC can
+          confirm it remotely rather than scheduling a second site visit for one thing.
+        </p>
+
+        <h2>How to track punch list items</h2>
+        <p>
+          A punch list that lives in someone's email or on a folded piece of paper in a truck
+          doesn't get worked. Each item needs a home, an owner, and a status. The minimum you need
+          to track each item:
+        </p>
+        <ul>
+          <li>
+            <strong>Description</strong> — what specifically needs to be done or fixed.
+          </li>
+          <li>
+            <strong>Location</strong> — where on the job site the item is.
+          </li>
+          <li>
+            <strong>Assignee</strong> — which crew member or trade is responsible.
+          </li>
+          <li>
+            <strong>Due date</strong> — the target correction date within the contract window.
+          </li>
+          <li>
+            <strong>Status</strong> — outstanding, in progress, corrected, and verified by GC.
+          </li>
+        </ul>
+        <p>
+          You can track this in a spreadsheet, but a spreadsheet doesn't notify the assignee,
+          doesn't show a timeline, and doesn't live alongside the rest of the job. In
+          <a href="/features/project-management/">BuildWorkPro's project management</a>, punch list
+          items fit naturally as tasks inside a dedicated closeout phase. Each task has a status (To
+          Do, In Progress, Done), a priority, an assignee, a start date, and a duration — and tasks
+          can carry a checklist of sub-steps if an item has multiple parts. Dependencies let you
+          link tasks that must be done in sequence, and the Gantt view shows everything on a
+          timeline so you can see whether you're on track to clear the list before the re-inspection
+          date.
+        </p>
+        <p>
+          The project's status moves to <strong>Closeout</strong> in BuildWorkPro once you're in this
+          phase, which signals to your team that the job is in final wrap-up — not just another active
+          project to be triaged against ongoing work.
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/gantt-demo.mp4"
+          poster="/videos/gantt-demo-poster.jpg"
+          label="Demo: a BuildWorkPro project's Phases and Tasks tab in Gantt view, showing phases as summary bars and tasks as timeline bars with dependency arrows"
+          caption="A BuildWorkPro project in Gantt view — phases and tasks on a timeline, with dependencies highlighting which items must finish before the re-inspection date."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Punch list and retainage</h2>
+        <p>
+          On most subcontracts, retainage is held until the work is substantially or finally
+          complete. The punch list is the bridge between those two milestones. If your contract
+          specifies retainage release at substantial completion, a long punch list delays that date.
+          If release happens at final completion, every day the list stays open is another day
+          you're waiting on money you've already earned.
+        </p>
+        <p>
+          For a deeper look at how retainage works and how to track it across active jobs, see our
+          <a href="/blog/retainage-construction-guide/">retainage guide</a>. The short version: when
+          you close the punch list quickly, you compress the window between substantial completion
+          and final payment. When it drags, that gap costs you.
+        </p>
+        <p>
+          Retainage release typically requires more than just a closed punch list — you'll also need
+          to deliver
+          <a href="/blog/construction-lien-waivers-explained/">final lien waivers</a> and any closeout
+          documentation specified in the contract (as-built drawings, warranties, O&amp;M manuals). Keep
+          that closeout package organized in the same place as the punch list so nothing holds up final
+          billing.
+        </p>
+        <p>
+          In BuildWorkPro, your
+          <a href="/features/pay-applications/">pay applications</a> are tied to the project, so your
+          final progress billing and retainage release request live in the same place as the closeout
+          task list — not scattered across email chains and separate tools.
+        </p>
+
+        <h2>Common punch list mistakes</h2>
+        <ul>
+          <li>
+            <strong>Waiting for the GC's list.</strong> Walking your own work first and fixing items before
+            the official walkthrough is the single biggest time-saver in closeout.
+          </li>
+          <li>
+            <strong>No clear ownership.</strong> Punch list items with no assigned person get done last,
+            or not at all. Every item needs one person accountable for it.
+          </li>
+          <li>
+            <strong>Accepting out-of-scope items.</strong> Quietly fixing items that aren't in your contract
+            costs you labor without compensation. Document the dispute, even if you ultimately resolve
+            it informally.
+          </li>
+          <li>
+            <strong>No photo documentation.</strong> Re-inspection visits take time. Photos of resolved
+            items — taken before the GC walks back through — let you close items remotely.
+          </li>
+          <li>
+            <strong>Treating punch list as lower priority than active jobs.</strong> Your retainage is
+            sitting on this completed project. Treating the punch list as optional overtime while your
+            crew is pulled to the next job is how six-week delays happen.
+          </li>
+        </ul>
+
+        <p>
+          The punch list is not where money is made — it's where money that was already made gets
+          protected. A short list, cleared fast, with everything documented, is the path to final
+          payment without argument.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Punch list FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Track your punch list through to final payment
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro keeps punch list tasks, pay applications, and retainage on the same project —
+          so nothing delays final billing. $79/month, unlimited users, 14-day free trial.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Punch List Management for Subcontractors"
+        description="What a construction punch list is, how to run your own walkthrough before the GC does, and how to track items through closeout so retainage releases on time."
+        datePublished="2026-08-14"
+        related={[
+          {
+            href: '/features/project-management/',
+            title: 'Project Management',
+            description:
+              'Phases, tasks, checklists, and a Gantt chart for tracking closeout work through to final acceptance.',
+          },
+          {
+            href: '/blog/retainage-construction-guide/',
+            title: 'Retainage in Construction: How It Works & How to Track It',
+            description:
+              'How retainage is calculated, when it releases, and how to track it across jobs.',
+          },
+          {
+            href: '/blog/construction-lien-waivers-explained/',
+            title: 'Construction Lien Waivers Explained',
+            description: 'The four lien waiver types and what to check before signing at closeout.',
+          },
+          {
+            href: '/features/pay-applications/',
+            title: 'Pay Applications',
+            description:
+              'AIA-style progress billing with retainage tracking, on the same project as your punch list.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
