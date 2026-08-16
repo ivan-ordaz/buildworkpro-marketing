@@ -1,0 +1,166 @@
+{
+  "slug": "03-manage-project",
+  "title": "Run your whole project from one screen",
+  "subtitle": "BuildWorkPro · Project Management",
+  "intro": {
+    "title": "Manage a project end to end",
+    "subtitle": "Schedule, field, billing, and docs in one place",
+    "durationMs": 3000
+  },
+  "outro": {
+    "title": "One platform for the whole job",
+    "cta": "Try it free at buildworkpro.com",
+    "durationMs": 3500
+  },
+  "scenes": [
+    {
+      "id": "open-projects",
+      "title": "The Projects board",
+      "narration": "Once a bid is won, it becomes a project, and this is where the real work gets managed. Every job you're running shows up here, organized by stage so you can see your whole operation at a glance. Let's open one up and walk through it.",
+      "caption": { "text": "The Projects board", "position": "bottom" },
+      "minDurationMs": 13000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/projects" },
+        { "type": "waitFor", "selector": "button:has-text('New Project'), main", "timeoutMs": 15000 },
+        { "type": "wait", "ms": 1000 },
+        { "type": "hover", "selector": "main button[class*='cursor-pointer']", "comment": "hover a project card" },
+        { "type": "wait", "ms": 1500 }
+      ]
+    },
+    {
+      "id": "open-project",
+      "title": "The project command center",
+      "narration": "This is the project command center. Right up top you've got the essentials, the contract value, your overall progress, and the current status front and center, so you know at a glance whether the job is on track. No digging, no guessing, it's all right here.",
+      "caption": { "text": "The project command center", "position": "bottom" },
+      "minDurationMs": 15000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/projects/${CAPTURE_PROJECT_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Overview')", "timeoutMs": 15000 },
+        { "type": "wait", "ms": 1200 },
+        { "type": "hover", "selector": "text=/In Progress/i", "comment": "status badge in the header" },
+        { "type": "wait", "ms": 900 },
+        { "type": "hover", "selector": "text=/Contract/i" },
+        { "type": "wait", "ms": 900 },
+        { "type": "hover", "selector": "text=/Progress/i" },
+        { "type": "wait", "ms": 1500 }
+      ]
+    },
+    {
+      "id": "schedule",
+      "title": "Phases & tasks",
+      "narration": "Let's talk scheduling. Under Phases and Tasks I can break the job into phases, like demo, rough-in, and finish, and then add the tasks that live under each one. I'll add a new phase right now. Everything you set up here feeds directly into the timeline.",
+      "caption": { "text": "1. Schedule phases & tasks", "position": "bottom" },
+      "minDurationMs": 17000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/projects/${CAPTURE_PROJECT_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Phases')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Phases')" },
+        { "type": "wait", "ms": 1300 },
+        { "type": "type", "selector": "input[placeholder='Add new phase...']", "text": "Rough-In", "delayMs": 70 },
+        { "type": "wait", "ms": 600 },
+        { "type": "click", "selector": "button:has-text('Add Phase')" },
+        { "type": "wait", "ms": 1800 },
+        { "type": "hover", "selector": "input[placeholder='Add task...']", "comment": "tasks nest under a phase" },
+        { "type": "wait", "ms": 1500 }
+      ]
+    },
+    {
+      "id": "gantt",
+      "title": "The Gantt timeline",
+      "narration": "And with one click, that same task list becomes a full Gantt chart. Now I can see how the whole job sequences out, what overlaps, where the critical path runs, and whether we're going to hit our completion date. Adjust the schedule here, and your whole team stays on the same page.",
+      "caption": { "text": "2. See it on the Gantt timeline", "position": "bottom" },
+      "minDurationMs": 15000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/projects/${CAPTURE_PROJECT_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Phases')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Phases')" },
+        { "type": "wait", "ms": 1200 },
+        { "type": "click", "selector": "main button:has-text('Gantt')" },
+        { "type": "wait", "ms": 1800 },
+        { "type": "hover", "selector": "main svg, main canvas, [class*='gantt' i]" },
+        { "type": "wait", "ms": 1500 },
+        { "type": "scroll", "y": 280 },
+        { "type": "wait", "ms": 1200 },
+        { "type": "scroll", "y": 0 },
+        { "type": "wait", "ms": 800 }
+      ]
+    },
+    {
+      "id": "site-logs",
+      "title": "Daily site logs",
+      "narration": "Out in the field, your crew keeps a daily record with site logs. Weather, crew count, deliveries, progress, even issues and safety notes, all time-stamped and tied to the project. It's your daily diary and your paper trail, all in one.",
+      "caption": { "text": "3. Capture daily site logs", "position": "bottom" },
+      "minDurationMs": 14000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/projects/${CAPTURE_PROJECT_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Site Logs')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Site Logs')" },
+        { "type": "wait", "ms": 1300 },
+        { "type": "click", "selector": "button:has-text('New Log Entry')" },
+        { "type": "waitFor", "selector": "[role='dialog']", "timeoutMs": 12000 },
+        { "type": "wait", "ms": 1500 },
+        { "type": "hover", "selector": "text=/Personnel on Site/i" },
+        { "type": "wait", "ms": 1000 },
+        { "type": "hover", "selector": "text=/Tags/i" },
+        { "type": "wait", "ms": 1300 },
+        { "type": "press", "key": "Escape" },
+        { "type": "wait", "ms": 700 }
+      ]
+    },
+    {
+      "id": "financials",
+      "title": "Change orders & pay apps",
+      "narration": "This is where BuildWorkPro protects your money. Change orders capture every scope change and roll it straight into the contract value, so you never eat a change again. And pay apps generate AIA-style payment applications, complete with your schedule of values and retainage, ready to send to the general contractor.",
+      "caption": { "text": "4. Change orders & AIA-style pay apps", "position": "bottom" },
+      "minDurationMs": 18000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/projects/${CAPTURE_PROJECT_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Change Orders')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Change Orders')" },
+        { "type": "wait", "ms": 1500 },
+        { "type": "hover", "selector": "text=/Total/i" },
+        { "type": "wait", "ms": 1500 },
+        { "type": "click", "selector": "[role='tab']:has-text('Pay Apps')" },
+        { "type": "wait", "ms": 1600 },
+        { "type": "hover", "selector": "text=/Pay App/i" },
+        { "type": "wait", "ms": 1800 }
+      ]
+    },
+    {
+      "id": "docs-and-time",
+      "title": "Documents & labor hours",
+      "narration": "Plans, permits, photos, and contracts all live on the project under Documents, so the latest version is always one click away. And every hour your team logs rolls up here too, giving you real labor cost against your budget as the job runs.",
+      "caption": { "text": "5. Documents & labor hours", "position": "bottom" },
+      "minDurationMs": 15000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/projects/${CAPTURE_PROJECT_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Documents')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Documents')" },
+        { "type": "wait", "ms": 2200 },
+        { "type": "hover", "selector": "button:has-text('Upload')" },
+        { "type": "wait", "ms": 1300 },
+        { "type": "click", "selector": "[role='tab']:has-text('Time')" },
+        { "type": "wait", "ms": 2200 },
+        { "type": "hover", "selector": "button:has-text('Log Time')" },
+        { "type": "wait", "ms": 1000 },
+        { "type": "hover", "selector": "text=/Hours by Team Member/i" },
+        { "type": "wait", "ms": 1400 }
+      ]
+    },
+    {
+      "id": "wrap",
+      "title": "One connected platform",
+      "narration": "That's the power of BuildWorkPro. Your estimate, your schedule, your field reports, your billing, and your documents, all connected, all in one platform. Spend less time chasing paperwork, and more time building.",
+      "caption": { "text": "One connected platform", "position": "bottom" },
+      "minDurationMs": 12000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/projects/${CAPTURE_PROJECT_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Overview')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Overview')" },
+        { "type": "wait", "ms": 1400 },
+        { "type": "hover", "selector": "text=/Progress/i" },
+        { "type": "wait", "ms": 1500 }
+      ]
+    }
+  ]
+}

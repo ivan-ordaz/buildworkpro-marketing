@@ -1,0 +1,164 @@
+{
+  "slug": "02-create-bid",
+  "title": "Build a complete estimate in BuildWorkPro",
+  "subtitle": "BuildWorkPro · Estimating",
+  "intro": {
+    "title": "Build a complete estimate",
+    "subtitle": "From a blank bid to a client-ready PDF",
+    "durationMs": 3000
+  },
+  "outro": {
+    "title": "Win more bids, protect your margin",
+    "cta": "Try it free at buildworkpro.com",
+    "durationMs": 3500
+  },
+  "scenes": [
+    {
+      "id": "open-bids",
+      "title": "The Bids workspace",
+      "narration": "Alright, let's build a real construction estimate in BuildWorkPro, from a blank bid all the way to a polished, client-ready PDF. This is the Bids workspace, where every estimate you've sent and every one you're still working on lives in one place. Let's start a brand new one.",
+      "caption": { "text": "The Bids workspace", "position": "bottom" },
+      "minDurationMs": 13000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/bids" },
+        { "type": "waitFor", "selector": "main table, [role='row'], main", "timeoutMs": 15000 },
+        { "type": "wait", "ms": 1000 },
+        { "type": "hover", "selector": "main table tbody tr, [role='row']", "comment": "sweep the bids list" },
+        { "type": "wait", "ms": 1500 }
+      ]
+    },
+    {
+      "id": "create-bid",
+      "title": "Create a new bid",
+      "narration": "Creating a bid is simple. I'll give it a name the whole team will recognize, like Downtown Office HVAC Retrofit. From here I can link the customer, set my submission due date, and choose how long the pricing stays valid. I'll hit save, and just like that the bid is live and ready to build out.",
+      "caption": { "text": "1. Create the bid", "position": "bottom" },
+      "minDurationMs": 17000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/bids/new" },
+        { "type": "waitFor", "selector": "#bidName", "timeoutMs": 15000 },
+        { "type": "wait", "ms": 800 },
+        { "type": "type", "selector": "#bidName", "text": "Downtown Office HVAC Retrofit", "delayMs": 55 },
+        { "type": "wait", "ms": 700 },
+        { "type": "hover", "selector": "text=/Customer/i", "comment": "show the customer combobox" },
+        { "type": "wait", "ms": 700 },
+        { "type": "hover", "selector": "input[type='date']", "comment": "show date fields" },
+        { "type": "wait", "ms": 700 },
+        { "type": "click", "selector": "button:has-text('Save'), button:has-text('Create Bid')", "comment": "desktop save button appears when the form is dirty" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Estimate')", "timeoutMs": 20000, "comment": "redirect to /bids/{id} proves the bid was created" },
+        { "type": "wait", "ms": 1800 }
+      ]
+    },
+    {
+      "id": "add-line-items",
+      "title": "Build the estimate",
+      "narration": "Now the fun part, the estimate itself. Instead of typing line items from scratch, I can pull straight from my product and assembly catalog. I'll search for a condensing unit, drop it in, give it a mark, and add it to the estimate. Watch it join the other lines, each one rolling up into the customer total at the top, so I always know exactly where the number stands.",
+      "caption": { "text": "2. Add line items from your catalog", "position": "bottom" },
+      "minDurationMs": 24000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/bids/${CAPTURE_BID_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Estimate')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Estimate')" },
+        { "type": "wait", "ms": 1200 },
+        { "type": "hover", "selector": "text=/Customer Total/i" },
+        { "type": "wait", "ms": 900 },
+        { "type": "hover", "selector": "text=/Materials/i" },
+        { "type": "wait", "ms": 700 },
+        { "type": "hover", "selector": "text=/Labor/i" },
+        { "type": "wait", "ms": 800 },
+        { "type": "click", "selector": "button:has-text('Select product')", "comment": "open the catalog picker (cmdk listbox)" },
+        { "type": "wait", "ms": 1200 },
+        { "type": "type", "selector": "[cmdk-input]", "text": "Condensing", "delayMs": 80, "comment": "search the catalog — default order varies per bid, so filter to be deterministic" },
+        { "type": "wait", "ms": 1200 },
+        { "type": "click", "selector": "[role='option']:has-text('Condensing Unit')", "comment": "picks the product into the Add Line form" },
+        { "type": "wait", "ms": 1000 },
+        { "type": "type", "selector": "input[placeholder='A']", "text": "A1", "delayMs": 90, "comment": "Mark is the only required field; it enables Add Line" },
+        { "type": "wait", "ms": 700 },
+        { "type": "click", "selector": "button:has-text('Add Line')" },
+        { "type": "wait", "ms": 2000 },
+        { "type": "hover", "selector": "text=/Customer Total/i" },
+        { "type": "wait", "ms": 1400 }
+      ]
+    },
+    {
+      "id": "add-sublines",
+      "title": "Break a line into material & labor",
+      "narration": "Here's where BuildWorkPro really separates itself. Every line can break down into its own material, labor, and equipment costs, what we call sublines. I'll expand this line, and you can see the real cost behind the price. Your true cost and your sell price always stay perfectly in sync.",
+      "caption": { "text": "3. Break lines into sublines", "position": "bottom" },
+      "minDurationMs": 18000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/bids/${CAPTURE_BID_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Estimate')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Estimate')" },
+        { "type": "wait", "ms": 1100 },
+        { "type": "click", "selector": "main button:has(svg.lucide-chevron-right)", "comment": "expand the first line (chevron) to reveal its cost items / sublines" },
+        { "type": "wait", "ms": 1500 },
+        { "type": "scroll", "selector": "text=/COST ITEMS/i", "comment": "scroll the material + labor breakdown into view" },
+        { "type": "wait", "ms": 900 },
+        { "type": "hover", "selector": "text=/COST ITEMS/i" },
+        { "type": "wait", "ms": 900 },
+        { "type": "hover", "selector": "text=/material/i" },
+        { "type": "wait", "ms": 1000 },
+        { "type": "hover", "selector": "text=/Labor/i" },
+        { "type": "wait", "ms": 1000 },
+        { "type": "hover", "selector": "button:has-text('Add Cost')", "comment": "you can add more material/labor/equipment cost items" },
+        { "type": "wait", "ms": 1200 },
+        { "type": "scroll", "y": 0 },
+        { "type": "wait", "ms": 800 }
+      ]
+    },
+    {
+      "id": "project-costs",
+      "title": "Distributed project costs",
+      "narration": "Not every cost belongs to a single line. Things like mobilization, a dumpster, or a site supervisor touch the whole job. With project costs, I enter it once and BuildWorkPro distributes it intelligently across the entire estimate, so nothing gets left off, and your margins stay honest.",
+      "caption": { "text": "4. Add distributed project costs", "position": "bottom" },
+      "minDurationMs": 16000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/bids/${CAPTURE_BID_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Project Costs')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Project Costs')" },
+        { "type": "wait", "ms": 1300 },
+        { "type": "hover", "selector": "text=/Project Costs/i" },
+        { "type": "wait", "ms": 800 },
+        { "type": "click", "selector": "button:has-text('Add Cost')", "comment": "reveal the add-cost row" },
+        { "type": "wait", "ms": 1200 },
+        { "type": "hover", "selector": "input[type='number']", "comment": "the rate that spreads across all lines" },
+        { "type": "wait", "ms": 1500 }
+      ]
+    },
+    {
+      "id": "rates",
+      "title": "Dial in margin & overhead",
+      "narration": "Speaking of margin, this is the Rates tab. This is where raw cost becomes a winning bid. I'll set my target margin, layer in overhead and commission, and the customer total updates instantly. No spreadsheets, no manual math, just dial in the number that wins the job and protects your profit.",
+      "caption": { "text": "5. Dial in margin & overhead", "position": "bottom" },
+      "minDurationMs": 16000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/bids/${CAPTURE_BID_ID}" },
+        { "type": "waitFor", "selector": "[role='tab']:has-text('Rates')", "timeoutMs": 15000 },
+        { "type": "click", "selector": "[role='tab']:has-text('Rates')" },
+        { "type": "wait", "ms": 1300 },
+        { "type": "hover", "selector": "text=/Margin/i" },
+        { "type": "wait", "ms": 1100 },
+        { "type": "hover", "selector": "text=/Commission/i" },
+        { "type": "wait", "ms": 1000 },
+        { "type": "hover", "selector": "text=/Company OH/i" },
+        { "type": "wait", "ms": 1500 }
+      ]
+    },
+    {
+      "id": "preview-pdf",
+      "title": "Preview the client-ready PDF",
+      "narration": "And when everything looks right, one click gives me a clean, professional proposal. This is exactly what your client sees, your branding, a clear scope, and a price they can trust. Download it, send it, and you're done. That's a full estimate, built start to finish, in just a few minutes.",
+      "caption": { "text": "6. Preview the client-ready PDF", "position": "bottom" },
+      "minDurationMs": 15000,
+      "actions": [
+        { "type": "navigate", "url": "${BWP_DEMO_URL}/bids/${CAPTURE_BID_ID}" },
+        { "type": "waitFor", "selector": "button:has-text('Preview')", "timeoutMs": 15000 },
+        { "type": "hover", "selector": "button:has-text('Preview')" },
+        { "type": "wait", "ms": 700 },
+        { "type": "click", "selector": "button:has-text('Preview')" },
+        { "type": "waitFor", "selector": "[role='dialog']", "timeoutMs": 20000 },
+        { "type": "wait", "ms": 3500 }
+      ]
+    }
+  ]
+}
