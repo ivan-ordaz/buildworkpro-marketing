@@ -85,6 +85,8 @@
           "messaging:send",
           "support:read",
           "reports:read",
+          "signatures:read",
+          "signatures:send",
           "audit:read",
           "settings:read",
           "settings:write",
@@ -297,6 +299,19 @@
             "type": "string",
             "minLength": 1
           },
+          "position": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "parentContactId": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "exclusiveMinimum": 0
+          },
           "email": {
             "type": [
               "string",
@@ -305,6 +320,24 @@
             "format": "email"
           },
           "phone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mobile": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "website": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
             "type": [
               "string",
               "null"
@@ -346,6 +379,19 @@
             "type": "string",
             "minLength": 1
           },
+          "position": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "parentContactId": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "exclusiveMinimum": 0
+          },
           "email": {
             "type": [
               "string",
@@ -354,6 +400,24 @@
             "format": "email"
           },
           "phone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mobile": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "website": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
             "type": [
               "string",
               "null"
@@ -440,6 +504,30 @@
             ]
           },
           "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
             "type": [
               "string",
               "null"
@@ -560,6 +648,33 @@
               "string",
               "null"
             ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
           }
         },
         "required": [
@@ -643,6 +758,33 @@
               "string",
               "null"
             ]
+          },
+          "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
           }
         }
       },
@@ -858,6 +1000,24 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1027,6 +1187,27 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1157,6 +1338,27 @@
               "null"
             ]
           },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "siteZipCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 20
+          },
           "assignedTo": {
             "type": [
               "integer",
@@ -1264,6 +1466,24 @@
             ]
           },
           "siteAddress": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteCity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteState": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "siteZipCode": {
             "type": [
               "string",
               "null"
@@ -1538,6 +1758,266 @@
           "currentPaymentDue",
           "createdAt",
           "updatedAt"
+        ]
+      },
+      "Invoice": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "tenantId": {
+            "type": "integer"
+          },
+          "invoiceNumber": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "contactId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "sent",
+              "partial",
+              "paid",
+              "voided"
+            ]
+          },
+          "issueDate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "dueDate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "subtotal": {
+            "type": "string"
+          },
+          "taxAmount": {
+            "type": "string"
+          },
+          "total": {
+            "type": "string"
+          },
+          "amountPaid": {
+            "type": "string"
+          },
+          "balanceDue": {
+            "type": "string"
+          },
+          "notesToCustomer": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "tenantId",
+          "invoiceNumber",
+          "projectId",
+          "contactId",
+          "status",
+          "issueDate",
+          "dueDate",
+          "subtotal",
+          "taxAmount",
+          "total",
+          "amountPaid",
+          "balanceDue",
+          "notesToCustomer",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "InvoiceLineItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "invoiceId": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "invoiceId",
+          "description",
+          "quantity",
+          "unitPrice",
+          "amount",
+          "order"
+        ]
+      },
+      "InvoicePayment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "invoiceId": {
+            "type": "integer"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "paidAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "method": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reference": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "voidedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "invoiceId",
+          "amount",
+          "paidAt",
+          "method",
+          "reference",
+          "notes",
+          "voidedAt"
+        ]
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "tenantId": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entityType": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entityId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "readAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "tenantId",
+          "userId",
+          "type",
+          "title",
+          "message",
+          "entityType",
+          "entityId",
+          "readAt",
+          "createdAt"
         ]
       },
       "ChangeOrder": {
@@ -2985,6 +3465,91 @@
           "apiKey"
         ]
       },
+      "SignatureRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "entityType": {
+            "type": "string",
+            "enum": [
+              "bid",
+              "change_order"
+            ]
+          },
+          "entityId": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "signerName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "signerEmail": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sentAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "signedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "signedDocumentId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "signingUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Present only for callers holding signatures:send, and only while the request is pending or sent."
+          }
+        },
+        "required": [
+          "id",
+          "entityType",
+          "entityId",
+          "status",
+          "signerName",
+          "signerEmail",
+          "sentAt",
+          "signedAt",
+          "signedDocumentId"
+        ]
+      },
       "OauthClientRegistration": {
         "type": "object",
         "properties": {
@@ -3453,12 +4018,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -3612,7 +4172,12 @@
           }
         },
         "operationId": "postContactsGetMany",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/contacts/count": {
@@ -3904,6 +4469,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -3983,6 +4551,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -4027,12 +4598,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -4117,12 +4683,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -4229,12 +4790,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -4782,12 +5338,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -4913,6 +5464,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -4992,6 +5546,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -5035,6 +5592,9 @@
           "Leads"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -5156,12 +5716,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -5225,6 +5780,9 @@
           "Leads"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -5304,6 +5862,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -5348,12 +5909,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -5438,12 +5994,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -5550,12 +6101,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -6046,7 +6592,12 @@
           }
         },
         "operationId": "postProjectsGetMany",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/projects": {
@@ -6202,12 +6753,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -6333,6 +6879,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -6412,6 +6961,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -6456,12 +7008,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -6546,12 +7093,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -6658,12 +7200,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -6932,12 +7469,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -6998,6 +7530,25 @@
                       "null"
                     ]
                   },
+                  "cancelReason": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "cancelledAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "cancelledFromStatus": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 50
+                  },
                   "taxRate": {
                     "type": [
                       "string",
@@ -7022,6 +7573,27 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "siteCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "siteState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 100
+                  },
+                  "siteZipCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 20
                   },
                   "latitude": {
                     "type": [
@@ -7215,6 +7787,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -7300,6 +7875,25 @@
                       "null"
                     ]
                   },
+                  "cancelReason": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "cancelledAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "cancelledFromStatus": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 50
+                  },
                   "taxRate": {
                     "type": [
                       "string",
@@ -7324,6 +7918,27 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "siteCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "siteState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 100
+                  },
+                  "siteZipCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 20
                   },
                   "latitude": {
                     "type": [
@@ -7483,6 +8098,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -7535,6 +8153,9 @@
           "Bids"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -7607,6 +8228,9 @@
           "Bids"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -7707,6 +8331,9 @@
           "Bids"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -7812,6 +8439,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -7884,6 +8514,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -7946,6 +8579,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -7964,8 +8600,10 @@
                     "type": "string",
                     "enum": [
                       "phases",
-                      "tasks"
-                    ]
+                      "tasks",
+                      "blank"
+                    ],
+                    "description": "How bid line items map onto the new project: one phase per line item (\"phases\"), one task per line item (\"tasks\"), or no phases/tasks (\"blank\"). The legacy web route's \"template\" strategy is not supported on v1."
                   },
                   "templateId": {
                     "type": "integer"
@@ -7975,6 +8613,16 @@
                     "additionalProperties": {
                       "type": "integer"
                     }
+                  },
+                  "name": {
+                    "type": "string",
+                    "maxLength": 255
+                  },
+                  "startDate": {
+                    "type": "string"
+                  },
+                  "expectedEndDate": {
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -8116,6 +8764,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -8203,6 +8854,9 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "unitPrice": {
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -8285,6 +8939,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -8380,6 +9037,9 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "unitPrice": {
+                    "type": "string"
                   }
                 }
               }
@@ -8457,6 +9117,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -8519,12 +9182,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -8609,12 +9267,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -8812,7 +9465,12 @@
           }
         },
         "operationId": "postBidsGetMany",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/bids/count": {
@@ -9113,20 +9771,15 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
             "required": true,
             "name": "id",
             "in": "path"
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
           }
         ],
         "responses": {
@@ -9542,7 +10195,12 @@
           }
         },
         "operationId": "postPayAppsGetMany",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/pay-apps": {
@@ -9688,12 +10346,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -9765,6 +10418,26 @@
                       {
                         "type": "null"
                       }
+                    ]
+                  },
+                  "voidedBy": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "voidedAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "voidReason": {
+                    "type": [
+                      "string",
+                      "null"
                     ]
                   },
                   "sentAt": {
@@ -9907,6 +10580,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -9984,6 +10660,26 @@
                       {
                         "type": "null"
                       }
+                    ]
+                  },
+                  "voidedBy": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "voidedAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "voidReason": {
+                    "type": [
+                      "string",
+                      "null"
                     ]
                   },
                   "sentAt": {
@@ -10082,6 +10778,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -10133,6 +10832,9 @@
           "PayApps"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -10205,6 +10907,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -10275,6 +10980,9 @@
           "PayApps"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -10366,6 +11074,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -10439,12 +11150,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -10529,12 +11235,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -10645,20 +11346,15 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
             "required": true,
             "name": "id",
             "in": "path"
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
           }
         ],
         "responses": {
@@ -10719,6 +11415,2551 @@
         },
         "operationId": "postPayAppsByIdPdf",
         "x-rate-limit-cost": 50
+      }
+    },
+    "/invoices": {
+      "get": {
+        "summary": "List invoices",
+        "description": "Returns a page of invoices for the authenticated tenant. This is the one v1 list endpoint that pages by `page`/`pageSize` rather than a cursor — the tenant UI's invoice table jumps to arbitrary pages, and that shape is mirrored here rather than reshaped. Page details are returned in `meta.pagination`. `status` accepts a comma-separated list.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "required": false,
+            "name": "pageSize",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "contactId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dueBefore",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dueAfter",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "q",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invoice page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Invoice"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ResponseMeta"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pagination": {
+                              "type": "object",
+                              "properties": {
+                                "page": {
+                                  "type": "integer"
+                                },
+                                "pageSize": {
+                                  "type": "integer"
+                                },
+                                "total": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "page",
+                                "pageSize",
+                                "total"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "pagination"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getInvoices",
+        "x-rate-limit-cost": 1
+      },
+      "post": {
+        "summary": "Create an invoice",
+        "description": "Creates a draft invoice together with its line items.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "invoice": {
+                    "type": "object",
+                    "properties": {
+                      "invoiceNumber": {
+                        "type": "string"
+                      },
+                      "projectId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "contactId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "sourceBidId": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "sourcePayAppId": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "sourceType": {
+                        "type": "string",
+                        "enum": [
+                          "bid",
+                          "pay_app",
+                          "ad_hoc"
+                        ]
+                      },
+                      "issueDate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "dueDate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "taxRate": {
+                        "type": "string"
+                      },
+                      "discountType": {
+                        "type": "string",
+                        "enum": [
+                          "fixed",
+                          "percentage"
+                        ]
+                      },
+                      "discount": {
+                        "type": "string"
+                      },
+                      "notesToCustomer": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "terms": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "paymentTermsText": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "paymentTermId": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "paymentTermInstallmentId": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "exclusiveMinimum": 0
+                      },
+                      "percentOfBid": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "projectId",
+                      "contactId",
+                      "issueDate"
+                    ]
+                  },
+                  "lines": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "productId": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "quantity": {
+                          "type": "string"
+                        },
+                        "unitPrice": {
+                          "type": "string"
+                        },
+                        "isTaxable": {
+                          "type": "boolean"
+                        },
+                        "deletedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "invoice"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Invoice"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "lineItems": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/InvoiceLineItem"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoices",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/summary": {
+      "get": {
+        "summary": "Aggregate invoice totals",
+        "description": "Tenant-wide KPI summary: counts and money totals by status. Money values are decimal strings.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "responses": {
+          "200": {
+            "description": "Summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": {}
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getInvoicesSummary",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/invoices/{id}": {
+      "get": {
+        "summary": "Fetch an invoice",
+        "description": "Returns the invoice with its line items.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invoice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Invoice"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "lineItems": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/InvoiceLineItem"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getInvoicesById",
+        "x-rate-limit-cost": 1
+      },
+      "patch": {
+        "summary": "Update a draft invoice",
+        "description": "Draft-only. A sent, partial, paid or voided invoice answers 409.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "invoiceNumber": {
+                    "type": "string"
+                  },
+                  "projectId": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "contactId": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "sourceBidId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "sourcePayAppId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "sourceType": {
+                    "type": "string",
+                    "enum": [
+                      "bid",
+                      "pay_app",
+                      "ad_hoc"
+                    ]
+                  },
+                  "issueDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "dueDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "taxRate": {
+                    "type": "string"
+                  },
+                  "discountType": {
+                    "type": "string",
+                    "enum": [
+                      "fixed",
+                      "percentage"
+                    ]
+                  },
+                  "discount": {
+                    "type": "string"
+                  },
+                  "notesToCustomer": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "terms": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "paymentTermsText": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "paymentTermId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "paymentTermInstallmentId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "exclusiveMinimum": 0
+                  },
+                  "percentOfBid": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Invoice"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "lineItems": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/InvoiceLineItem"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patchInvoicesById",
+        "x-rate-limit-cost": 5
+      },
+      "delete": {
+        "summary": "Soft-delete a draft invoice",
+        "description": "Draft-only, and a soft delete — the row is retained with `deletedAt` set.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:delete"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteInvoicesById",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/from-bid": {
+      "post": {
+        "summary": "Create an invoice from a bid",
+        "description": "Bills an accepted bid. `mode: full` invoices the whole contract; `percent` invoices `value` percent of it; `fixed` invoices `value` as an amount. `value` is required for `percent` and `fixed`.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bidId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "full",
+                      "percent",
+                      "fixed"
+                    ]
+                  },
+                  "value": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "dueDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "notesToCustomer": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "bidId",
+                  "mode"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Invoice"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "lineItems": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/InvoiceLineItem"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesFromBid",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/from-pay-app": {
+      "post": {
+        "summary": "Create an invoice from an approved pay application",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "payAppId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "dueDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "notesToCustomer": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "payAppId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Invoice"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "lineItems": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/InvoiceLineItem"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesFromPayApp",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/send": {
+      "post": {
+        "summary": "Email the invoice and mark it sent",
+        "description": "Renders the invoice PDF, emails it, and transitions draft → sent. Omitted recipient defaults to the linked contact's email.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:send"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "recipientEmail": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "ccEmails": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "email"
+                    }
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  },
+                  "templateId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invoice"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesByIdSend",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/mark-sent": {
+      "post": {
+        "summary": "Mark an invoice sent without emailing it",
+        "description": "For invoices delivered out of band. Transitions draft → sent.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:send"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invoice"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesByIdMarkSent",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/mark-paid": {
+      "post": {
+        "summary": "Mark an invoice paid in full",
+        "description": "Idempotent for an already-paid invoice. A draft or voided invoice answers 409.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:mark_paid"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "paidAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Paid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invoice"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesByIdMarkPaid",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/void": {
+      "post": {
+        "summary": "Void an invoice",
+        "description": "Terminal — a voided invoice cannot be edited, paid or un-voided.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:void"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "minLength": 3
+                  }
+                },
+                "required": [
+                  "reason"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invoice"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesByIdVoid",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/qbo/sync": {
+      "post": {
+        "summary": "Queue a QuickBooks Online push",
+        "description": "Enqueues a background sync and returns 202 immediately — the response does not mean QBO accepted it.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Queued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "queued": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "queued"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesByIdQboSync",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/payments": {
+      "get": {
+        "summary": "List the invoice's payment ledger",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoicePayment"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getInvoicesByIdPayments",
+        "x-rate-limit-cost": 1
+      },
+      "post": {
+        "summary": "Record a manual payment",
+        "description": "Only against a sent or partially-paid invoice. A draft answers 409 (send it first), as does a voided or fully-paid one.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:mark_paid"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "string"
+                  },
+                  "paidAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "method": {
+                    "type": "string",
+                    "enum": [
+                      "check",
+                      "cash",
+                      "ach",
+                      "card",
+                      "other"
+                    ]
+                  },
+                  "reference": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "notes": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "amount",
+                  "paidAt"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "payment": {
+                          "$ref": "#/components/schemas/InvoicePayment"
+                        },
+                        "invoice": {
+                          "$ref": "#/components/schemas/Invoice"
+                        }
+                      },
+                      "required": [
+                        "payment",
+                        "invoice"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesByIdPayments",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/payments/{paymentId}": {
+      "patch": {
+        "summary": "Edit a manual payment",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:mark_paid"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "paymentId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "string"
+                  },
+                  "paidAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "method": {
+                    "type": "string",
+                    "enum": [
+                      "check",
+                      "cash",
+                      "ach",
+                      "card",
+                      "other"
+                    ]
+                  },
+                  "reference": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 255
+                  },
+                  "notes": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 2000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "payment": {
+                          "$ref": "#/components/schemas/InvoicePayment"
+                        },
+                        "invoice": {
+                          "$ref": "#/components/schemas/Invoice"
+                        }
+                      },
+                      "required": [
+                        "payment",
+                        "invoice"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patchInvoicesByIdPaymentsByPaymentId",
+        "x-rate-limit-cost": 5
+      },
+      "delete": {
+        "summary": "Void a manual payment",
+        "description": "Voids rather than erases — the ledger row is retained with `voidedAt` set.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:mark_paid"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "paymentId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Voided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "payment": {
+                          "$ref": "#/components/schemas/InvoicePayment"
+                        },
+                        "invoice": {
+                          "$ref": "#/components/schemas/Invoice"
+                        }
+                      },
+                      "required": [
+                        "payment",
+                        "invoice"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteInvoicesByIdPaymentsByPaymentId",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/lines": {
+      "post": {
+        "summary": "Append a line item to a draft",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "position": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "productId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "string"
+                  },
+                  "unitPrice": {
+                    "type": "string"
+                  },
+                  "isTaxable": {
+                    "type": "boolean"
+                  },
+                  "deletedAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "description"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InvoiceLineItem"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesByIdLines",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/lines/{lineId}": {
+      "patch": {
+        "summary": "Update a line item",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "lineId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "position": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "productId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "string"
+                  },
+                  "unitPrice": {
+                    "type": "string"
+                  },
+                  "isTaxable": {
+                    "type": "boolean"
+                  },
+                  "deletedAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InvoiceLineItem"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patchInvoicesByIdLinesByLineId",
+        "x-rate-limit-cost": 5
+      },
+      "delete": {
+        "summary": "Remove a line item",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "lineId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteInvoicesByIdLinesByLineId",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/lines/reorder": {
+      "post": {
+        "summary": "Reorder line items",
+        "description": "Atomic. `orderedIds` must list every line on the invoice exactly once.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderedIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "orderedIds"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reordered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/InvoiceLineItem"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postInvoicesByIdLinesReorder",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/invoices/{id}/pdf": {
+      "get": {
+        "summary": "Render the invoice as a PDF",
+        "description": "Streams `application/pdf`.",
+        "security": [
+          {
+            "bearerAuth": [
+              "invoices:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PDF",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getInvoicesByIdPdf",
+        "x-rate-limit-cost": 50
+      }
+    },
+    "/notifications": {
+      "get": {
+        "summary": "List notifications for the API key creator",
+        "description": "Returns the most recent notifications for the user that owns the API key. Supports filtering by type and unread state.",
+        "security": [
+          {
+            "bearerAuth": [
+              "notifications:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "required": false,
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "unreadOnly",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notifications page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Notification"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getNotifications",
+        "x-rate-limit-cost": 1
       }
     },
     "/change-orders/count": {
@@ -11066,7 +14307,12 @@
           }
         },
         "operationId": "postChangeOrdersGetMany",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/change-orders": {
@@ -11212,12 +14458,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -11374,6 +14615,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -11485,6 +14729,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -11526,6 +14773,9 @@
           "ChangeOrders"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -11597,6 +14847,9 @@
           "ChangeOrders"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -11694,6 +14947,9 @@
           "ChangeOrders"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -11797,12 +15053,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -11887,12 +15138,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -12003,20 +15249,15 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
             "required": true,
             "name": "id",
             "in": "path"
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
           }
         ],
         "responses": {
@@ -12232,12 +15473,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -12465,6 +15701,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -12636,6 +15875,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -12680,12 +15922,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -12770,12 +16007,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -12882,12 +16114,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -13129,12 +16356,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -13298,6 +16520,9 @@
           "TimeEntries"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -13481,6 +16706,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -13525,12 +16753,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -13615,12 +16838,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -13727,12 +16945,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -14188,12 +17401,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -14581,6 +17789,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -14758,6 +17969,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -14861,6 +18075,9 @@
           "Products"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -14975,6 +18192,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -15023,6 +18243,9 @@
           "Products"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer",
@@ -15137,12 +18360,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -15227,12 +18445,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -15339,12 +18552,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -15542,7 +18750,12 @@
           }
         },
         "operationId": "postProductsGetMany",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/products/{id}/usage": {
@@ -15646,6 +18859,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer",
               "exclusiveMinimum": 0
@@ -15718,6 +18934,9 @@
           "Products"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer",
@@ -15866,7 +19085,12 @@
           }
         },
         "operationId": "postProductsBulkDelete",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/products/bulk-restore": {
@@ -15959,7 +19183,12 @@
           }
         },
         "operationId": "postProductsBulkRestore",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/products/{id}/kit-items/reorder": {
@@ -15977,6 +19206,9 @@
           "Products"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer",
@@ -16396,6 +19628,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -16490,6 +19725,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -16577,12 +19815,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -16667,12 +19900,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -17105,12 +20333,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -17264,6 +20487,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -17368,6 +20594,9 @@
           "ProjectTemplates"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -17674,6 +20903,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "string"
             },
@@ -17812,6 +21044,9 @@
           "Jobs"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "string"
@@ -17963,7 +21198,12 @@
           }
         },
         "operationId": "postJobsUploads",
-        "x-rate-limit-cost": 5
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
       }
     },
     "/webhook-endpoints": {
@@ -18035,12 +21275,7 @@
         ],
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "required": false,
-            "name": "Idempotency-Key",
-            "in": "header"
+            "$ref": "#/components/parameters/IdempotencyKey"
           }
         ],
         "requestBody": {
@@ -18065,6 +21300,8 @@
                         "bid.acceptance_reverted",
                         "bid.rejected",
                         "bid.expired",
+                        "bid.cancelled",
+                        "bid.reopened",
                         "project.created",
                         "project.updated",
                         "project.deleted",
@@ -18073,6 +21310,7 @@
                         "pay_app.approved",
                         "pay_app.rejected",
                         "pay_app.paid",
+                        "pay_app.voided",
                         "pay_app.updated",
                         "pay_app.deleted",
                         "change_order.submitted",
@@ -18093,7 +21331,7 @@
                       ]
                     },
                     "minItems": 1,
-                    "maxItems": 32
+                    "maxItems": 35
                   },
                   "description": {
                     "type": [
@@ -18225,6 +21463,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -18255,6 +21496,8 @@
                         "bid.acceptance_reverted",
                         "bid.rejected",
                         "bid.expired",
+                        "bid.cancelled",
+                        "bid.reopened",
                         "project.created",
                         "project.updated",
                         "project.deleted",
@@ -18263,6 +21506,7 @@
                         "pay_app.approved",
                         "pay_app.rejected",
                         "pay_app.paid",
+                        "pay_app.voided",
                         "pay_app.updated",
                         "pay_app.deleted",
                         "change_order.submitted",
@@ -18283,7 +21527,7 @@
                       ]
                     },
                     "minItems": 1,
-                    "maxItems": 32
+                    "maxItems": 35
                   },
                   "description": {
                     "type": [
@@ -18362,6 +21606,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -18404,6 +21651,9 @@
           "Webhooks"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
           {
             "schema": {
               "type": "integer"
@@ -18737,6 +21987,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
             "schema": {
               "type": "integer"
             },
@@ -18977,6 +22230,362 @@
           }
         },
         "x-rate-limit-cost": 1
+      }
+    },
+    "/signature-requests": {
+      "get": {
+        "summary": "List e-signature requests",
+        "description": "Signature requests across bids and change orders, newest first. The recipient token is never returned; the signing URL requires signatures:send and an active request.",
+        "security": [
+          {
+            "bearerAuth": [
+              "signatures:read"
+            ]
+          }
+        ],
+        "tags": [
+          "SignatureRequests"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "bid",
+                "change_order"
+              ]
+            },
+            "required": false,
+            "name": "entityType",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "entityId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Signature requests page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SignatureRequest"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSignatureRequests",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/signature-requests/{id}": {
+      "get": {
+        "summary": "Get an e-signature request",
+        "security": [
+          {
+            "bearerAuth": [
+              "signatures:read"
+            ]
+          }
+        ],
+        "tags": [
+          "SignatureRequests"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Signature request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SignatureRequest"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSignatureRequestsById",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/signature-requests/{id}/resend": {
+      "post": {
+        "summary": "Resend an e-signature request",
+        "description": "Re-emails the SAME signing link. No new document is created. 409s when the request is not pending or sent.",
+        "security": [
+          {
+            "bearerAuth": [
+              "signatures:send"
+            ]
+          }
+        ],
+        "tags": [
+          "SignatureRequests"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resend result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "emailSent": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "emailSent"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postSignatureRequestsByIdResend",
+        "x-rate-limit-cost": 5
+      }
+    },
+    "/signature-requests/{id}/void": {
+      "post": {
+        "summary": "Void an e-signature request",
+        "description": "Cancels an active request and kills its signing link. The stored row is the source of truth; cancelling the remote document is best-effort.",
+        "security": [
+          {
+            "bearerAuth": [
+              "signatures:send"
+            ]
+          }
+        ],
+        "tags": [
+          "SignatureRequests"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Voided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SignatureRequest"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postSignatureRequestsByIdVoid",
+        "x-rate-limit-cost": 5
       }
     },
     "/oauth/authorize": {
@@ -19328,5 +22937,91 @@
       }
     }
   },
-  "webhooks": {}
+  "webhooks": {},
+  "tags": [
+    {
+      "name": "Contacts",
+      "description": "Customers, vendors and subcontractors, with their addresses, notes and tags."
+    },
+    {
+      "name": "Leads",
+      "description": "Sales pipeline records and their movement through stages."
+    },
+    {
+      "name": "Bids",
+      "description": "Estimates and proposals, including line items, sublines, distributed costs, templates and sending."
+    },
+    {
+      "name": "Projects",
+      "description": "Awarded work: phases, tasks, subtasks, dependencies and assigned contacts."
+    },
+    {
+      "name": "ProjectTemplates",
+      "description": "Reusable phase and task structures applied when a bid becomes a project."
+    },
+    {
+      "name": "ChangeOrders",
+      "description": "Scope changes against a project, with approval workflow and line items."
+    },
+    {
+      "name": "PayApps",
+      "description": "AIA-style payment applications: schedule of values, retainage and approval."
+    },
+    {
+      "name": "Invoices",
+      "description": "Accounts receivable: invoices, line items, payments, sending and voiding."
+    },
+    {
+      "name": "SiteLogs",
+      "description": "Daily field reports, photos and their review state."
+    },
+    {
+      "name": "TimeEntries",
+      "description": "Labor hours logged against projects, with review and cost roll-up."
+    },
+    {
+      "name": "Products",
+      "description": "The catalog of materials and labor items bids are built from, including kits."
+    },
+    {
+      "name": "Documents",
+      "description": "File attachments on any entity, with versioning and signed upload/download URLs."
+    },
+    {
+      "name": "Calendar",
+      "description": "Scheduled events derived from project phases, tasks and bid deadlines."
+    },
+    {
+      "name": "Notifications",
+      "description": "In-app notifications for the user who owns the API key."
+    },
+    {
+      "name": "Users",
+      "description": "Team members within the authenticated organization."
+    },
+    {
+      "name": "Settings",
+      "description": "Organization-level configuration and branding."
+    },
+    {
+      "name": "SignatureRequests",
+      "description": "E-signature requests raised against bids and change orders."
+    },
+    {
+      "name": "Webhooks",
+      "description": "Outbound webhook endpoints and their delivery history."
+    },
+    {
+      "name": "Jobs",
+      "description": "Asynchronous work — CSV imports and exports — with progress and result artifacts."
+    },
+    {
+      "name": "Observability",
+      "description": "API audit logs and usage metering for the authenticated organization."
+    },
+    {
+      "name": "OAuth",
+      "description": "OAuth 2.1 authorization, token exchange and dynamic client registration."
+    }
+  ]
 }
