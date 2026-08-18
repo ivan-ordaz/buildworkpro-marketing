@@ -16440,6 +16440,38 @@
                     "minimum": -180,
                     "maximum": 180
                   },
+                  "clockInAccuracyM": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
+                  "clockOutLat": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "clockOutLng": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  "clockOutAccuracyM": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
                   "isReviewed": {
                     "type": "boolean"
                   },
@@ -16612,6 +16644,38 @@
                     ],
                     "minimum": -180,
                     "maximum": 180
+                  },
+                  "clockInAccuracyM": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
+                  "clockOutLat": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "clockOutLng": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  "clockOutAccuracyM": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 100000
                   },
                   "isReviewed": {
                     "type": "boolean"
