@@ -1,0 +1,331 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is construction project closeout?',
+    answer:
+      'Construction project closeout is the final phase of a project covering everything required to transfer the finished work to the owner and collect final payment. For subcontractors, it typically includes completing punch list items, submitting closeout documents (as-builts, warranties, O&M manuals), executing final lien waivers, submitting the final pay application, and collecting any retained funds.',
+  },
+  {
+    question: 'What is the difference between substantial completion and final completion?',
+    answer:
+      'Substantial completion is the contractual point at which the owner can use the work for its intended purpose, even if minor items remain. It is typically documented with a Certificate of Substantial Completion. Final completion means every punch list item is corrected, all closeout documents are accepted, and the contract is fully satisfied — after which final payment and retainage release are made.',
+  },
+  {
+    question: 'When is retainage released to subcontractors?',
+    answer:
+      'Retainage release timing depends on your subcontract. Most contracts hold retainage until final completion of your scope; some release a portion at substantial completion if the punch list is minor. In practice, subs often wait for the general contractor to receive their retainage from the owner before seeing theirs — which is why submitting all closeout documents promptly keeps the payment chain moving.',
+  },
+  {
+    question: 'What closeout documents does a subcontractor typically need to submit?',
+    answer:
+      'Common closeout submittals include: as-built drawings marking actual installed conditions on the contract drawings, operations and maintenance (O&M) manuals for equipment you installed, manufacturer warranties and product data sheets, any certificates of inspection or final permit signoffs for your scope, and final unconditional lien waivers from you and any sub-tier subs or suppliers you used.',
+  },
+  {
+    question: 'Can a general contractor withhold final payment if closeout documents are missing?',
+    answer:
+      'Yes. Most subcontracts explicitly condition final payment on receipt of all required closeout documents. A missing O&M manual, an unsigned lien waiver from a supplier, or an outstanding inspection can hold your entire retainage even if the physical work is complete. Tracking each closeout submittal as a task with an owner and a deadline is the most reliable way to prevent that bottleneck.',
+  },
+];
+---
+
+<Layout
+  ogType="article"
+  title="Construction Project Closeout Checklist | BuildWorkPro"
+  description="A step-by-step construction project closeout checklist for subcontractors: punch list, final pay app, lien waivers, closeout documents, and retainage release."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Construction Project Closeout Checklist for Subcontractors
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published August 18, 2026 · 9 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          The physical work is done. The last pipe is in the ground, the last panel is wired, the
+          last tile is set. But the money isn't in your account yet — and it won't be until closeout
+          is finished. For subcontractors, closeout is where retained funds either arrive or sit,
+          sometimes for months, waiting on a missing O&M manual or an unsigned lien waiver from a
+          supplier.
+        </p>
+        <p>
+          This checklist covers what construction project closeout actually requires for a
+          subcontractor, section by section, so nothing falls through the cracks at the stage of the
+          job where every delay costs you cash.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              Closeout starts before the punch list — collect O&M manuals and mark as-builts while
+              the work is being installed, not after.
+            </li>
+            <li>
+              Substantial completion and final completion are different milestones; final payment
+              typically follows final completion.
+            </li>
+            <li>
+              A single missing closeout submittal — an O&M manual, a supplier lien waiver — can hold
+              your entire retainage.
+            </li>
+            <li>
+              Track every closeout item as a task with an owner and a deadline, not as a mental
+              note.
+            </li>
+            <li>
+              Submit your final pay application promptly after final completion; retainage release
+              follows the billing, not the physical work.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What construction project closeout involves</h2>
+        <p>
+          Closeout is the set of steps required after the physical work is complete to hand the job
+          over to the owner and receive final payment. For a subcontractor the main categories are:
+        </p>
+        <ul>
+          <li>
+            <strong>Punch list completion</strong> — correcting every deficient or incomplete item before
+            the GC accepts the work.
+          </li>
+          <li>
+            <strong>Closeout submittals</strong> — as-built drawings, warranties, O&M manuals, and inspection
+            certificates.
+          </li>
+          <li>
+            <strong>Final change orders</strong> — any outstanding scope changes documented and approved
+            before the contract closes.
+          </li>
+          <li>
+            <strong>Final pay application</strong> — the last progress billing that brings the contract
+            to 100% complete.
+          </li>
+          <li>
+            <strong>Final lien waivers</strong> — unconditional waivers from you and any sub-tier subs
+            or suppliers.
+          </li>
+          <li>
+            <strong>Retainage collection</strong> — following up until the withheld funds actually arrive.
+          </li>
+        </ul>
+        <p>
+          The sequence matters. GCs typically won't process the final pay application until closeout
+          submittals are accepted, and owners won't release retainage to the GC — and therefore to
+          you — until the GC's closeout package is complete.
+        </p>
+
+        <h2>Before substantial completion</h2>
+
+        <h3>Run your own punch list walk</h3>
+        <p>
+          Before the GC's official inspection, walk your own scope with a critical eye. Finding and
+          correcting deficiencies yourself is faster and cheaper than working from someone else's
+          list after the fact. Our
+          <a href="/blog/punch-list-management-for-subcontractors/">punch list management guide</a> covers
+          how to structure that internal walk and how to dispute items that fall outside your scope.
+        </p>
+
+        <h3>Gather closeout submittals</h3>
+        <p>Your subcontract specifies what documents you owe the GC. Common submittals include:</p>
+        <ul>
+          <li>
+            <strong>As-built drawings</strong> — the contract drawings marked up to show actual installed
+            conditions: pipe routes changed in the field, equipment relocated, dimensions that differed
+            from the design. The earlier you start marking these during construction, the less work you
+            have at closeout.
+          </li>
+          <li>
+            <strong>Operations and maintenance (O&M) manuals</strong> — manufacturer documentation for
+            equipment you installed. Request these at delivery and file them while the job is live; chasing
+            a vendor for a manual six months later is slow.
+          </li>
+          <li>
+            <strong>Product data and warranties</strong> — manufacturer warranties for materials and equipment,
+            often required in the project specification. Note warranty start dates — many run from substantial
+            completion, not from installation.
+          </li>
+          <li>
+            <strong>Inspection certificates and permits</strong> — any final inspections required for
+            your scope (fire alarm, plumbing, electrical) must be signed off before closeout is complete.
+          </li>
+        </ul>
+
+        <h3>Resolve all outstanding change orders</h3>
+        <p>
+          Any field directive or verbal change that hasn't been formally approved as a
+          <a href="/features/change-orders/">change order</a> is at risk at closeout. GCs are less inclined
+          to approve additional scope after the work is done and the budget is set. Resolve every outstanding
+          change order — including any credits — before submitting the final pay application.
+        </p>
+
+        <h2>At substantial completion</h2>
+
+        <h3>Certificate of Substantial Completion</h3>
+        <p>
+          Substantial completion is the contractual point at which the owner can use the finished
+          work for its intended purpose, even if a punch list remains. It is typically documented
+          with a Certificate of Substantial Completion — the AIA G704 form is the industry-standard
+          template for this document. Make sure the certificate identifies your scope's outstanding
+          items so what remains is unambiguous.
+        </p>
+        <p>
+          The substantial completion date often starts the clock on warranty periods and can affect
+          when liquidated damages stop running. Confirm the date in writing before signing anything.
+        </p>
+
+        <h3>Execute final unconditional lien waivers</h3>
+        <p>
+          At final payment, you'll sign a final unconditional lien waiver releasing your right to
+          place a mechanic's lien against the property for the work you performed. You'll also need
+          to collect final unconditional waivers from any sub-tier subcontractors or material
+          suppliers who furnished labor or materials to your scope — a missing supplier waiver can
+          hold the entire project's closeout. Our
+          <a href="/blog/construction-lien-waivers-explained/">lien waiver guide</a> covers the four waiver
+          types and what to verify before signing a final unconditional.
+        </p>
+
+        <h2>Final pay application and retainage</h2>
+        <p>
+          Once the GC accepts your closeout package, submit your final
+          <a href="/features/pay-applications/">pay application</a> billing the remaining contract balance
+          — including the retainage line — to bring the schedule of values to 100% complete. Retainage
+          is commonly 5–10% of the contract value held back throughout the project; the final pay application
+          is where you bill it.
+        </p>
+        <p>
+          Stay in contact with your GC after submission to track where payment is in the chain.
+          Retainage can sit in a GC's account for weeks if no one is following up on it. Know your
+          contract's release conditions and ask for specifics — what milestone triggers the release,
+          and what the GC's payment cycle is after they receive funds from the owner.
+        </p>
+
+        <h2>Track closeout in your project phases</h2>
+        <p>
+          Closeout involves too many moving parts to manage from memory or a shared inbox. In
+          BuildWorkPro, the
+          <a href="/features/project-management/">project management</a> module lets you build a dedicated
+          closeout phase directly inside the project — with tasks for each document, each inspection,
+          each waiver — and assign each item to the team member responsible for getting it done:
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/gantt-demo.mp4"
+          poster="/videos/gantt-demo-poster.jpg"
+          label="Demo: a BuildWorkPro project with a Closeout phase in Gantt view, showing tasks, assignees, and completion status across the project timeline"
+          caption="A closeout phase in BuildWorkPro — tasks for punch list, submittals, lien waivers, and the final pay app each get an assignee and deadline, visible on the Gantt chart."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          Each task shows its status (To Do, In Progress, Done), priority, and assignee. Filter to
+          overdue or unassigned tasks to spot what's slipping before it holds a payment. The Gantt
+          view shows the full closeout timeline so you can see which tasks are blocking others and
+          where the schedule has room.
+        </p>
+
+        <h2>Common closeout mistakes</h2>
+        <ul>
+          <li>
+            <strong>Waiting to collect O&M manuals.</strong> Vendors move on after the job ships. Request
+            documentation at delivery and file it in your document library while the job is active.
+          </li>
+          <li>
+            <strong>Leaving change orders unresolved.</strong> Any undocumented scope change that hasn't
+            been formally approved before you submit the final pay application is money you may not recover.
+          </li>
+          <li>
+            <strong>Missing a sub-tier lien waiver.</strong> Suppliers and lower-tier subs can lien the
+            property even after you're paid. Collect their final unconditional waivers before you sign
+            yours.
+          </li>
+          <li>
+            <strong>Treating substantial completion as the finish line.</strong> Punch list items don't
+            disappear — they come back as a callback at worse unit economics. Final payment comes after
+            final completion.
+          </li>
+          <li>
+            <strong>Not following up on retainage.</strong> Retainage can sit in a GC's account for months
+            if no one tracks and requests it. Know your contract's release conditions and follow up consistently.
+          </li>
+        </ul>
+
+        <p>
+          A disciplined closeout process is one of the highest-return things a subcontracting
+          company can build. The work is already done — it's the paperwork and follow-through that
+          determines how much of the contract value actually lands in the bank.
+        </p>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Project closeout FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Track every closeout item to the finish
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro lets you build a closeout phase inside every project — tasks, assignees,
+          deadlines, and a Gantt chart to see what's blocking final payment. $79/month, unlimited
+          users, 14-day free trial, no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Construction Project Closeout Checklist for Subcontractors"
+        description="A step-by-step closeout checklist covering punch list completion, closeout submittals, final change orders, final pay applications, lien waivers, and retainage collection."
+        datePublished="2026-08-18"
+        related={[
+          {
+            href: '/features/project-management/',
+            title: 'Project Management',
+            description:
+              'Phases, tasks, Gantt chart, and a Closeout project status — built for how subcontractors run jobs.',
+          },
+          {
+            href: '/blog/punch-list-management-for-subcontractors/',
+            title: 'Punch List Management for Subcontractors',
+            description: 'Run your own punch list walk before the GC does and close items faster.',
+          },
+          {
+            href: '/features/pay-applications/',
+            title: 'Pay Applications',
+            description:
+              'AIA-style progress billing with retainage and a schedule of values, prefilled from your bid.',
+          },
+          {
+            href: '/blog/retainage-construction-guide/',
+            title: 'Retainage in Construction',
+            description:
+              'How retainage is calculated, when it releases, and how to track withheld funds.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
