@@ -2669,6 +2669,71 @@
           "end"
         ]
       },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "entityId": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "parentId": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "entityType",
+          "entityId",
+          "userId",
+          "content",
+          "parentId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
       "User": {
         "type": "object",
         "properties": {
@@ -20173,6 +20238,344 @@
         "x-rate-limit-cost": 1
       }
     },
+    "/comments/{entityType}/{entityId}": {
+      "get": {
+        "summary": "List comments on a record",
+        "description": "Returns the comment thread attached to a record. Requires access to the record itself — comments inherit the visibility of what they hang on.",
+        "security": [
+          {
+            "bearerAuth": [
+              "comments:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Comments"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "Record type, e.g. `project`, `bid`, `change_order`."
+            },
+            "required": true,
+            "description": "Record type, e.g. `project`, `bid`, `change_order`.",
+            "name": "entityType",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "entityId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment thread",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Comment"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getCommentsByEntityTypeByEntityId",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/comments": {
+      "post": {
+        "summary": "Post a comment",
+        "description": "Creates a comment on a record and fans out @mention and thread notifications (in-app only, never email).",
+        "security": [
+          {
+            "bearerAuth": [
+              "comments:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Comments"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "entityType": {
+                    "type": "string"
+                  },
+                  "entityId": {
+                    "type": "integer"
+                  },
+                  "content": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "parentId": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "entityType",
+                  "entityId",
+                  "content"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postComments",
+        "x-rate-limit-cost": 5,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ]
+      }
+    },
+    "/comments/{id}": {
+      "patch": {
+        "summary": "Edit a comment",
+        "description": "Edits a comment. Non-elevated roles may only edit their own.",
+        "security": [
+          {
+            "bearerAuth": [
+              "comments:write"
+            ]
+          }
+        ],
+        "tags": [
+          "Comments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  }
+                },
+                "required": [
+                  "content"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patchCommentsById",
+        "x-rate-limit-cost": 5
+      },
+      "delete": {
+        "summary": "Delete a comment",
+        "description": "Soft-deletes a comment. Non-elevated roles may only delete their own.",
+        "security": [
+          {
+            "bearerAuth": [
+              "comments:delete"
+            ]
+          }
+        ],
+        "tags": [
+          "Comments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "deleted": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "deleted"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteCommentsById",
+        "x-rate-limit-cost": 5
+      }
+    },
     "/users": {
       "get": {
         "summary": "List users",
@@ -23054,6 +23457,10 @@
     {
       "name": "Calendar",
       "description": "Scheduled events derived from project phases, tasks and bid deadlines."
+    },
+    {
+      "name": "Comments",
+      "description": "Discussion threads attached to records. Visibility follows the record commented on."
     },
     {
       "name": "Notifications",
