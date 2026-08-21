@@ -1,0 +1,380 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import BlogPostFooter from '../../components/BlogPostFooter.astro';
+import { config } from '../../config';
+
+const faqs = [
+  {
+    question: 'What is job costing in construction?',
+    answer:
+      'Job costing is the practice of tracking every dollar of cost — labor, materials, subcontractors, equipment, overhead — assigned to a specific project, then comparing what the job actually cost against what you estimated. It tells you whether the work was profitable, which cost categories ran over, and what to price differently next time.',
+  },
+  {
+    question: 'What costs should subcontractors track per job?',
+    answer:
+      'At minimum: direct labor (hours × wage rate), direct materials (purchased for that job), and any subcontractor or equipment costs tied to the project. For a fuller picture, allocate a share of overhead — shop, truck, insurance, tools — across jobs. The more complete the cost picture, the more accurate your next bid will be.',
+  },
+  {
+    question: 'How does job costing differ from regular bookkeeping?',
+    answer:
+      'Bookkeeping tracks money in and out of the business as a whole. Job costing assigns every cost to a specific project so you can compare profit by job, not just by period. A business can show a healthy bank balance while individual jobs lose money — job costing surfaces that before it becomes a cash crisis.',
+  },
+  {
+    question: 'How often should you review job costs?',
+    answer:
+      'At least monthly for active jobs — ideally weekly on large projects. Waiting until a job closes to check costs means any overrun is already locked in. A mid-job review gives you time to adjust crew size, renegotiate material orders, or submit a change order for scope that was not in the original contract.',
+  },
+  {
+    question: 'What makes a bid useful for job costing?',
+    answer:
+      'A bid broken down into specific labor, material, and other cost categories by phase or activity — not a single lump sum. When your estimate is detailed enough that each line maps to work you can actually measure in the field, comparing it to actual costs becomes straightforward. A lump-sum bid gives you no benchmark to check against.',
+  },
+];
+---
+
+<Layout
+  ogType="article"
+  title="Construction Job Costing for Subcontractors | BuildWorkPro"
+  description="What job costing is, why it matters for specialty contractors, and how to track estimated vs. actual labor, materials, and overhead on each project."
+>
+  <Header />
+  <main class="pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Job Costing for Subcontractors: A Complete Guide
+        </h1>
+        <p class="mt-4 text-sm text-slate-400">Published August 21, 2026 · 8 min read</p>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <p>
+          A subcontractor can win plenty of work, keep crews busy all year, and still end up with
+          less money than expected. Usually the culprit is not a bad year — it's a handful of jobs
+          that cost more than estimated, and nobody noticed until year-end. Job costing is the
+          practice that closes that gap: tracking what each project actually costs while it's still
+          running, so overruns surface in time to do something about them.
+        </p>
+        <p>
+          This guide explains what job costing is, which costs to track, how the workflow fits into
+          day-to-day operations, and how your bid connects to every dollar you spend on the job.
+        </p>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Key takeaways</h2>
+          <ul class="space-y-2 text-sm text-slate-600 list-disc pl-5">
+            <li>
+              Job costing assigns costs to a specific project so you can compare estimated vs.
+              actual at any point during the job.
+            </li>
+            <li>
+              Your bid is your cost budget — the more line-item detail it has, the more useful it is
+              as a benchmark.
+            </li>
+            <li>
+              Labor is typically the hardest cost to track; logging crew hours against the project
+              as they work is the most reliable method.
+            </li>
+            <li>
+              Mid-job cost reviews give you time to act on overruns before the work is complete.
+            </li>
+            <li>
+              Accurate job cost records from closed projects make the next estimate substantially
+              more reliable.
+            </li>
+          </ul>
+        </div>
+
+        <h2>What is job costing?</h2>
+        <p>
+          Job costing is an accounting method that tracks costs at the project level, not just the
+          business level. Instead of knowing that you spent $40,000 on labor in March, you know that
+          the school renovation consumed $18,000 of it and the warehouse fit-out consumed $22,000.
+          That distinction is the difference between knowing you're busy and knowing which jobs
+          actually pay.
+        </p>
+        <p>
+          Every job has an estimated cost (what you thought the work would take to deliver) and an
+          actual cost (what it really cost). Job costing is how you track both and spot the
+          difference early.
+        </p>
+
+        <h2>Why job costing matters for specialty contractors</h2>
+        <p>
+          Most subcontractors already know the basics of their margin — bid it at cost-plus-markup,
+          deliver within that cost, keep the difference. The problem is that costs during a job are
+          often invisible until the job is over. Labor hours get texted in, material deliveries
+          don't get tied to a job, and overhead is never allocated anywhere. By the time anyone does
+          the math, the job is closed and the money is spent.
+        </p>
+        <p>Job costing makes costs visible while the job is running. That means:</p>
+        <ul>
+          <li>
+            You catch a labor overrun at week four, not week twelve, and have time to adjust crew
+            deployment.
+          </li>
+          <li>
+            You know whether a materials price increase hit one job or all of them, and whether your
+            next bid needs to absorb that change.
+          </li>
+          <li>
+            You can tell, after the job, whether the estimate was accurate — and update your pricing
+            method for the next similar project.
+          </li>
+          <li>
+            You have documentation to support a change order if the scope expanded during the job.
+          </li>
+        </ul>
+        <p>
+          If you want to understand markup vs. margin and how estimated costs translate into bid
+          price, the <a href="/blog/construction-markup-vs-margin/"
+            >construction markup vs. margin guide</a
+          > covers the math.
+        </p>
+
+        <h2>The three cost categories to track</h2>
+        <p>
+          Job costs fall into three categories for most specialty contractors. Track all three and
+          you have a complete picture of what the job actually cost to deliver.
+        </p>
+        <h3>1. Direct labor</h3>
+        <p>
+          The hours your crew works on a specific project, priced at their wage or billing rate.
+          This is typically the largest variable cost on a job and the hardest to track because it
+          requires a consistent habit: crew members logging their time against the right project
+          every day, not at the end of the week from memory.
+        </p>
+        <p>
+          Labor cost = hours × rate. If your foreman's rate is $65/hour and they work 40 hours on
+          the job this week, that's $2,600 in labor cost — against whatever you carried for that
+          foreman in your bid.
+        </p>
+        <h3>2. Direct materials</h3>
+        <p>
+          Everything purchased specifically for the project: pipe, wire, fixtures, hardware,
+          concrete, framing lumber. The challenge is attribution — a supply house delivery that
+          covers three jobs needs to be split by job, not just entered as one cost. The most
+          practical method is requiring that every purchase order or invoice reference the job
+          number before it's processed.
+        </p>
+        <h3>3. Other direct costs</h3>
+        <p>
+          Equipment rental tied to the job, subcontractor invoices for portions of the work you
+          pulled out, permit fees for a specific project. These are easier to attribute correctly
+          because they usually arrive with their own invoice referencing the job.
+        </p>
+        <p>
+          Overhead — shop rent, vehicles, insurance, tools, back-office staff — is a fourth
+          category. Allocating it to individual jobs is more involved, but even a simple approach
+          (divide annual overhead by projected annual revenue, add that percentage to each job's
+          direct costs) will give you a more accurate cost picture than ignoring it entirely.
+        </p>
+
+        <h2>Your bid is your cost budget</h2>
+        <p>
+          The most important thing a bid does for job costing is establish the budget before the job
+          starts. When you build a detailed estimate in
+          <a href="/features/construction-bidding/">construction bidding software</a> — breaking the work
+          into phases, assigning labor hours and rates to each phase, pricing materials by line item —
+          you create a reference point for every cost that follows.
+        </p>
+        <p>
+          A bid that says "electrical: $85,000" gives you nothing to check costs against. A bid that
+          says "rough-in: 320 hours at $52/hour + $8,400 materials; trim-out: 180 hours at $58/hour
+          + $4,200 materials" gives you a benchmark for each phase of work. That is what makes
+          mid-job cost review useful instead of just a number-matching exercise.
+        </p>
+        <p>
+          If the scope changes — the GC adds outlets on a floor that wasn't in the original
+          contract, or the plan revision adds a panel — that change needs to become an approved
+          <a href="/features/change-orders/">change order</a> before the work starts. Without a documented
+          change order, the extra cost lands in actual without any corresponding increase in the estimated
+          budget, and your job looks over budget even if the original scope was delivered exactly right.
+        </p>
+      </div>
+
+      <div class="my-10">
+        <DemoVideo
+          src="/videos/create-bid.mp4"
+          poster="/videos/create-bid-poster.jpg"
+          label="Demo: building a line-item bid in BuildWorkPro with labor rates, material costs, and markup applied per line"
+          caption="A line-item bid in BuildWorkPro — labor hours, rates, and material costs broken down by scope, which becomes the cost budget for the job."
+        />
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
+      >
+        <h2>Tracking actual labor costs</h2>
+        <p>
+          Labor is where most job cost tracking falls apart. The problem is not that subcontractors
+          don't want to track it — it's that the logging habit breaks under field conditions. Crew
+          members send a text at the end of the week, the office enters hours against the wrong job,
+          or nobody logs time at all and the payroll total gets split across jobs by feel.
+        </p>
+        <p>
+          The reliable method is logging time against the project the same day it's worked. In
+          BuildWorkPro's <a href="/features/time-tracking/">time tracking</a> module, crew members log
+          hours against a specific project, and the system applies the labor rate you set for that person
+          on that project. Filter the time tracking view by project and the total shows actual hours and
+          labor cost for any date range — that's the number to hold against what you estimated for labor
+          when you bid the work.
+        </p>
+        <p>
+          A manager can also review entries before they're finalized, so errors — wrong project,
+          wrong date — get caught before they distort the cost picture.
+        </p>
+
+        <h2>Running a mid-job cost review</h2>
+        <p>
+          The purpose of a mid-job review is to catch overruns while the job is still running. Do it
+          at regular intervals — once a month at minimum, once a week on large or complex projects.
+          The review has three steps:
+        </p>
+        <ol>
+          <li>
+            <strong>Pull actual costs to date.</strong> Labor hours and cost from time tracking. Material
+            invoices tied to the job. Any subcontractor or equipment invoices.
+          </li>
+          <li>
+            <strong>Compare to the budget.</strong> What did you estimate for labor through this point?
+            For materials? Is actual ahead of or behind the original estimate, and is the percentage of
+            work complete consistent with the percentage of budget spent?
+          </li>
+          <li>
+            <strong>Decide what to do.</strong> If labor is running 15% over estimate at the two-thirds
+            mark, that's a problem. If materials are 10% under because you found a better supplier price,
+            that's a win. Either way, you know now — not after the job closes.
+          </li>
+        </ol>
+        <p>
+          The cost review also flags scope creep that didn't get documented. If actual hours are
+          climbing but the contract sum hasn't changed, that usually means extra work happened
+          without a change order. The review is the moment to catch it and submit one.
+        </p>
+
+        <h2>Pay applications and cost tracking</h2>
+        <p>
+          Progress billing and job costing are related but different. A
+          <a href="/features/pay-applications/">pay application</a> tracks what the owner owes you based
+          on work completed — it's a billing document, not a cost document. Job costing tracks what it
+          cost you to deliver that work.
+        </p>
+        <p>
+          Keeping both current gives you the full financial picture: how much you've earned on the
+          job (billed and approved), how much it cost to earn it (actual costs to date), and whether
+          the margin is tracking to what you expected when you submitted the bid.
+        </p>
+        <p>
+          If you are new to progress billing, the
+          <a href="/blog/schedule-of-values-guide/">schedule of values guide</a> explains how the SOV
+          drives each pay application period.
+        </p>
+
+        <h2>Using closed-job data to improve future bids</h2>
+        <p>
+          The long-term value of job costing is the archive of real cost data it creates. When you
+          price a similar project next year, you can look at what that type of work actually cost —
+          labor hours per unit, materials waste percentage, crew productivity — instead of
+          estimating from memory or industry tables that may not match your crews and markets.
+        </p>
+        <p>A few questions worth answering from each closed job:</p>
+        <ul>
+          <li>
+            Did labor come in over or under estimate, and by how much? Was it a productivity issue,
+            a scope issue, or an estimating error?
+          </li>
+          <li>Did materials match the takeoff, or did waste run higher than planned?</li>
+          <li>Were there subcontractor costs that weren't in the original estimate?</li>
+          <li>Which phases of the job were profitable and which were not?</li>
+        </ul>
+        <p>
+          Over time, this data makes estimates more accurate because they're built from what your
+          operation actually delivers — not what a reference table says similar work should cost.
+        </p>
+
+        <h2>Common job costing mistakes</h2>
+        <ul>
+          <li>
+            <strong>Lump-sum bids with no phase breakdown.</strong> If the estimate has no line-item detail,
+            there's nothing to compare actual costs against mid-job.
+          </li>
+          <li>
+            <strong>Logging time weekly from memory.</strong> Hours logged a week after the fact are estimates
+            of an estimate. Same-day logging is the only reliable baseline.
+          </li>
+          <li>
+            <strong>Not attributing materials to jobs.</strong> Invoices entered as a business expense
+            with no job reference disappear from cost tracking entirely.
+          </li>
+          <li>
+            <strong>Skipping change orders for extra work.</strong> Additional scope done without a documented
+            and approved change order appears as a cost overrun, even if the work itself was done correctly.
+          </li>
+          <li>
+            <strong>Waiting for the job to close.</strong> A post-job review tells you what happened —
+            a mid-job review lets you change the outcome.
+          </li>
+        </ul>
+      </div>
+
+      <FAQSection bare class="mt-16" faqs={faqs} heading="Job costing FAQ" />
+
+      <div class="mt-16 p-8 rounded-2xl bg-brand-50 border border-brand-100 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+          Your bid, your time entries, and your cost data in one place
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">
+          BuildWorkPro connects your line-item estimates, crew time tracking, and project records so
+          you can compare what jobs cost against what you bid. $79/month flat, unlimited users,
+          14-day free trial — no credit card.
+        </p>
+        <a
+          href={config.signupUrl}
+          class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          >Start free trial</a
+        >
+      </div>
+
+      <BlogPostFooter
+        headline="Job Costing for Subcontractors: A Complete Guide"
+        description="What job costing is, how to track estimated vs. actual labor and materials on every project, and how to use cost data to sharpen your next estimate."
+        datePublished="2026-08-21"
+        related={[
+          {
+            href: '/features/construction-bidding/',
+            title: 'Construction Bidding',
+            description:
+              'Build line-item estimates with labor rates and materials — the cost budget for every job.',
+          },
+          {
+            href: '/features/time-tracking/',
+            title: 'Time Tracking',
+            description:
+              'Log crew hours against projects with per-project labor rates applied automatically.',
+          },
+          {
+            href: '/blog/construction-markup-vs-margin/',
+            title: 'Construction Markup vs. Margin',
+            description:
+              'How markup and margin differ, and how to price jobs to hit your real margin target.',
+          },
+          {
+            href: '/features/reports/',
+            title: 'Reports',
+            description:
+              'Bid, project, and pipeline reports built from the records your team already keeps.',
+          },
+        ]}
+      />
+    </article>
+  </main>
+  <Footer />
+</Layout>
