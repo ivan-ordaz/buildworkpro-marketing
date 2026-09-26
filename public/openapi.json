@@ -17666,9 +17666,15 @@
                   "tags": {
                     "type": "array",
                     "items": {
-                      "type": [
-                        "string",
-                        "null"
+                      "type": "string",
+                      "enum": [
+                        "progress",
+                        "issue",
+                        "delay",
+                        "safety",
+                        "delivery",
+                        "inspection",
+                        "general"
                       ]
                     }
                   },
@@ -17919,9 +17925,15 @@
                   "tags": {
                     "type": "array",
                     "items": {
-                      "type": [
-                        "string",
-                        "null"
+                      "type": "string",
+                      "enum": [
+                        "progress",
+                        "issue",
+                        "delay",
+                        "safety",
+                        "delivery",
+                        "inspection",
+                        "general"
                       ]
                     }
                   },
@@ -23477,7 +23489,7 @@
     "/jobs": {
       "get": {
         "summary": "List async jobs",
-        "description": "Returns a cursor-paginated list of async jobs initiated by the authenticated tenant.",
+        "description": "Returns a cursor-paginated list of async jobs in the authenticated tenant. Company admins, managers and tenant API keys see every job; other roles see only the jobs they started.",
         "security": [
           {
             "bearerAuth": [
@@ -25980,6 +25992,822 @@
         "x-rate-limit-cost": 5
       }
     },
+    "/reports/catalog": {
+      "get": {
+        "summary": "List the reports available to the caller",
+        "description": "Reports v2 catalog, filtered to the entity permissions the caller's role holds.",
+        "security": [
+          {
+            "bearerAuth": [
+              "reports:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Reports"
+        ],
+        "responses": {
+          "200": {
+            "description": "Catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "group": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string"
+                          },
+                          "groupBys": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "slug",
+                          "title",
+                          "group",
+                          "description",
+                          "kind",
+                          "groupBys"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getReportsCatalog",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/reports/review": {
+      "get": {
+        "summary": "Business review — Sold, Billed, Collected, Owed vs the prior period",
+        "description": "The weekly business review: four scorecard tiles with definitions and honest deltas, plus Money / Sales / Work sections. Role-shaped. Balances are as of `date` (the caller's calendar day); flows cover dateFrom–dateTo.",
+        "security": [
+          {
+            "bearerAuth": [
+              "reports:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Reports"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "required": false,
+            "name": "date",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "required": false,
+            "name": "tz",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "required": false,
+            "name": "preset",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "required": false,
+            "name": "compare",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "customerId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "estimatorId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "required": false,
+            "name": "source",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "required": false,
+            "name": "projectType",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "name": "includeCompleted",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Business review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "window": {
+                          "type": "object",
+                          "properties": {
+                            "from": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "string"
+                            },
+                            "label": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "from",
+                            "to",
+                            "label"
+                          ]
+                        },
+                        "scorecard": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "definition": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "money",
+                                  "count",
+                                  "percent",
+                                  "days"
+                                ]
+                              },
+                              "detail": {
+                                "type": "string"
+                              },
+                              "linkTo": {
+                                "type": "string"
+                              },
+                              "delta": {
+                                "type": "object",
+                                "properties": {
+                                  "kind": {
+                                    "type": "string",
+                                    "enum": [
+                                      "percent",
+                                      "money"
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  },
+                                  "direction": {
+                                    "type": "string",
+                                    "enum": [
+                                      "up",
+                                      "down",
+                                      "flat"
+                                    ]
+                                  },
+                                  "goodWhen": {
+                                    "type": "string",
+                                    "enum": [
+                                      "up",
+                                      "down"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "kind",
+                                  "value",
+                                  "direction",
+                                  "goodWhen"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "label",
+                              "definition",
+                              "value",
+                              "kind"
+                            ]
+                          }
+                        },
+                        "sections": {
+                          "type": "object",
+                          "additionalProperties": {}
+                        }
+                      },
+                      "required": [
+                        "window",
+                        "scorecard",
+                        "sections"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getReportsReview",
+        "x-rate-limit-cost": 1
+      }
+    },
+    "/reports/{slug}": {
+      "get": {
+        "summary": "Run a catalog report",
+        "description": "KPIs, series and up to 500 rows for one report. Money values are decimal strings. `groupBy` must be one of the catalog entry's groupBys.",
+        "security": [
+          {
+            "bearerAuth": [
+              "reports:read"
+            ]
+          }
+        ],
+        "tags": [
+          "Reports"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ar-aging",
+                "billed-vs-collected",
+                "bid-performance",
+                "pipeline",
+                "wip"
+              ]
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateFrom",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "dateTo",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "required": false,
+            "name": "date",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "required": false,
+            "name": "tz",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "required": false,
+            "name": "preset",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "required": false,
+            "name": "compare",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "required": false,
+            "name": "groupBy",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "customerId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "required": false,
+            "name": "estimatorId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "required": false,
+            "name": "source",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "required": false,
+            "name": "projectType",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "name": "includeCompleted",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500,
+              "default": 500
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "required": false,
+            "name": "sort",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Report payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "slug": {
+                          "type": "string",
+                          "enum": [
+                            "ar-aging",
+                            "billed-vs-collected",
+                            "bid-performance",
+                            "pipeline",
+                            "wip"
+                          ]
+                        },
+                        "window": {
+                          "type": "object",
+                          "properties": {
+                            "from": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "string"
+                            },
+                            "label": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "from",
+                            "to",
+                            "label"
+                          ]
+                        },
+                        "compareWindow": {
+                          "type": "object",
+                          "properties": {
+                            "from": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "string"
+                            },
+                            "label": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "from",
+                            "to",
+                            "label"
+                          ]
+                        },
+                        "kpis": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "definition": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "money",
+                                  "count",
+                                  "percent",
+                                  "days"
+                                ]
+                              },
+                              "detail": {
+                                "type": "string"
+                              },
+                              "linkTo": {
+                                "type": "string"
+                              },
+                              "delta": {
+                                "type": "object",
+                                "properties": {
+                                  "kind": {
+                                    "type": "string",
+                                    "enum": [
+                                      "percent",
+                                      "money"
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  },
+                                  "direction": {
+                                    "type": "string",
+                                    "enum": [
+                                      "up",
+                                      "down",
+                                      "flat"
+                                    ]
+                                  },
+                                  "goodWhen": {
+                                    "type": "string",
+                                    "enum": [
+                                      "up",
+                                      "down"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "kind",
+                                  "value",
+                                  "direction",
+                                  "goodWhen"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "label",
+                              "definition",
+                              "value",
+                              "kind"
+                            ]
+                          }
+                        },
+                        "series": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "bucket": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "values": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "string"
+                                }
+                              },
+                              "compareValues": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "required": [
+                              "bucket",
+                              "label",
+                              "values"
+                            ]
+                          }
+                        },
+                        "rows": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": {}
+                          }
+                        },
+                        "totals": {
+                          "type": "object",
+                          "additionalProperties": {}
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        },
+                        "meta": {
+                          "type": "object",
+                          "properties": {
+                            "scope": {
+                              "type": "string",
+                              "enum": [
+                                "tenant",
+                                "own",
+                                "assigned"
+                              ]
+                            },
+                            "definitions": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            },
+                            "groupBy": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "scope",
+                            "definitions",
+                            "groupBy"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "slug",
+                        "window",
+                        "kpis",
+                        "rows",
+                        "hasMore",
+                        "meta"
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ResponseMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getReportsBySlug",
+        "x-rate-limit-cost": 1
+      }
+    },
     "/oauth/authorize": {
       "get": {
         "summary": "OAuth 2.1 authorization endpoint (consent screen)",
@@ -26350,6 +27178,10 @@
     {
       "name": "ProjectTemplates",
       "description": "Reusable phase and task structures applied when a bid becomes a project."
+    },
+    {
+      "name": "Reports",
+      "description": "Reports v2 — the business review and the report catalog (AR aging, billed vs collected, bid performance, pipeline, WIP)."
     },
     {
       "name": "ChangeOrders",
