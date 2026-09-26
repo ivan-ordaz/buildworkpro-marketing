@@ -34,13 +34,28 @@ const faqs = [
     answer:
       'No. Takeoffs can be done by hand on printed plans (with a scale ruler and count sheets) or in a PDF viewer with digital markup tools. Dedicated takeoff software speeds up measurement with digital scaling and auto-count, but accurate manual takeoffs are still common, especially for specialty trades. Whatever method you use, the output is the same: a list of quantities ready to be priced.',
   },
+  {
+    question: 'What are the types of measurements in a takeoff?',
+    answer:
+      'Every takeoff item is a count (each — fixtures, devices, doors), a linear measurement (linear feet — pipe, conduit, base, trim), or an area (square feet — flooring, drywall, roofing). Trades like concrete and earthwork add volume (cubic yards). Grouping your count sheet by these types makes it easier to spot a category you forgot.',
+  },
+  {
+    question: 'How do you do a takeoff from a PDF?',
+    answer:
+      "Open the plan set in a PDF viewer that has measurement tools. On each sheet, set the scale and then check it against a known dimension, such as a labeled door or corridor width, since a resized PDF will not match the printed scale. Use the count tool for fixtures and devices, the length tool for runs, and the area tool for surfaces. Mark items as you count them, then export or copy the totals into a spreadsheet or your estimate. Don't measure drawings marked NTS (not to scale); use their written dimensions.",
+  },
+  {
+    question: 'How do you read the scale on construction plans?',
+    answer:
+      'The scale is written under each drawing title, for example 1/4" = 1\'-0", which means a quarter inch on paper equals one foot in the building (one inch equals four feet). A sheet can mix scales, so check the scale for every drawing, not once per sheet. If a graphic scale bar is shown, measure it to confirm your print or PDF has not been resized.',
+  },
 ];
 ---
 
 <Layout
   ogType="article"
-  title="How to Read Construction Plans & Do a Takeoff | BuildWorkPro"
-  description="How to read construction drawings and do a quantity takeoff: the types of plans, how to isolate your scope, and how to turn counts into a bid."
+  title="How to Read Construction Plans & Do a Takeoff (Step-by-Step)"
+  description="Read a plan set like an estimator: sheet codes, title block, scale and symbols, then a worked takeoff example with waste factors and the misses to avoid."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -51,23 +66,26 @@ const faqs = [
           How to Read Construction Plans & Do a Takeoff
         </h1>
         <AuthorByline />
-        <p class="mt-1 text-sm text-slate-400">Published June 30, 2026 · 9 min read</p>
+        <p class="mt-1 text-sm text-slate-400">
+          Published June 30, 2026 · Updated September 25, 2026 · 12 min read
+        </p>
       </div>
 
       <div
         class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
       >
         <p>
-          Every estimate starts with a question: how much work is actually on these drawings? The
-          process of finding that answer — measuring, counting, and cataloguing every item in your
-          scope — is the takeoff. Get it right and your bid reflects the real job. Miss items or
-          misread the plans, and no amount of careful pricing will recover the margin you left on
-          the table.
+          A construction takeoff is the list of quantities you measure and count from the plans —
+          each fixture, linear foot, and square foot in your scope — before any prices go on. To do
+          one, you read the plan set in a set order, isolate your trade's work, record each item as
+          a count, a length, or an area, and add waste before you price.
         </p>
         <p>
-          This guide covers how to navigate a plan set as a subcontractor, what a quantity takeoff
-          involves, and how to translate the counts you pull from the drawings into a structured
-          bid.
+          This guide walks a subcontractor through it step by step: how the sheets are numbered, how
+          to read the title block, scale and legend, a worked takeoff for one trade with waste
+          applied, the mistakes that cost the most, and how the finished quantities become a priced
+          bid. Get the takeoff right and your bid reflects the real job. Miss items or misread the
+          plans, and no amount of careful pricing will recover the margin you left on the table.
         </p>
 
         <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
@@ -127,7 +145,8 @@ const faqs = [
             including panel schedules, lighting plans, power plans, and single-line diagrams.
           </li>
           <li>
-            <strong>FP-sheets</strong> — fire protection, sprinkler layouts, and riser diagrams.
+            <strong>FP-sheets</strong> — fire protection, sprinkler layouts, and riser diagrams. (The
+            National CAD Standard letter is F; many sets use FP.)
           </li>
           <li>
             <strong>Civil / site drawings</strong> — grading, underground utilities, paving, and work
@@ -139,6 +158,105 @@ const faqs = [
           architectural plans too — they tell you ceiling heights, room configurations, and the
           routing paths your work must follow around structure, walls, and other trades.
         </p>
+
+        <h3>How sheet numbers work</h3>
+        <p>
+          Most US plan sets follow the sheet numbering in the <a
+            href="https://www.nationalcadstandard.org/"
+            rel="noopener">United States National CAD Standard</a
+          > (NCS). A sheet number like <strong>E-201</strong> has three parts: the discipline letter (E,
+          electrical), a one-digit sheet type (2, elevations), and a two-digit sequence number (01). Once
+          you know the sheet-type digit, you can jump straight to what you need:
+        </p>
+        <div class="not-prose overflow-x-auto rounded-2xl border border-slate-200 my-6">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50">
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Digit</th>
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Sheet type</th>
+                <th class="text-left px-5 py-3 font-semibold text-slate-900"
+                  >Why it matters to a takeoff</th
+                >
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">0</td>
+                <td class="px-5 py-3 text-slate-600">General — symbol legend, notes</td>
+                <td class="px-5 py-3 text-slate-500">Read first; defines every symbol you count</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">1</td>
+                <td class="px-5 py-3 text-slate-600">Plans (horizontal views)</td>
+                <td class="px-5 py-3 text-slate-500">Where most counts and lengths come from</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">2</td>
+                <td class="px-5 py-3 text-slate-600">Elevations (vertical views)</td>
+                <td class="px-5 py-3 text-slate-500">Heights, mounting locations, vertical runs</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">3</td>
+                <td class="px-5 py-3 text-slate-600">Sections, wall sections</td>
+                <td class="px-5 py-3 text-slate-500">Wall build-ups and ceiling space</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">4</td>
+                <td class="px-5 py-3 text-slate-600">Large-scale views</td>
+                <td class="px-5 py-3 text-slate-500"
+                  >Enlarged rooms (restrooms, stairs) at a bigger scale</td
+                >
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">5</td>
+                <td class="px-5 py-3 text-slate-600">Details</td>
+                <td class="px-5 py-3 text-slate-500">How things are installed — drives labor</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">6</td>
+                <td class="px-5 py-3 text-slate-600">Schedules and diagrams</td>
+                <td class="px-5 py-3 text-slate-500"
+                  >Fixture, equipment, and panel counts; risers</td
+                >
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">7–9</td>
+                <td class="px-5 py-3 text-slate-600">User-defined; 9 is 3D views</td>
+                <td class="px-5 py-3 text-slate-500"
+                  >Typical details and isometrics vary by designer</td
+                >
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Not every architect follows the standard exactly, so confirm against the drawing index on
+          the cover sheet — and use it as a checklist that your set is complete.
+        </p>
+
+        <h2>Reading the title block, scale, and legend</h2>
+        <p>Before you count anything on a sheet, read three things on it:</p>
+        <ul>
+          <li>
+            <strong>The title block.</strong> Usually along the right edge or bottom. It gives the sheet
+            number and title, project name, designer, issue date, and the revision history. Check the
+            latest revision date on every sheet you take off from — a sheet revised by addendum replaces
+            the one you printed last week.
+          </li>
+          <li>
+            <strong>The scale.</strong> Printed under each drawing title, not once per sheet, because
+            one sheet can mix scales — a floor plan at 1/8" = 1'-0" beside an enlarged plan at 1/4" =
+            1'-0". At 1/8" scale, one inch on paper is 8 feet; at 1/4" scale it is 4 feet. "NTS" means
+            not to scale: take the written dimensions, never a measurement. When a graphic scale bar is
+            shown, use it to check that your print or PDF has not been resized.
+          </li>
+          <li>
+            <strong>The legend and symbol key.</strong> Usually on the discipline's 0-series sheet (E-001,
+            P-001) or in a corner of the first plan sheet. The same symbol can mean different things on
+            different projects, so never count from memory — confirm each symbol, and read the abbreviations
+            list alongside it.
+          </li>
+        </ul>
 
         <h2>Start with the specifications</h2>
         <p>
@@ -259,6 +377,75 @@ const faqs = [
           </li>
         </ol>
 
+        <h2>Worked example: a tile takeoff for two restrooms</h2>
+        <p>
+          Every takeoff item is one of three measurement types: a <strong>count</strong> (each), a
+          <strong>linear</strong> measurement (linear feet), or an <strong>area</strong> (square feet).
+          Some trades add a fourth, <strong>volume</strong> (cubic yards of concrete or fill). Here is
+          a flooring sub's takeoff for two identical restrooms, taken from an enlarged plan (A-401) with
+          the note "Typ. of 2":
+        </p>
+        <ul>
+          <li>
+            <strong>Floor tile (area).</strong> Room is 12'-0" × 20'-0" = 240 SF. Two rooms = 480 SF.
+          </li>
+          <li>
+            <strong>Cove base (linear).</strong> Perimeter is 2 × (12 + 20) = 64 LF, less one 3'-0" door
+            opening = 61 LF. Two rooms = 122 LF.
+          </li>
+          <li>
+            <strong>Thresholds (count).</strong> One per door, two rooms = 2 EA.
+          </li>
+        </ul>
+        <p>
+          Those are net quantities — what is installed. Order quantities add a waste factor for
+          cuts, breakage, and pattern layout. For this example, assume 10% on floor tile and 5% on
+          base:
+        </p>
+        <div class="not-prose overflow-x-auto rounded-2xl border border-slate-200 my-6">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50">
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Item</th>
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Type</th>
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Net</th>
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Waste</th>
+                <th class="text-left px-5 py-3 font-semibold text-slate-900">Order qty</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">Floor tile</td>
+                <td class="px-5 py-3 text-slate-600">Area</td>
+                <td class="px-5 py-3 text-slate-600">480 SF</td>
+                <td class="px-5 py-3 text-slate-600">10%</td>
+                <td class="px-5 py-3 text-slate-600">528 SF</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">Cove base</td>
+                <td class="px-5 py-3 text-slate-600">Linear</td>
+                <td class="px-5 py-3 text-slate-600">122 LF</td>
+                <td class="px-5 py-3 text-slate-600">5%</td>
+                <td class="px-5 py-3 text-slate-600">129 LF (128.1, rounded up)</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-3 font-medium text-slate-700">Threshold</td>
+                <td class="px-5 py-3 text-slate-600">Count</td>
+                <td class="px-5 py-3 text-slate-600">2 EA</td>
+                <td class="px-5 py-3 text-slate-600">—</td>
+                <td class="px-5 py-3 text-slate-600">2 EA</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          The right waste factor depends on the material and the layout (a diagonal pattern wastes
+          more than a straight lay), so treat these percentages as example inputs, not a rule — your
+          own job history and your supplier's packaging are the best guides. Price labor on the <em
+            >net</em
+          > quantity: your crew installs 480 SF, not 528.
+        </p>
+
         <h2>See it in the software</h2>
         <p>
           Once the takeoff is done, the next step is building the estimate: applying material costs
@@ -268,7 +455,14 @@ const faqs = [
           items with quantities and unit costs that roll up live. You can pull from a reusable
           product catalog so prices for common items are not retyped from bid to bid, and job-wide
           costs like mobilization, equipment rental, or permits go in Project Costs and are
-          distributed across your line items automatically:
+          distributed across your line items automatically.
+        </p>
+        <p>
+          BuildWorkPro is not takeoff software — it does not measure your PDFs. It is where the
+          quantities you measured become a priced bid. Using the example above, the floor tile
+          becomes one line item (Mark T-1) with a Material cost item for 528 SF and a Labor cost
+          item for 480 SF, each with its own unit cost and unit of measure. If your takeoff lives in
+          a spreadsheet, the CSV import on the Estimate tab brings the lines in without retyping:
         </p>
       </div>
 
@@ -293,13 +487,22 @@ const faqs = [
           </li>
           <li>
             <strong>Ignoring vertical runs.</strong> Floor plans do not show drops, stub-ups, or risers.
-            Add them separately from elevation and section drawings; vertical footage is often 10–20%
-            of total pipe or conduit on a multi-story job.
+            Add them separately from elevation and section drawings; on a multi-story job, drops and risers
+            can add up to a meaningful share of total pipe or conduit.
           </li>
           <li>
             <strong>Using the wrong scale.</strong> PDFs printed at a non-standard size will not match
             the stated drawing scale. Calibrate against a known dimension on each sheet before measuring
-            — a labeled corridor width or door rough opening works well.
+            — a labeled corridor width or door rough opening works well. Never scale a detail marked NTS.
+          </li>
+          <li>
+            <strong>Counting the schedule but not the plan.</strong> A fixture schedule lists types, not
+            always quantities, and plan-view counts can differ from it. Count both and resolve the gap
+            with an RFI before bid day.
+          </li>
+          <li>
+            <strong>Adding waste to labor.</strong> Waste is a material allowance. Pricing labor on the
+            order quantity instead of the installed quantity inflates your bid on every line.
           </li>
           <li>
             <strong>Bidding without the latest addendum.</strong> An addendum can revise a scope section
@@ -356,6 +559,7 @@ const faqs = [
         headline="How to Read Construction Plans & Do a Takeoff"
         description="How to read construction drawings and perform a quantity takeoff as a subcontractor: the types of plans, how to isolate your scope, and how to turn counts into a bid."
         datePublished="2026-06-30"
+        dateModified="2026-09-25"
         related={[
           {
             href: '/features/construction-bidding/',
