@@ -23477,7 +23477,7 @@
     "/jobs": {
       "get": {
         "summary": "List async jobs",
-        "description": "Returns a cursor-paginated list of async jobs initiated by the authenticated tenant.",
+        "description": "Returns a cursor-paginated list of async jobs in the authenticated tenant. Company admins, managers and tenant API keys see every job; other roles see only the jobs they started.",
         "security": [
           {
             "bearerAuth": [
