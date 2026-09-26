@@ -17666,9 +17666,15 @@
                   "tags": {
                     "type": "array",
                     "items": {
-                      "type": [
-                        "string",
-                        "null"
+                      "type": "string",
+                      "enum": [
+                        "progress",
+                        "issue",
+                        "delay",
+                        "safety",
+                        "delivery",
+                        "inspection",
+                        "general"
                       ]
                     }
                   },
@@ -17919,9 +17925,15 @@
                   "tags": {
                     "type": "array",
                     "items": {
-                      "type": [
-                        "string",
-                        "null"
+                      "type": "string",
+                      "enum": [
+                        "progress",
+                        "issue",
+                        "delay",
+                        "safety",
+                        "delivery",
+                        "inspection",
+                        "general"
                       ]
                     }
                   },
