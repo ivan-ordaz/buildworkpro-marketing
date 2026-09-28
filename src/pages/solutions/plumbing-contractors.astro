@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import FAQSection from '../../components/FAQSection.astro';
+import TemplateCallout from '../../components/templates/TemplateCallout.astro';
 import Screenshot from '../../components/Screenshot.astro';
 import { config } from '../../config';
 import { solutionsIncluded } from '../../data/included';
@@ -286,6 +287,18 @@ const faqs = [
         }
       </div>
     </section>
+
+    <TemplateCallout
+      heading="Free templates for plumbing contractors"
+      slugs={[
+        'construction-estimate',
+        'construction-bid-proposal',
+        'change-order',
+        'aia-g702-g703',
+        'tm-ticket',
+        'submittal-log',
+      ]}
+    />
 
     <FAQSection faqs={faqs} />
 

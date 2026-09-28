@@ -9,6 +9,7 @@
     "astro": "astro",
     "check": "astro check",
     "check:links": "node scripts/check-internal-links.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",

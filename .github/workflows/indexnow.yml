@@ -1,0 +1,27 @@
+name: IndexNow
+
+# After a merge to main, tell Bing (and the other IndexNow engines) which pages
+# changed. Cloudflare deploys the same push, so wait for it first: a fixed
+# pause covers updated pages (already 200 before the deploy lands), and
+# --wait polls new pages until they stop returning 404.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    name: Submit changed pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: sleep 300
+      - run: node scripts/indexnow.mjs --changed HEAD~1 HEAD --wait 900
