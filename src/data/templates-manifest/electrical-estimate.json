@@ -1,0 +1,40 @@
+{
+  "slug": "electrical-estimate",
+  "name": "Electrical Estimate Template",
+  "basename": "electrical-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "electrical-estimate-template.pdf",
+      "bytes": 100517,
+      "pages": 1
+    },
+    "example": {
+      "file": "electrical-estimate-template-example.pdf",
+      "bytes": 53255,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "electrical-estimate-template.xlsx",
+      "bytes": 21988,
+      "sheets": [
+        "Estimate",
+        "Device Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "electrical-estimate-template.docx",
+      "bytes": 13225
+    }
+  },
+  "previews": [
+    {
+      "file": "electrical-estimate.png",
+      "webp": "electrical-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

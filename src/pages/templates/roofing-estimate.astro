@@ -1,0 +1,221 @@
+---
+// Roofing estimate cluster: "roofing estimate template" 880 · "roofing proposal
+// template" 170 · "contractor estimate template" 1,000 (shared with the general
+// estimate page) (DataForSEO, US, 2026-09). Trade page in the by-trade series;
+// customer-facing estimate + roof takeoff, rendered by kit/trade-estimate.mjs.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do you calculate roofing squares for an estimate?',
+    answer:
+      'Measure each roof plane, multiply length × width to get its area, and add the planes up. One square is 100 square feet of roof surface. If you measured the footprint from the ground or a plan, multiply each plane by its pitch factor first: a 6/12 roof has 1.118 times the area of its footprint, an 8/12 roof 1.202 times. The Roof Takeoff sheet does this for up to ten planes and converts the total to squares.',
+  },
+  {
+    question: 'How much waste should I add when ordering shingles?',
+    answer:
+      'Around 10% is common on a simple gable roof, and 15% or more on hip roofs and roofs cut up with valleys, dormers and penetrations. That percentage belongs in what you order and in your unit price. It does not belong in the quantity you show the customer, who is paying for the roof they have: 28.4 measured squares, not the 31.9 you ordered.',
+  },
+  {
+    question: 'What should a roofing estimate include?',
+    answer:
+      'The measured roof area, pitch and number of layers to tear off; the roof system and color; line items for tear-off and disposal, decking, underlayment, ice and water shield, shingles, starter, hip and ridge cap, drip edge, flashing, ventilation and the permit; a decking allowance with a per-sheet price; optional items priced separately; the deposit and payment terms; exclusions; the warranty; a valid-until date; and a signature line for acceptance.',
+  },
+  {
+    question: 'How do I handle rotten decking on a roofing estimate?',
+    answer:
+      'Carry an allowance: a stated number of sheets included in the price, and a per-sheet price for anything beyond it, billed with photos after tear-off. The completed example includes six sheets at $78 each and prices a full redeck as an option. You cannot see the deck until the shingles are off, and an allowance settles that in writing before the argument starts.',
+  },
+  {
+    question: 'How long should a roofing estimate be valid?',
+    answer:
+      'Thirty days is common, and shorter when material prices are moving. Put a valid-until date on every estimate, because an estimate with no expiry can be held to last season’s shingle prices. The template prints the date in bold under the estimate number.',
+  },
+  {
+    question: 'Should roofing sales tax go on the estimate?',
+    answer:
+      'It depends on your state and the job. In many states a roofer pays sales tax when buying materials and builds it into the price, so no tax line appears on the customer’s estimate. In others, tax is charged to the customer on materials or on the whole job. The template supports both: mark taxable lines and enter a rate, or leave the rate at 0% and note that tax is included. Confirm the rule for your state.',
+  },
+  {
+    question: 'Is a roofing estimate a contract?',
+    answer:
+      'Once the customer signs the acceptance block, the estimate with its terms is usually what both sides point to. Many states have specific requirements for home-improvement contracts, such as cancellation notices, license numbers and deposit limits. Treat this template as a clear starting point and have your contract language reviewed for your state.',
+  },
+];
+---
+
+<TemplatePage
+  slug="roofing-estimate"
+  title="Free Roofing Estimate Template — Excel, Word & PDF"
+  description="Free roofing estimate template with a roof takeoff calculator: squares, pitch, tear-off, decking allowance, deposit. Excel, Word and fillable PDF. No email required."
+  h1="Roofing Estimate Template"
+  intro="A customer-ready re-roof estimate grouped the way roofers price the job: tear-off and deck prep, the roof system, then flashing, ventilation and permits. The Excel version includes a roof takeoff sheet that turns plan dimensions and pitch into squares, bundles, rolls and linear feet."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + roof takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: roof area, pitch, layers to tear off, roof system and color',
+    'Line items grouped by phase: tear-off and deck prep, roof system, flashing, ventilation and permits',
+    'A decking allowance line with a per-sheet price for anything beyond it',
+    'Optional items priced separately from the total, such as gutters or a full redeck',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for payment, exclusions and warranty, plus a customer acceptance signature',
+    'Excel: a Roof Takeoff sheet that converts pitch and plan dimensions into squares, bundles, rolls, drip edge, cap and step flashing',
+    'Excel: a Unit Price Builder that turns material, labor hours and overhead into a selling price at your margin',
+    'Excel: a How to Use sheet with steps and tips from the field',
+    'Completed example: a two-layer tear-off and 28.4-square Class 4 re-roof, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Measure the roof',
+      'On the Roof Takeoff sheet, enter each plane’s length, width and pitch, or enter measured slope dimensions with the pitch at 0. Add the eave, rake, ridge, hip, valley and wall lengths. Squares, bundles, rolls and linear footage calculate from your coverage assumptions.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per unit for each item, along with your loaded labor rate, overhead and profit margin. Each item’s selling price per square, roll or foot computes. Use your own crews’ production rates, not a rule of thumb.',
+    ],
+    [
+      'Fill in the customer and job specs',
+      'Enter the customer, the job address and the specs the customer will compare between roofers: measured squares, pitch, layers, roof system and color. Write the scope in two or three plain sentences.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Enter the line items under tear-off, roof system and flashing with quantity, unit and unit price. Carry the decking allowance as its own line. Mark taxable lines and enter your rate, or leave tax at 0% if it is in your prices, and set the deposit percentage.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List optional upgrades outside the total, write the payment terms, exclusions and warranty, and add a valid-until date. Review it with the customer and collect the signature and deposit before you order material.',
+    ],
+  ]}
+  faqs={faqs}
+  related={['construction-estimate', 'construction-quote', 'change-order', 'construction-invoice']}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price roofs from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop retyping the same roof',
+    body: 'BuildWorkPro keeps your shingle, underlayment and flashing prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license disclosures vary by state. Confirm the requirements where you work, and confirm material coverage and nailing with the manufacturer."
+  updated="2026-09-28"
+>
+  <h2>What goes on a roofing estimate</h2>
+  <p>
+    A roofing estimate has two jobs. It has to be specific enough that a homeowner or property
+    manager can compare it against two other roofers, and complete enough that nothing on the roof
+    becomes an argument later. The first job is the reason for the job-specs strip under the header.
+    Measured squares, pitch, layers to tear off, the roof system and the color are what customers
+    line up side by side. The second job is the reason the line items are grouped by phase.
+  </p>
+  <ul>
+    <li>
+      <strong>Tear-off and deck prep:</strong> removing each existing layer, disposal, and a decking allowance
+      for the damage you cannot see yet.
+    </li>
+    <li>
+      <strong>Roof system:</strong> shingles, underlayment, ice and water shield, starter, and hip and
+      ridge cap.
+    </li>
+    <li>
+      <strong>Flashing, ventilation and permits:</strong> drip edge, wall and chimney flashing, pipe boots,
+      ridge or box vents, and the permit and inspections.
+    </li>
+  </ul>
+  <p>
+    Anything the customer might add, such as gutters or a full redeck, goes in the optional-items
+    table, priced but outside the total. The customer can add it without you rewriting the estimate.
+  </p>
+
+  <h2>How to measure a roof for the estimate</h2>
+  <p>
+    Roofing is priced by the square: 100 square feet of roof surface. The trap is that a plan or a
+    ground measurement gives you the footprint, and a pitched roof has more surface than its
+    footprint. Multiply each plane’s plan area by its pitch factor, √(1 + (rise ÷ 12)²):
+  </p>
+  <table>
+    <thead>
+      <tr><th>Pitch</th><th>Pitch factor</th><th>1,000 sq ft of footprint becomes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>4/12</td><td>1.054</td><td>1,054 sq ft (10.5 SQ)</td></tr>
+      <tr><td>6/12</td><td>1.118</td><td>1,118 sq ft (11.2 SQ)</td></tr>
+      <tr><td>8/12</td><td>1.202</td><td>1,202 sq ft (12.0 SQ)</td></tr>
+      <tr><td>10/12</td><td>1.302</td><td>1,302 sq ft (13.0 SQ)</td></tr>
+      <tr><td>12/12</td><td>1.414</td><td>1,414 sq ft (14.1 SQ)</td></tr>
+    </tbody>
+  </table>
+  <p>
+    The Roof Takeoff sheet does this per plane. It then turns the eave, rake, ridge, hip, valley and
+    wall lengths into what you actually order. Starter and drip edge run along eaves plus rakes, cap
+    covers ridges plus hips, and ice and water shield covers two courses at the eaves plus a 3-foot
+    strip in each valley. There is one step flashing piece for every shingle course along a wall.
+    Every coverage figure is an editable assumption, because bundles per square and feet of cap per
+    bundle vary by product. Check the wrapper. If you work from an aerial measurement report, enter
+    its plane areas with the pitch at 0.
+  </p>
+
+  <h2>Pricing a re-roof line by line</h2>
+  <p>
+    Price tear-off by the number of layers. A second layer is more labor and more dumpster weight,
+    and the takeoff sheet estimates the tonnage so the disposal line is not a guess. Keep waste
+    inside your shingle unit price rather than inflating the customer’s square count. Build every
+    unit price from cost on the Unit Price Builder: material, plus labor hours at your fully loaded
+    rate, plus consumables, then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. A 15%
+    markup on cost is only a 13% margin.
+  </p>
+  <p>
+    The completed example is a 28.4-square, two-layer tear-off in the Denver hail belt, re-roofed
+    with Class 4 impact-resistant shingles. Tear-off and deck prep come to $3,951, the roof system
+    to $14,577.60, and flashing, ventilation and the permit to $2,715. That is $21,243.60 in total,
+    or about $748 per square all-in. There is no tax line because the roofer pays tax on materials
+    and includes it in the prices. The 30% deposit is $6,373.08, due on acceptance to order
+    material.
+  </p>
+
+  <h2>The decking allowance, and what happens after tear-off</h2>
+  <p>
+    The deck is the one part of the roof nobody can price with certainty before the shingles come
+    off. Write the uncertainty into the estimate. Include a fixed number of sheets in the price,
+    state the per-sheet price beyond that, and promise photos. Everything else found after tear-off,
+    such as rotted fascia or a damaged chimney, gets written up as a
+    <a href="/templates/change-order/">change order</a> and signed before the work is done. When the roof
+    is finished, bill the balance on an <a href="/templates/construction-invoice/">invoice</a> that references
+    the estimate number and lists any approved changes.
+  </p>
+
+  <h2>Estimate, quote or proposal?</h2>
+  <p>
+    For most residential re-roofs, this customer-facing estimate is the whole sale: a price, the
+    terms and a signature. On a commercial re-roof bid to a GC or building owner against drawings
+    and specs, build your cost on the
+    <a href="/templates/construction-estimate/">construction estimate worksheet</a> and send a
+    <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions and alternates
+    instead. Our page for <a href="/solutions/roofing-contractors/">roofing contractors</a> covers how
+    that commercial work runs in BuildWorkPro, from the bid through pay applications.
+  </p>
+
+  <h2>Common mistakes on roofing estimates</h2>
+  <ul>
+    <li>Pricing the footprint instead of the roof. Even a 6/12 pitch adds 12% to the area.</li>
+    <li>
+      One tear-off price regardless of layers. The second layer is real labor and real tonnage.
+    </li>
+    <li>
+      No decking allowance. Without one, every rotted sheet becomes a negotiation on the roof.
+    </li>
+    <li>
+      No valid-until date. Shingle prices move, and an open-ended estimate can be held to old ones.
+    </li>
+    <li>
+      Leaving out ventilation and flashing. They are where leaks start, and where a cheaper
+      competitor’s estimate is usually thin.
+    </li>
+  </ul>
+</TemplatePage>

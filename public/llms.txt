@@ -52,7 +52,7 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 
 ## Free templates
 
-- [Templates hub](https://buildworkpro.com/templates/): 32 free construction templates for subcontractors as fillable PDF, Excel and Word, each with a completed example — no email required
+- [Templates hub](https://buildworkpro.com/templates/): 42 free construction templates for subcontractors and trade contractors as fillable PDF, Excel and Word, each with a completed example — no email required
 - [Pay application template (G702/G703 style)](https://buildworkpro.com/templates/aia-g702-g703/): application and certificate for payment + continuation sheet with retainage math and carry-forward (Excel, fillable PDF)
 - [Schedule of values template](https://buildworkpro.com/templates/schedule-of-values/): SOV with % of contract math, tie-out check and a billing tracker (Excel, PDF)
 - [Contractor invoice template](https://buildworkpro.com/templates/construction-invoice/): line items, tax, retainage and balance due (Excel, Word, fillable PDF)
@@ -85,6 +85,16 @@ Unlike platforms built for general contractors (Procore) or residential home bui
 - [Construction meeting minutes template](https://buildworkpro.com/templates/meeting-minutes/): attendees, agenda, decisions and action items (Word, fillable PDF)
 - [Job safety analysis (JSA) template](https://buildworkpro.com/templates/job-safety-analysis/): task steps, hazards, controls, PPE and crew sign-off (fillable PDF, Word, Excel)
 - [Toolbox talk template](https://buildworkpro.com/templates/toolbox-talk/): safety meeting record with a crew sign-in sheet (fillable PDF, Word)
+- [Roofing estimate template](https://buildworkpro.com/templates/roofing-estimate/): customer-ready re-roof estimate by phase with a decking allowance; takeoff for squares, pitch factor, bundles, flashing and dumpster tonnage (Excel, Word, fillable PDF)
+- [HVAC estimate template](https://buildworkpro.com/templates/hvac-estimate/): customer-ready equipment replacement estimate; takeoff for duct runs, line-set length and added refrigerant charge, sized from a load calculation (Excel, Word, fillable PDF)
+- [Electrical estimate template](https://buildworkpro.com/templates/electrical-estimate/): customer-ready service upgrade and branch-circuit estimate; device-count takeoff to labor hours, wire footage, boxes and breakers (Excel, Word, fillable PDF)
+- [Plumbing estimate template](https://buildworkpro.com/templates/plumbing-estimate/): customer-ready rough-in, fixtures and water heater estimate; fixture takeoff to rough and trim hours and pipe footage (Excel, Word, fillable PDF)
+- [Concrete estimate template](https://buildworkpro.com/templates/concrete-estimate/): customer-ready flatwork estimate; slab takeoff for cubic yards, base tons, rebar, forms and control joints (Excel, Word, fillable PDF)
+- [Drywall estimate template](https://buildworkpro.com/templates/drywall-estimate/): customer-ready hang, tape and finish estimate; takeoff for board count by sheet size, mud, tape and corner bead (Excel, Word, fillable PDF)
+- [Painting estimate template](https://buildworkpro.com/templates/painting-estimate/): customer-ready interior repaint estimate; takeoff from room dimensions to paintable area, gallons by color and labor hours (Excel, Word, fillable PDF)
+- [Flooring estimate template](https://buildworkpro.com/templates/flooring-estimate/): customer-ready removal, prep and install estimate; takeoff for square footage with waste, boxes, underlayment and trim (Excel, Word, fillable PDF)
+- [Fence estimate template](https://buildworkpro.com/templates/fence-estimate/): customer-ready fence estimate; takeoff for posts, rails, pickets, gate hardware and concrete bags per hole (Excel, Word, fillable PDF)
+- [Landscaping estimate template](https://buildworkpro.com/templates/landscaping-estimate/): customer-ready yard renovation estimate; takeoff for sod pallets, mulch and soil yards, plants and irrigation (Excel, Word, fillable PDF)
 
 ## Integrations
 

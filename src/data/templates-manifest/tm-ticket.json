@@ -5,7 +5,7 @@
   "files": {
     "pdf": {
       "file": "tm-ticket-template.pdf",
-      "bytes": 96043,
+      "bytes": 96044,
       "pages": 1
     },
     "example": {
@@ -15,7 +15,7 @@
     },
     "xlsx": {
       "file": "tm-ticket-template.xlsx",
-      "bytes": 16757,
+      "bytes": 16761,
       "sheets": [
         "T&M Ticket",
         "T&M Log",

@@ -71,4 +71,24 @@ export const NEXT_STEPS: Record<TemplateSlug, string> = {
     'In BuildWorkPro safety entries are site logs tagged Safety, with photos, so they come up in seconds when the GC or your insurer asks.',
   'toolbox-talk':
     'In BuildWorkPro the toolbox talk is a site log tagged Safety, with the crew on site and photos, on the same dated record as the day’s work.',
+  'roofing-estimate':
+    'BuildWorkPro prices your roofing estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'landscaping-estimate':
+    'BuildWorkPro prices your landscaping estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'painting-estimate':
+    'BuildWorkPro prices your painting estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'hvac-estimate':
+    'BuildWorkPro prices your HVAC estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'electrical-estimate':
+    'BuildWorkPro prices your electrical estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'plumbing-estimate':
+    'BuildWorkPro prices your plumbing estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'fence-estimate':
+    'BuildWorkPro prices your fence estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'concrete-estimate':
+    'BuildWorkPro prices your concrete estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'drywall-estimate':
+    'BuildWorkPro prices your drywall estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
+  'flooring-estimate':
+    'BuildWorkPro prices your flooring estimate from your catalog with margin and overhead as rates, sends it as a branded PDF for e-signature and turns the accepted job into a project.',
 };

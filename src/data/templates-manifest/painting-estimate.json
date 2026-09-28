@@ -1,0 +1,40 @@
+{
+  "slug": "painting-estimate",
+  "name": "Painting Estimate Template",
+  "basename": "painting-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "painting-estimate-template.pdf",
+      "bytes": 101128,
+      "pages": 1
+    },
+    "example": {
+      "file": "painting-estimate-template-example.pdf",
+      "bytes": 54747,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "painting-estimate-template.xlsx",
+      "bytes": 23611,
+      "sheets": [
+        "Estimate",
+        "Paint Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "painting-estimate-template.docx",
+      "bytes": 13250
+    }
+  },
+  "previews": [
+    {
+      "file": "painting-estimate.png",
+      "webp": "painting-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

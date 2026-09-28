@@ -1,0 +1,41 @@
+{
+  "slug": "landscaping-estimate",
+  "name": "Landscaping Estimate Template",
+  "basename": "landscaping-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "landscaping-estimate-template.pdf",
+      "bytes": 100252,
+      "pages": 1
+    },
+    "example": {
+      "file": "landscaping-estimate-template-example.pdf",
+      "bytes": 57887,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "landscaping-estimate-template.xlsx",
+      "bytes": 26131,
+      "sheets": [
+        "Estimate",
+        "Site Takeoff",
+        "Plants and Irrigation",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "landscaping-estimate-template.docx",
+      "bytes": 13222
+    }
+  },
+  "previews": [
+    {
+      "file": "landscaping-estimate.png",
+      "webp": "landscaping-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

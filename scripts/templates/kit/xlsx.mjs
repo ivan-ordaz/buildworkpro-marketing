@@ -66,7 +66,7 @@ export function sheet(
       ...(printTitles ? { printTitlesRow: printTitles } : {}),
     },
     headerFooter: {
-      oddFooter: `&L&8&K8B93A1Free template by ${BRAND.name} · ${BRAND.domain}/templates&C&8&K8B93A1${name}&R&8&K8B93A1Page &P of &N`,
+      oddFooter: `&L&8&K8B93A1Free template by ${BRAND.name} · ${BRAND.domain}/templates&C&8&K8B93A1${name.replace(/&/g, '&&')}&R&8&K8B93A1Page &P of &N`,
     },
   });
   if (tabColor) ws.properties.tabColor = { argb: tabColor };

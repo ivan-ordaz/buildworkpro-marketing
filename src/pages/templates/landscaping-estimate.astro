@@ -1,0 +1,233 @@
+---
+// Landscaping estimate cluster: "landscaping estimate template" 390 (DataForSEO,
+// US, 2026-09), plus "landscaping proposal template" and "landscaping bid
+// template" (volumes not pulled). Trade page in the by-trade series;
+// customer-facing estimate + site and plant/irrigation takeoffs, rendered by
+// kit/trade-estimate.mjs.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do you calculate how much mulch or soil to order?',
+    answer:
+      'Multiply the area in square feet by the depth in inches and divide by 324, because one cubic yard covers 324 square feet at 1 inch deep. Three inches of mulch over 922 square feet of beds is 8.5 cubic yards. The completed example adds 10% for settling and rounds up to the half yard, so it orders 9.5. The Site Takeoff sheet does this for compost, soil and mulch at the depths you set.',
+  },
+  {
+    question: 'How many square feet of sod are on a pallet?',
+    answer:
+      'It depends on the grower, the farm and the roll size, so ask when you order rather than assuming. The takeoff treats pallet size as an input, 500 square feet in the example, and adds a waste percentage for cuts along curves, walks and bed lines. The example’s 992-square-foot lawn at 5% waste needs 1,042 square feet: 2.1 pallets, or 3 if your grower only sells full pallets.',
+  },
+  {
+    question: 'What should a landscaping estimate include?',
+    answer:
+      'The specs a customer compares between landscapers: lawn and bed areas, soil prep, mulch type and depth, irrigation work and the plant warranty. Then line items for removal and disposal, soil prep and grading, sod, plants by container size, mulch, edging and irrigation; optional items priced separately; the deposit and payment terms; a rate for repairs to the existing sprinkler system; exclusions; a valid-until date; and a signature line for acceptance.',
+  },
+  {
+    question: 'How do I figure how many plants a bed needs?',
+    answer:
+      'For a massed planting, multiply the area in square feet by 144 and divide by the spacing in inches squared. That is the count on a square grid; offset (triangular) rows take about 15% more. In the example, 96 square feet of little bluestem at 18 inches on center is 43 plants. Count specimen trees and shrubs from the plan, and the Plants and Irrigation sheet totals everything by container size.',
+  },
+  {
+    question: 'Should a landscaper warranty plants and sod?',
+    answer:
+      'Many landscapers warranty plants and trees for one season or one year and tie it to working irrigation and reasonable watering by the owner, because first-season losses usually come down to water. For the same reason, sod is often not warranted once it is installed and handed over. Whatever you offer, write the length, the conditions and what you will replace into the terms.',
+  },
+  {
+    question: 'How much deposit should a landscaper ask for?',
+    answer:
+      'Enough to cover the material you order for the job, which on a planting job means plants, sod and bulk material. The completed example asks for 40% on acceptance. Some states cap deposits on home-improvement contracts or require specific contract language, so check the rules where you work before you set the percentage.',
+  },
+  {
+    question: 'Is sales tax charged on landscaping work?',
+    answer:
+      'It depends on the state and on how the job is structured. In some states a landscaper pays tax when buying plants and materials and builds it into the price; in others, tax is charged to the customer on materials or on the whole job, and maintenance can be treated differently from installation. The template supports both: mark taxable lines and enter a rate, or leave the rate at 0% and note that tax is included. Confirm the rule for your state.',
+  },
+];
+---
+
+<TemplatePage
+  slug="landscaping-estimate"
+  title="Free Landscaping Estimate Template — Excel, Word & PDF"
+  description="Free landscaping estimate template with a takeoff for sod pallets, mulch and soil yards, plant counts and drip. Excel, Word and fillable PDF. No email required."
+  h1="Landscaping Estimate Template"
+  intro="A customer-ready landscape install estimate grouped the way landscapers price the job: site prep and grading, then planting, sod and mulch, then irrigation, edging and cleanup. The Excel version adds two takeoff sheets that turn lawn and bed zones into sod pallets and bulk yards, and a plant list into counts by container size and drip emitters."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + landscape takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: lawn and bed area, soil prep, bed mulch, irrigation and plant warranty',
+    'Line items grouped by phase: site prep and grading; planting, sod and mulch; irrigation, edging and cleanup',
+    'Sod priced on the measured lawn, plants priced by container size, and bulk material by the cubic yard',
+    'Optional items priced separately from the total, such as a paver walk or a smart controller',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for payment, sprinkler repairs, exclusions and the plant warranty, plus a customer acceptance signature',
+    'Excel: a Site Takeoff sheet that turns lawn and bed zones into turf removal, sod pallets, compost, soil and mulch yards, and edging pieces',
+    'Excel: a Plants and Irrigation sheet that counts plants by container size from a plant list or spacing, and totals drip emitters, spray heads, pipe and tubing',
+    'Excel: a Unit Price Builder that turns material, labor hours and overhead into a selling price at your margin',
+    'Completed example: a 1,914 sq ft front-yard renovation with new sod, three planting beds and a drip conversion, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Measure the lawn and beds',
+      'On the Site Takeoff sheet, list each lawn and bed zone with its length and width, or its measured area if it is curved, and mark the zones where turf comes out. Set compost, soil and mulch depths and your grower’s pallet size, and enter the edging length. Turf removal, sod, bulk yards and edging pieces calculate.',
+    ],
+    [
+      'Count plants and lay out the irrigation',
+      'On the Plants and Irrigation sheet, enter each plant with a count, or a massed area and spacing, and each zone with its type, heads and pipe or tubing length. Plants by container size, drip emitters, heads, pipe and tubing rolls compute.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per unit, along with your loaded labor rate, overhead and profit margin. Each item’s selling price per square foot, yard, plant or zone computes. Use your own crews’ production rates, not a rule of thumb.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Enter the customer, the job specs and a short scope, then the line items under site prep, planting and irrigation with quantity, unit and unit price. Mark taxable lines and enter your rate, or leave tax at 0% if it is in your prices, and set the deposit percentage.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List upgrades such as a paver walk outside the total, and write the payment terms, the sprinkler-repair rate, exclusions, the plant warranty and a valid-until date. Review it with the customer and collect the signature and deposit before you order plants and sod.',
+    ],
+  ]}
+  faqs={faqs}
+  related={['construction-estimate', 'construction-quote', 'change-order', 'tm-ticket']}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price landscapes from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop retyping the same plant list',
+    body: 'BuildWorkPro keeps your sod, plant, mulch and irrigation prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license requirements vary by state and city. Call 811 before digging, check irrigation and backflow permit rules with your city or water provider, and confirm pallet sizes and coverage with your suppliers."
+  updated="2026-09-28"
+>
+  <h2>What goes on a landscaping estimate</h2>
+  <p>
+    A landscaping estimate has two jobs. It has to let a homeowner compare you against two other
+    bids, and it has to settle the questions that come up once the sod cutter is running. The
+    job-specs strip under the header handles the first: lawn and bed area, soil prep, mulch type and
+    depth, irrigation work and the plant warranty. Those are the lines where a cheaper bid is
+    usually thinner. The line items are grouped by phase for the second.
+  </p>
+  <ul>
+    <li>
+      <strong>Site prep and grading:</strong> turf and bed removal, disposal, compost and soil, and a
+      fine grade that drains away from the house.
+    </li>
+    <li>
+      <strong>Planting, sod and mulch:</strong> sod on the measured lawn, plants by container size, and
+      mulch by the cubic yard.
+    </li>
+    <li>
+      <strong>Irrigation, edging and cleanup:</strong> drip conversions, spray-head changes, edging and
+      the final walkthrough.
+    </li>
+  </ul>
+  <p>
+    Hardscape and upgrades, such as a paver walk or a smart controller, go in the optional-items
+    table. They are priced but outside the total, so the customer can add them without you rewriting
+    the estimate.
+  </p>
+
+  <h2>How to take off a landscape job</h2>
+  <p>
+    Break the yard into zones and measure each one. Rectangles are length × width. For curved beds,
+    walk the edge with a measuring wheel or take the area from a site plan or aerial tool, and enter
+    that number directly. The Site Takeoff sheet splits the zones into lawn and beds and totals the
+    turf you will strip.
+  </p>
+  <p>
+    Bulk material is where landscape estimates drift, because it is sold by volume and specified by
+    depth. One cubic yard covers 324 square feet at 1 inch deep, so cubic yards = square feet ×
+    depth in inches ÷ 324:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Depth</th><th>One cubic yard covers</th><th>1,000 sq ft needs</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1 in.</td><td>324 sq ft</td><td>3.1 CY</td></tr>
+      <tr><td>2 in.</td><td>162 sq ft</td><td>6.2 CY</td></tr>
+      <tr><td>3 in.</td><td>108 sq ft</td><td>9.3 CY</td></tr>
+      <tr><td>4 in.</td><td>81 sq ft</td><td>12.3 CY</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Sod is sold by the pallet, and the square footage on a pallet varies by grower, so the pallet
+    size is an input. Plants come from the plan: count specimen trees and shrubs, and for massed
+    perennials and grasses use area × 144 ÷ spacing². The Plants and Irrigation sheet totals plants
+    by container size, turns them into drip emitters, and adds up heads, pipe and tubing from a zone
+    list.
+  </p>
+
+  <h2>Pricing a landscape install line by line</h2>
+  <p>
+    Price sod on the measured lawn and keep the cutting waste in your unit price; the takeoff still
+    orders the extra. Price plants by container size, because a 5-gallon shrub and a 1-gallon
+    perennial are different amounts of material and labor. Build every unit price from cost on the
+    Unit Price Builder: material, plus labor hours at your fully loaded rate, plus equipment rental,
+    dump fees and delivery, then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. A 15%
+    markup on cost is only a 13% margin.
+  </p>
+  <p>
+    The completed example is a front-yard renovation in Fort Collins, Colorado, on clay soil: 992
+    square feet of new bluegrass sod and 922 square feet of new beds, 1,914 square feet in all. Site
+    prep and grading come to $5,107.90, planting, sod and mulch to $5,566.20, and irrigation, edging
+    and cleanup to $3,278. That is $13,952.10 in total, or about $7.29 per square foot. Tax shows as
+    $0 because the company includes it in its prices. The 40% deposit is $5,580.84, due on
+    acceptance to order plants and sod.
+  </p>
+
+  <h2>The existing sprinkler system, and other surprises</h2>
+  <p>
+    Most renovations tie into an old irrigation system you cannot fully see. Heads get sheared by
+    the sod cutter, old lines crack when you trench, and a zone that “worked fine” turns out to have
+    a leaking valve. Put a stated rate for repairs beyond your scope in the terms, as the example
+    does at $85 an hour plus parts, approved first. Buried concrete, rock and debris are the other
+    common surprise. Write anything like that up as a
+    <a href="/templates/change-order/">change order</a> and get it signed before the work is done. For
+    small repairs billed by the hour, a <a href="/templates/tm-ticket/">T&amp;M ticket</a> signed on site
+    keeps the record. When the job is finished, bill the balance on an
+    <a href="/templates/construction-invoice/">invoice</a> that references the estimate number and any
+    approved changes.
+  </p>
+  <p>
+    Call 811 before you dig. It marks public utilities, not private lines such as sprinklers,
+    landscape lighting or gas to a grill, so ask the owner to flag those, and flag every sprinkler
+    head before the sod cutter runs.
+  </p>
+
+  <h2>Estimate, quote or proposal?</h2>
+  <p>
+    For most residential installs, this customer-facing estimate is the whole sale: a price, the
+    terms and a signature. Many landscapers call the same document a landscaping proposal,
+    especially when it goes out with a design drawing. On commercial work bid to a GC or property
+    owner against plans and specs, build your cost on the
+    <a href="/templates/construction-estimate/">construction estimate worksheet</a> and send a
+    <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions and alternates
+    instead. If the customer only wants a fixed price for a defined task, a
+    <a href="/templates/construction-quote/">construction quote</a> is shorter.
+  </p>
+
+  <h2>Common mistakes on landscaping estimates</h2>
+  <ul>
+    <li>Guessing mulch and soil instead of working out area × depth ÷ 324.</li>
+    <li>
+      Leaving out soil prep. It is where a low bid usually saves money, and where first-season
+      failures often start.
+    </li>
+    <li>
+      No rate for repairs to the existing sprinkler system, so every broken line is a negotiation.
+    </li>
+    <li>
+      A plant warranty with no conditions. Tie it to working irrigation and a watering schedule.
+    </li>
+    <li>No valid-until date. Plant, sod and bulk prices change with the season.</li>
+  </ul>
+</TemplatePage>

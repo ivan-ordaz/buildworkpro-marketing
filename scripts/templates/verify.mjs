@@ -51,10 +51,16 @@ await fs.mkdir(out, { recursive: true });
 const entry = manifest[slug];
 const bin = soffice();
 
+// A private LibreOffice profile per slug, so several verify runs can convert at
+// once without fighting over the shared user profile lock.
+const profile = `file://${path.join(ROOT, 'tmp/template-check/.lo-profile', slug)}`;
+
 async function toPdfAndPng(src, base) {
-  execFileSync(bin, ['--headless', '--convert-to', 'pdf', '--outdir', out, src], {
-    stdio: 'ignore',
-  });
+  execFileSync(
+    bin,
+    [`-env:UserInstallation=${profile}`, '--headless', '--convert-to', 'pdf', '--outdir', out, src],
+    { stdio: 'ignore' }
+  );
   const pdf = path.join(out, path.basename(src).replace(/\.[^.]+$/, '.pdf'));
   const target = path.join(out, base + '.pdf');
   await fs.rename(pdf, target);

@@ -1,0 +1,234 @@
+---
+// HVAC estimate cluster: "hvac proposal template" 170 · "hvac estimate template" 140
+// (DataForSEO, US, 2026-09). Trade page in the by-trade series; customer-facing
+// equipment replacement estimate + HVAC takeoff (load calc record, duct runs,
+// line set and added refrigerant charge), rendered by kit/trade-estimate.mjs.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do you size an AC or furnace for an estimate?',
+    answer:
+      'From a room-by-room load calculation, which for homes means ACCA Manual J, with the equipment then selected against those loads. Square feet per ton is not a sizing method: two houses of the same size can have very different loads because of windows, insulation, air leakage and orientation. The HVAC Takeoff sheet records the design loads and the capacity you selected, and shows each as a percentage of load so you can check it against Manual S.',
+  },
+  {
+    question: 'How do you calculate the extra refrigerant for a long line set?',
+    answer:
+      'Subtract the line length already covered by the factory charge from the actual line-set length, then multiply by the ounces per foot for your liquid-line size. Both figures come from the manufacturer’s installation instructions. With 15 feet in the factory charge and 0.6 oz per foot, a 35-foot line set needs 12 oz, or 0.75 lb. Weigh it in, then verify the charge the way the instructions direct.',
+  },
+  {
+    question: 'What should an HVAC estimate include?',
+    answer:
+      'The system type, capacity and efficiency ratings; the load calculation it was sized from; line items for the equipment, removal, sheet metal, line set, added refrigerant, venting, condensate drain, any duct changes, thermostat, startup and the permit; optional upgrades priced separately; the deposit and payment terms; exclusions; the labor and parts warranty; a valid-until date; and a signature line for acceptance.',
+  },
+  {
+    question: 'What is the difference between an HVAC estimate and an HVAC proposal?',
+    answer:
+      'On a residential change-out, most contractors use the words interchangeably: a priced, signed document the homeowner accepts. On commercial work, a proposal is usually the formal bid to a GC or owner against drawings and specs, with inclusions, exclusions and alternates. This template is the residential version, and a signed copy works as your proposal.',
+  },
+  {
+    question: 'Should I measure static pressure before quoting a replacement?',
+    answer:
+      'Yes. Total external static pressure tells you whether the existing duct can carry the airflow the new equipment needs. A high reading means duct work belongs on the estimate: a larger return, a new plenum, added runs. Otherwise it shows up later as a noise or comfort callback. Compare your reading to the blower table in the new furnace or air handler’s spec sheet.',
+  },
+  {
+    question: 'Should HVAC sales tax go on the estimate?',
+    answer:
+      'It depends on your state and on whether the job is treated as a repair or an improvement to real property. In many states the installing contractor pays sales tax when buying equipment and materials and builds it into the price, so no tax line appears on the customer’s estimate. In others, tax is charged on the equipment or the whole job. The template supports both. Confirm the rule for your state.',
+  },
+  {
+    question: 'How long should an HVAC estimate be valid?',
+    answer:
+      'Thirty days is common, and shorter when distributors are announcing price increases. Put a valid-until date on every estimate so a customer cannot hold you to last season’s equipment prices. The template prints the date in bold under the estimate number.',
+  },
+];
+---
+
+<TemplatePage
+  slug="hvac-estimate"
+  title="Free HVAC Estimate Template — Excel, Word & PDF"
+  description="Free HVAC estimate template with a takeoff for duct runs, line-set length and added refrigerant charge. Excel, Word and fillable PDF. No email required."
+  h1="HVAC Estimate Template"
+  intro="A customer-ready HVAC estimate grouped the way a replacement is priced: the equipment, then installation and ductwork, then controls, startup and the permit. The Excel version includes an HVAC takeoff sheet for the load calculation results, duct runs by size, line-set length and the added refrigerant charge."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + HVAC takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: system type, capacity, efficiency ratings, home size and zones, and thermostat',
+    'Line items grouped by phase: equipment, installation and ductwork, then controls, startup and permits',
+    'A line for added refrigerant at a per-pound price, sized from the line-set length',
+    'Optional items priced separately from the total, such as a heat pump upgrade or a chimney liner',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for payment, exclusions and warranty, plus a customer acceptance signature',
+    'Excel: an HVAC Takeoff sheet that records the Manual J loads and turns duct runs, line set, drain and wire runs into order quantities',
+    'Excel: a refrigerant calculator for line sets longer than the factory charge covers',
+    'Excel: a Unit Price Builder that turns material, labor hours and overhead into a selling price at your margin',
+    'Completed example: a 3-ton AC and 96% furnace replacement with added duct runs, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Record the load calculation',
+      'Run a room-by-room load calculation (ACCA Manual J for homes) and enter the design cooling and heating loads and the capacity you selected at the top of the HVAC Takeoff sheet. The sheet shows each capacity as a percentage of load.',
+    ],
+    [
+      'Take off duct, line set and charge',
+      'Enter new or replaced supply and return runs by size, count and average length, then the line-set length and the factory-charge length and oz per foot from the manufacturer’s instructions. Duct footage, fittings, added refrigerant, drain pipe and thermostat wire calculate.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per unit, your loaded labor rate, overhead and profit margin. Each item’s selling price computes. Use your own crews’ install hours, not a rule of thumb.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Fill in the customer and the specs they will compare between contractors: system, tonnage, SEER2 and AFUE, home size and thermostat. Enter the line items under equipment, installation and controls, mark taxable lines or leave tax at 0% if it is in your prices, and set the deposit.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List upgrades such as a heat pump outside the total, and write the payment terms, exclusions, warranty and a valid-until date. Walk the customer through it with the load calculation, and collect the signature and deposit before you order equipment.',
+    ],
+  ]}
+  faqs={faqs}
+  related={[
+    'construction-estimate',
+    'construction-bid-proposal',
+    'change-order',
+    'construction-invoice',
+  ]}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price change-outs from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop retyping the same system',
+    body: 'BuildWorkPro keeps your equipment, line set and sheet metal prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license disclosures vary by state. Size equipment from a load calculation, pull the permits your jurisdiction requires, and follow the manufacturer’s installation instructions for refrigerant charge, line length and venting."
+  updated="2026-09-28"
+>
+  <h2>What goes on an HVAC estimate</h2>
+  <p>
+    An HVAC estimate has to let a homeowner compare you against two other contractors, and it has to
+    put every part of the job in writing before the old equipment comes out. The job-specs strip
+    under the header handles the comparison: system type, capacity in tons and BTU, efficiency
+    ratings (SEER2 for cooling, AFUE for a gas furnace, HSPF2 for a heat pump), home size and zones,
+    and the thermostat. The line items are grouped by phase:
+  </p>
+  <ul>
+    <li>
+      <strong>Equipment:</strong> the outdoor unit, the furnace or air handler, and the matched coil.
+    </li>
+    <li>
+      <strong>Installation and ductwork:</strong> removal and refrigerant recovery, plenum and return
+      sheet metal, line set, added refrigerant, venting, condensate drain and any duct changes.
+    </li>
+    <li>
+      <strong>Controls, startup and permits:</strong> the thermostat and wire, startup and commissioning,
+      and the mechanical permit and inspection.
+    </li>
+  </ul>
+  <p>
+    Upgrades the customer might choose, such as a heat pump in place of the AC, go in the
+    optional-items table, priced but outside the total.
+  </p>
+
+  <h2>Sizing and takeoff: load calculation first</h2>
+  <p>
+    Equipment size comes from a room-by-room load calculation, which for homes means ACCA Manual J,
+    with the equipment selected against those loads under Manual S. It does not come from square
+    feet per ton or from the size of the unit you are replacing. Some building departments ask for
+    the load calculation with the permit application. Put a copy with the estimate, because it
+    explains why your tonnage differs from the other bids.
+  </p>
+  <p>
+    The HVAC Takeoff sheet records the loads and the selected capacity, then takes off the rest.
+    Duct runs are entered by size, count and average length, which gives the footage, elbows,
+    takeoffs, boots and grilles. The line set drives the added refrigerant: most outdoor units ship
+    charged for a set line length, and the installation instructions give ounces per foot beyond it.
+    With 15 feet in the factory charge and 0.6 oz per foot, figures the sheet leaves editable
+    because they vary by unit:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Line-set length</th><th>Beyond factory charge</th><th>Added refrigerant</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>15 ft</td><td>0 ft</td><td>0 oz</td></tr>
+      <tr><td>25 ft</td><td>10 ft</td><td>6 oz (0.38 lb)</td></tr>
+      <tr><td>35 ft</td><td>20 ft</td><td>12 oz (0.75 lb)</td></tr>
+      <tr><td>50 ft</td><td>35 ft</td><td>21 oz (1.31 lb)</td></tr>
+      <tr><td>75 ft</td><td>60 ft</td><td>36 oz (2.25 lb)</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Past the manufacturer’s long-line limit, its long-line guideline applies instead. The sheet also
+    totals condensate drain pipe and thermostat wire.
+  </p>
+
+  <h2>Pricing an HVAC replacement line by line</h2>
+  <p>
+    Price the equipment as matched systems, because the efficiency rating belongs to the combination
+    of outdoor unit, coil and furnace, not to the condenser alone. Carry the added refrigerant on
+    its own line at a per-pound price, and state in the terms that anything beyond it is weighed and
+    billed at the same rate. Build every unit price from cost on the Unit Price Builder: material,
+    plus labor hours at your fully loaded rate, plus consumables, then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>.
+    Overhead on residential replacement work is higher than most contractors assume once sales time,
+    trucks and callbacks are counted.
+  </p>
+  <p>
+    The completed example replaces a 100,000 BTU furnace, AC and coil in a Columbus-area ranch with
+    a 3-ton, 15.2 SEER2 air conditioner and a 60,000 BTU, 96% AFUE furnace, downsized after a Manual
+    J load calculation. Equipment comes to $8,855. Installation and ductwork come to $4,336,
+    including a 35-foot line set, 0.75 lb of added refrigerant at $78 per pound, PVC venting, two
+    new supply runs and a bedroom return. Controls, startup and the permit add $825. The total is
+    $14,016.00, with no tax line because the contractor pays tax on equipment and materials and
+    includes it in the prices. The 40% deposit is $5,606.40, and $8,409.60 is due on completion.
+  </p>
+
+  <h2>Static pressure, venting and change orders</h2>
+  <p>
+    The surprises on a change-out are rarely the equipment. Measure total external static pressure
+    on the existing system before you quote. If the return is undersized, the fix goes on the
+    estimate, as the example’s added return does. When a condensing furnace replaces an 80% furnace
+    that shared a chimney with the water heater, the water heater is left venting alone into a flue
+    sized for two appliances. Whether it needs a liner is a question for the venting tables and your
+    local code, so the example prices a liner as an option rather than leaving it out. Anything
+    found after the old equipment comes out, such as a failed circuit or damaged duct, gets a
+    written
+    <a href="/templates/change-order/">change order</a> signed before the work. Bill the balance on an
+    <a href="/templates/construction-invoice/">invoice</a> that references the estimate number.
+  </p>
+
+  <h2>HVAC estimate, quote or proposal?</h2>
+  <p>
+    For a residential replacement, this estimate is the whole sale: a price, the terms and a
+    signature. Many contractors call the same document an HVAC proposal, and a signed copy serves as
+    one. On commercial mechanical work bid to a GC against drawings and specs, build your cost on
+    the
+    <a href="/templates/construction-estimate/">construction estimate worksheet</a> and send a
+    <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions and alternates,
+    or a <a href="/templates/construction-quote/">fixed-price quote</a> for smaller scopes. Our page for
+    <a href="/solutions/hvac-contractors/">HVAC contractors</a> covers how that contract work runs in
+    BuildWorkPro, from the bid through pay applications.
+  </p>
+
+  <h2>Common mistakes on HVAC estimates</h2>
+  <ul>
+    <li>Sizing by square feet per ton, or matching the old unit, instead of a load calculation.</li>
+    <li>Quoting new equipment on the old duct without measuring static pressure.</li>
+    <li>Listing only the condenser’s SEER2. The rating belongs to the matched system.</li>
+    <li>
+      Leaving refrigerant, venting and the condensate drain out of the price, then adding them on
+      installation day.
+    </li>
+    <li>
+      No valid-until date. Equipment prices move, and an open-ended estimate can be held to old
+      ones.
+    </li>
+  </ul>
+</TemplatePage>

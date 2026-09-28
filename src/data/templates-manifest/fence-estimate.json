@@ -1,0 +1,40 @@
+{
+  "slug": "fence-estimate",
+  "name": "Fence Estimate Template",
+  "basename": "fence-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "fence-estimate-template.pdf",
+      "bytes": 100662,
+      "pages": 1
+    },
+    "example": {
+      "file": "fence-estimate-template-example.pdf",
+      "bytes": 53470,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "fence-estimate-template.xlsx",
+      "bytes": 22422,
+      "sheets": [
+        "Estimate",
+        "Fence Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "fence-estimate-template.docx",
+      "bytes": 13171
+    }
+  },
+  "previews": [
+    {
+      "file": "fence-estimate.png",
+      "webp": "fence-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+---
+// Fence estimate cluster: "fence estimate template" 210 (DataForSEO, US,
+// 2026-09). Supporting queries answered on the page (volumes not pulled):
+// fence quote template, how many fence posts, bags of concrete per fence post.
+// Trade page in the by-trade series; customer-facing estimate + fence takeoff
+// (posts, rails, pickets, concrete bags per hole), rendered by
+// kit/trade-estimate.mjs. No fence solutions page exists, so none is linked.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do you calculate how many fence posts you need?',
+    answer:
+      'Split the fence line at every corner, end and gate. For each straight run, divide the length by your post spacing and round up to get the sections; the line posts are the sections minus one. Then add each end, corner and gate post once. In the completed example, 166 feet of runs at 8-foot spacing is 23 sections and 18 line posts, plus 4 end and corner posts and 4 gate posts: 26 posts.',
+  },
+  {
+    question: 'How many bags of concrete do I need per fence post?',
+    answer:
+      'Work out the concrete around the post: π × (hole diameter ÷ 2)² × the concrete depth, less the post, divided by 1,728 to get cubic feet. Divide that by the yield printed on the bag; an 80-lb bag of concrete yields about 0.60 cubic feet. A 10-inch hole with 30 inches of concrete around a 4×4 takes about 1.9 bags, and a 12-inch hole with 36 inches around a 6×6 about 2.9.',
+  },
+  {
+    question: 'What should a fence estimate include?',
+    answer:
+      'The fence length, height, style and material; the gates; how the posts are set; line items for removal, haul-off, layout, posts, concrete, rails, pickets or panels, gates and the permit; optional items priced separately; the deposit and payment terms; who identifies the property line; how rock and buried debris are billed; the warranty; a valid-until date; and a signature line for acceptance.',
+  },
+  {
+    question: 'Who is responsible for the property line on a fence job?',
+    answer:
+      'Put it on the owner in writing. The estimate should say the owner identifies the line and the survey pins, and where the fence sits relative to the line, such as 2 inches inside. If nobody can find the pins, a survey costs less than moving a fence. Setbacks and height limits vary by city and HOA, so check them before you dig.',
+  },
+  {
+    question: 'Do you need to call 811 before digging fence post holes?',
+    answer:
+      'Yes. State one-call laws require a locate request before you dig, and the notice period varies by state. 811 marks public utility lines only. Private lines such as sprinkler pipe, pet-fence wire, landscape lighting or a feed to a detached garage are the owner’s to mark, which is why the example’s terms say so.',
+  },
+  {
+    question: 'Do you need a permit to build a fence?',
+    answer:
+      'Often. Many cities require a permit or zoning approval for a new fence, especially in front yards, on corner lots or above a set height, and many HOAs must approve the style, height and color first. Check with the city’s building or zoning department and the HOA before you schedule. The completed example carries the permit and HOA submittal as its own line.',
+  },
+  {
+    question: 'How do you price a fence per linear foot?',
+    answer:
+      'Build it from the parts rather than quoting one flat number: posts, concrete, rails, kickboard and pickets per foot of fence, then gates, removal and the permit as their own lines. In the completed example the fence itself works out to about $45.39 per foot, and the whole job, with removal, two gates and the permit, to about $59.72 per foot of fence line. Your number depends on material, height, soil and your crews’ production.',
+  },
+];
+---
+
+<TemplatePage
+  slug="fence-estimate"
+  title="Free Fence Estimate Template — Excel, Word & PDF"
+  description="Free fence estimate template with a takeoff for posts, rails, pickets and concrete bags per hole. Excel, Word and fillable PDF. No email required."
+  h1="Fence Estimate Template"
+  intro="A customer-ready fence estimate grouped the way fence contractors price the job: removal and layout, posts and framing, then pickets, panels and gates. The Excel version includes a fence takeoff sheet that turns run lengths, gates and hole sizes into posts, rails, pickets and bags of concrete."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + fence takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: fence length, height and style, material, gates and post setting',
+    'Line items grouped by phase: removal and layout, posts and framing, then pickets, panels and gates',
+    'Separate lines for line posts, upsized gate posts and the concrete that sets them',
+    'Optional items priced outside the total, such as a cap board or stain',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for the deposit, property line, rock and private utility lines, and warranty, plus a customer acceptance signature',
+    'Excel: a Fence Takeoff sheet that turns run lengths into sections, line posts, rails and pickets, counting end and corner posts once',
+    'Excel: concrete bags per hole from hole diameter, depth, gravel and post size, with an editable bag yield',
+    'Excel: gate posts, hinges, latches and drop rods from the gate list, plus a Unit Price Builder that prices at your margin',
+    'Completed example: tear-out and 180 LF of 6-ft cedar privacy fence with two gates, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Walk the line and take it off',
+      'On the Fence Takeoff sheet, enter each straight run between end, corner and gate posts, then the gates and the hole size for line and gate posts. Sections, posts, rails, pickets, concrete bags and gate hardware calculate from your post spacing, picket width and bag yield.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per post, bag, rail, foot or gate, along with your loaded labor rate, overhead and profit margin. Use your own crews’ production rates, not a rule of thumb.',
+    ],
+    [
+      'Fill in the customer and job specs',
+      'Enter the customer, the job address and the specs customers compare between fence companies: length, height and style, material, gates and how the posts are set. Write the scope in two or three plain sentences.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Enter the line items under removal and layout, posts and framing, and pickets and gates with quantity, unit and unit price. Mark taxable lines and enter your rate, or leave tax at 0% if it is in your prices, and set the deposit percentage.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List upgrades such as a cap board or stain outside the total. Write the terms: deposit, property line, rock and private utility lines, and warranty, with a valid-until date. Collect the signature and deposit before you order material.',
+    ],
+  ]}
+  faqs={faqs}
+  related={['construction-quote', 'construction-estimate', 'change-order', 'construction-invoice']}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price fences from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop retyping the same fence',
+    body: 'BuildWorkPro keeps your post, rail, picket and gate prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license disclosures vary by state. Fence permits, setbacks, height limits and post depth are set locally: confirm them with the city and the HOA, request an 811 locate before digging, and check material specs with the manufacturer."
+  updated="2026-09-28"
+>
+  <h2>What goes on a fence estimate</h2>
+  <p>
+    A homeowner pricing a fence usually has two or three estimates side by side, and compares them
+    on a handful of facts: how many feet, how tall, what material, how many gates and how the posts
+    go in. Those are the job specs under the header. With them on the page, the customer can line
+    your number up against the others. Without them, the cheapest estimate looks like the same
+    fence.
+  </p>
+  <p>The line items follow the order the crew builds in:</p>
+  <ul>
+    <li>
+      <strong>Removal and layout:</strong> tearing out the old fence and its footings, haul-off, and stringing
+      the line from the survey pins after the 811 locate.
+    </li>
+    <li>
+      <strong>Posts and framing:</strong> line posts, upsized gate posts, the concrete to set them, rails
+      and a kickboard.
+    </li>
+    <li>
+      <strong>Pickets, panels and gates:</strong> pickets or panels by the foot, each gate with its hardware,
+      the permit and final cleanup.
+    </li>
+  </ul>
+  <p>
+    Upgrades the customer might want, such as a cap board or stain, go in the optional-items table,
+    priced but outside the total.
+  </p>
+
+  <h2>How to take off a fence</h2>
+  <p>
+    Start from a sketch of the line with every corner, end and gate marked, then split it into
+    straight runs from one terminal post to the next. A run’s sections are its length divided by
+    your post spacing, rounded up, and its line posts are the sections minus one. End, corner and
+    gate posts are added once each. Counting “sections plus one” on every run counts each corner
+    twice.
+  </p>
+  <p>
+    Rails are sections times rails per section. Pickets per run are the run length in inches divided
+    by the picket width plus the gap, rounded up; a 1×6 is 5½ inches wide. Concrete comes from the
+    hole: π × (diameter ÷ 2)² × the concrete depth, less the post, divided by 1,728 for cubic feet,
+    then divided by the bag’s yield. An 80-lb bag yields about 0.60 cubic feet, but check the bag.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Hole × concrete depth</th><th>Post</th><th>Concrete</th><th>80-lb bags</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>8 in. × 24 in.</td><td>4×4</td><td>0.53 cu ft</td><td>0.9</td></tr>
+      <tr><td>10 in. × 24 in.</td><td>4×4</td><td>0.92 cu ft</td><td>1.5</td></tr>
+      <tr><td>10 in. × 30 in.</td><td>4×4</td><td>1.15 cu ft</td><td>1.9</td></tr>
+      <tr><td>10 in. × 36 in.</td><td>4×4</td><td>1.38 cu ft</td><td>2.3</td></tr>
+      <tr><td>12 in. × 36 in.</td><td>4×4</td><td>2.10 cu ft</td><td>3.5</td></tr>
+      <tr><td>12 in. × 36 in.</td><td>6×6</td><td>1.73 cu ft</td><td>2.9</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Hole diameter drives concrete more than anything else: a 12-inch hole takes about half again the
+    concrete of a 10-inch hole at the same depth. Depth is set by frost, soil and your local code,
+    not by the template, so it is an input. The Fence Takeoff sheet runs the whole calculation for
+    up to ten runs and four gates, with every spacing, width and yield editable.
+  </p>
+
+  <h2>Pricing a fence line by line</h2>
+  <p>
+    Price gate posts separately from line posts. They carry the gate’s weight and swing, so they are
+    usually a size up and set deeper, and the price should show it. Price pickets or panels by the
+    foot of fence, so a customer who shortens a run can see what it saves. Build every unit price
+    from cost on the Unit Price Builder: material, labor hours at your loaded rate and consumables,
+    then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. A 15%
+    markup on cost is only a 13% margin.
+  </p>
+  <p>
+    The completed example tears out an old wood fence outside Columbus, Ohio and builds 180 LF of
+    6-foot cedar privacy fence on pressure-treated posts, with a 4-foot walk gate and a 10-foot
+    double drive gate. Removal and layout come to $1,470, posts and framing to $4,546.60, and
+    pickets, gates and the permit to $4,733. That is $10,749.60, or about $59.72 per foot of fence
+    line all-in. The fence alone, without removal, gates and the permit, is about $45.39 per foot.
+    There is no tax line because the contractor pays tax on materials and includes it in the prices.
+    The 35% deposit is $3,762.36.
+  </p>
+
+  <h2>Property lines, 811 and rock</h2>
+  <p>
+    Three things on a fence job can’t be seen when you write the estimate, and each one needs a
+    sentence in the terms.
+  </p>
+  <ul>
+    <li>
+      <strong>The property line.</strong> The owner identifies the line and the pins, and the estimate
+      says where the fence sits relative to it: 2 inches inside in the example. If nobody can find the
+      pins, recommend a survey before you dig.
+    </li>
+    <li>
+      <strong>Utilities.</strong> Request an 811 locate before digging. It marks public lines, not the
+      owner’s sprinkler pipe, pet-fence wire or landscape lighting, so the terms ask the owner to mark
+      those.
+    </li>
+    <li>
+      <strong>Rock and old footings.</strong> Price a hole that stops the auger per hole, with photos:
+      $65 in the example.
+    </li>
+  </ul>
+  <p>
+    Anything that changes after the estimate is signed, such as an added gate, a run moved for the
+    HOA or a slope that needs stepped sections, gets written up as a
+    <a href="/templates/change-order/">change order</a> and signed before the work is done. When the fence
+    is finished, bill the balance on an <a href="/templates/construction-invoice/">invoice</a> that references
+    the estimate number and lists the approved changes.
+  </p>
+
+  <h2>Estimate, quote or proposal?</h2>
+  <p>
+    For most residential fences, this customer-facing estimate is the whole sale: specs, a price,
+    terms and a signature. If the customer only needs a fixed price on one page without the phase
+    breakdown, a <a href="/templates/construction-quote/">construction quote</a> does that. On commercial
+    fencing bid to a GC or property owner against drawings and specs, build your cost on the
+    <a href="/templates/construction-estimate/">construction estimate worksheet</a> and send a
+    <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions and alternates
+    instead.
+  </p>
+
+  <h2>Common mistakes on fence estimates</h2>
+  <ul>
+    <li>
+      Counting one extra post per run. Corners are shared, so “sections plus one” double-counts
+      them.
+    </li>
+    <li>
+      Pricing gate posts like line posts. They carry the gate; upsize them, set them deeper and
+      price that.
+    </li>
+    <li>
+      One concrete figure per post regardless of hole size. A 12-inch hole takes about half again
+      the concrete of a 10-inch one.
+    </li>
+    <li>
+      No property-line language. When a neighbor objects, the company that set the fence gets the
+      first call.
+    </li>
+    <li>
+      No price for rock. Without a per-hole price in writing, rock becomes a negotiation in the
+      yard.
+    </li>
+  </ul>
+</TemplatePage>

@@ -1,0 +1,40 @@
+{
+  "slug": "drywall-estimate",
+  "name": "Drywall Estimate Template",
+  "basename": "drywall-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "drywall-estimate-template.pdf",
+      "bytes": 100275,
+      "pages": 1
+    },
+    "example": {
+      "file": "drywall-estimate-template-example.pdf",
+      "bytes": 53467,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "drywall-estimate-template.xlsx",
+      "bytes": 22622,
+      "sheets": [
+        "Estimate",
+        "Drywall Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "drywall-estimate-template.docx",
+      "bytes": 13164
+    }
+  },
+  "previews": [
+    {
+      "file": "drywall-estimate.png",
+      "webp": "drywall-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

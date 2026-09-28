@@ -38,4 +38,15 @@ export const SLUGS = [
   // safety
   'job-safety-analysis',
   'toolbox-talk',
+  // by trade
+  'roofing-estimate',
+  'landscaping-estimate',
+  'painting-estimate',
+  'hvac-estimate',
+  'electrical-estimate',
+  'plumbing-estimate',
+  'fence-estimate',
+  'concrete-estimate',
+  'drywall-estimate',
+  'flooring-estimate',
 ];

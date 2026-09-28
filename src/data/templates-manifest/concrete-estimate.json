@@ -1,0 +1,40 @@
+{
+  "slug": "concrete-estimate",
+  "name": "Concrete Estimate Template",
+  "basename": "concrete-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "concrete-estimate-template.pdf",
+      "bytes": 100263,
+      "pages": 1
+    },
+    "example": {
+      "file": "concrete-estimate-template-example.pdf",
+      "bytes": 54207,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "concrete-estimate-template.xlsx",
+      "bytes": 23347,
+      "sheets": [
+        "Estimate",
+        "Slab Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "concrete-estimate-template.docx",
+      "bytes": 13173
+    }
+  },
+  "previews": [
+    {
+      "file": "concrete-estimate.png",
+      "webp": "concrete-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}
