@@ -1,0 +1,40 @@
+{
+  "slug": "roofing-estimate",
+  "name": "Roofing Estimate Template",
+  "basename": "roofing-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "roofing-estimate-template.pdf",
+      "bytes": 100788,
+      "pages": 1
+    },
+    "example": {
+      "file": "roofing-estimate-template-example.pdf",
+      "bytes": 55701,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "roofing-estimate-template.xlsx",
+      "bytes": 21114,
+      "sheets": [
+        "Estimate",
+        "Roof Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "roofing-estimate-template.docx",
+      "bytes": 13364
+    }
+  },
+  "previews": [
+    {
+      "file": "roofing-estimate.png",
+      "webp": "roofing-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

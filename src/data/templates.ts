@@ -3,7 +3,7 @@
 // Keyword volumes (US, DataForSEO, 2026-09) drive the hub order.
 
 export type TemplateCategory =
-  'billing' | 'bidding' | 'contracts' | 'field' | 'controls' | 'safety';
+  'billing' | 'bidding' | 'trades' | 'contracts' | 'field' | 'controls' | 'safety';
 
 export type TemplateFormat = 'PDF' | 'Excel' | 'Word';
 
@@ -29,6 +29,11 @@ export const CATEGORIES: Record<TemplateCategory, { title: string; blurb: string
   bidding: {
     title: 'Estimates, bids & proposals',
     blurb: 'Price the job, present it, and win it — with the math done right.',
+  },
+  trades: {
+    title: 'By trade',
+    blurb:
+      'Customer-ready estimates laid out the way each trade measures and prices the work, with a takeoff calculator for that trade.',
   },
   contracts: {
     title: 'Contracts & scope',
@@ -368,6 +373,107 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Word'],
     basename: 'toolbox-talk-template',
     volume: 350,
+  },
+  // ---- By trade ----
+  {
+    slug: 'roofing-estimate',
+    title: 'Roofing Estimate Template',
+    short:
+      'Re-roof estimate by phase with a decking allowance, plus a takeoff that turns pitch and plan dimensions into squares and bundles.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'roofing-estimate-template',
+    volume: 880,
+  },
+  {
+    slug: 'landscaping-estimate',
+    title: 'Landscaping Estimate Template',
+    short:
+      'Site prep, planting, sod, irrigation and mulch by phase, plus a takeoff for sod pallets, mulch and soil yards, and plant counts.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'landscaping-estimate-template',
+    volume: 390,
+  },
+  {
+    slug: 'painting-estimate',
+    title: 'Painting Estimate Template',
+    short:
+      'Prep, walls, ceilings and trim by phase, plus a takeoff that turns room dimensions into paintable area, gallons and labor hours.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'painting-estimate-template',
+    volume: 330,
+  },
+  {
+    slug: 'hvac-estimate',
+    title: 'HVAC Estimate Template',
+    short:
+      'Equipment, installation and controls by phase, plus a takeoff for duct runs, line-set length and added refrigerant charge.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'hvac-estimate-template',
+    volume: 310,
+  },
+  {
+    slug: 'electrical-estimate',
+    title: 'Electrical Estimate Template',
+    short:
+      'Service, circuits, devices and lighting by phase, plus a device-count takeoff that turns openings into labor hours and wire footage.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'electrical-estimate-template',
+    volume: 240,
+  },
+  {
+    slug: 'plumbing-estimate',
+    title: 'Plumbing Estimate Template',
+    short:
+      'Rough-in, fixtures and water heater by phase, plus a fixture takeoff that turns counts into rough and trim hours and pipe footage.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'plumbing-estimate-template',
+    volume: 240,
+  },
+  {
+    slug: 'fence-estimate',
+    title: 'Fence Estimate Template',
+    short:
+      'Removal, posts, panels and gates by phase, plus a takeoff for posts, rails, pickets and concrete bags per hole.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'fence-estimate-template',
+    volume: 210,
+  },
+  {
+    slug: 'concrete-estimate',
+    title: 'Concrete Estimate Template',
+    short:
+      'Demo, forming, reinforcement and finish by phase, plus a slab takeoff for cubic yards, base, rebar and forms.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'concrete-estimate-template',
+    volume: 110,
+  },
+  {
+    slug: 'drywall-estimate',
+    title: 'Drywall Estimate Template',
+    short:
+      'Hang, tape, finish and texture by phase, plus a takeoff for board count by sheet size, mud, tape and corner bead.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'drywall-estimate-template',
+    volume: 110,
+  },
+  {
+    slug: 'flooring-estimate',
+    title: 'Flooring Estimate Template',
+    short:
+      'Removal, prep, install and trim by phase, plus a takeoff for square footage with waste, boxes, underlayment and trim.',
+    category: 'trades',
+    formats: ['PDF', 'Excel', 'Word'],
+    basename: 'flooring-estimate-template',
+    volume: 90,
   },
 ];
 
