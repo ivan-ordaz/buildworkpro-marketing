@@ -1,0 +1,255 @@
+---
+// Painting estimate cluster: "painting estimate template" 260 · "painting proposal
+// template" 70 (DataForSEO, US, 2026-09). Trade page in the by-trade series;
+// customer-facing interior repaint estimate + paint takeoff (room dimensions →
+// paintable area, gallons by product and color, labor hours), rendered by
+// kit/trade-estimate.mjs.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do you calculate wall square footage for a paint estimate?',
+    answer:
+      'Add the room’s length and width, double it to get the perimeter, and multiply by the wall height: 2 × (L + W) × H. Then subtract the openings. The template deducts 21 sq ft for each door and 15 sq ft for each window, and you can change both. A 16 × 14 ft living room with 9-ft walls, one door and three windows has 474 sq ft of paintable wall.',
+  },
+  {
+    question: 'How many gallons of paint do I need for a room?',
+    answer:
+      'Multiply the paintable area by the number of coats and divide by the spread rate on the can, which is given in square feet per gallon. Use the low end of the range on rough, porous or heavily patched walls. Then round up by color, not by job. The completed example needs 14.6 gallons of wall paint in total, but three colors rounded up separately means ordering 16.',
+  },
+  {
+    question: 'What should a painting estimate include?',
+    answer:
+      'The rooms and surfaces being painted; the paintable area, coats, paint and sheen, and colors; line items for prep, walls, ceilings, baseboard, doors and windows; a drywall repair allowance with an hourly rate; optional items priced separately; the deposit and payment terms; the color-change rule; exclusions; the warranty; a valid-until date; and a signature line for acceptance.',
+  },
+  {
+    question: 'Should painters price by the square foot, by the room or by the hour?',
+    answer:
+      'Estimates customers can compare usually price walls and ceilings by the square foot, baseboard by the linear foot, and doors and windows by the each. A per-room price hides the difference between a powder room and a two-story foyer. Hourly pricing suits repair work you cannot measure in advance, which is why the template carries drywall repair as an hourly allowance.',
+  },
+  {
+    question: 'How do you estimate labor hours for a painting job?',
+    answer:
+      'Divide each quantity by your crew’s production rate and multiply by the coats: square feet per hour for walls and ceilings, linear feet per hour for baseboard, and doors or windows per hour. Add setup and prep time. Take the rates from your own past jobs, because they change with the crew, the surface and whether the home is occupied. The completed example comes to 91.7 hours, about six working days for two painters.',
+  },
+  {
+    question: 'Should a painting estimate include sales tax?',
+    answer:
+      'It depends on your state and the job. In many states a painter pays sales tax when buying paint and supplies and builds it into the price, so no tax is charged to the customer. In others, tax applies to materials or to the whole job. Mark taxable lines and enter a rate, or leave the rate at 0% and note that tax is included. Confirm the rule for your state.',
+  },
+  {
+    question: 'How do I handle color changes on a painting estimate?',
+    answer:
+      'Put the rule in the terms before work starts: colors are final once you begin, and a change after paint goes on, or a deep color that needs an extra coat, is priced by change order. Collect the final color choices with the signed estimate. The completed example’s terms include this rule next to a four-hour drywall repair allowance.',
+  },
+];
+---
+
+<TemplatePage
+  slug="painting-estimate"
+  title="Free Painting Estimate Template — Excel, Word & PDF"
+  description="Free painting estimate template with a paint takeoff: wall and ceiling area, gallons by color, labor hours. Excel, Word and fillable PDF. No email required."
+  h1="Painting Estimate Template"
+  intro="A customer-ready painting estimate grouped the way painters price an interior repaint: prep and protection, walls and ceilings, then trim and doors. The Excel version includes a paint takeoff sheet that turns room dimensions into paintable area, gallons by product and color, and labor hours."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + paint takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: paintable area, surfaces, coats, paint and sheen, and colors',
+    'Line items grouped by phase: prep and protection, walls and ceilings, then trim, doors and other',
+    'A drywall repair allowance line with an hourly rate for anything beyond it',
+    'Optional items priced separately from the total, such as a stair rail or crown molding',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for payment, the color-change rule, exclusions and warranty, plus a customer acceptance signature',
+    'Excel: a Paint Takeoff sheet that turns room length, width and height into net wall area, ceiling area and baseboard footage, less doors and windows',
+    'Excel: gallons of primer, wall paint by color, ceiling paint and trim enamel, plus prep and paint labor hours and days on site',
+    'Excel: a Unit Price Builder that turns material, labor hours and overhead into a selling price at your margin',
+    'Completed example: a six-room main-floor repaint with 3,424 sq ft of walls and ceilings, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Measure the rooms',
+      'On the Paint Takeoff sheet, enter each room’s length, width and wall height, the doors and windows in its walls, whether the ceiling gets painted, and its wall color. Net wall area, ceiling area and baseboard footage calculate with the openings deducted.',
+    ],
+    [
+      'Set coverage and production rates',
+      'Enter the coats and the spread rate from the can for each product, and your crews’ production rates for prep, walls, ceilings, trim, doors and windows. Gallons by product and by color, labor hours and days on site calculate. Use your own crews’ numbers, not a rule of thumb.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per unit, along with your loaded labor rate, overhead and profit margin. Each item’s selling price per square foot, linear foot, door or window computes.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Fill in the customer and the job specs, then enter the line items under prep, walls and ceilings, and trim with quantity, unit and unit price. Carry drywall repair as an allowance. Mark taxable lines and enter your rate, or leave tax at 0% if it is in your prices, and set the deposit percentage.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List optional work outside the total, write the payment terms, color-change rule, exclusions and warranty, and add a valid-until date. Walk the customer through it room by room and collect the signature, deposit and final colors before you buy paint.',
+    ],
+  ]}
+  faqs={faqs}
+  related={['construction-estimate', 'construction-quote', 'change-order', 'construction-invoice']}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price paint jobs from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop retyping the same paint job',
+    body: 'BuildWorkPro keeps your paint, primer and labor prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license requirements vary by state. Confirm the requirements where you work, check the EPA’s lead-safe (RRP) requirements for homes built before 1978, and confirm coverage and recoat times on the product label."
+  updated="2026-09-28"
+>
+  <h2>What goes on a painting estimate</h2>
+  <p>
+    A painting estimate has to show the customer exactly what gets painted and what it costs. A
+    homeowner comparing three painters lines up the job specs first: paintable area, which surfaces,
+    how many coats, the paint and sheen, and the colors. Two estimates at very different prices are
+    often two different jobs, one coat against two or trim left out, and the specs strip under the
+    header makes that visible. The line items are grouped the way a painter works the job.
+  </p>
+  <ul>
+    <li>
+      <strong>Prep and protection:</strong> moving and covering furniture, masking, patching and sanding,
+      caulking trim, spot-priming, and an allowance for drywall repair beyond normal patching.
+    </li>
+    <li>
+      <strong>Walls and ceilings:</strong> coats and sheen by surface, plus access for anything taller
+      than a standard ladder reaches, such as a two-story foyer or stairwell.
+    </li>
+    <li>
+      <strong>Trim, doors and other:</strong> baseboard, doors, window casings, and the final walkthrough
+      and touch-up.
+    </li>
+  </ul>
+  <p>
+    Anything the customer might add, such as a stair rail or crown molding, goes in the
+    optional-items table, priced but outside the total.
+  </p>
+
+  <h2>How to measure rooms for a paint estimate</h2>
+  <p>
+    Measure each room’s length, width and wall height. Wall area is the perimeter times the height,
+    2 × (L + W) × H, less the openings. The template deducts 21 sq ft for each door and 15 sq ft for
+    each window, and both sizes are editable. Ceiling area is length times width. Baseboard runs the
+    perimeter, less the width of each door. Three rooms from the completed example:
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Room</th>
+        <th>L × W × H</th>
+        <th>Openings</th>
+        <th>Net walls</th>
+        <th>Ceiling</th>
+        <th>Baseboard</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Living room</td>
+        <td>16 × 14 × 9 ft</td>
+        <td>1 door, 3 windows</td>
+        <td>474 sq ft</td>
+        <td>224 sq ft</td>
+        <td>57 LF</td>
+      </tr>
+      <tr>
+        <td>Two-story foyer</td>
+        <td>12 × 8 × 18 ft</td>
+        <td>3 doors, 1 window</td>
+        <td>642 sq ft</td>
+        <td>96 sq ft</td>
+        <td>31 LF</td>
+      </tr>
+      <tr>
+        <td>Powder room</td>
+        <td>5 × 5 × 9 ft</td>
+        <td>1 door</td>
+        <td>159 sq ft</td>
+        <td>25 sq ft</td>
+        <td>17 LF</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Gallons are area × coats ÷ spread rate. Take the spread rate from the can and use the low end on
+    rough or porous walls. The Paint Takeoff sheet totals gallons by product and by wall color,
+    because paint is bought by color: in the example, three colors rounded up separately come to 16
+    gallons of wall paint where the job total alone says 15. Labor hours are quantity × coats ÷ your
+    crew’s production rate, for prep and for paint, so the estimate carries the hours the job will
+    actually take.
+  </p>
+
+  <h2>Pricing a repaint line by line</h2>
+  <p>
+    Price walls and ceilings by the square foot, baseboard by the linear foot, and doors and windows
+    by the each. A per-room price hides the difference between a powder room and a two-story foyer,
+    and a per-square-foot price shows it. Put high-wall access on its own line, because planks and
+    extension ladders are hours a flat rate does not cover. Build every unit price from cost on the
+    Unit Price Builder: paint per unit, plus labor hours at your fully loaded rate, plus tape,
+    plastic and caulk, then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. A 15%
+    markup on cost is only a 13% margin.
+  </p>
+  <p>
+    The completed example is a main-floor repaint of an occupied two-story in Henrico, Virginia: six
+    rooms, 2,547 sq ft of walls at two coats, 877 sq ft of ceilings at one coat, 251 LF of
+    baseboard, 7 doors and 10 windows. Prep and protection come to $1,825.40, walls and ceilings to
+    $4,842.45, and trim and doors to $2,457.50. That is $9,125.35 in total, about $2.67 per square
+    foot of paintable area. Sales tax shows as included because the painter pays tax on the paint
+    and builds it into the prices. The 25% deposit is $2,281.34. The takeoff puts the job at 91.7
+    labor hours, about six working days for a two-person crew.
+  </p>
+
+  <h2>Drywall repair, color changes and change orders</h2>
+  <p>
+    Prep is where interior repaints run over. You can count nail holes on a walkthrough, but you
+    cannot see how far a crack opens once it is scraped, or what is behind a mirror that comes down.
+    Write that uncertainty into the estimate. Include a fixed number of drywall repair hours, state
+    the hourly rate beyond them, and promise photos. Colors are the other argument. Put the rule in
+    the terms: colors are final before work starts, and a change after paint goes on, or a deep
+    color that needs a third coat, is priced separately. Anything added mid-job goes on a
+    <a href="/templates/change-order/">change order</a>, signed before the work is done. When the
+    job is finished, bill the balance on an <a href="/templates/construction-invoice/">invoice</a> that
+    references the estimate number and lists the approved changes.
+  </p>
+
+  <h2>Estimate, quote or proposal?</h2>
+  <p>
+    For most residential repaints, this customer-facing estimate is the whole sale: a price, the
+    terms and a signature. If the customer wants a fixed price with less line detail, a
+    <a href="/templates/construction-quote/">construction quote</a> is the shorter form. On a commercial
+    repaint bid to a GC or property manager against drawings and a finish schedule, build your cost on
+    the <a href="/templates/construction-estimate/">construction estimate worksheet</a>
+    and send a <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions
+    and alternates instead.
+  </p>
+
+  <h2>Common mistakes on painting estimates</h2>
+  <ul>
+    <li>
+      Pricing floor area instead of wall area. The example’s foyer has 96 sq ft of floor and 642 sq
+      ft of wall.
+    </li>
+    <li>
+      Leaving the coats unstated. One coat against two is often the whole gap between two bids.
+    </li>
+    <li>No drywall repair allowance. Without one, every crack becomes a negotiation.</li>
+    <li>Ordering paint by the job total instead of by color, then running short on one of them.</li>
+    <li>
+      Not asking when the house was built. In homes built before 1978, the EPA’s Renovation, Repair
+      and Painting (RRP) rule can require a certified firm and lead-safe work practices, which
+      change the prep and the price.
+    </li>
+    <li>
+      No valid-until date. Paint prices move, and an open-ended estimate can be held to old ones.
+    </li>
+  </ul>
+</TemplatePage>

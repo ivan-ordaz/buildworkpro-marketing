@@ -1,0 +1,234 @@
+---
+// Concrete estimate cluster: "concrete estimate template" 110 (DataForSEO, US,
+// 2026-09), plus the slab questions that surround it: cubic yards for a slab,
+// how much extra concrete to order, rebar for a driveway, control-joint spacing.
+// Trade page in the by-trade series; customer-facing flatwork estimate + slab
+// takeoff, rendered by kit/trade-estimate.mjs.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do you calculate cubic yards of concrete for a slab?',
+    answer:
+      'Multiply length × width in feet by the thickness in feet (inches ÷ 12), then divide by 27, because a cubic yard is 27 cubic feet. A 44 × 20 ft driveway at 5 inches is 880 × 5/12 ÷ 27 = 13.58 cubic yards. Do each slab separately when thicknesses differ, add them up, then add waste. The Slab Takeoff sheet does this for up to eight slabs.',
+  },
+  {
+    question: 'How much extra concrete should I order?',
+    answer:
+      'Around 5–10% over the in-place volume is common on flatwork, and more when the subgrade is uneven. Round the order up to the quarter yard, and look at the size of the last truck: a small final load can carry a short-load fee, so check the supplier’s minimum. The completed example has 17.9 cubic yards in place, ordered as 19.5 in two trucks.',
+  },
+  {
+    question: 'What should a concrete estimate include?',
+    answer:
+      'The slab area, thickness, mix strength, reinforcement and finish; line items for demo and haul-off, excavation and grading, the compacted base, forms, rebar or mesh, isolation joints, ready-mix, placing and finishing, control joints, curing and sealer, and the permit; a subgrade allowance with a per-ton price; optional items priced separately; the deposit and payment terms; exclusions; the warranty; a valid-until date; and a signature line for acceptance.',
+  },
+  {
+    question: 'How much rebar do I need for a concrete driveway?',
+    answer:
+      'For a grid, count the bars each way: the clear span divided by the spacing, rounded up, plus one. Multiply by the bar length, add a lap at every splice where a run is longer than one stick, then divide by the stick length. A 44 × 20 ft driveway with #4 bars at 24 inches each way and 3 inches of edge clearance takes 11 bars one way and 23 the other, 971 linear feet with 24-inch laps. Use the bar size, spacing and lap on your plans or spec.',
+  },
+  {
+    question: 'How far apart should control joints be in a driveway?',
+    answer:
+      'A common rule of thumb for plain flatwork is joint spacing in feet of two to three times the slab thickness in inches, so about 10 to 15 feet for a 5-inch driveway, with panels kept close to square. Walks are often jointed at their width. It is a rule of thumb, not a code value: follow any joint layout on the plans, and cut joints as soon as the concrete can take the saw without raveling.',
+  },
+  {
+    question: 'How do I handle soft subgrade on a concrete estimate?',
+    answer:
+      'Carry an allowance: a stated number of tons of undercut and stone included in the price, and a per-ton price for anything beyond it, billed with photos. The completed example includes 4 tons at $85 a ton. You cannot see the subgrade until the old slab is out, and a written allowance settles the question before the trucks are booked.',
+  },
+  {
+    question: 'Should sales tax go on a concrete estimate?',
+    answer:
+      'It depends on your state and the job. In many states a contractor pays sales tax when buying materials and builds it into the price, so no tax line appears on the customer’s estimate. In others, tax is charged to the customer on materials or on the whole job. The template supports both: mark taxable lines and enter a rate, or leave the rate at 0% and note that tax is included. Confirm the rule for your state.',
+  },
+];
+---
+
+<TemplatePage
+  slug="concrete-estimate"
+  title="Free Concrete Estimate Template — Excel, Word & PDF"
+  description="Free concrete estimate template with a slab takeoff: cubic yards, base stone, rebar, forms and joints. Excel, Word and fillable PDF. No email required."
+  h1="Concrete Estimate Template"
+  intro="A customer-ready flatwork estimate grouped the way concrete contractors price the job: demo and site prep, forming and reinforcement, then pour, finish and cure. The Excel version includes a slab takeoff sheet that turns each slab’s dimensions into cubic yards to order, base stone, rebar, forms and joints."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + slab takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: slab area, thickness, mix strength, reinforcement and finish',
+    'Line items grouped by phase: demo and site prep, forming and reinforcement, then pour, finish and cure',
+    'A soft-subgrade allowance line with a per-ton price for anything beyond it',
+    'Optional items priced separately from the total, such as a parking pad or a public-walk section',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for payment, exclusions and warranty, plus a customer acceptance signature',
+    'Excel: a Slab Takeoff sheet that turns length, width and thickness into cubic yards to order, truckloads, base tons, demo tonnage, rebar, chairs, forms, joints and sealer',
+    'Excel: a Unit Price Builder that turns material, labor hours and overhead into a selling price at your margin',
+    'Excel: a How to Use sheet with steps and tips from the field',
+    'Completed example: a driveway, approach and walk replacement, 1,152 sq ft and 19.5 cubic yards, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Take off each slab',
+      'On the Slab Takeoff sheet, enter each slab’s length, width and thickness, whether it gets a rebar grid, and its control-joint spacing. Add the edges that butt existing concrete. Cubic yards to order, truckloads, base tons, rebar, forms, joints and sealer calculate from your assumptions.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per unit for each item, along with your loaded labor rate, overhead and profit margin. Each item’s selling price per square foot, yard, ton or foot computes. Use your own crews’ production rates, not a rule of thumb.',
+    ],
+    [
+      'Fill in the customer and job specs',
+      'Enter the customer, the job address and the specs the customer will compare between contractors: slab area, thickness, mix strength, reinforcement and finish. Write the scope in one or two plain sentences.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Enter the line items under demo and site prep, forming and reinforcement, and pour, finish and cure, with quantity, unit and unit price. Carry the subgrade allowance as its own line. Mark taxable lines and enter your rate, or leave tax at 0% if it is in your prices, and set the deposit percentage.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List optional work outside the total, write the payment terms, exclusions and warranty, and add a valid-until date. Collect the signature and deposit before you book the pour, and call 811 for a utility locate before anyone digs.',
+    ],
+  ]}
+  faqs={faqs}
+  related={['construction-estimate', 'change-order', 'construction-invoice', 'tm-ticket']}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price flatwork from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop retyping the same driveway',
+    body: 'BuildWorkPro keeps your ready-mix, rebar, base and finishing prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license disclosures vary by state. The template and takeoff are for flatwork: footings, walls, structural slabs and anything load-bearing follow the engineer’s drawings and local code. Confirm permit and right-of-way requirements with your city, and call 811 before you dig."
+  updated="2026-09-28"
+>
+  <h2>What goes on a concrete estimate</h2>
+  <p>
+    A concrete estimate has to answer the questions a homeowner asks with three bids on the kitchen
+    table: how thick, what mix, what steel, what finish. That is the reason for the job-specs strip
+    under the header. Slab area, thickness, mix strength, reinforcement and finish are what
+    customers compare, and they are where a cheap bid usually cuts. Below the specs, the line items
+    follow the order of the work.
+  </p>
+  <ul>
+    <li>
+      <strong>Demo and site prep:</strong> saw-cutting, breaking out and hauling the old slab, excavation
+      and grading, the compacted base, and an allowance for soft subgrade.
+    </li>
+    <li>
+      <strong>Forming and reinforcement:</strong> edge forms, rebar or mesh on chairs, and isolation joints
+      where the new slab meets the garage, a walk or the curb.
+    </li>
+    <li>
+      <strong>Pour, finish and cure:</strong> ready-mix, placing and finishing, control joints, curing
+      and sealer, and the permit.
+    </li>
+  </ul>
+  <p>
+    Anything the customer might add, such as a parking pad or a public-walk section the city may
+    require, goes in the optional-items table, priced but outside the total.
+  </p>
+
+  <h2>How to take off a slab</h2>
+  <p>
+    Concrete is ordered by the cubic yard, which is 27 cubic feet. For each slab, multiply length by
+    width by thickness in feet and divide by 27: CY = L × W × (inches ÷ 12) ÷ 27. Thickness drives
+    the number, so an inch matters:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Thickness</th><th>Cubic yards per 100 sq ft</th><th>Sq ft per cubic yard</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>4 in</td><td>1.23</td><td>81</td></tr>
+      <tr><td>5 in</td><td>1.54</td><td>64.8</td></tr>
+      <tr><td>6 in</td><td>1.85</td><td>54</td></tr>
+      <tr><td>8 in</td><td>2.47</td><td>40.5</td></tr>
+    </tbody>
+  </table>
+  <p>
+    The Slab Takeoff sheet does this one row per slab, then builds the rest of the order. Waste goes
+    on top of the in-place yards, and the order rounds up to the quarter yard and splits into
+    truckloads, showing the size of the last one. Base stone is area × depth, converted to tons with
+    a density you get from your supplier. Rebar counts bars each way as ROUNDUP(clear span ÷
+    spacing) + 1, adds a lap at every splice, and converts to sticks and chairs. Forms run the
+    perimeter less the edges that butt existing concrete. Control joints come from the spacing you
+    set for each slab. Every coverage, density and spacing figure is an editable input. The sheet is
+    for flatwork: footings, walls, structural slabs and anything load-bearing follow the engineer’s
+    drawings and local code.
+  </p>
+
+  <h2>Pricing flatwork line by line</h2>
+  <p>
+    Price demo by the square foot, and know the tonnage: 4-inch concrete weighs about 48 pounds per
+    square foot, so the trucks or roll-offs are not a guess. Price concrete by the yard you order,
+    not the yard in place, because the supplier bills for what the truck brings. Show both numbers
+    on the line so the customer sees why they differ. Build every unit price from cost on the Unit
+    Price Builder: material, plus labor hours at your fully loaded rate, plus equipment and
+    consumables, then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. A 15%
+    markup on cost is only a 13% margin.
+  </p>
+  <p>
+    The completed example replaces a driveway, street approach and front walk in Fishers, Indiana:
+    1,152 square feet in three slabs, 5 inches thick in the driveway, 6 in the approach and 4 in the
+    walk, with #4 rebar at 24 inches each way in the driveway and approach. The takeoff comes to
+    17.9 cubic yards in place and 19.5 ordered, in two trucks. Demo and site prep come to $7,132.40,
+    forming and reinforcement to $2,970.90, and pour, finish and cure to $9,639.70. That is
+    $19,743.00 in total, or about $17.14 per square foot. There is no tax line because the
+    contractor pays tax on materials and includes it in the prices. The 30% deposit is $5,922.90.
+  </p>
+
+  <h2>The subgrade allowance, and what happens after demo</h2>
+  <p>
+    Nobody sees the subgrade until the old slab is out. Soft clay, an old utility trench or buried
+    debris can all turn up, and a slab poured over them settles and cracks. Write that uncertainty
+    into the estimate: include a fixed number of tons of undercut and stone, state the per-ton price
+    beyond it, and promise photos. The example includes 4 tons at $85. The street approach is the
+    other place a price can move, because the city’s right-of-way standard may call for a thicker
+    slab or a new public-walk section. The example prices extra concrete at its unit price in the
+    terms and the walk section as an option. Anything else found after demo, or added by the owner,
+    gets written up as a <a href="/templates/change-order/">change order</a> and signed before the trucks
+    are booked. When the job is done, bill the balance on an
+    <a href="/templates/construction-invoice/">invoice</a> that references the estimate number.
+  </p>
+
+  <h2>Estimate, quote or proposal?</h2>
+  <p>
+    For residential flatwork, this customer-facing estimate is usually the whole sale: a price, the
+    terms and a signature. On commercial concrete bid to a GC against drawings and specs, such as
+    footings, foundation walls and slabs on grade, build your cost on the
+    <a href="/templates/construction-estimate/">construction estimate worksheet</a> and send a
+    <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions and alternates
+    instead. Our page for <a href="/solutions/concrete-contractors/">concrete contractors</a> covers how
+    that commercial work runs in BuildWorkPro, from the bid through pay applications.
+  </p>
+
+  <h2>Common mistakes on concrete estimates</h2>
+  <ul>
+    <li>
+      Pricing the yards in place and paying for the yards ordered. Waste and quarter-yard rounding
+      are real cost.
+    </li>
+    <li>
+      Trusting the depth without checking the grade. Half an inch of extra thickness over 1,000
+      square feet is about 1.5 cubic yards you did not price.
+    </li>
+    <li>
+      Ignoring the last truck. A small final load can carry a short-load fee, so check the
+      supplier’s minimum before you set the order.
+    </li>
+    <li>
+      No subgrade allowance. Without one, every soft spot becomes a negotiation with the trucks on
+      the way.
+    </li>
+    <li>
+      Pricing the approach like the driveway. Right-of-way work usually needs its own permit and
+      inspection, and the city’s standard can differ from yours.
+    </li>
+  </ul>
+</TemplatePage>

@@ -21,7 +21,9 @@ test.describe('templates hub', () => {
     await page.goto('/templates/');
     await expect(page.locator('main section#billing h2')).toHaveText(/Billing & payment/);
     await expect(page.locator('main section#safety h2')).toHaveText(/Safety/);
-    await expect(page.locator('main nav[aria-label="Template categories"] a')).toHaveCount(Object.keys(CATEGORIES).length);
+    await expect(page.locator('main nav[aria-label="Template categories"] a')).toHaveCount(
+      Object.keys(CATEGORIES).length
+    );
   });
 
   test('the complete-pack email form renders without gating the downloads', async ({ page }) => {

@@ -1,0 +1,40 @@
+{
+  "slug": "hvac-estimate",
+  "name": "HVAC Estimate Template",
+  "basename": "hvac-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "hvac-estimate-template.pdf",
+      "bytes": 100532,
+      "pages": 1
+    },
+    "example": {
+      "file": "hvac-estimate-template-example.pdf",
+      "bytes": 51446,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "hvac-estimate-template.xlsx",
+      "bytes": 21446,
+      "sheets": [
+        "Estimate",
+        "HVAC Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "hvac-estimate-template.docx",
+      "bytes": 13206
+    }
+  },
+  "previews": [
+    {
+      "file": "hvac-estimate.png",
+      "webp": "hvac-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

@@ -131,7 +131,7 @@ const SAMPLE = {
 };
 
 const FINE =
-  'Based on measurements taken before tear-off. Hidden damage and owner-requested changes are priced by written change order first. Check your state’s home-improvement contract and deposit rules. Not legal advice.';
+  'Based on pre-tear-off measurements. Hidden damage and owner changes are priced by written change order first. Check your state’s home-improvement contract rules. Not legal advice.';
 
 /** Roof takeoff: plan dimensions × pitch factor → squares, then materials by count. */
 function takeoff(wb) {

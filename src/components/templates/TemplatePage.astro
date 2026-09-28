@@ -8,7 +8,7 @@ import Header from '../Header.astro';
 import Footer from '../Footer.astro';
 import FAQSection from '../FAQSection.astro';
 import { config } from '../../config';
-import { TEMPLATES, type TemplateSlug } from '../../data/templates';
+import { TEMPLATES, TEMPLATE_LIST, type TemplateSlug } from '../../data/templates';
 import { manifest } from '../../data/templates-manifest';
 import { NEXT_STEPS } from '../../data/template-next-steps';
 
@@ -120,6 +120,15 @@ const relatedCards = related
   .map((s) => TEMPLATES[s])
   .filter(Boolean)
   .map((t) => ({ ...t, preview: manifest[t.slug]?.previews?.[0] }));
+// Trade estimates link to each other: a roofer's page lists the other trades,
+// so every trade page is reachable from nine others, not just the hub.
+const tradePeers =
+  TEMPLATES[slug]?.category === 'trades'
+    ? TEMPLATE_LIST.filter((t) => t.category === 'trades' && t.slug !== slug).map((t) => ({
+        slug: t.slug,
+        label: t.title.replace(/ Estimate Template$/, ''),
+      }))
+    : [];
 const heroPreview = previews[0];
 const previewSrc = heroPreview ? `/templates-previews/${heroPreview.file}` : null;
 const previewWebp = heroPreview ? `/templates-previews/${heroPreview.webp}` : null;
@@ -471,6 +480,22 @@ const schema = {
               </a>
             ))}
           </div>
+          {tradePeers.length > 0 && (
+            <p class="mt-8 text-center text-sm text-slate-500 leading-relaxed">
+              Estimate templates for other trades:{' '}
+              {tradePeers.map((t, i) => (
+                <>
+                  {i > 0 && ' · '}
+                  <a
+                    href={`/templates/${t.slug}/`}
+                    class="font-medium text-brand-600 hover:text-brand-700"
+                  >
+                    {t.label}
+                  </a>
+                </>
+              ))}
+            </p>
+          )}
           <p class="mt-8 text-center text-sm text-slate-500">
             <a href="/templates/" class="font-semibold text-brand-600 hover:text-brand-700">
               Browse all free construction templates →

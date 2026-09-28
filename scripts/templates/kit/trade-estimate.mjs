@@ -244,7 +244,7 @@ ${H.finePrint(cfg.fine)}`;
     let n = 0;
     const rows = sections.flatMap((sec) => [
       { section: sec.title },
-      ...Array.from({ length: sec.blank }, () => ({
+      ...Array.from({ length: Math.max(sec.blank - 1, 2) }, () => ({
         cells: [String(++n), '', '', '', '', ''],
         input: [false, true, true, true, true, true],
       })),
@@ -287,7 +287,7 @@ ${H.finePrint(cfg.fine)}`;
           width: i === specs.length - 1 ? W - specW * (specs.length - 1) : specW,
         })),
       ]),
-      ...D.textBox('Scope of work', { lines: 3, hint: cfg.descriptionHint }),
+      ...D.textBox('Scope of work', { lines: 2, hint: cfg.descriptionHint }),
       D.heading('Price', `${trade.toLowerCase()} work by phase`),
       D.table({ columns: cols, rows }),
       D.spacer(2),
@@ -301,7 +301,6 @@ ${H.finePrint(cfg.fine)}`;
         ],
         { kWidth: 7400 }
       ),
-      D.pageBreak(),
       D.heading('Optional items', 'priced separately — not included in the total'),
       D.table({
         columns: [
@@ -396,7 +395,7 @@ ${H.finePrint(cfg.fine)}`;
       X.sectionRow(ws, r, sec.title, 7);
       r++;
       const first = r;
-      const count = Math.max(sec.blank + 1, 4);
+      const count = Math.max(sec.blank + 3, 6);
       for (let i = 0; i < count; i++) {
         X.bodyRow(ws, r, [
           { value: lineNo++, align: 'center', color: X.C.ink3 },
@@ -507,12 +506,9 @@ ${H.finePrint(cfg.fine)}`;
       width: 3,
     });
     r++;
-    X.brandFooter(
-      ws,
-      r,
-      7,
-      `Free template by BuildWorkPro — buildworkpro.com/templates. ${cfg.fine}`
-    );
+    X.noteRow(ws, r, cfg.fine, 7, { height: 30 });
+    r += 2;
+    X.brandFooter(ws, r, 7, 'Free template by BuildWorkPro — buildworkpro.com/templates.');
     ws.pageSetup.printArea = `A1:G${r}`;
 
     // ---- Sheet 2: the trade's quantity takeoff ----
@@ -590,7 +586,7 @@ function pricingSheet(wb, { rows, laborRate, overhead, margin, note }) {
       { input: true, value: row?.item ?? null, wrap: true },
       { input: true, value: row?.unit ?? null, align: 'center' },
       { input: true, value: row?.mat ?? null, numFmt: X.FMT.moneyBlank },
-      { input: true, value: row?.hrs ?? null, numFmt: '0.00;-0.00;""', align: 'right' },
+      { input: true, value: row?.hrs ?? null, numFmt: '0.0##;-0.0##;""', align: 'right' },
       { input: true, value: row?.other ?? null, numFmt: X.FMT.moneyBlank },
       {
         formula: `IF(A${r}="","",N(C${r})+N(D${r})*${rate}+N(E${r}))`,

@@ -1,0 +1,40 @@
+{
+  "slug": "flooring-estimate",
+  "name": "Flooring Estimate Template",
+  "basename": "flooring-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "flooring-estimate-template.pdf",
+      "bytes": 99810,
+      "pages": 1
+    },
+    "example": {
+      "file": "flooring-estimate-template-example.pdf",
+      "bytes": 53137,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "flooring-estimate-template.xlsx",
+      "bytes": 23002,
+      "sheets": [
+        "Estimate",
+        "Floor Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "flooring-estimate-template.docx",
+      "bytes": 13195
+    }
+  },
+  "previews": [
+    {
+      "file": "flooring-estimate.png",
+      "webp": "flooring-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+---
+// Plumbing estimate cluster: "plumbing estimate template" 170 · "plumbing bid
+// template" 70 (DataForSEO, US, 2026-09). Trade page in the by-trade series;
+// customer-facing estimate + plumbing takeoff (fixture schedule → rough and trim
+// hours, pipe runs → footage, coils and sticks), rendered by kit/trade-estimate.mjs.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do you estimate a plumbing job?',
+    answer:
+      'Count the fixtures and multiply by your labor hours per fixture for rough-in and for trim, then add demo, the water heater, tests and inspection trips. Take off pipe by size from the runs and their average lengths, add waste and a fittings allowance, and price the valves, fixtures and equipment. Build each unit price from that cost, then add overhead and profit as a margin on price.',
+  },
+  {
+    question: 'What should a plumbing estimate include?',
+    answer:
+      'The fixture count, supply and drain materials, the water heater and the permit; line items for rough-in, fixtures and trim, and the water heater, tests and inspections; a fixture allowance or a note that the owner supplies fixtures; optional items priced separately; the deposit and payment terms; exclusions such as drywall, tile and patching; the warranty; a valid-until date; and a signature line for acceptance.',
+  },
+  {
+    question: 'What is the difference between rough-in and trim in plumbing?',
+    answer:
+      'Rough-in is the piping inside the walls and floors: drains, vents, supply lines and valve bodies, installed and tested before the walls close. Trim, or finish, is setting the fixtures and installing faucets, valve trim, stops and traps after drywall and tile. On a remodel they are separate trips weeks apart, which is why the template prices them as separate phases.',
+  },
+  {
+    question: 'How many hours does it take to rough in a bathroom?',
+    answer:
+      'It depends on the fixtures, the building and your crew, so use hours logged on your own jobs. In the completed example, rough-in for a toilet, two lavatories, a shower and a freestanding tub in a 1968 house is 21 hours, with 8 more hours of trim. The takeoff sheet keeps these as editable labor units per fixture, so your estimates get closer each time you update them.',
+  },
+  {
+    question: 'How should fixtures be priced on a plumbing estimate?',
+    answer:
+      'Either the owner supplies them and you price installation only, or you carry a fixture allowance: a stated amount for the toilet, faucets and trim, adjusted up or down to what the owner picks. The completed example carries a $2,400 allowance adjusted at cost. Get the selections before rough-in, because a shower valve or tub filler body has to match the brand of the trim.',
+  },
+  {
+    question: 'Should the plumbing permit be on the estimate?',
+    answer:
+      'Yes. Put the permit, tests and inspections on their own line so the customer sees them and nobody assumes the work is unpermitted. Permit requirements, fees and who may pull the permit vary by jurisdiction, so check with your local building or plumbing department before you price it.',
+  },
+  {
+    question: 'Should plumbing sales tax go on the estimate?',
+    answer:
+      'It depends on your state and the job. In many states a plumber pays sales tax when buying materials and builds it into the price, so no tax line appears on the customer’s estimate. In others, tax is charged to the customer on some materials, equipment or services. The template supports both: mark taxable lines and enter a rate, or leave the rate at 0% and note that tax is included. Confirm the rule for your state.',
+  },
+];
+---
+
+<TemplatePage
+  slug="plumbing-estimate"
+  title="Free Plumbing Estimate Template — Excel, Word & PDF"
+  description="Free plumbing estimate template with a fixture takeoff: rough and trim hours, pipe footage, fixture allowance. Excel, Word and fillable PDF. No email required."
+  h1="Plumbing Estimate Template"
+  intro="A customer-ready plumbing estimate grouped the way plumbers price the work: rough-in, fixtures and trim, then the water heater, tests and permits. The Excel version includes a plumbing takeoff that turns fixture counts into rough and trim hours, and pipe runs into footage, coils and sticks."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + plumbing takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: fixture count, supply pipe, drain and vent material, water heater and permit',
+    'Line items grouped by phase: rough-in (supply and DWV), fixtures and trim, then water heater, testing and permits',
+    'A fixture and faucet allowance line that adjusts to the owner’s selections',
+    'Optional items priced separately from the total, such as a recirculation pump or a repipe',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for payment, the allowance, exclusions and warranty, plus a customer acceptance signature',
+    'Excel: a Plumbing Takeoff sheet with a fixture schedule that turns counts into rough and trim hours, plus demo, water heater, test and inspection time',
+    'Excel: pipe runs by size converted to footage, coils or sticks to order, and a fittings allowance as a percentage of pipe material',
+    'Excel: a Unit Price Builder that turns material, labor hours and overhead into a selling price at your margin, and a How to Use sheet',
+    'Completed example: a five-fixture primary bath remodel and a gas water heater replacement, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Count the fixtures',
+      'On the Plumbing Takeoff sheet, enter a count for each fixture type and your own rough and trim hours per fixture. Add demo, water heater, test and inspection time, then pipe runs and average lengths by size. Labor hours, footage, coils and sticks calculate.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per fixture or unit, with your loaded labor rate, overhead and profit margin. Keep the hours equal to the labor units on the takeoff so the two sheets agree.',
+    ],
+    [
+      'Fill in the customer and job specs',
+      'Enter the customer, the job address and the specs a homeowner compares between plumbers: fixture count, supply and drain material, the water heater and the permit. Write the scope in two or three plain sentences.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Enter the line items under rough-in, fixtures and trim, and the water heater with quantity, unit and unit price. Carry the fixture allowance as its own line. Mark taxable lines and enter your rate, or leave tax at 0% if it is in your prices, and set the deposit.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List upgrades outside the total, write the payment terms, the allowance, exclusions and warranty, and add a valid-until date. Review it with the customer and collect the signature and deposit before you order valves, fixtures or the heater.',
+    ],
+  ]}
+  faqs={faqs}
+  related={['construction-estimate', 'change-order', 'tm-ticket', 'construction-invoice']}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price plumbing jobs from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop retyping the same bathroom',
+    body: 'BuildWorkPro keeps your pipe, valve, fixture and water heater prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license disclosures vary by state, and plumbing code adoption, permits and licensing vary by jurisdiction. Check your local code and permit office, and install equipment to the manufacturer’s instructions."
+  updated="2026-09-28"
+>
+  <h2>What goes on a plumbing estimate</h2>
+  <p>
+    A homeowner comparing three plumbers looks at the same few things: how many fixtures, what pipe
+    goes in the walls, which water heater, and whether the permit is included. Those go in the
+    job-specs strip under the header, so the comparison happens on your terms. The line items below
+    it are grouped the way the work happens on site:
+  </p>
+  <ul>
+    <li>
+      <strong>Rough-in (supply and DWV):</strong> disconnecting and capping the old fixtures, then drains,
+      vents, supply lines and valve bodies for each fixture, before the walls close.
+    </li>
+    <li>
+      <strong>Fixtures and trim:</strong> the fixture and faucet allowance, then setting each fixture
+      and installing faucets, valve trim, stops and traps after tile.
+    </li>
+    <li>
+      <strong>Water heater, testing and permits:</strong> the heater and what goes with it, the supply
+      and drain tests, inspection trips and the permit.
+    </li>
+  </ul>
+  <p>
+    Upgrades the customer may want, such as a recirculation pump or a repipe of the rest of the
+    house, go in the optional-items table, priced but outside the total.
+  </p>
+
+  <h2>How to take off a plumbing job</h2>
+  <p>
+    Residential plumbing labor is counted by fixture. Each fixture gets two labor units, rough hours
+    and trim hours, and each covers that fixture’s drain, vent and supply piping back to the main or
+    stack. The Plumbing Takeoff sheet lists common fixtures with editable units. They are starting
+    points, not a standard, so replace them with the hours your crews actually log. This is the
+    schedule from the completed example:
+  </p>
+  <table>
+    <thead>
+      <tr
+        ><th>Fixture</th><th>Count</th><th>Rough hrs each</th><th>Trim hrs each</th><th>Hours</th
+        ></tr
+      >
+    </thead>
+    <tbody>
+      <tr><td>Water closet</td><td>1</td><td>4.0</td><td>1.5</td><td>5.5</td></tr>
+      <tr><td>Lavatory</td><td>2</td><td>3.0</td><td>1.5</td><td>9.0</td></tr>
+      <tr><td>Shower, valve and drain</td><td>1</td><td>5.0</td><td>1.0</td><td>6.0</td></tr>
+      <tr
+        ><td>Freestanding tub, floor-mount filler</td><td>1</td><td>6.0</td><td>2.5</td><td>8.5</td
+        ></tr
+      >
+      <tr
+        ><td><strong>Total</strong></td><td>5</td><td>21.0 rough</td><td>8.0 trim</td><td>29.0</td
+        ></tr
+      >
+    </tbody>
+  </table>
+  <p>
+    Demo, the water heater, the expansion tank, two tests and two inspection trips add 13.25 hours,
+    for 42.25 in total. Pipe is taken off separately, by size: runs × average length gives footage,
+    and waste plus the coil or stick length gives what to order. In the example, nine supply outlets
+    at about 12 feet each come to 108 feet of 1/2" PEX, two 100-foot coils. The 3/4" mains add 68
+    feet, one coil, and 86 feet of PVC drain and vent is 11 ten-foot sticks. Fittings, supports and
+    cement are an allowance at 60% of pipe material, a figure to check against your own supplier
+    invoices. Size drains, vents and supply to the code where the job is. Some jurisdictions adopt
+    the IPC, others the UPC or a state code, often with local amendments.
+  </p>
+
+  <h2>Pricing plumbing line by line</h2>
+  <p>
+    Build each price from cost on the Unit Price Builder: material, plus labor hours at your fully
+    loaded rate, plus consumables and disposal, then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. The
+    example uses a $64 loaded rate, 30% overhead and a 20% margin, so labor sells at $104 an hour. A
+    water closet rough-in at 4 hours, with $195 of material and $10 of consumables, comes out at
+    $749.13 and is quoted at $750. On a remodel, price per fixture rather than per foot of pipe. The
+    customer understands a toilet, not 12 feet of 3-inch PVC.
+  </p>
+  <p>
+    The completed example is a primary bath remodel in a 1968 house outside Columbus, Ohio, plus a
+    like-for-like 50-gallon gas water heater. Rough-in comes to $4,950, fixtures and trim to $3,650
+    including the $2,400 allowance, and the water heater, expansion tank, tests, inspections and
+    permits to $2,965. That is $11,565 in total. There is no tax line because the plumber pays tax
+    on materials and includes it in the prices. The 30% deposit is $3,469.50, due on acceptance, and
+    the $8,095.50 balance is due after the final inspection.
+  </p>
+
+  <h2>The fixture allowance, and what is behind the wall</h2>
+  <p>
+    Two things move a remodel plumbing price after it is signed: the owner’s fixture choices and the
+    condition of what you tie into. Write both into the estimate. The fixture allowance states an
+    amount for the toilet, faucets, shower trim and tub filler, and the terms say it adjusts at cost
+    to what the owner picks. Get those selections before rough-in, because valve bodies are
+    brand-specific. For the old piping, say what you replace and what you tie into, and exclude the
+    rest. If opening the floor turns up a cracked cast-iron hub or rotted galvanized, write it up as
+    a <a href="/templates/change-order/">change order</a> and get it signed before the work. For small
+    unknowns billed by the hour, a signed <a href="/templates/tm-ticket/">T&amp;M ticket</a> works. When
+    the job passes final inspection, bill the balance on an
+    <a href="/templates/construction-invoice/">invoice</a> that references the estimate number and any
+    approved changes.
+  </p>
+
+  <h2>Estimate, quote or proposal?</h2>
+  <p>
+    For most residential remodels and replacements, this estimate is the whole sale: a price, the
+    terms and a signature. On new construction or a tenant improvement bid to a GC from drawings,
+    build your cost on the
+    <a href="/templates/construction-estimate/">construction estimate worksheet</a> and send a
+    <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions and alternates.
+    Then bill against a <a href="/templates/schedule-of-values/">schedule of values</a> for underground,
+    rough-in, top-out and trim. Our page for
+    <a href="/solutions/plumbing-contractors/">plumbing contractors</a> covers how that work runs in BuildWorkPro,
+    from the bid through pay applications.
+  </p>
+
+  <h2>Common mistakes on plumbing estimates</h2>
+  <ul>
+    <li>
+      One price for the whole bathroom. Per-fixture lines show the customer what they are paying
+      for, and make changes easy to price.
+    </li>
+    <li>
+      Rough-in and trim priced as one trip. On a remodel they are weeks apart, and each visit costs
+      a truck and travel time.
+    </li>
+    <li>No fixture allowance, and no word on who supplies the fixtures. Say which, in writing.</li>
+    <li>
+      Leaving out tests and inspection trips. They are real hours, and a failed inspection is
+      another trip.
+    </li>
+    <li>No exclusion for drywall, tile and patching. Plumbers open walls; say who closes them.</li>
+  </ul>
+</TemplatePage>

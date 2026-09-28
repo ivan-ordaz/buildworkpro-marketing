@@ -1,0 +1,236 @@
+---
+// Drywall estimate cluster: "drywall estimate template" 110 (DataForSEO, US,
+// 2026-09), plus the takeoff questions around it (sheets by size, mud and tape
+// per 1,000 sq ft, Level 4 vs Level 5) — volumes for those not checked. Trade
+// page in the by-trade series; customer-facing estimate + drywall takeoff,
+// rendered by kit/trade-estimate.mjs.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do you calculate how many sheets of drywall you need?',
+    answer:
+      'For each room, multiply wall length by height, add the ceiling at length × width, and subtract large openings. Add about 10% for waste, divide by the sheet area (32 sq ft for a 4×8, 40 for a 4×10, 48 for a 4×12) and round up. 1,000 sq ft of board with 10% waste is 23 sheets of 4×12. The Drywall Takeoff sheet does this room by room and splits the count by board type.',
+  },
+  {
+    question: 'How do you price drywall per square foot?',
+    answer:
+      'Most drywall contractors price by the square foot of board hung, with separate prices for hanging and finishing, and linear-foot prices for soffits and corner bead. Build each price from material, labor hours at your loaded rate and consumables, then add overhead and margin. In the completed example, hanging runs $1.25 to $1.75 per sq ft depending on the board, finishing to Level 4 is $1.05, and the whole job comes to about $3.36 per sq ft of board with texture and cleanup.',
+  },
+  {
+    question: 'How much joint compound and tape do I need per 1,000 square feet?',
+    answer:
+      'A common rule of thumb is about 10 gallons of ready-mixed compound, all coats, and about 370 feet of paper tape per 1,000 sq ft of board at a Level 4 finish. Rooms full of corners, soffits and bead use more, and a Level 5 skim coat uses a lot more. Check the coverage on the product label. The takeoff sheet keeps every rate editable.',
+  },
+  {
+    question: 'What is the difference between a Level 4 and a Level 5 drywall finish?',
+    answer:
+      'The levels come from the Gypsum Association’s GA-214, which defines finish levels 0 through 5. Level 4 is the usual finish for painted walls. Level 5 adds a skim coat over the whole surface, for critical lighting such as raking light from a window or glossy paint. Write the level on the estimate by number, and price Level 5 as an option when the customer is unsure.',
+  },
+  {
+    question: 'Do you deduct doors and windows from a drywall takeoff?',
+    answer:
+      'Many estimators deduct only large openings, such as patio doors and wide cased openings. The board cut out of a standard door or window is mostly scrap, so deducting it undercounts sheets. The takeoff has an openings column for each room, so you can deduct what makes sense for the job, like a tub alcove that gets cement board from the tile setter.',
+  },
+  {
+    question: 'What should a drywall estimate include?',
+    answer:
+      'Board area, board type, finish level, ceiling height and texture; line items for hanging each board type, soffits, delivery and stocking, taping and finishing, corner bead, window returns, texture, access panels and cleanup; optional items priced separately; the deposit and payment terms; what has to happen before you hang, such as inspections; exclusions like framing fixes and painting; the warranty; a valid-until date; and a signature line.',
+  },
+  {
+    question: 'Should I hang 12-foot or 8-foot drywall sheets?',
+    answer:
+      'Longer sheets mean fewer butt joints, which are the hardest joints to finish flat, so many hangers use 12-foot sheets on walls and ceilings where they can. They are heavy and need a way into the room, so check the stairs and turns on a basement before you order them. In baths and closets, where a 12-foot sheet would be mostly cutoffs, 4×8 is usually the better buy.',
+  },
+];
+---
+
+<TemplatePage
+  slug="drywall-estimate"
+  title="Free Drywall Estimate Template — Excel, Word & PDF"
+  description="Free drywall estimate template: hang, finish and texture by phase, plus a takeoff for sheets, mud, tape and corner bead. Excel, Word, PDF. No email required."
+  h1="Drywall Estimate Template"
+  intro="A customer-ready drywall estimate grouped the way drywall contractors price the job: hang, tape and finish, then texture, specialty items and cleanup. The Excel version includes a drywall takeoff sheet that turns room dimensions into sheets by size and board type, plus joint compound, tape, screws, corner bead and labor hours."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + drywall takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: board area, board type, finish level, ceiling height and texture',
+    'Line items grouped by phase: hang, tape and finish, then texture, specialty items and cleanup',
+    'Board priced by type per square foot, with soffits and corner bead by the linear foot',
+    'Optional items priced separately from the total, such as a Level 5 skim coat or an extra room',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for payment, inspections, exclusions and warranty, plus a customer acceptance signature',
+    'Excel: a Drywall Takeoff sheet that turns room dimensions into sheets by size and board type, joint compound, tape, screws, corner bead and labor hours',
+    'Excel: a Unit Price Builder that turns material, labor hours and overhead into a selling price at your margin',
+    'Excel: a How to Use sheet with steps and tips from the field',
+    'Completed example: a 3,350-sq-ft basement finish with knockdown ceilings, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Take off the rooms',
+      'On the Drywall Takeoff sheet, enter each room’s wall length and height, its ceiling length and width, and any large openings to deduct. Mark wet rooms Y for moisture-resistant board, then add the soffit length and girth and the corner bead footage. Sheets by size, compound, tape, screws and labor hours calculate from your assumptions.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per unit for each item, along with your loaded labor rate, overhead and profit margin. Board rows are per 1,000 sq ft; divide the price by 1,000 for the estimate. Use your own crews’ production rates, not a rule of thumb.',
+    ],
+    [
+      'Fill in the customer and job specs',
+      'Enter the customer, the job address and the specs the customer will compare between drywall contractors: board area, board type, finish level, ceiling height and texture. Write the scope in two or three plain sentences.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Enter the line items under hang, tape and finish, and texture and cleanup with quantity, unit and unit price. Put soffits, corner bead and window returns on their own lines. Mark taxable lines and enter your rate, or leave tax at 0% if it is in your prices, and set the deposit percentage.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List optional upgrades outside the total, such as a Level 5 skim coat, and write the payment terms, inspections, exclusions and warranty with a valid-until date. Review it with the customer and collect the signature and deposit before you order board.',
+    ],
+  ]}
+  faqs={faqs}
+  related={['construction-estimate', 'construction-quote', 'change-order', 'tm-ticket']}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price drywall from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop retyping the same board prices',
+    body: 'BuildWorkPro keeps your board, compound, bead and labor prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license disclosures vary by state. Board types, fire-rated assemblies and required inspections are set by your local code and the plans, so confirm them where you work, and confirm fastening and coverage with the board and compound manufacturers."
+  updated="2026-09-28"
+>
+  <h2>What goes on a drywall estimate</h2>
+  <p>
+    A drywall estimate has to answer the questions a homeowner or GC will use to compare you with
+    the next bid: how much board, what kind, what finish level and what texture. That is the job of
+    the specs strip under the header. Board area, board type, finish level, ceiling height and
+    texture are what make two drywall prices comparable. The line items then follow the order the
+    work happens:
+  </p>
+  <ul>
+    <li>
+      <strong>Hang:</strong> board by type and square foot, soffits and beam wraps by the linear foot,
+      and delivery and stocking.
+    </li>
+    <li>
+      <strong>Tape and finish:</strong> taping, bedding and finish coats to the stated level, corner bead,
+      and window returns.
+    </li>
+    <li>
+      <strong>Texture, specialty and cleanup:</strong> ceiling or wall texture, access panels, floor protection
+      and haul-off.
+    </li>
+  </ul>
+  <p>
+    Upgrades the customer might want, such as a Level 5 skim coat or an extra room, go in the
+    optional-items table, priced but outside the total.
+  </p>
+
+  <h2>How to take off drywall</h2>
+  <p>
+    Drywall is ordered by the sheet and usually priced by the square foot of board hung. For each
+    room, wall area is the wall length times the height, less any large openings, and ceiling area
+    is length times width. Soffits and beam wraps are their length times their girth, both sides
+    plus the bottom. Add the rooms up, add waste, and divide by the area of the sheet you plan to
+    hang:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Sheet</th><th>Sq ft per sheet</th><th>Sheets per 1,000 sq ft, with 10% waste</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>4×8</td><td>32</td><td>35</td></tr>
+      <tr><td>4×10</td><td>40</td><td>28</td></tr>
+      <tr><td>4×12</td><td>48</td><td>23</td></tr>
+      <tr><td>54 in × 12 ft</td><td>54</td><td>21</td></tr>
+    </tbody>
+  </table>
+  <p>
+    The Drywall Takeoff sheet does this room by room and splits the board by type. Rooms marked Y,
+    such as baths, go to moisture-resistant board, ceilings to ceiling board, and everything else to
+    regular wall board, each with its own sheet length. From the total board area it estimates joint
+    compound, paper tape, screws and corner bead sticks, and from your production rates, the hang,
+    finish and texture hours. The material rates are common rules of thumb (about 10 gallons of
+    ready-mixed compound, 370 feet of tape and 1,000 screws per 1,000 square feet of board), so
+    every one is editable. Check the product labels and the fastening schedule.
+  </p>
+
+  <h2>Pricing drywall line by line</h2>
+  <p>
+    Price each board type on its own line. Ceiling board hangs slower than walls, moisture-resistant
+    board costs more, and soffits eat hours out of proportion to their square footage. Finishing
+    works the same way: corner bead and window returns get their own lines, because a basement full
+    of soffits and egress windows takes far longer to finish than the same area of flat wall. Build
+    every unit price from cost on the Unit Price Builder: material, plus labor hours at your fully
+    loaded rate, plus consumables, then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. Board
+    rows there are per MSF, 1,000 square feet, so the hours read clearly.
+  </p>
+  <p>
+    The completed example is a basement finish in suburban Kansas City, hung on framing by others:
+    3,350 square feet of board, including 274 square feet of moisture-resistant board in the bath
+    and 64 feet of duct soffit. Hang comes to $5,240.70, tape and finish to $4,492.50, and texture,
+    access panels and cleanup to $1,509.80. That is $11,243.00 in total, or about $3.36 per square
+    foot of board. There is no tax line because the contractor pays tax on materials when buying
+    them and includes it in the prices. The 30% deposit is $3,372.90, due on acceptance to schedule
+    the crew and order board. On the takeoff sheet the same rooms come to 48 wall sheets and 23
+    ceiling sheets in 4×12, 10 moisture-resistant sheets in 4×8, and about 90 labor hours.
+  </p>
+
+  <h2>Finish levels, and what changes after hang</h2>
+  <p>
+    The Gypsum Association’s GA-214 defines finish levels 0 through 5. Most painted walls are
+    finished to Level 4. Level 5 adds a skim coat over the entire surface for critical lighting:
+    raking light from a window, glossy paint, a projector wall. Put the level on the estimate by
+    number. “Smooth walls” means one thing to a homeowner and another to a finisher, and a skim coat
+    priced as an option keeps that argument off the job.
+  </p>
+  <p>
+    The other source of disputes is what turns up between the estimate and the hang: bowed studs,
+    missing blocking, a new soffit for a relocated duct, or an owner who adds a room. The terms in
+    the example require rough-in inspections to be signed off before the crew hangs, and bill added
+    board at the estimate’s unit prices. Anything else gets written up as a
+    <a href="/templates/change-order/">change order</a> and signed before the work is done. When the job
+    is finished, bill the balance on an <a href="/templates/construction-invoice/">invoice</a> that references
+    the estimate number and lists the approved changes.
+  </p>
+
+  <h2>Estimate, quote or proposal?</h2>
+  <p>
+    For a basement, a remodel or a small addition, this customer-facing estimate is usually the
+    whole sale: a price, the terms and a signature. On a commercial job bid to a GC from drawings
+    and a spec, where the architect sets the wall types, rated assemblies and finish levels, build
+    your cost on the
+    <a href="/templates/construction-estimate/">construction estimate worksheet</a> and send a
+    <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions and alternates.
+    For a small, well-defined job such as a garage or a patch-and-texture repair, a
+    <a href="/templates/construction-quote/">construction quote</a> with one firm price is enough.
+  </p>
+
+  <h2>Common mistakes on drywall estimates</h2>
+  <ul>
+    <li>
+      One square-foot price for everything. Soffits, bead and returns are the slow work, and burying
+      them loses money on every basement.
+    </li>
+    <li>
+      No finish level. Without a number on the estimate, a customer who expected Level 5 ends up
+      looking at Level 4 walls under a window.
+    </li>
+    <li>
+      Showing the customer ordered sheets instead of measured board. Waste belongs in your unit
+      price, not in their quantity.
+    </li>
+    <li>Ordering 12-foot sheets for a basement without checking the stairs.</li>
+    <li>
+      No valid-until date. Board prices move, and an open-ended estimate can be held to old ones.
+    </li>
+  </ul>
+</TemplatePage>

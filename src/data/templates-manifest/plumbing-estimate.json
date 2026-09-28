@@ -1,0 +1,40 @@
+{
+  "slug": "plumbing-estimate",
+  "name": "Plumbing Estimate Template",
+  "basename": "plumbing-estimate-template",
+  "files": {
+    "pdf": {
+      "file": "plumbing-estimate-template.pdf",
+      "bytes": 100864,
+      "pages": 1
+    },
+    "example": {
+      "file": "plumbing-estimate-template-example.pdf",
+      "bytes": 53122,
+      "pages": 1
+    },
+    "xlsx": {
+      "file": "plumbing-estimate-template.xlsx",
+      "bytes": 22610,
+      "sheets": [
+        "Estimate",
+        "Plumbing Takeoff",
+        "Unit Prices",
+        "How to Use"
+      ]
+    },
+    "docx": {
+      "file": "plumbing-estimate-template.docx",
+      "bytes": 13220
+    }
+  },
+  "previews": [
+    {
+      "file": "plumbing-estimate.png",
+      "webp": "plumbing-estimate.webp",
+      "width": 1200,
+      "height": 1553,
+      "landscape": false
+    }
+  ]
+}

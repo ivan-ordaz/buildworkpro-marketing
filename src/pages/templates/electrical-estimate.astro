@@ -1,0 +1,245 @@
+---
+// Electrical estimate cluster: "electrical estimate template" 170 · "electrical
+// bid template" 70 (DataForSEO, US, 2026-09). Trade page in the by-trade series;
+// customer-facing estimate + device takeoff, rendered by kit/trade-estimate.mjs.
+import TemplatePage from '../../components/templates/TemplatePage.astro';
+
+const faqs = [
+  {
+    question: 'How do electricians estimate a job?',
+    answer:
+      'Count every opening on the plan (receptacles, switches, lights, fixtures, fans and alarms) and multiply each count by your labor hours per opening. Add the new circuits with their breakers and home runs, and price the service and panel work as lump sums from your own job history. Then build each unit price from material, labor, overhead and margin. The Device Takeoff and Unit Price Builder sheets handle both steps.',
+  },
+  {
+    question: 'What is an opening in electrical estimating?',
+    answer:
+      'An opening is any point that gets a device, a light or a fixture: a receptacle, a switch, a recessed light, a smoke alarm. Pricing per opening lets you quote from a count instead of guessing by the square foot. In the completed example a receptacle opening is $98, a switch $85 and a recessed light $86, and the basement portion works out to about $146 per opening once circuits, the fan and the permit are included. Your numbers depend on your labor rate and your crews’ production.',
+  },
+  {
+    question: 'How do you calculate wire footage for an electrical estimate?',
+    answer:
+      'For each circuit group, multiply the number of circuits by the average home-run length from the panel, add the cable between openings, and add a makeup allowance for loops, drops and panel terminations (the template starts at 10%). Divide by the coil length to get coils. In the example, twelve circuits come to 554 feet of 14/2, 836 feet of 12/2 and 116 feet of 14/3.',
+  },
+  {
+    question: 'What should an electrical estimate include?',
+    answer:
+      'The service size, the scope, the number of new circuits and who issues the permit. Then line items for service equipment, the panel, grounding, branch circuits, devices, lighting, fans, alarms, the permit and inspections. Add an allowance for existing-wiring corrections, who supplies fixtures, optional items priced separately, the deposit and payment terms, exclusions such as drywall patching and utility fees, the warranty, a valid-until date, your license number and a signature line for acceptance.',
+  },
+  {
+    question: 'Who pays for the utility side of a service upgrade?',
+    answer:
+      'The utility usually owns the overhead drop and the meter. The mast, weatherhead, meter base and entrance conductors are usually the owner’s, and they belong on your estimate. Where that line falls and what the utility charges vary, so check with the utility before you price, and state that utility-side work and fees are excluded unless you have confirmed them. The completed example lists them as an exclusion.',
+  },
+  {
+    question: 'Do I need a permit for a panel upgrade or basement wiring?',
+    answer:
+      'Plan on it. A service change and new branch circuits need a permit and inspections in most jurisdictions, usually a rough-in inspection before insulation and drywall and a final at the end, and the work has to be done by a licensed electrician where your state or city requires one. The authority having jurisdiction (AHJ) decides which code edition applies, so check with it before you price. Put the permit and inspection time on the estimate as its own line.',
+  },
+  {
+    question: 'Should sales tax go on an electrical estimate?',
+    answer:
+      'It depends on your state and the job: in many states a contractor pays sales tax when buying materials and builds it into the price, so no tax line appears on the customer’s estimate. In others, tax is charged to the customer on materials or on the whole job. The template supports both: mark taxable lines and enter a rate, or leave the rate at 0% and note that tax is included. Confirm the rule for your state.',
+  },
+];
+---
+
+<TemplatePage
+  slug="electrical-estimate"
+  title="Free Electrical Estimate Template — Excel, Word & PDF"
+  description="Free electrical estimate template with a device takeoff for openings, labor hours, circuits and wire footage. Excel, Word and fillable PDF. No email required."
+  h1="Electrical Estimate Template"
+  intro="A customer-ready electrical estimate grouped the way electricians price the job: service and distribution, branch circuits and devices, then lighting, testing and permits. The Excel version includes a device takeoff that turns opening counts into labor hours and boxes, and circuits into breakers and wire footage by cable type."
+  downloads={[
+    { format: 'xlsx', label: 'Download Excel estimate + device takeoff (.xlsx)' },
+    { format: 'pdf', label: 'Download fillable PDF estimate' },
+    { format: 'docx', label: 'Download Word estimate (.docx)' },
+    { format: 'example' },
+  ]}
+  whatsInside={[
+    'Job specs under the header: service size, scope, finished area, new circuits and the permit authority (AHJ)',
+    'Line items grouped by phase: service and distribution, branch circuits and devices, lighting, testing and permits',
+    'An existing-wiring allowance priced by the hour, for what turns up when the old panel comes out',
+    'Optional items priced separately from the total, such as low-voltage drops or an EV charger circuit',
+    'Subtotal, sales tax on the lines you mark taxable, estimate total, deposit and balance due',
+    'Terms box for payment, fixtures, exclusions and warranty, plus a customer acceptance signature',
+    'Excel: a Device Takeoff sheet that turns openings into labor hours and boxes, and circuits into breakers, wire footage and coils by cable type',
+    'Excel: a Unit Price Builder that turns material, labor hours and overhead into a price per opening or circuit at your margin',
+    'Excel: a How to Use sheet with steps and tips from the field',
+    'Completed example: a 100A-to-200A service upgrade and a 1,050 sq ft basement finish, priced line by line',
+  ]}
+  howTo={[
+    [
+      'Count the openings',
+      'On the Device Takeoff sheet, count receptacles, GFCIs, switches, recessed lights, fixtures, fans and alarms from the plan, and enter your labor hours per opening. Then list the circuits by group with their cable type, average home-run length and the openings each group serves. Labor hours, boxes, breakers and cable by type calculate.',
+    ],
+    [
+      'Build your unit prices',
+      'On the Unit Price Builder, enter material cost, labor hours and other cost per opening or circuit, along with your loaded labor rate, overhead and profit margin. Each item’s selling price computes. Use hours from your own jobs wherever you have them.',
+    ],
+    [
+      'Fill in the customer and job specs',
+      'Enter the customer, the job address and the specs a customer compares between electricians: service size, scope, finished area, number of new circuits and who issues the permit. Write the scope in two or three plain sentences.',
+    ],
+    [
+      'Price each phase, then set tax and deposit',
+      'Enter the service work as lump sums, the circuits and openings from the takeoff, then lighting, testing and the permit. Carry the existing-wiring allowance as its own line. Mark taxable lines and enter your rate, or leave tax at 0% if it is in your prices, and set the deposit percentage.',
+    ],
+    [
+      'Add options and terms, then get it signed',
+      'List optional upgrades outside the total, write the payment terms, who supplies fixtures, exclusions and warranty, and add a valid-until date. Review it with the customer and collect the signature and deposit before you order the panel and pull the permit.',
+    ],
+  ]}
+  faqs={faqs}
+  related={['construction-estimate', 'change-order', 'tm-ticket', 'construction-invoice']}
+  feature={{
+    href: '/features/construction-bidding/',
+    label: 'See estimating in BuildWorkPro',
+    heading: 'Price electrical work from a catalog, not a blank spreadsheet',
+    body: 'In BuildWorkPro every estimate is a bid built from line items priced from your product catalog, with margin and overhead applied as rates. It goes out as a branded PDF for e-signature and converts into a project when the customer accepts. <a href="/features/construction-bidding/" class="font-semibold text-brand-700 hover:underline">Construction bidding software</a> for $79/month flat, with a 14-day free trial.',
+  }}
+  cta={{
+    heading: 'Stop recounting the same devices',
+    body: 'BuildWorkPro keeps your device, breaker and wire prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
+  }}
+  disclaimer="General-purpose estimate form, not legal advice. Contract rules such as deposit limits, cancellation notices and license disclosures vary by state. Electrical work must be done by licensed electricians where required, under permit, to the code edition your AHJ enforces. Confirm the requirements where you work, and confirm equipment ratings with the manufacturer."
+  updated="2026-09-28"
+>
+  <h2>What goes on an electrical estimate</h2>
+  <p>
+    An electrical estimate has two jobs. It has to let a homeowner or GC compare you against two
+    other electricians, and it has to be specific enough that nothing on the job becomes an argument
+    at trim. The job-specs strip under the header handles the first. Service size, scope, finished
+    area, the number of new circuits and who issues the permit are what customers line up side by
+    side. The phases handle the second.
+  </p>
+  <ul>
+    <li>
+      <strong>Service and distribution:</strong> the meter base and mast or lateral, the panel, grounding
+      and bonding, the changeover, and an allowance for what the old panel is hiding.
+    </li>
+    <li>
+      <strong>Branch circuits and devices:</strong> each new circuit with its breaker and home run, then
+      receptacles, GFCIs and switches as openings.
+    </li>
+    <li>
+      <strong>Lighting, testing and permits:</strong> recessed lights, fixtures, fans, smoke and CO alarms,
+      the permit and inspections, and labeling the panel.
+    </li>
+  </ul>
+  <p>
+    Anything the customer might add, such as low-voltage drops or an EV charger circuit, goes in the
+    optional-items table, priced but outside the total.
+  </p>
+
+  <h2>How to take off an electrical job</h2>
+  <p>
+    Most residential and light commercial electrical work is counted, not measured. Go through the
+    plan room by room and count openings: every point that gets a device, a light or a fixture.
+    Multiply each count by a labor unit, the hours per opening for rough-in and trim, taken from
+    your own crews’ time records. The Device Takeoff sheet does the multiplication and counts box
+    positions too, since recessed wafer lights and fans need no separate box. Here is the completed
+    example:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Opening</th><th>Count</th><th>Hours each</th><th>Labor hours</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Receptacles, tamper-resistant</td><td>22</td><td>0.70</td><td>15.4</td></tr>
+      <tr><td>GFCI receptacles</td><td>4</td><td>0.85</td><td>3.4</td></tr>
+      <tr><td>Switches</td><td>15</td><td>0.60</td><td>9.0</td></tr>
+      <tr><td>Recessed wafer lights</td><td>24</td><td>0.50</td><td>12.0</td></tr>
+      <tr><td>Owner-supplied fixtures</td><td>5</td><td>0.90</td><td>4.5</td></tr>
+      <tr><td>Bath exhaust fan</td><td>1</td><td>2.50</td><td>2.5</td></tr>
+      <tr><td>Smoke/CO alarms</td><td>3</td><td>0.60</td><td>1.8</td></tr>
+      <tr
+        ><td><strong>Total</strong></td><td><strong>74</strong></td><td></td><td
+          ><strong>48.6</strong></td
+        ></tr
+      >
+    </tbody>
+  </table>
+  <p>
+    Wire comes from circuits. For each circuit group, the sheet multiplies the number of circuits by
+    the average home-run length from the panel, adds the cable between openings, and adds a makeup
+    allowance for loops and drops. The example’s twelve circuits need 554 feet of 14/2, 836 feet of
+    12/2 and 116 feet of 14/3 for three-way travelers and alarm interconnects: three, four and one
+    250-foot coils. Add 1.2 hours per home run and 22 hours for the service changeover, and the job
+    is 85 labor hours, or six and a half days for a two-person crew. The hours per opening in the
+    example are placeholders. Replace them with yours.
+  </p>
+
+  <h2>Pricing the job line by line</h2>
+  <p>
+    Price the service as lump sums from your own history. Price the rest the way you counted it: per
+    circuit and per opening. Build each unit price from cost on the Unit Price Builder: material,
+    plus labor hours at your fully loaded rate, plus consumables, then overhead, then profit as a
+    <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. In the
+    example, a receptacle opening costs $68.90 to install at a $72 loaded labor rate and sells for
+    $97.27 at 20% overhead and a 15% margin. A 15% margin is a 17.6% markup, so the two numbers are
+    not interchangeable.
+  </p>
+  <p>
+    The completed example is a 1958 ranch in Columbus, Ohio. The overhead service goes from 100A to
+    200A, and the 1,050 sq ft basement gets finished. Service and distribution come to $5,385,
+    branch circuits and devices to $6,991, and lighting, testing and the permit to $3,814. That is
+    $16,190 in total. The basement portion, $10,805, works out to about $146 per opening all-in, or
+    about $10.30 per finished square foot. There is no tax line because the contractor pays tax on
+    materials and includes it in the prices. The 30% deposit is $4,857, due on acceptance to order
+    the panel and service equipment.
+  </p>
+
+  <h2>Allowances: the old wiring and the fixtures</h2>
+  <p>
+    A service change exposes the house’s existing wiring. Double-tapped breakers, damaged cable,
+    ungrounded circuits and splices outside a box surface when the old panel comes out, and the
+    inspector sees them too. Nobody can price that before the cover is off, so write it into the
+    estimate: a stated number of hours included in the price, billed at actual hours with photos,
+    with unused hours credited back. The example carries four hours at $115. Anything bigger, such
+    as a circuit that has to be rerun, goes on a <a href="/templates/change-order/">change order</a> signed
+    before the work is done, or on a <a href="/templates/tm-ticket/">T&amp;M ticket</a> if the customer
+    agreed to time and material.
+  </p>
+  <p>
+    Fixtures are the other argument. Say who supplies them. In the example the recessed lights are
+    contractor-supplied and priced per light, while the vanity light and bar pendants are
+    owner-supplied and priced as labor only. When the job is done, bill the balance on an
+    <a href="/templates/construction-invoice/">invoice</a> that references the estimate number and lists
+    any approved changes.
+  </p>
+
+  <h2>Estimate, quote or proposal?</h2>
+  <p>
+    For service upgrades, remodels and basement finishes sold to a homeowner, this estimate is the
+    whole sale: a price, the terms and a signature. On commercial work bid to a GC against drawings
+    and specs, build your cost on the
+    <a href="/templates/construction-estimate/">construction estimate worksheet</a> and send a
+    <a href="/templates/construction-bid-proposal/">bid proposal</a> with inclusions, exclusions and alternates
+    instead. Our page for <a href="/solutions/electrical-contractors/">electrical contractors</a> covers
+    how that commercial work runs in BuildWorkPro, from the bid through pay applications.
+  </p>
+
+  <h2>Common mistakes on electrical estimates</h2>
+  <ul>
+    <li>
+      Pricing a basement by the square foot. A wet bar, a bathroom and 24 recessed lights change the
+      count, and the count drives the hours.
+    </li>
+    <li>
+      Pricing a panel change without looking inside the old panel. An allowance costs less than the
+      argument.
+    </li>
+    <li>
+      Counting openings but not home runs. Twelve circuits averaging 45 feet is 540 feet of cable
+      before the first device.
+    </li>
+    <li>
+      Leaving fixtures vague. “Install fixtures” without saying who buys them is two different
+      prices.
+    </li>
+    <li>
+      Leaving out the permit and inspection time. Rough-in has to pass before drywall, and the trip
+      back for the final is labor.
+    </li>
+  </ul>
+</TemplatePage>
