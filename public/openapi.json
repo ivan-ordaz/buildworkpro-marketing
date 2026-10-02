@@ -1807,6 +1807,10 @@
                 "type": "string"
               }
             ]
+          },
+          "isPractice": {
+            "type": "boolean",
+            "description": "Read-only. Present on GET /bids/{id}. True for the onboarding practice bid a user sends to themselves; it becomes a normal bid (false) once it is sent to anyone outside the organization."
           }
         },
         "required": [
