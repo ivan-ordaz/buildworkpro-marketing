@@ -34,6 +34,7 @@ const breadcrumbLabels: Record<string, string> = {
   lp: 'Landing',
   blog: 'Blog',
   templates: 'Templates',
+  tools: 'Free Tools',
   docs: 'Docs',
   api: 'API',
   security: 'Security',
@@ -67,10 +68,10 @@ const breadcrumbAcronyms: Record<string, string> = {
   g703: 'G703',
 };
 
-// Path segments that have no index page of their own (/tools/, /customers/ and
-// /lp/ all 404). A crumb pointing at one is invalid structured data, so it is
+// Path segments that have no index page of their own (/customers/ and /lp/
+// both 404; /tools/ got its hub page on 2026-10-08). A crumb pointing at one is invalid structured data, so it is
 // skipped and the page hangs directly off its parent.
-const segmentsWithoutHub = new Set(['tools', 'customers', 'lp']);
+const segmentsWithoutHub = new Set(['customers', 'lp']);
 
 const segments = Astro.url.pathname.split('/').filter(Boolean);
 const breadcrumbItems = [

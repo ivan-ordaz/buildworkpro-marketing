@@ -1,0 +1,380 @@
+---
+// /tools/drywall-calculator/ — first of the wave-1 trade calculators (plan:
+// calculators + price index, 2026-10-08). Room → board, sheets, compound, tape,
+// screws; optional price from the contractor's own remembered unit prices;
+// "Add to estimate" feeds the shared tray. Math: src/lib/calculators/drywall.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  BOARDS,
+  COMPOUND_GAL_PER_1000,
+  DOOR_SQFT,
+  PAIL_GAL,
+  SHEETS,
+  TAPE_FT_PER_1000,
+  TAPE_ROLL_FT,
+  TOOL,
+  WINDOW_SQFT,
+} from '../../../lib/calculators/drywall';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+const faqs = [
+  {
+    question: 'How many sheets of drywall do I need for a 12 × 12 room?',
+    answer:
+      'With 8-foot walls, the ceiling included, no openings deducted and 10% waste, a 12 × 12 room needs 19 sheets of 4 × 8 board: 14 for the 384 sq ft of walls and 5 for the 144 sq ft ceiling. In 4 × 12 sheets it is 9 for the walls and 4 for the ceiling. The calculator rounds walls and ceiling separately, because they are usually hung and often bought as different board.',
+  },
+  {
+    question: 'How much joint compound do I need per sheet of drywall?',
+    answer: `USG puts ready-mixed compound at about ${COMPOUND_GAL_PER_1000} gallons per 1,000 sq ft of board, which is roughly 0.3 gallons per 4 × 8 sheet. A ${PAIL_GAL}-gallon pail finishes about 480 sq ft, or around 15 sheets of 4 × 8. Level 5 work adds a skim coat over the whole surface, so plan on more.`,
+  },
+  {
+    question: 'How many screws go in a sheet of drywall?',
+    answer:
+      'Hung across framing 16 inches on center with screws at the ASTM C840 maximum spacing (16 inches on walls, 12 inches on ceilings), a 4 × 8 sheet takes about 28 screws on a wall and 35 on a ceiling. A 4 × 12 sheet takes about 40 on a wall and 50 on a ceiling. Tighter spacing, adhesive or fire-rated assemblies change the count.',
+  },
+  {
+    question: 'Should I deduct doors and windows?',
+    answer: `Many hangers deduct only large openings, because the board cut out of a standard door or window is mostly scrap and deducting it undercounts sheets. So the example deducts nothing. Enter a count of doors or windows to deduct ${DOOR_SQFT} sq ft per door and ${WINDOW_SQFT} sq ft per window, for rooms where the openings are large or numerous.`,
+  },
+  {
+    question: 'What do drywall finish levels 3, 4 and 5 mean?',
+    answer:
+      'They are the Gypsum Association’s GA-214 levels of finish. Level 3 is for walls getting a medium or heavy texture. Level 4 is the usual finish for flat paint and light texture. Level 5 adds a skim coat over the whole surface, for gloss paint or walls under raking light. The level you pick is written on the labor line of your estimate.',
+  },
+  {
+    question: 'Are my measurements and prices sent to BuildWorkPro?',
+    answer:
+      'No. The math runs in your browser. Your unit prices and your estimate are saved in this browser’s local storage so they are there next time, and nothing is sent to us. The room size is also kept in the page address so you can bookmark or share a result.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/drywall-estimate/',
+    label: 'Drywall estimate template',
+    note: 'A free PDF, Excel and Word estimate laid out the way drywall subs price a job.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/features/construction-bidding/',
+    label: 'Bidding in BuildWorkPro',
+    note: 'Line-item bids with margin and overhead, sent as a PDF proposal.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Drywall Calculator: Sheets, Mud, Tape, Screws & Cost | BuildWorkPro"
+  description="Free drywall calculator for contractors: sheets by size, joint compound, tape and screws for any room, priced with your own material and labor rates. Add rooms to one estimate."
+  h1="Drywall Calculator"
+  intro="Enter a room to get board area, sheets by size, joint compound, tape and screws. Add your own prices to get the installed cost, then add the room to an estimate and do the next one."
+  tool={TOOL}
+  chips={[
+    'Sheets, mud, tape, screws',
+    'Your prices, saved',
+    'Builds an estimate',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Room</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="dw-l">Length (ft)</label>
+            <input
+              id="dw-l"
+              data-in="l"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dw-w">Width (ft)</label>
+            <input
+              id="dw-w"
+              data-in="w"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dw-h">Wall height (ft)</label>
+            <input
+              id="dw-h"
+              data-in="h"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dw-d">Doors to deduct ({DOOR_SQFT} sq ft)</label>
+            <input
+              id="dw-d"
+              data-in="d"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dw-win">Windows to deduct ({WINDOW_SQFT} sq ft)</label>
+            <input
+              id="dw-win"
+              data-in="win"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dw-wst">Waste (%)</label>
+            <input
+              id="dw-wst"
+              data-in="wst"
+              type="number"
+              min="0"
+              max="40"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+        </div>
+        <label class="mt-4 inline-flex items-center gap-2 text-sm text-slate-700" for="dw-c">
+          <input
+            id="dw-c"
+            data-in="c"
+            type="checkbox"
+            class="h-4 w-4 rounded border-slate-300 accent-brand-600"
+          />
+          Include the ceiling
+        </label>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Board and finish</h2>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="dw-s">Sheet size</label>
+            <select id="dw-s" data-in="s" class={input}>
+              {Object.entries(SHEETS).map(([k, v]) => <option value={k}>{v.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="dw-b">Board</label>
+            <select id="dw-b" data-in="b" class={input}>
+              {Object.entries(BOARDS).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="dw-lvl">Finish level (GA-214)</label>
+            <select id="dw-lvl" data-in="lvl" class={input}>
+              <option value="3">Level 3</option>
+              <option value="4">Level 4</option>
+              <option value="5">Level 5</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Your prices</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Saved in this browser, so you only type them once.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="dw-p-sheet">Board, per sheet ($)</label>
+            <input
+              id="dw-p-sheet"
+              data-price="sheet"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dw-p-pail">Compound, per pail ($)</label>
+            <input
+              id="dw-p-pail"
+              data-price="pail"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dw-p-roll">Tape, per roll ($)</label>
+            <input
+              id="dw-p-roll"
+              data-price="roll"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dw-p-screws">Screws, per 1,000 ($)</label>
+            <input
+              id="dw-p-screws"
+              data-price="screws"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-2">
+            <label class={label} for="dw-p-labor">Labor, hang + finish, per sq ft ($)</label>
+            <input
+              id="dw-p-labor"
+              data-price="labor"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">You need</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Board area (sq ft)</span>
+            <span class={cellValue} data-out="board"></span>
+            <span class={cellNote} data-out="board-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Sheets</span>
+            <span class={cellValue} data-out="sheets"></span>
+            <span class={cellNote} data-out="sheets-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Compound pails</span>
+            <span class={cellValue} data-out="pails"></span>
+            <span class={cellNote} data-out="pails-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Tape rolls</span>
+            <span class={cellValue} data-out="rolls"></span>
+            <span class={cellNote} data-out="rolls-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Screws (about)</span>
+            <span class={cellValue} data-out="screws"></span>
+            <span class={cellNote}>16" o.c. on walls, 12" o.c. on ceilings, framing 16" o.c.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Materials</dt>
+            <dd data-out="material" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600" data-out="labor-label">Labor</dt>
+            <dd data-out="labor" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Installed total</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+          <p data-out="per-sqft" class="text-right text-xs text-slate-500"></p>
+        </dl>
+        <p data-out="price-hint" class="mt-2 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example room
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Board area.</strong> Walls are the room’s perimeter times the wall height: 2 × (length +
+      width) × height. Openings you choose to deduct come off at {DOOR_SQFT} sq ft per door and {
+        WINDOW_SQFT
+      } sq ft per window. The ceiling, when included, is length × width.
+    </p>
+    <p>
+      <strong>Sheets.</strong> Walls and ceiling are counted separately: area × (1 + waste) ÷ sheet area,
+      rounded up. A 4 × 8 sheet is 32 sq ft, a 4 × 10 is 40 and a 4 × 12 is 48.
+    </p>
+    <p>
+      <strong>Joint compound and tape.</strong> USG product data puts ready-mixed compound at about
+      {COMPOUND_GAL_PER_1000} gallons and paper tape at about {TAPE_FT_PER_1000} feet per 1,000 sq ft
+      of board. Pails are {PAIL_GAL} gallons and rolls are {TAPE_ROLL_FT} feet, rounded up.
+    </p>
+    <p>
+      <strong>Screws.</strong> Each sheet is hung across framing 16" on center, with one row of screws
+      per framing member at the ASTM C840 maximum spacing: 16" on walls and 12" on ceilings. Your framing,
+      the board and the assembly can call for more.
+    </p>
+    <p>
+      <strong>Price.</strong> Material is quantity × your unit price for each item you priced. Labor is
+      board area × your hang-and-finish rate. Nothing is priced with numbers you did not enter.
+    </p>
+    <p>
+      Pricing a whole job? The <a href="/templates/drywall-estimate/">drywall estimate template</a> has
+      a takeoff sheet and a customer-facing estimate grouped into hang, finish and texture.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/drywall-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="drywall-calculator"]');
+  if (root) mount(root);
+</script>

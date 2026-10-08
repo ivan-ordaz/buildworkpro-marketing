@@ -1,0 +1,451 @@
+---
+// /tools/asphalt-calculator/ — wave-1 trade calculator (plan: calculators +
+// price index, 2026-10-08). Area and compacted thickness → square yards, tons of
+// hot mix, aggregate base and truckloads; optional price from the contractor's
+// own remembered unit prices; "Add to estimate" feeds the shared tray.
+// Math: src/lib/calculators/asphalt.ts. FAQ figures are computed from it and
+// pinned in tests/tools-asphalt-calculator.spec.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  BASE_DENSITY,
+  computeAsphalt,
+  DEFAULT_INPUT,
+  END_DUMP_TONS,
+  HMA_DENSITY,
+  HMA_TYPICAL_LB_SY_IN,
+  lbPerSyIn,
+  looseThickness,
+  MODES,
+  ROLLDOWN,
+  ROLLDOWN_OPEN_GRADED,
+  SEMI_END_DUMP_TONS,
+  TOOL,
+  tonsPerCuyd,
+  TRUCK_TONS,
+} from '../../../lib/calculators/asphalt';
+import { fmt, fmtTrim } from '../../../lib/calculators/format';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+// Figures quoted in the FAQ and method, all from the math module.
+const rate = lbPerSyIn(HMA_DENSITY); // 108.75 lb per sq yd per inch
+const drive = computeAsphalt(DEFAULT_INPUT); // 12 × 50 ft, 3 in, 5% waste, 6 in base
+const baseTcy = tonsPerCuyd(BASE_DENSITY);
+const rolldownPct = Math.round(ROLLDOWN * 100);
+const openPct = Math.round(ROLLDOWN_OPEN_GRADED * 100);
+
+const faqs = [
+  {
+    question: 'How many tons of asphalt per square yard per inch?',
+    answer: `At ${HMA_DENSITY} lb per cubic foot, a square yard of compacted hot mix 1 inch thick weighs ${fmtTrim(rate)} lb, or about ${fmtTrim(rate / 2000, 3)} tons, so one ton covers about ${fmtTrim(2000 / rate, 1)} square yards at 1 inch. The Pennsylvania Asphalt Pavement Association puts a typical compacted mix at ${HMA_TYPICAL_LB_SY_IN[0]} to ${HMA_TYPICAL_LB_SY_IN[1]} lb per square yard per inch. Your plant’s mix design gives the number for the mix you are buying.`,
+  },
+  {
+    question: 'How many tons of asphalt for a 12 × 50 driveway at 3 inches?',
+    answer: `A 12 × 50 ft driveway is ${fmt(drive.sqft)} sq ft, or ${fmtTrim(drive.sqyd, 1)} square yards. At 3 inches compacted that is ${fmt(drive.cuft)} cubic feet (${fmtTrim(drive.cuyd)} cubic yards) of mix, which weighs ${fmtTrim(drive.tonsNet, 3)} tons at ${HMA_DENSITY} lb per cubic foot. With ${DEFAULT_INPUT.waste}% for waste, order ${fmt(drive.tons, 2)} tons, ${drive.loads === 1 ? 'one load' : `${drive.loads} loads`}. A ${DEFAULT_INPUT.baseThickness}-inch stone base under it adds ${fmtTrim(drive.baseTonsNet)} tons, or ${fmt(drive.baseTons, 2)} with waste.`,
+  },
+  {
+    question: 'How many tons of asphalt fit in a dump truck?',
+    answer: `Weight sets the load, not the size of the bed. NAPA’s Asphalt Paving Handbook puts end-dump trucks with three to six axles at ${END_DUMP_TONS[0]} to ${END_DUMP_TONS[1]} tons, with more axles carrying more, and semitrailer end dumps at ${SEMI_END_DUMP_TONS[0]} to ${SEMI_END_DUMP_TONS[1]} tons. A three-axle tandem sits at the low end and a tri-axle carries more. Federal limits on the Interstate are 20,000 lb on a single axle, 34,000 lb on a tandem and 80,000 lb gross, and states set their own on other roads. The calculator assumes a typical ${TRUCK_TONS}-ton load; enter what your plant or hauler actually puts on a truck.`,
+  },
+  {
+    question: 'How thick should an asphalt driveway be?',
+    answer:
+      'It depends on the soil, the drainage and the heaviest vehicle that will use it. The Illinois Asphalt Pavement Association suggests 3 inches of asphalt over 6 to 8 inches of compacted aggregate base, or 5 to 6 inches of full-depth asphalt with no stone base. Follow the plans or spec where there is one, and check your city’s rules for the apron in the right-of-way.',
+  },
+  {
+    question: 'Is the thickness compacted or loose?',
+    answer: `Enter compacted thickness, the depth after rolling, because that is what the tonnage is based on. Dense-graded mix rolls down about ${rolldownPct}%, according to NAPA’s Asphalt Paving Handbook, so a 2-inch compacted lift goes down about ${fmtTrim(looseThickness(2))} inches thick behind the paver and a 3-inch lift about ${fmtTrim(looseThickness(3))}. Open- and gap-graded mixes roll down closer to ${openPct}%.`,
+  },
+  {
+    question: 'What density should I use for asphalt and base stone?',
+    answer: `The defaults are the Iowa DOT’s estimating densities: ${HMA_DENSITY} lb per cubic foot for hot-mix asphalt and ${BASE_DENSITY} lb per cubic foot for rolled stone base, which is ${fmtTrim(baseTcy)} tons per cubic yard. Mixes and stone vary, so use the density on your plant’s mix design and your quarry’s figure when you have them. Both fields are editable.`,
+  },
+  {
+    question: 'Are my measurements and prices sent to BuildWorkPro?',
+    answer:
+      'No. The math runs in your browser. Your unit prices and your estimate are saved in this browser’s local storage so they are there next time, and nothing is sent to us. The area and thickness are also kept in the page address so you can bookmark or share a result.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/construction-estimate/',
+    label: 'Construction estimate template',
+    note: 'A free Excel and PDF estimate with materials, labor, equipment, subs, overhead and margin.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/features/construction-bidding/',
+    label: 'Bidding in BuildWorkPro',
+    note: 'Line-item bids with margin and overhead, sent as a PDF proposal.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Asphalt Calculator: Tons, Base, Truckloads & Cost | BuildWorkPro"
+  description="Free asphalt calculator for paving contractors: tons of hot mix, stone base and truckloads for any area, priced with your own rates. Add areas to one estimate."
+  h1="Asphalt Calculator"
+  intro="Enter an area and the compacted thickness to get square yards, tons of hot mix, base stone and truckloads. Add your own prices to get the cost, then add the area to an estimate and do the next one."
+  tool={TOOL}
+  chips={[
+    'Tons, base, truckloads',
+    'Your prices, saved',
+    'Builds an estimate',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Area</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="as-m">Measure by</label>
+            <select id="as-m" data-in="m" class={input}>
+              {Object.entries(MODES).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+          <div data-mode="lw">
+            <label class={label} for="as-w">Width (ft)</label>
+            <input
+              id="as-w"
+              data-in="w"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div data-mode="lw">
+            <label class={label} for="as-l">Length (ft)</label>
+            <input
+              id="as-l"
+              data-in="l"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div data-mode="sf" class="col-span-2" hidden>
+            <label class={label} for="as-a">Area (sq ft)</label>
+            <input
+              id="as-a"
+              data-in="a"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Asphalt</h2>
+        <div class="mt-4 grid grid-cols-2 items-end gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="as-t">Compacted thickness (in)</label>
+            <input
+              id="as-t"
+              data-in="t"
+              type="number"
+              min="0"
+              max="24"
+              step="0.25"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="as-d">Density (lb/cu ft)</label>
+            <input
+              id="as-d"
+              data-in="d"
+              type="number"
+              min="0"
+              max="200"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="as-wst">Waste (%)</label>
+            <input
+              id="as-wst"
+              data-in="wst"
+              type="number"
+              min="0"
+              max="40"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+        </div>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Base and trucking</h2>
+        <div class="mt-4 grid grid-cols-2 items-end gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="as-bt">Base thickness (in, 0 for none)</label>
+            <input
+              id="as-bt"
+              data-in="bt"
+              type="number"
+              min="0"
+              max="36"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="as-bd">Base density (lb/cu ft)</label>
+            <input
+              id="as-bd"
+              data-in="bd"
+              type="number"
+              min="0"
+              max="200"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="as-tr">Truck load (tons)</label>
+            <input
+              id="as-tr"
+              data-in="tr"
+              type="number"
+              min="0"
+              max="40"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-slate-500">
+          Thicknesses are compacted, in place. Defaults are typical: {HMA_DENSITY} lb/cu ft for hot mix,
+          {BASE_DENSITY} lb/cu ft for stone base and a {TRUCK_TONS}-ton load, where end dumps carry {
+            END_DUMP_TONS[0]
+          } to {END_DUMP_TONS[1]} tons. Use your mix design, quarry and hauler’s numbers when you have
+          them.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Your prices</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Saved in this browser, so you only type them once.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="as-p-ton">Asphalt, per ton ($)</label>
+            <input
+              id="as-p-ton"
+              data-price="ton"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="as-p-base">Base stone, per ton ($)</label>
+            <input
+              id="as-p-base"
+              data-price="base"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="as-p-load">Trucking, per load ($)</label>
+            <input
+              id="as-p-load"
+              data-price="load"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="as-p-labor">Labor, paving ($)</label>
+            <input
+              id="as-p-labor"
+              data-price="labor"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="as-p-unit">Labor priced</label>
+            <select id="as-p-unit" data-price="laborUnit" class={input}>
+              <option value="1">per sq ft</option>
+              <option value="9">per sq yd</option>
+            </select>
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-slate-500">
+          Leave trucking blank if your plant quotes the mix delivered.
+        </p>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">You need</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Area (sq ft)</span>
+            <span class={cellValue} data-out="sqft"></span>
+            <span class={cellNote} data-out="sqft-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Hot-mix asphalt (tons)</span>
+            <span class={cellValue} data-out="tons"></span>
+            <span class={cellNote} data-out="tons-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Base (tons)</span>
+            <span class={cellValue} data-out="base"></span>
+            <span class={cellNote} data-out="base-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Truckloads</span>
+            <span class={cellValue} data-out="loads"></span>
+            <span class={cellNote} data-out="loads-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Asphalt per sq yd per inch</span>
+            <span class={cellValue} data-out="rate"></span>
+            <span class={cellNote} data-out="rate-note"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Asphalt and base</dt>
+            <dd data-out="material" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Trucking</dt>
+            <dd data-out="trucking" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600" data-out="labor-label">Labor</dt>
+            <dd data-out="labor" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Installed total</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+          <p data-out="per-unit" class="text-right text-xs text-slate-500"></p>
+        </dl>
+        <p data-out="price-hint" class="mt-2 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example driveway
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Area.</strong> Width × length in feet, or the square feet you enter. Square yards are square
+      feet ÷ 9.
+    </p>
+    <p>
+      <strong>Volume.</strong> Square feet × compacted thickness in inches ÷ 12 gives cubic feet; ÷ 27
+      gives cubic yards. Thickness is the depth after rolling.
+    </p>
+    <p>
+      <strong>Tons of asphalt.</strong> Cubic feet × density ÷ 2,000 lb per ton × (1 + waste), rounded
+      to the hundredth of a ton. The default density is {HMA_DENSITY} lb per cubic foot, the Iowa DOT’s
+      estimating density for hot-mix asphalt (Design Manual 1B-4). The Pennsylvania Asphalt Pavement Association
+      puts a typical compacted mix at {HMA_TYPICAL_LB_SY_IN[0]} to {HMA_TYPICAL_LB_SY_IN[1]} lb per square
+      yard per inch, and the mix design from your plant gives the number for your mix.
+    </p>
+    <p>
+      <strong>Pounds per square yard per inch.</strong> Density × 9 sq ft ÷ 12 in, which is 0.75 × density.
+      At {HMA_DENSITY} lb per cubic foot that is {fmtTrim(rate)} lb, so square yards × inches × {
+        fmtTrim(rate)
+      } ÷ 2,000 is the same tonnage worked the way paving crews often do it.
+    </p>
+    <p>
+      <strong>Loose thickness.</strong> Compacted thickness × {1 + ROLLDOWN}. NAPA’s Asphalt Paving
+      Handbook puts roll-down at about {rolldownPct}% for dense-graded mix and about {openPct}% for
+      open- and gap-graded mix.
+    </p>
+    <p>
+      <strong>Base.</strong> The same volume math with the base thickness and density, waste included.
+      The default {BASE_DENSITY} lb per cubic foot is the Iowa DOT’s estimating density for rolled stone
+      base,
+      {fmtTrim(baseTcy)} tons per cubic yard. Enter 0 for no base course.
+    </p>
+    <p>
+      <strong>Truckloads.</strong> Asphalt tons ÷ truck load and base tons ÷ truck load, each rounded
+      up. The {TRUCK_TONS}-ton default is a typical figure: NAPA’s Asphalt Paving Handbook puts
+      end-dump trucks at {END_DUMP_TONS[0]} to {END_DUMP_TONS[1]} tons, depending on axles, and semitrailer
+      end dumps at {SEMI_END_DUMP_TONS[0]} to {SEMI_END_DUMP_TONS[1]}.
+    </p>
+    <p>
+      <strong>Price.</strong> Tons × your price per ton for asphalt and base, truckloads × your price
+      per load when you enter one, and square feet or square yards × your labor rate, whichever unit you
+      pick. Nothing is priced with numbers you did not enter.
+    </p>
+    <p>
+      Putting the whole job together? The <a href="/templates/construction-estimate/"
+        >construction estimate template</a
+      > adds equipment, overhead and margin to the line items you build here.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/asphalt-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="asphalt-calculator"]');
+  if (root) mount(root);
+</script>

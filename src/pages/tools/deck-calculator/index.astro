@@ -1,0 +1,514 @@
+---
+// /tools/deck-calculator/ — wave-1 trade calculator (plan: calculators + price
+// index, 2026-10-08). One rectangular ledger deck → decking boards, joists,
+// hangers, ledger/rim/beam lumber, posts, footing concrete and screws; optional
+// price from the contractor's own remembered unit prices; "Add to estimate"
+// feeds the shared tray. Counts material only, never sizes framing. Math:
+// src/lib/calculators/deck.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  BAGS,
+  BEAM_PLIES,
+  BOARD_LENGTHS,
+  FASTENERS,
+  JOIST_SPACINGS,
+  MAX_STOCK_FT,
+  MIN_STOCK_FT,
+  SCREWS_PER_CROSSING,
+  TOOL,
+} from '../../../lib/calculators/deck';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const help = 'mt-3 text-xs text-slate-500';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+const bagYield = (k: keyof typeof BAGS) => BAGS[k].cuft.toFixed(2);
+
+const faqs = [
+  {
+    question: 'How many deck boards do I need for a 12 × 16 deck?',
+    answer:
+      'Built 16 ft along the house and 12 ft out, with 5.5-inch boards, a 3/16-inch gap and 10% waste, it takes 26 rows of 16-ft boards: 416 linear feet installed and 29 boards to buy. Turned the other way, 12 ft along the house and 16 ft out, it is 34 rows of 12-ft boards and 38 boards with waste. Rows longer than your boards need a butt joint over a joist, and the calculator counts the short pieces.',
+  },
+  {
+    question: 'How many joists do I need for a 16-foot deck at 16 inches on center?',
+    answer:
+      'Thirteen. Divide the length in inches by the spacing and add one for the end: 192 ÷ 16 is 12 spaces, so 13 joists, counting both end joists. At 12 inches on center it is 17, and at 24 inches it is 9. Every joist hung from the ledger takes a hanger, so the hanger count is the same.',
+  },
+  {
+    question: 'How many bags of concrete per footing for a 12-inch × 42-inch hole?',
+    answer: `A 12-inch round hole 42 inches deep holds about 2.75 cubic feet. Quikrete’s data sheet puts an 80-lb bag of concrete mix at about ${bagYield(80)} cubic feet, a 60-lb bag at ${bagYield(60)} and a 40-lb bag at ${bagYield(40)}, so that hole takes 5 bags of 80 lb, 7 of 60 lb or 10 of 40 lb. The depth is set by your local frost depth and code, not by the calculator, so get the number from the building department.`,
+  },
+  {
+    question: 'How many deck screws per square foot?',
+    answer: `About 3.5 with 5.5-inch boards on joists 16 inches on center, at ${SCREWS_PER_CROSSING} screws per board at every joist. The 16 × 12 example deck takes 676 screws for 192 sq ft. At 12 inches on center it is about 4.6 per square foot. Hidden fastener systems are counted from the clip maker’s coverage chart instead.`,
+  },
+  {
+    question: 'How big a gap should I leave between deck boards?',
+    answer:
+      'Follow your decking manufacturer’s spacing, because it changes from product to product and is often a warranty condition. Trex calls for 3/16 inch side to side on its composite boards, which is the calculator’s default, and 1/8 inch end to end when it is above 40°F. Wood boards move with moisture, and pressure-treated boards that are still wet from treatment shrink as they dry. The gap changes the row count, so enter the one you will use.',
+  },
+  {
+    question: 'Which way should decking run?',
+    answer:
+      'Across the joists. On a deck hung from a ledger the joists run out from the house, so the boards run parallel to the house, which is the layout this calculator counts. IRC Table R507.7 ties joist spacing to the decking: 5/4 wood boards that run across more than one joist bay allow joists up to 16 inches on center when laid square to them and 12 inches when laid diagonally. Composite boards follow the manufacturer’s span rating.',
+  },
+  {
+    question: 'Does the calculator size the joists, beam and footings?',
+    answer:
+      'No. It counts material for the layout you enter. Joist spans come from IRC R507.6, beam sizes and spans from R507.5, footing size from R507.3.1 and the ledger attachment from R507.9, or from your local code and the American Wood Council’s DCA 6 deck guide. Check those first, then enter the joist spacing, beam plies, post spacing and footing size they call for. Ledger bolts, post bases, flashing, stairs and guards are not counted.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/construction-estimate/',
+    label: 'Construction estimate template',
+    note: 'A free Excel and PDF estimate with material, labor and subs by section, plus overhead and margin.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/solutions/framing-contractors/',
+    label: 'BuildWorkPro for framing contractors',
+    note: 'Lumber-heavy bids, crews across jobsites and progress billing in one place.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Deck Calculator: Boards, Joists, Footings & Cost | BuildWorkPro"
+  description="Free deck calculator for contractors: decking boards, joists, hangers, posts, footing concrete and screws for a ledger deck, priced with your own rates."
+  h1="Deck Calculator"
+  intro="Enter the deck size and layout to get decking boards, joists, hangers, ledger, rim and beam lumber, posts, footing concrete and screws. Add your own prices to get the installed cost, then add the deck to an estimate."
+  tool={TOOL}
+  chips={[
+    'Boards, joists, footings, screws',
+    'Your prices, saved',
+    'Builds an estimate',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Deck</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="dk-l">Length along the house (ft)</label>
+            <input
+              id="dk-l"
+              data-in="l"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-proj">Projection from the house (ft)</label>
+            <input
+              id="dk-proj"
+              data-in="p"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="dk-js">Joist spacing</label>
+            <select id="dk-js" data-in="js" class={input}>
+              {JOIST_SPACINGS.map((s) => <option value={String(s)}>{s}" o.c.</option>)}
+            </select>
+          </div>
+        </div>
+        <p class={help}>
+          One rectangular deck on a ledger: joists run out from the house to one beam on posts, and
+          the decking runs parallel to the house.
+        </p>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Decking</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="dk-bw">Board face width (in)</label>
+            <input
+              id="dk-bw"
+              data-in="bw"
+              type="number"
+              min="1"
+              max="12"
+              step="0.25"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-gap">Gap between boards (in)</label>
+            <input
+              id="dk-gap"
+              data-in="gap"
+              type="number"
+              min="0"
+              max="1"
+              step="0.0625"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-bl">Board length</label>
+            <select id="dk-bl" data-in="bl" class={input}>
+              {BOARD_LENGTHS.map((b) => <option value={String(b)}>{b} ft</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="dk-wst">Waste (%)</label>
+            <input
+              id="dk-wst"
+              data-in="wst"
+              type="number"
+              min="0"
+              max="40"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-2">
+            <label class={label} for="dk-fx">Fastening</label>
+            <select id="dk-fx" data-in="fx" class={input}>
+              {Object.entries(FASTENERS).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+        </div>
+        <p class={help}>
+          5.5 in is the face of a 5/4 × 6 or 2 × 6 board. Follow your decking manufacturer’s spacing
+          for the gap; the default is Trex’s 3/16 in (0.1875). Waste of 10% is a typical allowance
+          for boards laid square to the joists.
+        </p>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Beam, posts and footings</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="dk-ply">Beam plies</label>
+            <select id="dk-ply" data-in="ply" class={input}>
+              {BEAM_PLIES.map((n) => <option value={String(n)}>{n}-ply</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="dk-ps">Max post spacing (ft)</label>
+            <input
+              id="dk-ps"
+              data-in="ps"
+              type="number"
+              min="1"
+              max="20"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-bag">Concrete bag</label>
+            <select id="dk-bag" data-in="bag" class={input}>
+              {
+                Object.entries(BAGS).map(([k, v]) => (
+                  <option value={k}>
+                    {v.label} ({v.cuft.toFixed(2)} cu ft)
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+          <div>
+            <label class={label} for="dk-fd">Footing diameter (in)</label>
+            <input
+              id="dk-fd"
+              data-in="fd"
+              type="number"
+              min="0"
+              max="48"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-fdp">Footing depth (in)</label>
+            <input
+              id="dk-fdp"
+              data-in="fdp"
+              type="number"
+              min="0"
+              max="120"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class={help}>
+          Footing depth is set by your local frost depth and code (IRC R507.3 and R403.1.4.1), so
+          get the number from your building department. Beam plies, post spacing and footing size
+          come from your span tables; 8 ft and a 12 in footing are typical starting points, not
+          limits.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Your prices</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Saved in this browser, so you only type them once.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="dk-p-decking">Decking, per board ($)</label>
+            <input
+              id="dk-p-decking"
+              data-price="decking"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-p-joist">Joist, each ($)</label>
+            <input
+              id="dk-p-joist"
+              data-price="joist"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="dk-p-lumber">Ledger, rim, beam, per ft ($)</label>
+            <input
+              id="dk-p-lumber"
+              data-price="lumber"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-p-post">Post, each ($)</label>
+            <input
+              id="dk-p-post"
+              data-price="post"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-p-bag">Concrete, per bag ($)</label>
+            <input
+              id="dk-p-bag"
+              data-price="bag"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-p-hanger">Joist hanger, each ($)</label>
+            <input
+              id="dk-p-hanger"
+              data-price="hanger"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="dk-p-screws">Screws, per 100 ($)</label>
+            <input
+              id="dk-p-screws"
+              data-price="screws"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2">
+            <label class={label} for="dk-p-labor">Labor, per sq ft of deck ($)</label>
+            <input
+              id="dk-p-labor"
+              data-price="labor"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">You need</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Deck area (sq ft)</span>
+            <span class={cellValue} data-out="area"></span>
+            <span class={cellNote} data-out="area-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Decking boards</span>
+            <span class={cellValue} data-out="boards"></span>
+            <span class={cellNote} data-out="boards-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Joists</span>
+            <span class={cellValue} data-out="joists"></span>
+            <span class={cellNote} data-out="joists-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Joist hangers</span>
+            <span class={cellValue} data-out="hangers"></span>
+            <span class={cellNote}>One per joist at the ledger</span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Ledger, rim and beam (lin ft)</span>
+            <span class={cellValue} data-out="framing"></span>
+            <span class={cellNote} data-out="framing-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Posts</span>
+            <span class={cellValue} data-out="posts"></span>
+            <span class={cellNote} data-out="posts-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Concrete bags</span>
+            <span class={cellValue} data-out="bags"></span>
+            <span class={cellNote} data-out="bags-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Deck screws (about)</span>
+            <span class={cellValue} data-out="screws"></span>
+            <span class={cellNote} data-out="screws-note"></span>
+          </div>
+        </div>
+        <p
+          class="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800"
+        >
+          Material count only. Check joist and beam spans, beam plies, post spacing and footing size
+          against IRC R507 (R507.3, R507.5, R507.6) or your local code before you buy.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Materials</dt>
+            <dd data-out="material" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Labor, frame and deck</dt>
+            <dd data-out="labor" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Installed total</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+          <p data-out="per-sqft" class="text-right text-xs text-slate-500"></p>
+        </dl>
+        <p data-out="price-hint" class="mt-2 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example deck
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>The layout.</strong> One rectangular deck fastened to the house with a ledger. Joists run
+      from the ledger out to a rim joist, carried near the outer edge by one beam on posts. Decking runs
+      parallel to the house, across the joists. Deck area is length along the house × projection.
+    </p>
+    <p>
+      <strong>Decking.</strong> Rows = (projection in inches + gap) ÷ (board face + gap), rounded up,
+      because n boards leave n − 1 gaps. Linear feet installed = rows × deck length. A row no longer than
+      a board takes one board. A longer row takes whole boards plus a short piece that butts over a joist,
+      and the short pieces are cut from boards that yield as many as fit. Waste goes on top, rounded up.
+    </p>
+    <p>
+      <strong>Joists and hangers.</strong> Joists = (length in inches ÷ spacing, rounded down) + 1, which
+      includes both end joists. The length to buy is the next even stock length at or over the projection,
+      never under {MIN_STOCK_FT} ft; anything over {MAX_STOCK_FT} ft is flagged. One hanger per joist
+      at the ledger.
+    </p>
+    <p>
+      <strong>Ledger, rim and beam.</strong> The ledger and the outer rim are each the deck length. The
+      beam is the deck length × the number of plies you enter.
+    </p>
+    <p>
+      <strong>Posts, footings and concrete.</strong> Posts = (length ÷ max post spacing, rounded up) +
+      1, with one footing each. Each footing is a round hole: π × (diameter ÷ 2)² × depth. The full volume
+      is divided by the bag yield from Quikrete’s Concrete Mix data sheet ({bagYield(40)} cu ft for 40
+      lb, {bagYield(60)} for 60 lb, {bagYield(80)} for 80 lb) and rounded up. Nothing is deducted for
+      a post set in the hole.
+    </p>
+    <p>
+      <strong>Screws.</strong>
+      {SCREWS_PER_CROSSING} per board at every joist it crosses, plus 2 more at each butt joint where
+      a second board end lands on the joist. IRC R507.7 calls for two screws or nails per support on wood
+      decking; composite boards follow the manufacturer’s pattern. With hidden fasteners, count clips
+      from the maker’s coverage chart.
+    </p>
+    <p>
+      <strong>Price.</strong> Material is quantity × your unit price for each item you priced. Labor is
+      deck area × your rate. Nothing is priced with numbers you did not enter.
+    </p>
+    <p>
+      <strong>Not sized, not counted.</strong> The calculator does not size framing. Joist spans (R507.6),
+      beam size and plies (R507.5), footing size (R507.3.1) and the ledger connection (R507.9) come from
+      the IRC or your local code. Ledger bolts, post bases and beam connectors, flashing, blocking, stairs
+      and guards are not in the count. For the rest of the job, the <a
+        href="/templates/construction-estimate/">construction estimate template</a
+      > lays out material, labor and subs by section.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/deck-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="deck-calculator"]');
+  if (root) mount(root);
+</script>
