@@ -17,7 +17,7 @@ import { config } from '../config';
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Privacy Policy</h1>
         <p class="mt-3 text-sm text-slate-400">
-          Effective Date: April 9, 2026 &middot; Last Updated: September 1, 2026
+          Effective Date: April 9, 2026 &middot; Last Updated: October 8, 2026
         </p>
       </div>
 
@@ -122,6 +122,23 @@ import { config } from '../config';
             session duration, and interaction patterns within the Platform.
           </li>
           <li>
+            <strong>Product Analytics and Session Replay:</strong> In the web application we record product-usage
+            events &mdash; such as pages viewed, buttons clicked, features used, and onboarding steps
+            completed &mdash; along with browser, device, and page-performance data, so we can understand
+            how the Platform is used and improve it. Events are recorded against an internal account identifier
+            and your organization identifier, never your name or email address. All text displayed on
+            screen and everything you type is masked before an event leaves your browser, and page addresses
+            are stripped of query strings and of access tokens and email addresses in links. During a
+            free trial we may also record
+            <strong>session replays</strong>: reconstructions of how the interface was used. Replays
+            mask all text you type and all text displayed on screen, so the content of your records
+            (customers, prices, documents) is not captured, and they do not capture the contents of
+            network requests or browser console output. We do not record replays for paying
+            subscribers, and we never record the marketing website or the mobile application. This
+            data is sent through our own domain to PostHog, Inc. (see Section 5), which is
+            configured to discard IP addresses rather than store them.
+          </li>
+          <li>
             <strong>Device and Browser Data:</strong> Browser type and version, operating system, device
             type, screen resolution, and preferred language settings.
           </li>
@@ -142,8 +159,9 @@ import { config } from '../config';
             everywhere else, including the United States, they run by default and declining in the banner
             or the footer &ldquo;Cookie settings&rdquo; link is a full, persistent opt-out. We determine
             region from your IP address and apply the stricter opt-in behavior when it cannot be determined.
-            The authenticated web and mobile applications do not deploy advertising, analytics, or cross-site
-            tracking cookies. For a detailed explanation, see our
+            The authenticated web application sets one first-party product-analytics cookie (see Product
+            Analytics and Session Replay above); neither the web nor the mobile application deploys advertising
+            or cross-site tracking cookies. For a detailed explanation, see our
             <a href="/cookies/">Cookie Policy</a>.
           </li>
         </ul>
@@ -275,10 +293,11 @@ import { config } from '../config';
           </li>
           <li>
             <strong>Legitimate Interests (GDPR Art. 6(1)(f)):</strong> Processing for purposes of Platform
-            security, fraud detection and prevention, system monitoring, product improvement, aggregate
-            analytics (non-identifying), and enforcement of our Terms of Service, where such interests
-            are not overridden by your fundamental rights and freedoms. You may object to processing conducted
-            on this basis at any time; see Section 7 below.
+            security, fraud detection and prevention, system monitoring, product improvement, product-usage
+            analytics recorded against pseudonymous identifiers (including masked session replay during
+            free trials, as described in Section 2.2), and enforcement of our Terms of Service, where
+            such interests are not overridden by your fundamental rights and freedoms. You may object
+            to processing conducted on this basis at any time; see Section 7 below.
           </li>
           <li>
             <strong>Consent (GDPR Art. 6(1)(a)):</strong> Processing for optional marketing communications,
@@ -330,10 +349,10 @@ import { config } from '../config';
             from public authorities, and establish, exercise, or defend legal claims.
           </li>
           <li>
-            <strong>Product Improvement:</strong> To analyze aggregate, de-identified usage patterns to
-            improve Platform performance, reliability, and user experience. We do not use personal data
-            for automated profiling or algorithmic decision-making that produces legal or similarly significant
-            effects on individuals.
+            <strong>Product Improvement:</strong> To analyze usage patterns, recorded against pseudonymous
+            account identifiers as described in Section 2.2, to improve Platform performance, reliability,
+            onboarding, and user experience. We do not use personal data for automated profiling or algorithmic
+            decision-making that produces legal or similarly significant effects on individuals.
           </li>
         </ul>
 
@@ -393,6 +412,14 @@ import { config } from '../config';
                 for the mobile application; receives crash reports, stack traces, a sample of performance
                 traces, and device, operating-system and application-version metadata. Configured with
                 personal-data collection disabled, so reports carry no account identity or IP address
+              </li>
+              <li>
+                <strong>PostHog, Inc.</strong> &mdash; Product analytics for the web application and,
+                during free trials, masked session replay; receives pseudonymous account and organization
+                identifiers, your role and subscription status, product-usage events, browser and device
+                metadata, and masked interface recordings. It does not receive names, email addresses,
+                or the contents of your records, and IP addresses are discarded rather than stored. Data
+                is hosted in the United States
               </li>
               <li>
                 <strong>Expo (650 Industries, Inc.)</strong> &mdash; Mobile push notification delivery
@@ -661,6 +688,11 @@ import { config } from '../config';
             then automatically purged.
           </li>
           <li>
+            <strong>Product Analytics Data:</strong> Product-usage events are retained by PostHog for
+            up to twelve (12) months. Session replays recorded during free trials are deleted after thirty
+            (30) days.
+          </li>
+          <li>
             <strong>Audit Logs (Administrative Actions and Security Events):</strong> Records of administrative
             actions, role and permission changes, authentication events, and other security-relevant activity
             are retained for three hundred sixty-five (365) days by default to support compliance, incident
@@ -794,7 +826,8 @@ import { config } from '../config';
           server-side Conversions API, which sends hashed signup details to Meta to measure
           account-signup conversions. Apart from these, we do not engage in cross-site tracking or
           behavioral profiling, and the authenticated application sets no advertising cookies or
-          tracking identifiers.
+          cross-site tracking identifiers; its only analytics identifier is the first-party
+          product-analytics cookie described in our Cookie Policy.
         </p>
 
         <h2>13. Changes to This Policy</h2>
