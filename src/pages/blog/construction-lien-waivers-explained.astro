@@ -34,13 +34,18 @@ const faqs = [
     answer:
       'Several states — California and Arizona among the most widely cited — mandate specific statutory lien waiver forms. Using a non-compliant form in those states can leave the waiver invalid or create grounds for dispute. In states without mandatory forms, the language in whatever document you sign is what governs, so read the scope, the dollar amount, and whether retainage is excluded before signing anything unconditional.',
   },
+  {
+    question: 'What happens if I signed an unconditional waiver and was not paid?',
+    answer:
+      "An unconditional waiver is effective when signed, so your lien and payment bond rights for the stated amount are generally gone whether or not the money arrived. The right to be paid under your contract usually survives — the waiver gives up the security, not the debt — but some forms are drafted to release claims more broadly, and statutory forms differ by state. Talk to a construction attorney licensed in the project's state quickly; notice and filing deadlines keep running. This is general information, not legal advice.",
+  },
 ];
 ---
 
 <Layout
   ogType="article"
-  title="Construction Lien Waivers: Conditional vs. Unconditional | BuildWorkPro"
-  description="The four types of construction lien waivers, when to sign them, and why the conditional vs. unconditional distinction matters for every pay app you submit."
+  title="Conditional vs. Unconditional Lien Waivers Explained | BuildWorkPro"
+  description="How construction lien waivers work: conditional vs. unconditional, progress vs. final, when to sign each in the pay-app cycle, and the red flags to catch before you sign."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -48,10 +53,12 @@ const faqs = [
       <div class="mb-12">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          Construction Lien Waivers Explained: Conditional vs. Unconditional
+          Conditional vs. Unconditional Lien Waivers: How They Work and When to Sign
         </h1>
         <AuthorByline />
-        <p class="mt-1 text-sm text-slate-400">Published June 23, 2026 · 7 min read</p>
+        <p class="mt-1 text-sm text-slate-400">
+          Published June 23, 2026 · Updated October 7, 2026 · 9 min read
+        </p>
       </div>
 
       <div
@@ -64,9 +71,16 @@ const faqs = [
           whether you're protected or exposed if payment doesn't clear.
         </p>
         <p>
-          This guide explains the four types of construction lien waivers, what the conditional vs.
-          unconditional distinction actually means, and when each type comes up in the pay
-          application and closeout process.
+          This guide explains how lien waivers work rather than handing you a form: what the
+          conditional vs. unconditional distinction actually means, how progress and final waivers
+          differ, where each one lands in the pay application and closeout cycle, and the wording
+          that should stop you before you sign. If you already know which one you need, the forms
+          are separate pages — a
+          <a href="/templates/conditional-lien-waiver/">conditional lien waiver form</a> to send with
+          your billing, an
+          <a href="/templates/unconditional-lien-waiver/">unconditional lien waiver form</a> for after
+          the money clears, or the
+          <a href="/templates/lien-waiver/">set of all four lien waiver forms</a>.
         </p>
 
         <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
@@ -103,8 +117,19 @@ const faqs = [
               class="text-brand-600 underline underline-offset-2 font-medium">lien waiver forms</a
             >
             cover all four types — conditional and unconditional, progress and final — as a fillable PDF
-            and a Word document, with the retention and pending-change-order exceptions built in. General
-            forms for states without a statutory waiver. No email required.
+            and a Word document, with the retention and pending-change-order exceptions built in. The
+            two halves are also on their own pages: the
+            <a
+              href="/templates/conditional-lien-waiver/"
+              class="text-brand-600 underline underline-offset-2 font-medium"
+              >conditional waiver forms</a
+            >
+            and the
+            <a
+              href="/templates/unconditional-lien-waiver/"
+              class="text-brand-600 underline underline-offset-2 font-medium"
+              >unconditional waiver forms</a
+            >. General forms for states without a statutory waiver. No email required.
           </p>
         </div>
 
@@ -230,6 +255,41 @@ const faqs = [
           current and your pay application history organized means you always know exactly what amount
           each waiver should reference — and you can spot a discrepancy before you sign.
         </p>
+
+        <h2>One billing cycle, waiver by waiver</h2>
+        <p>
+          The order of events is easier to follow on a single application. Say you bill pay
+          application no. 4 for work through the end of the month:
+        </p>
+        <ol>
+          <li>
+            <strong>You bill.</strong> Application no. 4 goes in with a conditional progress waiver for
+            its current payment due — the net amount after retainage, not the gross billed and not the
+            contract sum.
+          </li>
+          <li>
+            <strong>The GC pays.</strong> The check or ACH for no. 4 arrives. Nothing needs re-signing;
+            the conditional waiver simply becomes effective once the funds are paid by your bank.
+          </li>
+          <li>
+            <strong>The funds clear, and the unconditional follows.</strong> If the GC or the owner's
+            lender asks for an unconditional progress waiver for no. 4, it goes over now — often in the
+            same package as application no. 5 and its own conditional waiver.
+          </li>
+          <li>
+            <strong>Your own tier.</strong> Before you pay your suppliers and sub-subcontractors out of
+            that money, collect their conditional waivers; once their payments clear, their unconditionals.
+            Many GCs ask for both tiers.
+          </li>
+          <li>
+            <strong>Closeout.</strong> The final application carries a conditional final waiver that includes
+            retainage. The unconditional final goes over only after the retainage check clears.
+          </li>
+        </ol>
+        <p>
+          The pattern never changes: the conditional waiver travels with the request for money, and
+          the unconditional waiver trails the money by one cycle.
+        </p>
       </div>
 
       <div class="my-10">
@@ -276,7 +336,9 @@ const faqs = [
           raise it before signing. The lien rights themselves follow state notice rules too — on a
           Florida private job, for example, the owner records a
           <a href="/templates/notice-of-commencement/">notice of commencement</a> before work starts,
-          and your lien notices follow from it.
+          and a sub or supplier without a direct contract with the owner keeps its lien rights by serving
+          a <a href="/templates/notice-to-owner/">notice to owner</a> within 45 days of first furnishing
+          labor, services or materials.
         </p>
         <p>
           In states without mandatory forms, the language in whatever document you sign is what
@@ -290,6 +352,39 @@ const faqs = [
           pushing for unconditional waivers before payment. The cost of a one-time review is a
           fraction of the lien rights you could be waiving.
         </p>
+
+        <h2>Red flags in a waiver the GC sends you</h2>
+        <p>
+          Most waiver problems are visible on the page if you know where to look. Stop and ask
+          before signing when you see any of these:
+        </p>
+        <ul>
+          <li>
+            <strong>"Unconditional" on a form you're asked to sign before you're paid.</strong> Ask for
+            the conditional version instead; it gives the GC the same protection once the money clears.
+          </li>
+          <li>
+            <strong>A through date later than the period being paid.</strong> It waives work you haven't
+            billed yet.
+          </li>
+          <li>
+            <strong>An amount equal to your contract sum or gross billed</strong> on a progress waiver,
+            instead of the current payment due.
+          </li>
+          <li>
+            <strong>No exceptions, or a blank exceptions box.</strong> Retainage, pending change orders
+            and disputed work then read as released.
+          </li>
+          <li>
+            <strong>"Any and all claims" language.</strong> A lien waiver normally gives up lien and payment
+            bond rights for the stated amount. Wording that releases all claims can reach your pending
+            change orders, delay claims and other contract rights too.
+          </li>
+          <li>
+            <strong>"Final" in the title of what should be a progress waiver.</strong> A final waiver
+            covers the whole contract, retainage included.
+          </li>
+        </ul>
 
         <h2>Practical rules for managing lien waivers</h2>
         <ul>
@@ -344,10 +439,17 @@ const faqs = [
       </div>
 
       <BlogPostFooter
-        headline="Construction Lien Waivers Explained: Conditional vs. Unconditional"
-        description="The four types of construction lien waivers, when to sign them, and why the conditional vs. unconditional distinction matters for every pay application you submit."
+        headline="Conditional vs. Unconditional Lien Waivers: How They Work and When to Sign"
+        description="How construction lien waivers work: conditional vs. unconditional, progress vs. final, when to sign each in the pay-app cycle, and the red flags to catch before you sign."
         datePublished="2026-06-23"
+        dateModified="2026-10-07"
         related={[
+          {
+            href: '/templates/conditional-lien-waiver/',
+            title: 'Conditional Lien Waiver Form',
+            description:
+              'Free conditional progress and final waivers, with the retention and change-order exceptions built in.',
+          },
           {
             href: '/features/pay-applications/',
             title: 'Pay Applications',
@@ -362,13 +464,13 @@ const faqs = [
           },
           {
             href: '/blog/aia-pay-application-guide/',
-            title: 'AIA Pay Application Guide',
+            title: 'How the AIA Pay Application Process Works',
             description:
               'How AIA-style progress billing works and what GCs look for before they approve.',
           },
           {
             href: '/blog/schedule-of-values-guide/',
-            title: 'How to Create a Schedule of Values',
+            title: 'What Is a Schedule of Values?',
             description:
               'The line-item billing structure that each conditional lien waiver references by period.',
           },

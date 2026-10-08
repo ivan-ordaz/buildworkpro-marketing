@@ -29,13 +29,18 @@ const faqs = [
     answer:
       "The true hourly cost of an employee, not just the wage: payroll taxes (FICA, FUTA, SUTA), workers' comp insurance, health benefits, union contributions, and per diem or travel. A $45/hour mechanic can cost $72/hour once the burden is loaded in, so bidding at base wage significantly understates labor cost.",
   },
+  {
+    question: 'What is the difference between an estimate, a bid, a proposal and a quote?',
+    answer:
+      'The estimate is your internal number — what the work will cost you to deliver. The bid is the price you offer for a defined scope, usually in competition: estimate plus overhead and profit. The proposal is the document that carries the bid, with scope, inclusions, exclusions and terms. A quote is a short fixed price for a small, well-defined job. Plenty of contractors use the words loosely; what matters is that the number the customer sees is built on a real estimate.',
+  },
 ];
 ---
 
 <Layout
   ogType="article"
-  title="How to Create a Construction Bid: Step-by-Step Guide | BuildWorkPro"
-  description="Learn how to write a winning construction bid. Step-by-step guide covering takeoffs, labor rates, material costs, markup, and proposal formatting for subcontractors."
+  title="How to Bid a Construction Job: 7 Steps for Subs | BuildWorkPro"
+  description="How subcontractors bid a construction job: plans and specs, takeoff, burdened labor, materials, overhead and profit, a worked bid example, and the proposal that wins the work."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -43,10 +48,12 @@ const faqs = [
       <div class="mb-12">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          How to Create a Construction Bid: Step-by-Step Guide
+          How to Bid a Construction Job: A 7-Step Guide for Subcontractors
         </h1>
         <AuthorByline />
-        <p class="mt-1 text-sm text-slate-400">Published March 15, 2026 · 7 min read</p>
+        <p class="mt-1 text-sm text-slate-400">
+          Published March 15, 2026 · Updated October 7, 2026 · 10 min read
+        </p>
       </div>
 
       <div
@@ -59,9 +66,14 @@ const faqs = [
           working for free or losing the job to someone who priced it tighter.
         </p>
         <p>
-          This guide walks through each step of putting together a construction bid, from reviewing
-          plans to submitting your proposal. Before you price anything, the invitation should
-          already be a lead on your
+          This guide explains how to bid a job, step by step, from reviewing plans to submitting
+          your proposal — with a worked example of the math in the middle. The documents themselves
+          are separate free downloads: a
+          <a href="/templates/construction-estimate/">construction estimate template</a> for the cost
+          side, a <a href="/templates/construction-bid-proposal/">bid proposal template</a> for what the
+          GC receives, and a one-page
+          <a href="/templates/construction-quote/">construction quote template</a> for small jobs. Before
+          you price anything, the invitation should already be a lead on your
           <a href="/features/construction-crm/">construction sales CRM</a>
           — so you know what else is in the pipeline and whether this invite is worth estimating this
           week.
@@ -110,6 +122,31 @@ const faqs = [
           </p>
         </div>
 
+        <h2>Estimate, bid, proposal or quote?</h2>
+        <p>
+          The four words get used interchangeably, but they are four different things, and keeping
+          them apart makes the steps below easier to follow:
+        </p>
+        <ul>
+          <li>
+            <strong>Estimate</strong> — your internal number: what the work will cost you in labor, material,
+            equipment and subs. The customer never sees it.
+          </li>
+          <li>
+            <strong>Bid</strong> — the price you offer for a defined scope, usually in competition with
+            other subs: the estimate plus overhead and profit.
+          </li>
+          <li>
+            <strong>Proposal</strong> — the document that carries the bid: scope, inclusions, exclusions,
+            assumptions, terms and an acceptance block.
+          </li>
+          <li>
+            <strong>Quote</strong> — a short fixed price for a small, well-defined job, often direct to
+            an owner, with a validity date.
+          </li>
+        </ul>
+        <p>Steps 1 through 6 build the estimate and the bid. Step 7 is the proposal.</p>
+
         <h2>Step 1: Review the Plans and Specifications</h2>
         <p>
           Before you touch a calculator, <a href="/blog/how-to-read-construction-plans-takeoff/"
@@ -141,6 +178,16 @@ const faqs = [
             the textbook number.
           </li>
           <li>
+            <strong>Use a count sheet built for your trade.</strong> The free trade estimate templates
+            each include a takeoff laid out the way that trade measures: squares and bundles in the
+            <a href="/templates/roofing-estimate/">roofing estimate template</a>, board counts in
+            the
+            <a href="/templates/drywall-estimate/">drywall estimate template</a>, device counts in
+            the
+            <a href="/templates/electrical-estimate/">electrical estimate template</a>, and fixture
+            counts in the <a href="/templates/plumbing-estimate/">plumbing estimate template</a>.
+          </li>
+          <li>
             <strong>Separate by area or phase.</strong> Breaking your takeoff into zones or phases makes
             it easier to verify quantities and adjust if the <a
               href="/blog/construction-change-order-management/">scope changes</a
@@ -162,8 +209,11 @@ const faqs = [
         </p>
         <p>
           Apply production rates based on your crew's actual performance, not industry averages. If
-          your guys hang 30 sheets of drywall a day on a good day, don't bid it at 40. Build in
-          realistic allowances for mobilization, cleanup, and coordination time.
+          your guys hang 30 sheets of drywall a day on a good day, don't bid it at 40. The best
+          source is your own closed jobs — that's what
+          <a href="/blog/job-costing-for-subcontractors/">job costing</a> gives you: the hours each kind
+          of work really took. Build in realistic allowances for mobilization, cleanup, and coordination
+          time.
         </p>
 
         <h2>Step 4: Price Your Materials</h2>
@@ -221,12 +271,35 @@ const faqs = [
           from one bid to the next.
         </p>
 
+        <h2>A Worked Example: Pricing One Bid</h2>
+        <p>
+          Here is how the steps add up on a small tenant-improvement scope. The direct costs from
+          Steps 2 through 5:
+        </p>
+        <ul>
+          <li><strong>Labor:</strong> 320 hours at a $72 burdened rate = $23,040</li>
+          <li><strong>Materials:</strong> supplier quote with delivery and sales tax = $19,900</li>
+          <li><strong>Equipment:</strong> a scissor lift for three weeks = $2,400</li>
+          <li><strong>Sub-tier:</strong> core drilling = $1,800</li>
+          <li><strong>Other direct costs:</strong> permit and dumpster = $860</li>
+        </ul>
+        <p>
+          That is <strong>$48,000</strong> of direct cost. Overhead at 12% of direct cost adds $5,760,
+          for <strong>$53,760</strong> before profit. To keep an 8% margin on the selling price, divide
+          by 0.92 rather than multiplying by 1.08: $53,760 ÷ 0.92 = $58,434.78, so the bid goes out at
+          <strong>$58,450</strong>. Multiplying by 1.08 instead would have produced $58,061 — an 8%
+          markup, which is only a 7.4% margin. The
+          <a href="/blog/construction-markup-vs-margin/">markup vs. margin guide</a> explains why the
+          two never match.
+        </p>
+
         <h2>Step 7: Format and Submit Your Proposal</h2>
         <p>
           Presentation matters. A clean, professional proposal tells the GC you run a tight
           operation. Include a clear scope summary that spells out exactly what's included and —
-          just as importantly — what's excluded. List your qualifications, clarifications, and any
-          assumptions you made.
+          just as importantly — what's excluded; a
+          <a href="/templates/scope-of-work/">scope of work</a> written in the same terms as your takeoff
+          makes that easy. List your qualifications, clarifications, and any assumptions you made.
         </p>
         <p>Common items to clarify in your proposal:</p>
         <ul>
@@ -246,6 +319,12 @@ const faqs = [
           Submit on time. It sounds obvious, but late bids get thrown out. Build in a buffer — if
           the bid is due at 2:00 PM, have it ready by noon. Use the submission method specified in
           the invitation: email, online portal, or hard copy.
+        </p>
+        <p>
+          If you win, the GC may send a
+          <a href="/templates/letter-of-intent/">letter of intent</a> before the formal subcontract. Check
+          that its scope and price match your proposal before you countersign — exclusions you wrote into
+          the bid have a way of disappearing between award and contract.
         </p>
 
         <h2>Common Bidding Mistakes to Avoid</h2>
@@ -284,10 +363,17 @@ const faqs = [
       </div>
 
       <BlogPostFooter
-        headline="How to Create a Construction Bid: Step-by-Step Guide"
-        description="Learn how to write a winning construction bid. Step-by-step guide covering takeoffs, labor rates, material costs, markup, and proposal formatting for subcontractors."
+        headline="How to Bid a Construction Job: A 7-Step Guide for Subcontractors"
+        description="How subcontractors bid a construction job: plans and specs, takeoff, burdened labor, materials, overhead and profit, a worked bid example, and the proposal that wins the work."
         datePublished="2026-03-15"
+        dateModified="2026-10-07"
         related={[
+          {
+            href: '/templates/construction-bid-proposal/',
+            title: 'Construction Bid Proposal Template',
+            description:
+              'Free Word and PDF proposal with scope, price and alternates, inclusions, exclusions and acceptance.',
+          },
           {
             href: '/features/construction-bidding/',
             title: 'Bidding & Estimating',

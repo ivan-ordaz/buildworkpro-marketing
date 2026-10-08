@@ -11,6 +11,7 @@ import Pricing from '../components/Pricing.astro';
 import FAQ from '../components/FAQ.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
+import TemplateCallout from '../components/templates/TemplateCallout.astro';
 import { config } from '../config';
 
 const softwareApplicationSchema = {
@@ -90,6 +91,30 @@ const softwareApplicationSchema = {
     <Features />
     <FeatureShowcase />
     <Integrations />
+    <TemplateCallout
+      heading="Free templates and tools for subcontractors"
+      class="mb-24 lg:mb-32"
+      slugs={[
+        'aia-g702-g703',
+        'lien-waiver',
+        'change-order',
+        'daily-report',
+        'construction-estimate',
+        'schedule-of-values',
+      ]}
+    >
+      Rather fill one in online? The
+      <a href="/tools/pay-app/" class="font-medium text-brand-600 hover:text-brand-700"
+        >free pay app builder</a
+      >
+      does the G702/G703-style math in your browser. Weighing software?
+      <a href="/compare/" class="font-medium text-brand-600 hover:text-brand-700"
+        >Compare BuildWorkPro with Procore, Buildertrend and others</a
+      >, or read our
+      <a href="/blog/" class="font-medium text-brand-600 hover:text-brand-700"
+        >guides for subcontractors</a
+      > on billing, bidding and closeout.
+    </TemplateCallout>
     <Pricing />
     <FAQ />
     <CTA />
