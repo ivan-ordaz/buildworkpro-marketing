@@ -29,13 +29,18 @@ const faqs = [
     answer:
       'No — BuildWorkPro produces AIA-style pay applications that follow the familiar G702/G703 structure, with a schedule of values, retainage tracking, and approved change orders rolled into the contract sum. They are not official AIA-licensed documents. If your contract requires the copyrighted AIA forms, you can transfer the same numbers onto them directly.',
   },
+  {
+    question: 'How long does it take to get paid on a pay application?',
+    answer:
+      "Longer than the billing period itself. Your application feeds the GC's application to the owner, the architect or owner's representative certifies it, the owner pays the GC, and only then does the GC pay you — on the schedule your subcontract sets, within any limits a state prompt payment law imposes. On many jobs the check for a month's work arrives a month or more after the period closes, which is why missing a GC's cutoff by a day can cost you a full cycle.",
+  },
 ];
 ---
 
 <Layout
   ogType="article"
-  title="AIA Pay Application Guide: How to Fill Out G702 & G703 | BuildWorkPro"
-  description="Complete guide to AIA pay applications for subcontractors. Learn how to fill out G702 and G703 forms, schedule of values, and get paid faster."
+  title="How the AIA Pay Application Process Works | BuildWorkPro"
+  description="How AIA-style progress billing works for subcontractors: what the G702 and G703 each do, the monthly pencil-to-payment cycle, the backup GCs require, and why pay apps get sent back."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -43,10 +48,12 @@ const faqs = [
       <div class="mb-12">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          AIA Pay Application Guide: How to Fill Out G702 & G703
+          How the AIA Pay Application Process Works for Subcontractors
         </h1>
         <AuthorByline />
-        <p class="mt-1 text-sm text-slate-400">Published March 10, 2026 · 7 min read</p>
+        <p class="mt-1 text-sm text-slate-400">
+          Published March 10, 2026 · Updated October 7, 2026 · 9 min read
+        </p>
       </div>
 
       <div
@@ -58,8 +65,13 @@ const faqs = [
           app forms — and if you're filling them out wrong, you're delaying your own payment.
         </p>
         <p>
-          This guide breaks down the two standard AIA pay application forms, how to fill them out
-          correctly, and how to avoid the mistakes that slow down approvals.
+          This guide explains the process behind the paperwork: what the G702 and G703 each do, how
+          a pay application moves from your draft to the GC, the architect, the owner and back to
+          you as a check, and the mistakes that send it back. The form itself lives elsewhere — our
+          <a href="/templates/aia-g702-g703/">G702/G703-style pay application template</a> is the Excel
+          and PDF version with every line explained, and the
+          <a href="/tools/pay-app/">free online pay app builder</a> does the same math in your browser
+          and rolls it forward each month.
         </p>
 
         <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 my-10">
@@ -68,6 +80,10 @@ const faqs = [
             <li>
               The G702 is the summary cover sheet; the G703 carries the line-item detail — complete
               the G703 first and the G702 math follows.
+            </li>
+            <li>
+              Each application runs a cycle: pencil draft, final submission with backup, the GC's
+              roll-up to the owner, certification, then payment down the chain.
             </li>
             <li>
               Structure your schedule of values around how the work actually progresses — you'll
@@ -96,12 +112,17 @@ const faqs = [
               class="text-brand-600 underline underline-offset-2 font-medium"
               >G702/G703-style pay application template</a
             >
-            — Excel workbook with the continuation sheet, retainage math, and carry-forward built in.
-            No email required.
+            — Excel workbook with the continuation sheet, retainage math, and carry-forward built in —
+            or fill one in online with the
+            <a
+              href="/tools/pay-app/"
+              class="text-brand-600 underline underline-offset-2 font-medium"
+              >free pay app builder</a
+            >. No email required.
           </p>
         </div>
 
-        <h2>What Are AIA Pay Applications?</h2>
+        <h2>What Are AIA Pay Applications? G702 vs. G703</h2>
         <p>
           The American Institute of Architects (AIA) publishes standardized contract documents used
           across the construction industry. The two forms used for progress billing are:
@@ -120,7 +141,53 @@ const faqs = [
         </ul>
         <p>
           Together, these two forms tell the GC and owner exactly how much work you've done, how
-          much you've been paid, and how much you're requesting this period.
+          much you've been paid, and how much you're requesting this period. Many GCs accept a
+          G702/G703-style application rather than the licensed AIA documents; check your subcontract
+          before the first one goes out.
+        </p>
+
+        <h2>The Monthly Pay Application Cycle</h2>
+        <p>
+          A pay application is less a form than a monthly routine with deadlines set by people above
+          you in the payment chain. On a typical commercial job it runs like this:
+        </p>
+        <ol>
+          <li>
+            <strong>The schedule of values is approved.</strong> Before the first application, the GC
+            (and often the architect) reviews and approves your line items. Everything after this bills
+            against those lines.
+          </li>
+          <li>
+            <strong>You send a pencil draft.</strong> Many GCs ask for a draft — a "pencil" — several
+            days before their cutoff. Their project manager walks the job, compares your percentages to
+            what is in place, and marks up anything they won't support.
+          </li>
+          <li>
+            <strong>You submit the final application with its backup.</strong> The agreed percentages
+            go on the signed application, along with whatever the subcontract requires: lien waivers,
+            stored-materials invoices, certified payroll on public work, insurance certificates.
+          </li>
+          <li>
+            <strong>The GC rolls it up.</strong> Your application becomes a line in the GC's own application
+            to the owner, alongside every other trade's.
+          </li>
+          <li>
+            <strong>The architect or owner's representative certifies it.</strong> The certificate is
+            the approval of an amount — it may be less than you applied for, and the difference is what
+            you reconcile before the next cycle.
+          </li>
+          <li>
+            <strong>Money moves down the chain.</strong> The owner pays the GC, and the GC pays you on
+            the terms your subcontract sets — pay-when-paid clauses are common — within any limits a state
+            prompt payment law adds. Conditional and unconditional
+            <a href="/blog/construction-lien-waivers-explained/">lien waivers</a> trade hands along the
+            way.
+          </li>
+        </ol>
+        <p>
+          Then the next period starts, with this month's billed amounts carried into the "previous
+          applications" column. That roll-forward is where spreadsheets break: one missed carry and
+          every later application is off.
         </p>
 
         <h2>Setting Up Your Schedule of Values</h2>
@@ -131,7 +198,13 @@ const faqs = [
           the entire project duration. If you priced the job in
           <a href="/features/construction-bidding/">construction bidding software</a>, the SOV
           should follow the bid's line items — otherwise you rebuild the contract in a spreadsheet
-          every month.
+          every month. Our explainer on
+          <a href="/blog/schedule-of-values-guide/"
+            >what a schedule of values is and how it changes</a
+          >
+          goes deeper, and the
+          <a href="/templates/schedule-of-values/">schedule of values template</a> is a blank one to start
+          from.
         </p>
         <p>
           Break your contract into meaningful line items that reflect actual phases of work. A
@@ -167,37 +240,40 @@ const faqs = [
           caption="A pay application in BuildWorkPro billing against its schedule of values — each line item carries the same columns as the G703, and the summary rolls up retainage and current payment due like the G702."
         />
 
-        <h2>Filling Out the G702 (Cover Sheet)</h2>
+        <h2>How the G702 and G703 Numbers Connect</h2>
         <p>
-          The G702 is mostly a math exercise once your G703 is complete. Here's what goes in each
-          field:
+          The G702 is a math exercise once the G703 is right. Its lines walk from the contract down
+          to this period's check:
         </p>
         <ol>
-          <li><strong>Original contract sum.</strong> Your base contract amount, as awarded.</li>
           <li>
-            <strong>Net change by change orders.</strong> The total of all approved change orders — additions
-            minus deductions.
-          </li>
-          <li><strong>Contract sum to date.</strong> Original contract plus net change orders.</li>
-          <li>
-            <strong>Total completed and stored to date.</strong> Pulled from the G703 total — this is
-            the sum of all work completed and materials stored across all line items.
+            <strong>Contract sum to date</strong> — the original contract plus the net of approved change
+            orders. Pending change orders don't count until they're approved.
           </li>
           <li>
-            <strong>Retainage.</strong> Typically 10% of the completed work, though some contracts reduce
-            retainage after 50% completion. Check your subcontract for the specific retainage terms.
+            <strong>Total completed and stored to date</strong> — the G703 column G total, carried over
+            unchanged.
           </li>
           <li>
-            <strong>Total earned less retainage.</strong> Completed work minus retainage held.
+            <strong>Retainage</strong> — the contract rate (often 5% or 10%) applied to that cumulative
+            total, not just this period. Our
+            <a href="/blog/retainage-construction-guide/">retainage guide</a> covers step-downs and release.
           </li>
           <li>
-            <strong>Less previous certificates for payment.</strong> What you've already been paid on
-            previous pay apps.
+            <strong>Less previous certificates for payment</strong> — what earlier applications already
+            earned, net of retainage.
           </li>
           <li>
-            <strong>Current payment due.</strong> The difference — this is what you're requesting.
+            <strong>Current payment due</strong> — what's left. This is the number your lien waiver for
+            the period should reference.
           </li>
         </ol>
+        <p>
+          The template page breaks down
+          <a href="/templates/aia-g702-g703/">all nine lines of a G702-style application</a> with a worked
+          example; the point here is the dependency. If a G703 line is wrong, every G702 line below it
+          is wrong too.
+        </p>
         <p>
           On the final pay application, line items go to 100% and retainage is billed so the current
           payment due includes funds held throughout the job. That last G702 is one piece of the
@@ -208,7 +284,7 @@ const faqs = [
           travel with it.
         </p>
 
-        <h2>Filling Out the G703 (Continuation Sheet)</h2>
+        <h2>What the G703 (Continuation Sheet) Tracks</h2>
         <p>The G703 is where you track progress on each line item. For each row:</p>
         <ul>
           <li><strong>Column A:</strong> Item number</li>
@@ -299,10 +375,17 @@ const faqs = [
       </div>
 
       <BlogPostFooter
-        headline="AIA Pay Application Guide: How to Fill Out G702 & G703"
-        description="Complete guide to AIA pay applications for subcontractors. Learn how to fill out G702 and G703 forms, schedule of values, and get paid faster."
+        headline="How the AIA Pay Application Process Works for Subcontractors"
+        description="How AIA-style progress billing works for subcontractors: what the G702 and G703 each do, the monthly pencil-to-payment cycle, the backup GCs require, and why pay apps get sent back."
         datePublished="2026-03-10"
+        dateModified="2026-10-07"
         related={[
+          {
+            href: '/templates/aia-g702-g703/',
+            title: 'Pay Application Template (G702 & G703 Style)',
+            description:
+              'Free Excel and fillable PDF with the continuation sheet, retainage math and a worked example.',
+          },
           {
             href: '/features/pay-applications/',
             title: 'Pay Applications in BuildWorkPro',

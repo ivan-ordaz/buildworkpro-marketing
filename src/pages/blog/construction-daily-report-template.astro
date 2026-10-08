@@ -34,13 +34,18 @@ const faqs = [
     answer:
       "Fill out the GC's form as required, but also keep your own. The GC form protects the project; your own record protects you. Gaps in the GC-required form — sections that don't capture delays caused by others or equipment standby time, for example — are exactly where your independent record matters most.",
   },
+  {
+    question: 'Should I record weather in my daily report?',
+    answer:
+      'Yes — weather is the most common basis for schedule extension requests, so note temperature, precipitation and wind every day, and exactly how conditions affected the work on the days they did. Be specific about times and impact rather than writing one-word summaries. In BuildWorkPro, add weather observations to the notes of the day’s site log, along with photos of site conditions.',
+  },
 ];
 ---
 
 <Layout
   ogType="article"
-  title="Construction Daily Report: What to Include + Template | BuildWorkPro"
-  description="A field-ready guide to the construction daily report — what belongs in each section, how to fill it out completely, and a template subcontractors can use today."
+  title="How to Write a Construction Daily Report: What to Include | BuildWorkPro"
+  description="What a construction daily report is, what to record in each section, how to write entries that hold up in a dispute, and how to make daily logging a crew habit that sticks."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -48,10 +53,12 @@ const faqs = [
       <div class="mb-12">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          Construction Daily Report: What to Include (+ Template)
+          How to Write a Construction Daily Report: What to Include, Section by Section
         </h1>
         <AuthorByline />
-        <p class="mt-1 text-sm text-slate-400">Published July 31, 2026 · 7 min read</p>
+        <p class="mt-1 text-sm text-slate-400">
+          Published July 31, 2026 · Updated October 7, 2026 · 10 min read
+        </p>
       </div>
 
       <div
@@ -65,11 +72,13 @@ const faqs = [
           Tuesday — your daily reports are the contemporaneous record that answers the question.
         </p>
         <p>
-          This guide breaks down exactly what belongs in each section of a construction daily
-          report, with notes on how to fill each one out so the record is actually useful. At the
-          end you'll also find how to file these digitally so they're searchable and ready when you
-          need them. The form itself — fillable PDF, Word and Excel — is on the
-          <a href="/templates/daily-report/">construction daily report template</a> page.
+          This guide explains how to write one: what belongs in each section, how to word entries so
+          the record is actually useful months later, and how to make daily logging a habit a crew
+          keeps. It covers the site log or daily log too — different names for the same record. The
+          blank form itself — fillable PDF, Word and Excel — is on the
+          <a href="/templates/daily-report/">construction daily report template</a> page, and if you'd
+          rather file reports from a phone, see how
+          <a href="/features/site-logs/">digital site logs</a> work in BuildWorkPro.
         </p>
 
         <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
@@ -99,7 +108,7 @@ const faqs = [
         </div>
 
         <div class="not-prose rounded-2xl border border-brand-100 bg-brand-50 p-6 my-8">
-          <p class="font-semibold text-slate-900">Download the template</p>
+          <p class="font-semibold text-slate-900">Need the blank form?</p>
           <p class="mt-1 text-sm text-slate-600">
             The daily report this guide describes — crew table, weather, work performed, deliveries,
             delays and safety sections — as a fillable PDF, an editable Word doc, or an Excel
@@ -145,6 +154,13 @@ const faqs = [
           project number or address, date, and the name of the person filing the report. If you have
           a contract number or GC-assigned document number, include it. This sounds obvious but
           matters in disputes — a stack of reports with no header is nearly useless.
+        </p>
+        <p>
+          Record the day's weather in the header too: morning and afternoon temperature,
+          precipitation and wind. Weather is the most common basis for schedule extension requests,
+          and five documented rain days with matching work stoppages make a strong case where memory
+          and historical weather data make a weak one. Section 8 covers what to write on the days
+          conditions actually stopped the work.
         </p>
 
         <h3>2. Personnel on site</h3>
@@ -220,10 +236,13 @@ const faqs = [
 
         <h3>7. Safety observations</h3>
         <p>
-          Document safety toolbox meetings: date, topic, and attendance. Note any incidents,
-          near-misses, or hazards — even those involving other trades. If you reported an unsafe
-          condition to the GC or owner, record that you did and when. Safety documentation is both a
-          legal requirement on many projects and a liability shield when incidents are investigated.
+          Document safety toolbox meetings: date, topic, and attendance — a
+          <a href="/templates/toolbox-talk/">toolbox talk sign-in sheet</a> is the backup — and the number
+          of any <a href="/templates/job-safety-analysis/">job safety analysis</a> the crew reviewed for
+          the day's tasks. Note any incidents, near-misses, or hazards — even those involving other trades.
+          If you reported an unsafe condition to the GC or owner, record that you did and when. Safety
+          documentation is both a legal requirement on many projects and a liability shield when incidents
+          are investigated.
         </p>
 
         <h3>8. Delays, disruptions, and issues</h3>
@@ -264,7 +283,7 @@ const faqs = [
       <div
         class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
       >
-        <h2>Daily report template: a section-by-section reference</h2>
+        <h2>Daily report checklist: a section-by-section reference</h2>
         <p>
           Use this as a checklist when filing your report each day. Each section maps to one of the
           eight areas above.
@@ -285,6 +304,8 @@ const faqs = [
               <span>Project address / number</span>
               <span>Report date</span>
               <span>Prepared by (name + title)</span>
+              <span>Weather (AM / PM)</span>
+              <span>Precipitation and wind</span>
             </div>
           </div>
           <div class="px-5 py-4">
@@ -402,6 +423,67 @@ const faqs = [
           individual notes into a record the company stands behind.
         </p>
 
+        <h2>Making daily logging a habit</h2>
+        <p>
+          The hardest part of a daily report is doing it daily. Most subs either skip it or fill it
+          out so thinly it's useless when it matters, and the fix is routine rather than a better
+          form:
+        </p>
+        <ul>
+          <li>
+            <strong>Give it one owner.</strong> The foreman or site lead files it — not whoever has time
+            on Friday.
+          </li>
+          <li>
+            <strong>Set a hard deadline.</strong> Reports in by 6 PM the same day, no exceptions. A deadline
+            turns a good intention into part of closing out the site.
+          </li>
+          <li>
+            <strong>Review them weekly.</strong> Go through the week's reports in your project meeting.
+            Gaps get caught while people still remember the day, and recurring problems show up as a pattern
+            instead of a surprise.
+          </li>
+          <li>
+            <strong>Keep it to five minutes.</strong> If filing a report takes longer than that, the form
+            or the tool is wrong, and the crew will stop doing it.
+          </li>
+        </ul>
+        <p>
+          The payoff isn't only in disputes. A year of consistent reports shows your real production
+          rates, which jobs ran short-handed and which trades kept blocking yours — the numbers your
+          next estimate should be built on.
+        </p>
+
+        <h2>Paper vs. digital daily reports</h2>
+        <p>Paper reports still exist on plenty of jobsites, but they have real limits:</p>
+        <ul>
+          <li>
+            <strong>Legibility.</strong> A foreman's handwriting at the end of a 10-hour day isn't always
+            readable.
+          </li>
+          <li>
+            <strong>Retrieval.</strong> Finding one report from eight months ago in a filing cabinet takes
+            an afternoon. Finding it in a searchable system takes seconds.
+          </li>
+          <li>
+            <strong>Photos.</strong> Paper can't hold photos. A digital entry keeps the day's photos with
+            the day's record.
+          </li>
+          <li>
+            <strong>Sharing.</strong> The office can review field reports the same day instead of waiting
+            for someone to scan and email a form.
+          </li>
+          <li>
+            <strong>Consistency.</strong> A digital form asks for the same sections every day; paper gets
+            filled out however the day went.
+          </li>
+        </ul>
+        <p>
+          Paper beats nothing, and the
+          <a href="/templates/daily-report/">fillable daily report form</a> is a good place to start.
+          When the stack gets hard to search, that's the point to move it into software.
+        </p>
+
         <h2>What to leave out</h2>
         <p>
           Two things belong nowhere near a daily report, and both are easy to get wrong under
@@ -469,13 +551,11 @@ const faqs = [
           <a href="/docs/field/site-logs/">site logs documentation</a> for a full walkthrough.
         </p>
         <p>
-          If you want the broader picture on daily documentation habits and making logging a
-          consistent crew routine, our
-          <a href="/blog/construction-site-log-best-practices/"
-            >construction site log best practices</a
+          On public or prevailing-wage work, the same daily record backs up your hours: see
+          <a href="/blog/prevailing-wage-certified-payroll/"
+            >prevailing wage and certified payroll</a
           >
-          guide covers the discipline side — what to do when, who should own it, and why paper logs fall
-          short.
+          for how the field record and the payroll report have to agree.
         </p>
       </div>
 
@@ -498,9 +578,10 @@ const faqs = [
       </div>
 
       <BlogPostFooter
-        headline="Construction Daily Report: What to Include (+ Template)"
-        description="A field-ready guide to the construction daily report — what belongs in each section, how to fill it out completely, and a section-by-section template."
+        headline="How to Write a Construction Daily Report: What to Include, Section by Section"
+        description="What a construction daily report is, what to record in each section, how to write entries that hold up in a dispute, and how to make daily logging a crew habit that sticks."
         datePublished="2026-07-31"
+        dateModified="2026-10-07"
         related={[
           {
             href: '/features/site-logs/',
@@ -509,10 +590,10 @@ const faqs = [
               'Digital daily reports with personnel, work performed, materials, issues, and photos — tagged and searchable by project.',
           },
           {
-            href: '/blog/construction-site-log-best-practices/',
-            title: 'Construction Site Log Best Practices',
+            href: '/templates/daily-report/',
+            title: 'Construction Daily Report Template',
             description:
-              'The discipline behind daily reporting: who should own it, when to file it, and how to make it a crew habit.',
+              'The blank form this guide describes, as a fillable PDF, a Word doc and an Excel workbook.',
           },
           {
             href: '/features/change-orders/',
