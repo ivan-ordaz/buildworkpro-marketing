@@ -1,7 +1,9 @@
 ---
 // "Prefer paper for now?" strip for feature pages: links the free templates
 // that cover the same workflow, so every money page feeds the template hub
-// and every template page's feature funnel is reciprocal.
+// and every template page's feature funnel is reciprocal. An optional default
+// slot renders one line of extra links under the grid (the homepage uses it
+// for the pay app builder, the compare hub and the blog).
 import { TEMPLATES, type TemplateSlug } from '../../data/templates';
 
 interface Props {
@@ -71,5 +73,12 @@ const items = slugs.map((s) => TEMPLATES[s]).filter(Boolean);
         ))
       }
     </ul>
+    {
+      Astro.slots.has('default') && (
+        <p class="mt-6 text-sm text-slate-500 leading-relaxed">
+          <slot />
+        </p>
+      )
+    }
   </div>
 </section>
