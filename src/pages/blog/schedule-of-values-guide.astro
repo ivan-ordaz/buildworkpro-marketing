@@ -39,8 +39,8 @@ const faqs = [
 
 <Layout
   ogType="article"
-  title="How to Create a Schedule of Values (SOV) in Construction | BuildWorkPro"
-  description="A subcontractor's guide to the schedule of values: what to include, how to break down the contract sum, and how the SOV drives progress billing."
+  title="What Is a Schedule of Values (SOV)? How It Drives Billing | BuildWorkPro"
+  description="What a schedule of values is, who approves it, how it changes over a job — change orders, reallocations, stored materials, closeout — and why it decides how fast a sub gets paid."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -48,10 +48,12 @@ const faqs = [
       <div class="mb-12">
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Blog</p>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          How to Create a Schedule of Values
+          What Is a Schedule of Values? How the SOV Drives Progress Billing
         </h1>
         <AuthorByline />
-        <p class="mt-1 text-sm text-slate-400">Published June 11, 2026 · 8 min read</p>
+        <p class="mt-1 text-sm text-slate-400">
+          Published June 11, 2026 · Updated October 7, 2026 · 9 min read
+        </p>
       </div>
 
       <div
@@ -65,8 +67,13 @@ const faqs = [
           that delays your cash.
         </p>
         <p>
-          This guide covers what a schedule of values is, what to put in it, and how to structure it
-          so you get paid for the work you've actually completed.
+          This guide explains what a schedule of values is, who reviews it, and how it behaves over
+          the life of a job — from the first approval through change orders and reallocations to the
+          final application. If you just need a blank one, our
+          <a href="/templates/schedule-of-values/">schedule of values template</a> has the % of contract
+          math and a tie-out check built in, and the
+          <a href="/templates/aia-g702-g703/">G702/G703-style pay application template</a> is what you
+          bill it on each month.
         </p>
 
         <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 not-prose my-8">
@@ -145,6 +152,16 @@ const faqs = [
           signing off on the payment.
         </p>
 
+        <h2>Who reviews the schedule of values, and when</h2>
+        <p>
+          You submit the SOV once, before your first pay application, and the GC's project manager
+          reviews it — often with the architect or the owner's representative, and on
+          lender-financed jobs sometimes the lender's inspector too. They are checking three things:
+          that the lines add up to the contract sum, that each line is a recognizable piece of work
+          they can verify in the field, and that the values aren't front-loaded. Once it's approved,
+          it's fixed: every pay application for the rest of the job bills against those exact lines.
+        </p>
+
         <h2>How to break down the contract sum</h2>
         <p>
           Start from your <a href="/blog/how-to-create-construction-bid/">accepted bid</a>. You've
@@ -170,6 +187,34 @@ const faqs = [
           <li>
             <strong>Reconcile to the contract sum.</strong> The lines must total the current contract
             amount, including approved <a href="/features/change-orders/">change orders</a>.
+          </li>
+        </ul>
+
+        <h2>How the schedule of values changes during the job</h2>
+        <p>
+          An approved SOV is fixed, but the contract it describes isn't. Four things change it, and
+          each has a right way to handle it:
+        </p>
+        <ul>
+          <li>
+            <strong>Change orders become new lines.</strong> Add each approved change order as its own
+            line, numbered to the change order, rather than inflating an existing line. The GC can then
+            trace every dollar back to a signed change, and your original lines still tie to your bid.
+          </li>
+          <li>
+            <strong>Reallocations need approval.</strong> If one line is going to overrun and another
+            will come in under, you can't quietly move value between them. Ask the GC to approve the reallocation
+            before you bill it.
+          </li>
+          <li>
+            <strong>Stored materials bill once.</strong> Equipment delivered but not installed bills as
+            materials stored on its line, then moves to work completed when it goes in — never both.
+          </li>
+          <li>
+            <strong>The final application closes every line.</strong> At the end, each line goes to 100%,
+            change order lines included, and the retainage held against all of them comes due. Our <a
+              href="/blog/retainage-construction-guide/">retainage guide</a
+            > covers how that release usually works.
           </li>
         </ul>
 
@@ -239,10 +284,17 @@ const faqs = [
       </div>
 
       <BlogPostFooter
-        headline="How to Create a Schedule of Values"
-        description="A subcontractor's guide to building a schedule of values: what to include, how to break down the contract sum, and how the SOV drives progress billing."
+        headline="What Is a Schedule of Values? How the SOV Drives Progress Billing"
+        description="What a schedule of values is, who approves it, how it changes over a job — change orders, reallocations, stored materials, closeout — and why it decides how fast a sub gets paid."
         datePublished="2026-06-11"
+        dateModified="2026-10-07"
         related={[
+          {
+            href: '/templates/schedule-of-values/',
+            title: 'Schedule of Values Template',
+            description:
+              'Free Excel and PDF SOV with % of contract math, a tie-out check and a billing tracker.',
+          },
           {
             href: '/features/pay-applications/',
             title: 'Pay Applications',
