@@ -48,14 +48,11 @@ const ALLOWLIST = {
   'GHSA-m8rv-5g2x-5cg5': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-jr45-8vmc-qm54': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-v3r7-h72x-cjcm': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
-  // 2026-10 batch. devalue, sharp and the miniflare undici were fixed by overrides
-  // in package.json. These two have fixes that are newer than the `before` cutoff
-  // in the maintainer's ~/.npmrc (a deliberate supply-chain cooldown), so npm
-  // will not install them yet. Replace both entries with overrides
-  // (`source-map-js ^1.2.2`, `http-cache-semantics ^4.3.0`) once the cutoff
-  // passes 2026-10-04.
-  'GHSA-68fv-2mgg-jv7q':
-    'source-map-js event-loop DoS when parsing a crafted indexed source map. Bundled into dist/server via postcss in the Starlight prerender chain, but no Worker code path parses request-supplied source maps. Fix 1.2.2 (2026-09-30) is inside the npm cooldown.',
+  // 2026-10 batch. devalue, source-map-js, sharp and the miniflare undici are
+  // fixed by overrides in package.json. This one's fix is newer than the
+  // `before` cutoff in the maintainer's ~/.npmrc (a deliberate supply-chain
+  // cooldown), so npm will not install it yet. Replace the entry with the
+  // override `http-cache-semantics ^4.3.0` once the cutoff passes 2026-10-04.
   'GHSA-ch52-4w7c-c8xp':
     'http-cache-semantics max-stale cache disclosure — used by astro at build time for remote image caching; not present in dist/server (grep-verified 2026-10-07). Fix 4.3.0 (2026-10-04) is inside the npm cooldown.',
 };
