@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import CookieConsent from '../components/CookieConsent.astro';
 import { config } from '../config';
+import { TEMPLATES } from '../data/templates';
 
 interface Props {
   title?: string;
@@ -50,15 +51,47 @@ const breadcrumbLabels: Record<string, string> = {
   'buildertrend-alternative': 'Buildertrend Alternative',
 };
 
+// Google prints crumb names in the result's URL line, so the slug fallback must
+// keep acronyms intact ("Rfi", "Tm Ticket" and "Aia G702 G703" shipped before).
+const breadcrumbAcronyms: Record<string, string> = {
+  aia: 'AIA',
+  api: 'API',
+  crm: 'CRM',
+  faq: 'FAQ',
+  hvac: 'HVAC',
+  jsa: 'JSA',
+  rfi: 'RFI',
+  sov: 'SOV',
+  tm: 'T&M',
+  g702: 'G702',
+  g703: 'G703',
+};
+
+// Path segments that have no index page of their own (/tools/, /customers/ and
+// /lp/ all 404). A crumb pointing at one is invalid structured data, so it is
+// skipped and the page hangs directly off its parent.
+const segmentsWithoutHub = new Set(['tools', 'customers', 'lp']);
+
 const segments = Astro.url.pathname.split('/').filter(Boolean);
 const breadcrumbItems = [
   { name: 'Home', url: new URL('/', Astro.site).href },
-  ...segments.map((seg, i) => {
+  ...segments.flatMap((seg, i) => {
     const slug = seg.toLowerCase();
+    const isLast = i === segments.length - 1;
+    if (!isLast && segmentsWithoutHub.has(slug)) return [];
+    const templateTitle =
+      isLast && segments[0] === 'templates' && slug in TEMPLATES
+        ? TEMPLATES[slug].title
+        : undefined;
     const label =
-      breadcrumbLabels[slug] ?? slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+      templateTitle ??
+      breadcrumbLabels[slug] ??
+      slug
+        .split('-')
+        .map((word) => breadcrumbAcronyms[word] ?? word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     const url = new URL(`/${segments.slice(0, i + 1).join('/')}/`, Astro.site).href;
-    return { name: label, url };
+    return [{ name: label, url }];
   }),
 ];
 
@@ -76,6 +109,12 @@ const geoDefaultEnabled = import.meta.env.PROD;
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Must stay the first thing in <head>: the HTML spec only looks for a
+         charset declaration in the first 1024 bytes, and the response carries
+         no charset header. Behind the consent script below (~8.8 KB) it was
+         missed, so crawlers decoded titles as mojibake ("—" → "â€”").
+         Guarded by tests/seo-structure.spec.ts. -->
+    <meta charset="utf-8" />
     <!-- Google Consent Mode v2. GA4 loads on EVERY page with consent
          default-denied, so it sends cookieless, anonymized pings (no cookies,
          no ad identifiers) for visitors who have not chosen yet. On Accept it
@@ -291,7 +330,6 @@ const geoDefaultEnabled = import.meta.env.PROD;
       }
     </script>
 
-    <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
