@@ -17,7 +17,7 @@ import { config } from '../config';
         <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">Legal</p>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Cookie Policy</h1>
         <p class="mt-3 text-sm text-slate-400">
-          Effective Date: April 9, 2026 &middot; Last Updated: August 10, 2026
+          Effective Date: April 9, 2026 &middot; Last Updated: October 8, 2026
         </p>
       </div>
 
@@ -25,11 +25,11 @@ import { config } from '../config';
         class="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600"
       >
         <p>
-          This Cookie Policy (&ldquo;Policy&rdquo;) explains how BuildWorkPro LLC
-          (&ldquo;BuildWorkPro,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;)
-          uses cookies and similar client-side storage technologies on the BuildWorkPro platform and
-          marketing website (collectively, the &ldquo;Platform&rdquo;). This Policy should be read
-          in conjunction with our <a href="/privacy/">Privacy Policy</a>.
+          This Cookie Policy (&ldquo;Policy&rdquo;) explains how Eikon Solutions LLC, doing business
+          as BuildWorkPro (&ldquo;BuildWorkPro,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or
+          &ldquo;our&rdquo;) uses cookies and similar client-side storage technologies on the
+          BuildWorkPro platform and marketing website (collectively, the &ldquo;Platform&rdquo;).
+          This Policy should be read in conjunction with our <a href="/privacy/">Privacy Policy</a>.
         </p>
 
         <h2>1. What Are Cookies</h2>
@@ -277,7 +277,43 @@ import { config } from '../config';
           <a href="/privacy/">Privacy Policy</a> for how that hashed data is processed.
         </p>
 
-        <h3>2.4 Cookies We Do Not Use</h3>
+        <h3>2.4 Product Analytics Cookie (Web Application Only)</h3>
+        <p>
+          Inside the signed-in BuildWorkPro <strong>web application</strong>, we use
+          <strong>PostHog</strong> to understand how the Platform is used &mdash; which pages are visited,
+          which features are used, and where new users get stuck during setup &mdash; so we can improve
+          it. PostHog is served through our own domain and stores a random identifier in the first-party
+          cookie below and in your browser&rsquo;s local storage. All text displayed on screen and everything
+          you type is masked before any data leaves your browser, and no names or email addresses are
+          collected. During a free trial, PostHog also records masked session replays as described in
+          our <a href="/privacy/">Privacy Policy</a>; paying subscribers are not recorded. The
+          marketing website does not use PostHog.
+        </p>
+
+        <div class="overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Cookie</th>
+                <th>Purpose</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>ph_&lt;project key&gt;_posthog</code></td>
+                <td
+                  >Set by the BuildWorkPro web application to hold a random identifier that links
+                  product-usage events (and, during a free trial, masked session replays) to your
+                  account without your name or email address.</td
+                >
+                <td>1 year.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2.5 Cookies We Do Not Use</h3>
         <p>We do not deploy any of the following:</p>
         <ul>
           <li>
@@ -288,8 +324,10 @@ import { config } from '../config';
             LinkedIn Insight Tag).
           </li>
           <li>
-            <strong>Session recording or heat-mapping tools:</strong> We do not use Hotjar, FullStory,
-            or any similar session replay service.
+            <strong>Other session recording or heat-mapping tools:</strong> Apart from the masked, trial-only
+            session replay and click analytics in the web application described in Section 2.4, we do
+            not record sessions. We do not use Hotjar, FullStory, or any similar service, and the marketing
+            website is never recorded.
           </li>
           <li>
             <strong>Social media widget cookies:</strong> We do not embed social media widgets, share
@@ -330,9 +368,17 @@ import { config } from '../config';
           >.
         </p>
         <p>
-          Other than Google Fonts, Cloudflare Turnstile, and the consent-based Google Analytics and
-          Meta Pixel described above, no third-party service deployed on the Platform sets cookies
-          in your browser.
+          We use <strong>PostHog</strong> for product analytics inside the web application only, as described
+          in Section 2.4. Its cookie is first-party: it is set on our own domain, and the data is sent
+          through our own servers to PostHog, which discards IP addresses rather than storing them; see
+          <a href="https://posthog.com/privacy" target="_blank" rel="noopener noreferrer"
+            >PostHog&rsquo;s Privacy Policy</a
+          >.
+        </p>
+        <p>
+          Other than Google Fonts, Cloudflare Turnstile, the consent-based Google Analytics and Meta
+          Pixel, and the PostHog product-analytics cookie in the web application described above, no
+          third-party service deployed on the Platform sets cookies in your browser.
         </p>
 
         <h2>4. Legal Basis for Cookie Use</h2>
@@ -355,6 +401,14 @@ import { config } from '../config';
             banner. You may withdraw consent at any time via the &ldquo;Cookie settings&rdquo; link in
             the footer; the Google Analytics and Meta Pixel scripts are not loaded unless and until you
             accept.
+          </li>
+          <li>
+            <strong>Product analytics cookie (Section 2.4):</strong> Set in the web application under
+            the lawful basis of legitimate interest (GDPR Art. 6(1)(f)) in understanding and improving
+            the Platform, with all on-screen text and input masked and no names or email addresses collected.
+            You may object at any time by contacting <a href={`mailto:${config.email.privacy}`}
+              >{config.email.privacy}</a
+            >.
           </li>
         </ul>
 
