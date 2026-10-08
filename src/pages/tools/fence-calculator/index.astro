@@ -1,0 +1,512 @@
+---
+// /tools/fence-calculator/ — wave-1 trade calculator (plan: calculators + price
+// index, 2026-10-08). "fence calculator" 12,100/mo. One straight run of wood
+// picket fence → sections, posts, post length, rails, pickets and concrete bags;
+// optional price from the contractor's own remembered unit prices; "Add to
+// estimate" feeds the shared tray. Math: src/lib/calculators/fence.ts. Agrees
+// with /templates/fence-estimate/ (same post, picket and concrete rules).
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  BAGS,
+  computeFence,
+  concretePerPost,
+  DEFAULT_INPUT,
+  HEIGHTS,
+  picketsFor,
+  PICKET_WASTE_PCT,
+  POSTS,
+  postStockFt,
+  SPACINGS,
+  TOOL,
+  type FenceInput,
+} from '../../../lib/calculators/fence';
+import { fmt, fmtTrim } from '../../../lib/calculators/format';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const hint = 'mt-1 block text-xs text-slate-500';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+// Every number quoted in the FAQ is computed here from the same module the
+// calculator runs on, and pinned by tests/tools-fence-calculator.spec.ts.
+const at = (over: Partial<FenceInput>) => computeFence({ ...DEFAULT_INPUT, ...over });
+const tight = picketsFor(8, 5.5, 0);
+const spaced = picketsFor(8, 5.5, 2);
+const tightWaste = at({ run: 8, gates: 0 }).pickets;
+const spacedWaste = at({ run: 8, gates: 0, gap: 2 }).pickets;
+const run100 = at({ run: 100, gates: 0 });
+const run100Gate = at({ run: 100, gates: 1, gateWidth: 4 });
+const run100At6 = at({ run: 100, gates: 0, spacing: '6' });
+const hole24 = concretePerPost(10, 24, POSTS['4x4'].actualIn);
+const hole30 = concretePerPost(10, 30, POSTS['4x4'].actualIn);
+const privacy = computeFence(DEFAULT_INPUT);
+const spacedRun = at({ gap: 2 });
+
+const faqs = [
+  {
+    question: 'How many pickets do I need for an 8-foot fence section?',
+    answer: `An 8-foot section is 96 inches. With 1×6 pickets, which are 5½ inches wide, butted tight for privacy, that is 96 ÷ 5.5 = ${fmtTrim(96 / 5.5, 1)}, so ${tight} pickets. With a 2-inch gap it is 96 ÷ 7.5 = ${fmtTrim(96 / 7.5, 1)}, so ${spaced}. Outdoor Essentials recommends adding ${PICKET_WASTE_PCT}% to the count, which makes ${tightWaste} and ${spacedWaste}. For a whole run, the calculator counts pickets on the full fenced length, then adds your waste.`,
+  },
+  {
+    question: 'How many posts do I need for a 100-foot fence?',
+    answer: `On 8-foot spacing, 100 feet is 12.5 sections, rounded up to ${run100.sections}, and a straight run takes one more post than it has sections: ${run100.posts} posts. A gate adds a post, because the fence stops on both sides of it. A 4-foot gate in the same 100 feet leaves ${run100Gate.fenced} feet of fence in ${run100Gate.sections} sections, so it is ${run100Gate.sections} + 1 gate + 1 = ${run100Gate.posts} posts. Where two runs meet at a corner they share the corner post, so take one post off for each shared corner when you add runs together.`,
+  },
+  {
+    question: 'How much concrete do I need per fence post?',
+    answer: `Work out the concrete around the post: π × (hole diameter ÷ 2)² × depth, less the post, divided by 1,728 for cubic feet. A 10-inch hole 24 inches deep around a 4×4 takes ${fmt(hole24, 2)} cubic feet. That is ${fmt(hole24 / BAGS['80'].cuFt, 1)} 80-lb bags at Quikrete’s ${fmt(BAGS['80'].cuFt, 2)} cubic feet per bag, or ${fmt(hole24 / BAGS['60'].cuFt, 1)} 60-lb bags. At 30 inches deep it is ${fmt(hole30, 2)} cubic feet, or ${fmt(hole30 / BAGS['80'].cuFt, 1)} 80-lb bags. The calculator totals the concrete for every post before it rounds up to whole bags.`,
+  },
+  {
+    question: 'Should fence posts be 6 or 8 feet apart?',
+    answer: `Both are standard for wood fence. At 8 feet on center each section takes one 8-foot rail and you dig the fewest holes. At 6 feet the fence is stiffer and stands up better to wind, which suits a tall privacy fence or an exposed site. It costs holes: a 100-foot run with no gates takes ${run100.posts} posts at 8 feet and ${run100At6.posts} at 6 feet, which with 10 × 24-inch holes is ${run100.bags} bags of 80-lb concrete against ${run100At6.bags}. At 6 feet the calculator uses 12-foot rails that span two sections each.`,
+  },
+  {
+    question: 'How deep should fence posts be set?',
+    answer: `Quikrete’s guideline is a hole 1/3 to 1/2 as deep as the post stands above ground, which is 24 to 36 inches for a 6-foot fence, and about 3 times the post’s width across. Where the ground freezes, many contractors set posts below the frost line so frost heave does not lift them. Frost depth is set locally: footing depths in adopted building codes run from 12 inches in Cheatham County, Tennessee to 5 feet in northern Minnesota, and your building department lists yours with its IRC Section R301.2 design criteria. The city or HOA may also set a minimum. The depth you enter sets the post length: a 6-foot fence needs ${postStockFt(6 + 24 / 12)}-foot posts at 24 inches deep and ${postStockFt(6 + 30 / 12)}-foot posts at 30 inches.`,
+  },
+  {
+    question: 'How many more pickets does a privacy fence take than a spaced picket fence?',
+    answer: `Only the gap changes the count. Privacy pickets are butted with no gap; spaced pickets leave one. On a 120-foot run with one 4-foot gate, 1×6 pickets butted tight take ${privacy.pickets} with ${PICKET_WASTE_PCT}% waste, and with 2-inch gaps ${spacedRun.pickets}. Wood shrinks across its width as it dries, so pickets butted tight while still wet can open thin gaps. A solid fence also catches more wind than a spaced one, which is a reason to tighten the post spacing on a tall privacy fence.`,
+  },
+  {
+    question: 'Are my measurements and prices sent to BuildWorkPro?',
+    answer:
+      'No. The math runs in your browser. Your unit prices and your estimate are saved in this browser’s local storage so they are there next time, and nothing is sent to us. The run is also kept in the page address so you can bookmark or share a result.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/fence-estimate/',
+    label: 'Fence estimate template',
+    note: 'A free Excel, Word and PDF estimate with a takeoff sheet for runs, corners and gates.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/features/construction-bidding/',
+    label: 'Bidding in BuildWorkPro',
+    note: 'Line-item bids with margin and overhead, sent as a PDF proposal.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Fence Calculator: Posts, Pickets, Rails & Concrete | BuildWorkPro"
+  description="Free fence calculator for wood picket and privacy fence: posts, rails, pickets and concrete bags per run, priced with your own rates. Add runs to one estimate."
+  h1="Fence Calculator"
+  intro="Enter a straight run of wood fence to get sections, posts, rails, pickets and bags of concrete. Add your own prices to get the installed cost, then add the run to an estimate and do the next one."
+  tool={TOOL}
+  chips={[
+    'Posts, rails, pickets, concrete',
+    'Your prices, saved',
+    'Builds an estimate',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Run</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="fc-len">Run length (ft)</label>
+            <input
+              id="fc-len"
+              data-in="len"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-h">Fence height</label>
+            <select id="fc-h" data-in="h" class={input}>
+              {HEIGHTS.map((h) => <option value={h}>{h} ft</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="fc-sp">Post spacing</label>
+            <select id="fc-sp" data-in="sp" class={input}>
+              {Object.entries(SPACINGS).map(([k, v]) => <option value={k}>{v.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="fc-g">Gates</label>
+            <input
+              id="fc-g"
+              data-in="g"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-gw">Gate width (ft)</label>
+            <input
+              id="fc-gw"
+              data-in="gw"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-wst">Picket waste (%)</label>
+            <input
+              id="fc-wst"
+              data-in="wst"
+              type="number"
+              min="0"
+              max="40"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+        </div>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Pickets and rails</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="fc-pw">Picket width (in)</label>
+            <input
+              id="fc-pw"
+              data-in="pw"
+              type="number"
+              min="1"
+              step="0.25"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-gap">Picket gap (in)</label>
+            <input
+              id="fc-gap"
+              data-in="gap"
+              type="number"
+              min="0"
+              step="0.25"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="fc-r">Rails per section</label>
+            <select id="fc-r" data-in="r" class={input}>
+              <option value="auto" data-rails-auto>Typical for height</option>
+              <option value="2">2 rails</option>
+              <option value="3">3 rails</option>
+              <option value="4">4 rails</option>
+            </select>
+          </div>
+        </div>
+        <p class="mt-2 text-xs text-slate-500">
+          A 1×6 picket is 5½ in wide. Use a 0 in gap for a privacy fence.
+        </p>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Posts and concrete</h2>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label class={label} for="fc-post">Post size</label>
+            <select id="fc-post" data-in="post" class={input}>
+              {
+                Object.entries(POSTS).map(([k, v]) => (
+                  <option value={k}>
+                    {v.label} ({fmtTrim(v.actualIn)} in actual)
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+          <div>
+            <label class={label} for="fc-bag">Concrete bag</label>
+            <select id="fc-bag" data-in="bag" class={input}>
+              {
+                Object.entries(BAGS).map(([k, v]) => (
+                  <option value={k}>
+                    {v.label} ({fmt(v.cuFt, 2)} cu ft)
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+          <div>
+            <label class={label} for="fc-hd">Hole diameter (in)</label>
+            <input
+              id="fc-hd"
+              data-in="hd"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+            <span class={hint} data-out="dia-hint"></span>
+          </div>
+          <div>
+            <label class={label} for="fc-dp">Hole depth (in)</label>
+            <input
+              id="fc-dp"
+              data-in="dp"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+            <span class={hint} data-out="depth-hint"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Your prices</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Saved in this browser, so you only type them once.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="fc-p-post">Post, each ($)</label>
+            <input
+              id="fc-p-post"
+              data-price="post"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-p-rail">Rail, each ($)</label>
+            <input
+              id="fc-p-rail"
+              data-price="rail"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-p-picket">Picket, each ($)</label>
+            <input
+              id="fc-p-picket"
+              data-price="picket"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-p-bag">Concrete, per bag ($)</label>
+            <input
+              id="fc-p-bag"
+              data-price="bag"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-p-gate">Gate, each ($)</label>
+            <input
+              id="fc-p-gate"
+              data-price="gate"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="fc-p-labor">Labor, per LF ($)</label>
+            <input
+              id="fc-p-labor"
+              data-price="labor"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-slate-500">
+          Gate is a complete gate or a kit; put hanging it in that price. Labor is per foot of
+          fence, gate openings excluded.
+        </p>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">You need</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={cell}>
+            <span class={cellLabel}>Fenced length (ft)</span>
+            <span class={cellValue} data-out="fenced"></span>
+            <span class={cellNote} data-out="fenced-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Sections</span>
+            <span class={cellValue} data-out="sections"></span>
+            <span class={cellNote} data-out="sections-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Posts</span>
+            <span class={cellValue} data-out="posts"></span>
+            <span class={cellNote} data-out="posts-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Post length</span>
+            <span class={cellValue} data-out="post-length"></span>
+            <span class={cellNote} data-out="post-length-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Rails</span>
+            <span class={cellValue} data-out="rails"></span>
+            <span class={cellNote} data-out="rails-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Pickets</span>
+            <span class={cellValue} data-out="pickets"></span>
+            <span class={cellNote} data-out="pickets-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Concrete bags</span>
+            <span class={cellValue} data-out="bags"></span>
+            <span class={cellNote} data-out="bags-note"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Materials</dt>
+            <dd data-out="material" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Gates</dt>
+            <dd data-out="gates-price" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600" data-out="labor-label">Labor</dt>
+            <dd data-out="labor" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Installed total</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+          <p data-out="per-foot" class="text-right text-xs text-slate-500"></p>
+        </dl>
+        <p data-out="price-hint" class="mt-2 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example run
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Fenced length.</strong> The run less the gate openings: run − gates × gate width. Gates
+      are priced each, as a complete gate or a kit, so their pickets and frame are not in the counts.
+    </p>
+    <p>
+      <strong>Sections.</strong> Fenced length ÷ post spacing, rounded up. The last section takes whatever
+      length is left.
+    </p>
+    <p>
+      <strong>Posts.</strong> Sections + gates + 1. A straight run with no gates takes one more post than
+      it has sections. Each gate adds one, because the fence stops on both sides of it. This is the count
+      on the Outdoor Essentials fence worksheet: one post per section, one to end the run and one per
+      gate. Sections are counted on the fenced length as a whole, so if a gate leaves a short section
+      on each side of it, add a post. Where two runs meet at a corner they share the corner post: take
+      one off for each shared corner when you add runs together.
+    </p>
+    <p>
+      <strong>Post length.</strong> Fence height + hole depth, rounded up to the next even foot, because
+      lumber is sold in 2-foot lengths. Gate posts are often a size up and set deeper; if yours are, price
+      them on their own line.
+    </p>
+    <p>
+      <strong>Rails.</strong> Sections × rails per section. Outdoor Essentials calls for 2 backer rails
+      per section on a 4-foot fence and 3 on a 6-foot fence. The calculator uses 3 at 5 feet and 4 at
+      8 feet as typical counts; change it to match your design. At 8 feet on center each 8-foot 2×4 spans
+      one section. At 6 feet the calculator uses 12-foot rails that span two sections, so the count is
+      halved and rounded up.
+    </p>
+    <p>
+      <strong>Pickets.</strong> Fenced length in inches ÷ (picket width + gap), rounded up, then your
+      waste percentage added and rounded up again. A 1×6 picket is 5½ inches wide (AWC NDS Supplement,
+      Table 1B). Outdoor Essentials recommends {PICKET_WASTE_PCT}% extra. Picket length is the fence
+      height.
+    </p>
+    <p>
+      <strong>Concrete.</strong> Per post: π × (hole diameter ÷ 2)² × depth, less the post’s cross-section
+      × depth, ÷ 1,728 for cubic feet. A 4×4 is 3½ inches square and a 6×6 is 5½. All posts are totaled,
+      then divided by the bag yield and rounded up. Quikrete’s data sheet for its Concrete Mix gives about
+      {fmt(BAGS['40'].cuFt, 2)}, {fmt(BAGS['60'].cuFt, 2)} and {fmt(BAGS['80'].cuFt, 2)} cubic feet per
+      40, 60 and 80-lb bag. Other mixes, including fast-setting post mixes, yield differently, so check
+      the bag. The count fills each hole from the bottom of the post to grade; a gravel base under the
+      post or stopping a few inches below grade uses a little less.
+    </p>
+    <p>
+      <strong>Hole size.</strong> Quikrete’s guideline for setting posts is a hole about 3 times the post’s
+      width across and 1/3 to 1/2 as deep as the post stands above ground. Below that, depth is a local
+      call: the frost line, the soil and your city’s code. The defaults are a starting point, not a rule.
+      An 8-foot fence is taller than the 7 feet that IRC Section R105.2 exempts from a building permit,
+      so check whether your city wants a permit for it.
+    </p>
+    <p>
+      <strong>Price.</strong> Materials are quantity × your unit price for each item you priced. Gates
+      are the count × your gate price. Labor is the fenced length × your rate per linear foot. Nothing
+      is priced with numbers you did not enter.
+    </p>
+    <p>
+      Pricing the whole job? The <a href="/templates/fence-estimate/">fence estimate template</a> has
+      a takeoff sheet for several runs, corners and gates, and a customer-facing estimate with removal,
+      gates and the permit as their own lines.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/fence-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="fence-calculator"]');
+  if (root) mount(root);
+</script>
