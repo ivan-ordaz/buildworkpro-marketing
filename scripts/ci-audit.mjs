@@ -48,6 +48,13 @@ const ALLOWLIST = {
   'GHSA-m8rv-5g2x-5cg5': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-jr45-8vmc-qm54': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
   'GHSA-v3r7-h72x-cjcm': 'undici via miniflare (dev/build only) — not in the deployed Worker.',
+  // 2026-10 batch. devalue, source-map-js, sharp and the miniflare undici are
+  // fixed by overrides in package.json. This one's fix is newer than the
+  // `before` cutoff in the maintainer's ~/.npmrc (a deliberate supply-chain
+  // cooldown), so npm will not install it yet. Replace the entry with the
+  // override `http-cache-semantics ^4.3.0` once the cutoff passes 2026-10-04.
+  'GHSA-ch52-4w7c-c8xp':
+    'http-cache-semantics max-stale cache disclosure — used by astro at build time for remote image caching; not present in dist/server (grep-verified 2026-10-07). Fix 4.3.0 (2026-10-04) is inside the npm cooldown.',
 };
 
 // The three astro XSS advisories (GHSA-4g3v-8h47-v7g6, GHSA-f48w-9m4c-m7f5,
