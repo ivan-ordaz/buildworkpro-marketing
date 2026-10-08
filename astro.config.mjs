@@ -6,8 +6,11 @@ import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi';
+import seoEdgeRules from './src/integrations/seoEdgeRules.ts';
+import { contentLastmod } from './src/integrations/sitemapLastmod.ts';
 
 const env = loadEnv('', process.cwd(), 'PUBLIC_');
+const lastmodByPath = contentLastmod();
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,6 +32,9 @@ export default defineConfig({
   // - /api/reference/operations/projectsid/patch/ : stale OpenAPI URL scheme; the
   //   current page is .../operations/patchprojectsbyid/.
   // - /features/ai-assistant/             : became the /agents/ hub (marketing#183).
+  // - recipes 01/06/10, /api/jobs/, /api/webhooks/ : deleted in cc4a08e and the
+  //   April docs moves; still 404 for crawlers (live crawl, 2026-10-07).
+  // - the two pre-launch blog slugs below : still earning impressions in GSC.
   //
   // NOTE: /pricing/ used to 301 here as a stop-gap for the 404. It is now a real
   // page (src/pages/pricing.astro) — a redirect and a page cannot both own the
@@ -36,6 +42,19 @@ export default defineConfig({
   redirects: {
     '/features/ai-assistant/': { status: 301, destination: '/agents/' },
     '/api/recipes/02-export-bids-to-pdf/': { status: 301, destination: '/api/' },
+    '/api/recipes/01-import-contacts-from-csv/': { status: 301, destination: '/api/' },
+    '/api/recipes/06-generate-weekly-pay-app-summary/': { status: 301, destination: '/api/' },
+    '/api/recipes/10-pull-time-entries-for-payroll/': { status: 301, destination: '/api/' },
+    '/api/jobs/': { status: 301, destination: '/api/' },
+    '/api/webhooks/': { status: 301, destination: '/api/webhooks/overview/' },
+    '/blog/prevail-wage-certified-payroll/': {
+      status: 301,
+      destination: '/blog/prevailing-wage-certified-payroll/',
+    },
+    '/blog/bid-bond-vs-performance-bond-a-subs-guide/': {
+      status: 301,
+      destination: '/blog/bid-bonds-vs-performance-bonds/',
+    },
     '/api/recipes/': { status: 301, destination: '/api/' },
     '/api/reference/operations/projectsid/patch/': {
       status: 301,
@@ -54,6 +73,11 @@ export default defineConfig({
     // are noindex (Layout) and stay out of the sitemap so they don't compete
     // with the public compare pages.
     sitemap({
+      // lastmod only where the page publishes its own content date — see the file.
+      serialize: (item) => {
+        const lastmod = lastmodByPath.get(new URL(item.url).pathname);
+        return lastmod ? { ...item, lastmod } : item;
+      },
       filter: (page) =>
         !page.includes('/api/reference/operations/') &&
         !page.includes('/lp/') &&
@@ -79,6 +103,9 @@ export default defineConfig({
         // Adds noindex to /api/reference/operations/* — see the component.
         Head: './src/components/starlight/Head.astro',
       },
+      // Collapses the generated API Reference sidebar group to one link outside
+      // /api/reference/ — see the file.
+      routeMiddleware: './src/starlightRouteData.ts',
       plugins: [
         starlightOpenAPI([
           {
@@ -126,6 +153,8 @@ export default defineConfig({
         },
       ],
     }),
+    // Template-file canonicals + un-slashed 301s in _headers/_redirects.
+    seoEdgeRules(),
   ],
   vite: {
     plugins: [tailwindcss()],
