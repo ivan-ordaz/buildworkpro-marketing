@@ -16,6 +16,25 @@ test.describe('marketing pages', () => {
     await expect(page.locator('#faq')).toBeAttached();
   });
 
+  test('home body links the templates, the pay app builder, compare and the blog', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    // `main` excludes the header nav and footer, so these are body links.
+    for (const href of [
+      '/templates/',
+      '/templates/aia-g702-g703/',
+      '/templates/lien-waiver/',
+      '/templates/change-order/',
+      '/templates/daily-report/',
+      '/tools/pay-app/',
+      '/compare/',
+      '/blog/',
+    ]) {
+      await expect(page.locator(`main a[href="${href}"]`).first(), href).toBeVisible();
+    }
+  });
+
   test('contact page renders the contact form', async ({ page }) => {
     const response = await page.goto('/contact/');
     expect(response?.status()).toBe(200);

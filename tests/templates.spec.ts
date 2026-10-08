@@ -8,6 +8,17 @@ import { CATEGORIES, TEMPLATE_LIST } from '../src/data/templates';
 
 const MAGIC: Record<string, string> = { pdf: '%PDF', xlsx: 'PK', docx: 'PK' };
 
+/** Trades with a /solutions/<trade>-contractors/ page — their estimate template must link it. */
+const SOLUTION_TRADES = [
+  'concrete',
+  'electrical',
+  'framing',
+  'glazing',
+  'hvac',
+  'plumbing',
+  'roofing',
+];
+
 test.describe('templates hub', () => {
   test('lists every registered template with a link to its page', async ({ page }) => {
     await page.goto('/templates/');
@@ -116,6 +127,19 @@ for (const t of TEMPLATE_LIST) {
       expect(imgRes.status()).toBe(200);
     });
 
+    test('links in prose to its feature page (or its trade page)', async ({ page }) => {
+      await page.goto(`/templates/${t.slug}/`);
+      // Inside a paragraph, so the feature-funnel button and the CTA buttons don't count.
+      const prose = page.locator('main p a[href^="/features/"], main p a[href^="/solutions/"]');
+      expect(await prose.count()).toBeGreaterThanOrEqual(1);
+      const trade = t.slug.replace(/-estimate$/, '');
+      if (t.category === 'trades' && SOLUTION_TRADES.includes(trade)) {
+        await expect(
+          page.locator(`main a[href="/solutions/${trade}-contractors/"]`).first()
+        ).toBeAttached();
+      }
+    });
+
     test('has FAQ schema, related templates and the hub link', async ({ page }) => {
       await page.goto(`/templates/${t.slug}/`);
       const json = await page.locator('script[type="application/ld+json"]').allTextContents();
@@ -149,6 +173,12 @@ test.describe('cross-links from guides', () => {
     ['/blog/aia-pay-application-guide/', 'aia-g702-g703'],
     ['/blog/construction-change-order-management/', 'change-order'],
     ['/blog/construction-lien-waivers-explained/', 'lien-waiver'],
+    ['/blog/construction-lien-waivers-explained/', 'conditional-lien-waiver'],
+    ['/blog/construction-lien-waivers-explained/', 'unconditional-lien-waiver'],
+    ['/blog/how-to-create-construction-bid/', 'construction-estimate'],
+    ['/blog/aia-pay-application-guide/', 'schedule-of-values'],
+    ['/blog/job-costing-for-subcontractors/', 'construction-budget'],
+    ['/blog/prevailing-wage-certified-payroll/', 'timesheet'],
     ['/blog/construction-project-closeout-checklist/', 'certificate-of-completion'],
     ['/blog/punch-list-management-for-subcontractors/', 'punch-list'],
   ] as const) {
@@ -157,6 +187,72 @@ test.describe('cross-links from guides', () => {
       await expect(page.locator(`main a[href="/templates/${slug}/"]`).first()).toBeVisible();
     });
   }
+});
+
+// One owner per topic (2026-10 cannibalization pass): the guide owns the
+// explanatory query, the template owns the form query. Each guide links its
+// template in the first three paragraphs, and the template links back.
+test.describe('topic owners', () => {
+  for (const [post, slug] of [
+    ['/blog/construction-lien-waivers-explained/', 'conditional-lien-waiver'],
+    ['/blog/construction-lien-waivers-explained/', 'unconditional-lien-waiver'],
+    ['/blog/aia-pay-application-guide/', 'aia-g702-g703'],
+    ['/blog/schedule-of-values-guide/', 'schedule-of-values'],
+    ['/blog/construction-daily-report-template/', 'daily-report'],
+    ['/blog/how-to-create-construction-bid/', 'construction-estimate'],
+  ] as const) {
+    test(`${post} links /templates/${slug}/ early, and the template links back`, async ({
+      page,
+    }) => {
+      await page.goto(post);
+      const early = await page
+        .locator('main article > div.prose')
+        .first()
+        .evaluate(
+          (el, href) =>
+            Array.from(el.querySelectorAll(':scope > p'))
+              .slice(0, 3)
+              .some((p) => p.querySelector(`a[href="${href}"]`) !== null),
+          `/templates/${slug}/`
+        );
+      expect(early, 'template link should sit in the first three paragraphs').toBe(true);
+
+      await page.goto(`/templates/${slug}/`);
+      await expect(page.locator(`main a[href="${post}"]`).first()).toBeAttached();
+    });
+  }
+
+  for (const post of [
+    '/blog/construction-lien-waivers-explained/',
+    '/blog/aia-pay-application-guide/',
+    '/blog/schedule-of-values-guide/',
+    '/blog/construction-daily-report-template/',
+    '/blog/how-to-create-construction-bid/',
+  ]) {
+    test(`${post} leads with the explanatory intent, not "template"`, async ({ page }) => {
+      await page.goto(post);
+      await expect(page.locator('main h1')).not.toHaveText(/template|form/i);
+      await expect(page).not.toHaveTitle(/template|form/i);
+    });
+  }
+
+  test('the merged site-log post redirects to the daily report guide', async ({ page }) => {
+    await page.goto('/blog/construction-site-log-best-practices/');
+    await expect(page).toHaveURL(/\/blog\/construction-daily-report-template\/$/);
+    await expect(page.locator('main h1')).toBeVisible();
+  });
+
+  test('every trade estimate template is linked from the takeoff guide', async ({ page }) => {
+    await page.goto('/blog/how-to-read-construction-plans-takeoff/');
+    for (const t of TEMPLATE_LIST.filter((x) => x.category === 'trades')) {
+      await expect(page.locator(`main a[href="/templates/${t.slug}/"]`).first()).toBeAttached();
+    }
+  });
+
+  test('the templates hub links the compare hub', async ({ page }) => {
+    await page.goto('/templates/');
+    await expect(page.locator('main a[href="/compare/"]')).toHaveCount(1);
+  });
 });
 
 test.describe('disclaimers', () => {
