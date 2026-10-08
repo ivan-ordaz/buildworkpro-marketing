@@ -35,6 +35,11 @@ export default defineConfig({
   // URL, so the rule had to go with it.
   redirects: {
     '/features/ai-assistant/': { status: 301, destination: '/agents/' },
+    // Merged into the daily report guide (2026-10): same topic, the two posts split one intent.
+    '/blog/construction-site-log-best-practices/': {
+      status: 301,
+      destination: '/blog/construction-daily-report-template/',
+    },
     '/api/recipes/02-export-bids-to-pdf/': { status: 301, destination: '/api/' },
     '/api/recipes/': { status: 301, destination: '/api/' },
     '/api/reference/operations/projectsid/patch/': {
