@@ -3,7 +3,7 @@ title: Navigation and Search
 description: Move around with the sidebar and find anything with the command palette
 sidebar:
   order: 4
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
@@ -11,21 +11,22 @@ import { Aside } from '@astrojs/starlight/components';
 
 BuildWorkPro has two ways to get anywhere: the sidebar for browsing and the command palette for jumping straight to a record.
 
-![The command palette open over the dashboard with "bid" typed, listing matching bids with their totals](/docs-screenshots/getting-started/command-palette-search.png)
+![The command palette open over the dashboard with "chiller" typed, listing matching site logs, a lead, and projects, each labeled with its record type](/docs-screenshots/getting-started/command-palette-search.png)
 
 ## The sidebar
 
-The sidebar is a dark navy icon rail down the left edge. Click an icon to open its flyout menu. The main destinations are:
+The dark navy sidebar down the left edge lists every module by name, grouped the way a subcontractor's work flows:
 
 - **Dashboard** -- your home screen.
-- **Sales** -- Contacts, Pipeline, and Bids.
-- **Projects** -- All Projects, Change Orders, Pay Apps, Invoices, Site Logs, and Time Tracking.
-- **Calendar** -- the app-wide calendar.
-- **Documents** -- your document library.
-- **Products** -- your product catalog.
-- **Reports** -- pipeline, bid, project, and activity reports.
-- **Activity** -- the org-wide activity history.
-- **Settings** -- account and company settings, at the bottom of the rail.
+- **Sell** -- Pipeline, Contacts, and Bids.
+- **Build** -- Projects, Calendar, Site Logs, and Time.
+- **Get Paid** -- Change Orders, Pay Apps, and Invoices.
+- **Library** -- Products, Documents, Reports, and Activity.
+- **Settings** -- account and company settings, at the bottom.
+
+Badges on a module flag work waiting on you -- bids needing follow-up, unreviewed site logs, pending change orders and pay apps, overdue invoices. The **+ New** button at the top creates a contact, lead, project, bid, or invoice from anywhere, and a **Recent** list keeps the records you opened last, with a star to pin the ones you return to.
+
+Click **Collapse** at the bottom, or press <kbd>Cmd</kbd>+<kbd>B</kbd> (<kbd>Ctrl</kbd>+<kbd>B</kbd> on Windows or Linux), to shrink the sidebar to a narrow rail of labeled icons.
 
 What you see depends on your role. Field Crew, for example, does not see Bids or billing.
 
@@ -33,7 +34,7 @@ What you see depends on your role. Field Crew, for example, does not see Bids or
   Notifications are not in the sidebar. Open them from the bell icon in the top header.
 </Aside>
 
-On a phone, the sidebar collapses to a bottom bar with Dashboard, Pipeline, Projects, Site Logs, and Time, plus a **More** button for everything else.
+On a phone, the sidebar becomes a bottom bar -- Dashboard, Pipeline, Bids, Projects, and Time for office roles; Dashboard, Projects, Site Logs, and Time for Field Crew -- plus a **More** button for everything else.
 
 ## The command palette
 
@@ -55,7 +56,8 @@ Select a result to jump straight to it. Before you type, the palette also lists 
 | --- | --- |
 | <kbd>Cmd</kbd>+<kbd>K</kbd> / <kbd>Ctrl</kbd>+<kbd>K</kbd> | Open the command palette |
 | <kbd>Cmd</kbd>+<kbd>Enter</kbd> / <kbd>Ctrl</kbd>+<kbd>Enter</kbd> | Save the open form |
-| <kbd>Esc</kbd> | Close a dialog, flyout, or inline editor |
+| <kbd>Cmd</kbd>+<kbd>B</kbd> / <kbd>Ctrl</kbd>+<kbd>B</kbd> | Collapse or expand the sidebar |
+| <kbd>Esc</kbd> | Close a dialog, menu, or inline editor |
 
 ## What's next
 

@@ -1,39 +1,43 @@
 ---
-title: Organization Settings
-description: Set your organization name and find team, branding, and workspace defaults
+title: Company Profile
+description: Set your company's name, contact details, and logo, and find team and document settings
 sidebar:
   order: 3
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-The **Organization** tab holds your company's identity and is the entry point to team management. Open it from **Settings -> Organization**.
+**Company profile** holds your company's identity -- the details shown on bids, invoices, and every document you send to customers. Open it from **Settings -> Company profile**, under **Company** in the settings menu.
 
-![Organization settings tab showing the Organization Details card and the User Management section](/docs-screenshots/settings/organization-settings.png)
+![Company profile settings showing the company name, slug, industry, company size, phone, address, and logo fields](/docs-screenshots/settings/organization-settings.png)
 
-## Organization details
+## Company details
 
-The **Organization Details** card shows:
+The **Company Profile** card holds:
 
-- **Organization Name** -- your company's name as it appears in the app. Company Admins can edit it.
+- **Company Name** -- your company's name as it appears in the app and on documents.
 - **Slug** -- a read-only short identifier for your workspace.
+- **Industry** and **Company Size**.
+- **Phone**, **Address**, **Business Email**, **Website**, and **License Number** -- the contact details printed on your documents.
+- **Company Logo** -- upload a PNG, JPG, or WebP up to 2 MB. Horizontal and square logos both work.
+- **Tagline** -- a short line shown with your company name.
 
 <Aside type="note">
-  **Role required:** Company Admin to change the organization name. Other roles see the details but cannot edit them.
+  **Role required:** Company Admin. Company profile is only available to Company Admins.
 </Aside>
 
 ## Team management
 
-The same tab contains the **User Management** section, where Company Admins invite teammates, edit roles, and deactivate accounts. See [team and roles](/docs/settings/team-roles/) for the full role matrix and the invite flow.
+Inviting teammates, editing roles, and deactivating accounts happen in **Settings -> Members & roles**. See [team and roles](/docs/settings/team-roles/) for the full role matrix and the invite flow.
 
-## Where branding and defaults live
+## Where document styling and defaults live
 
-Your logo, accent color, and document layout are not on this tab -- they are on the **Workspace** tab, along with numbering, tax defaults, and bid rates. See [workspace defaults](/docs/settings/workspace-defaults/) to set them.
+The look of your documents -- style, accent color, and footer -- plus numbering, bid rates, templates, product categories, and pipeline stages live in the **Sales & Documents** group of the settings menu. See [sales and document settings](/docs/settings/workspace-defaults/) to set them.
 
 ## What's next
 
 - [Team and roles](/docs/settings/team-roles/) -- invite users and review permissions.
-- [Workspace defaults](/docs/settings/workspace-defaults/) -- branding, numbering, and bid defaults.
+- [Sales and document settings](/docs/settings/workspace-defaults/) -- document styling, numbering, and bid defaults.
 - [Billing and plans](/docs/settings/billing/) -- manage your subscription.

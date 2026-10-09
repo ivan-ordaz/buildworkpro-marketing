@@ -3,7 +3,7 @@ title: Team and Roles
 description: Invite teammates and understand what each of the five roles can do
 sidebar:
   order: 4
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
@@ -11,7 +11,7 @@ import { Steps, Aside } from '@astrojs/starlight/components';
 
 BuildWorkPro uses role-based access control so each teammate sees and does only what their job requires. Every user has exactly one role.
 
-![User Management list showing each teammate with a role badge — Company Admin, Manager, Member, Field Crew, and Viewer](/docs-screenshots/settings/user-management.png)
+![The User Management card in Members & roles settings, listing each teammate with a role badge — Company Admin, Manager, Member, Field Crew, and Viewer](/docs-screenshots/settings/user-management.png)
 
 ## The five roles
 
@@ -43,13 +43,15 @@ The matrix below summarizes the capabilities that differ by role.
 
 ## Manage your team
 
-Team management lives on the **Organization** settings tab.
+Team management lives in **Settings -> Members & roles**, under **Company** in the settings menu. Below the roster, a **Role Permissions** card shows what each role can see and do.
 
 <Steps>
 
-1. **Open team management.** Go to **Settings -> Organization**. The **User Management** section lists every user with their role and status.
+1. **Open team management.** Go to **Settings -> Members & roles**. The **User Management** card lists every user with their role, email, and username. Search by name or email to find someone.
 
-2. **Edit a user.** Click a user to change their name, email, role, or active status, then save.
+2. **Edit a user.** Click the pencil icon on a user's row to change their name, email, role, or active status, then click **Save Changes**.
+
+3. **Reset a password or deactivate.** The key icon emails the user a link to choose a new password -- their current password keeps working until they use it. The remove icon deactivates the account.
 
 </Steps>
 
@@ -63,15 +65,15 @@ Team management lives on the **Organization** settings tab.
 
 1. **Start an invite.** In **User Management**, click **Invite User**.
 
-2. **Enter details.** Add the person's **Email** and choose a **Role**.
+2. **Enter details.** In the **Invite New User** dialog, add the person's **Email**, optionally their name, and choose a **Role**.
 
 3. **Send.** Click **Send Invitation**. The user receives an email link and sets their own password.
 
 </Steps>
 
-Pending invitations appear in their own section, where you can resend or revoke them.
+Pending invitations appear in a **Pending Invitations** section, where you can resend or revoke them.
 
 ## What's next
 
-- [Organization settings](/docs/settings/organization/) -- your company profile.
+- [Company profile](/docs/settings/organization/) -- your company's name, contact details, and logo.
 - [Profile and security](/docs/settings/profile-and-security/) -- a user's own account, password, and 2FA.
