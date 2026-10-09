@@ -10,10 +10,12 @@
 // chair per 3 × 3 ft. Bars each way = ROUNDUP(clear span ÷ spacing) + 1, and a
 // run longer than one stick takes MAX(1, ROUNDUP((span − lap) ÷ (stick − lap)))
 // pieces with a lap at every splice. So the template's 44 × 20 ft driveway
-// (#4 at 24 in each way) is 11 + 23 bars and 971 LF here too.
+// (#4 at 24 in each way) is 11 + 23 bars, 971 LF and 51 sticks here too.
 //
 // Sticks are counted from a cut list instead of LF ÷ stick length: steel comes
-// in whole sticks, and a 19 ft 6 in bar takes a whole 20 ft stick.
+// in whole sticks, and a 19 ft 6 in bar takes a whole 20 ft stick. The template
+// counts per slab without reusing offcuts across directions, so on some slabs
+// it can run a stick above the nesting here.
 //
 // Sources:
 //   ASTM A615/A615M, Table 1: nominal weight (lb/ft) and nominal diameter of

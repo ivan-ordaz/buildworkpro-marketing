@@ -53,8 +53,10 @@ test.describe('rebar math', () => {
     expect([apron.barsL, apron.barsW]).toEqual([5, 11]);
     expect(apron.lf).toBeCloseTo(180, 9);
     expect(apron.chairs).toBe(18);
-    // The template sample's rebar line is 1,151 LF for both slabs.
+    // The template sample's rebar line is 1,151 LF for both slabs, and its
+    // Rebar sticks column is 51 + 11 = 62.
     expect(drive.lf + apron.lf).toBeCloseTo(1151, 9);
+    expect([drive.sticks, apron.sticks]).toEqual([51, 11]);
   });
 
   test('the 20 × 20 FAQ slab: 21 bars each way, 819 LF, 42 sticks, 547 lb, 45 chairs', () => {
