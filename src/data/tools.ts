@@ -21,11 +21,27 @@ export const TOOLS: ToolEntry[] = [
     group: 'Calculators',
   },
   {
+    href: '/tools/box-fill-calculator/',
+    name: 'Box Fill Calculator',
+    tag: 'Electrical',
+    blurb:
+      'Required box volume under NEC 314.16, itemized by rule, checked against your box with the smallest box that fits.',
+    group: 'Calculators',
+  },
+  {
     href: '/tools/concrete-block-calculator/',
     name: 'Concrete Block Calculator',
     tag: 'Masonry',
     blurb:
       'Blocks, mortar, grout, rebar and joint reinforcement for a CMU wall, priced with your own rates.',
+    group: 'Calculators',
+  },
+  {
+    href: '/tools/conduit-fill-calculator/',
+    name: 'Conduit Fill Calculator',
+    tag: 'Electrical',
+    blurb:
+      'Fill for THHN and bare grounds in EMT, IMC, rigid and PVC against NEC Chapter 9 limits, with the smallest size that passes.',
     group: 'Calculators',
   },
   {
@@ -53,11 +69,43 @@ export const TOOLS: ToolEntry[] = [
     group: 'Calculators',
   },
   {
+    href: '/tools/labor-burden-calculator/',
+    name: 'Labor Burden Calculator',
+    tag: 'Labor',
+    blurb:
+      'True cost of an employee per paid and billable hour, with payroll taxes, workers’ comp and benefits, and a billing rate at your margin.',
+    group: 'Calculators',
+  },
+  {
+    href: '/tools/markup-vs-margin-calculator/',
+    name: 'Markup vs Margin Calculator',
+    tag: 'Pricing',
+    blurb:
+      'Convert markup, margin and selling price both ways, and price a job to cover overhead and net profit.',
+    group: 'Calculators',
+  },
+  {
+    href: '/tools/rebar-calculator/',
+    name: 'Rebar Calculator',
+    tag: 'Concrete',
+    blurb:
+      'Bars each way, laps, sticks to buy, weight and chairs for a slab or mat, priced with your own rates.',
+    group: 'Calculators',
+  },
+  {
     href: '/tools/stair-stringer-calculator/',
     name: 'Stair Stringer Calculator',
     tag: 'Stairs',
     blurb:
       'Risers, treads, total run, stringer length and the board to buy, checked against IRC rise and run limits.',
+    group: 'Calculators',
+  },
+  {
+    href: '/tools/voltage-drop-calculator/',
+    name: 'Voltage Drop Calculator',
+    tag: 'Electrical',
+    blurb:
+      'Voltage drop in volts and percent and the smallest copper or aluminum wire that meets your target, single or three phase.',
     group: 'Calculators',
   },
   {

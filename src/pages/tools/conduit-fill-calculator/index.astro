@@ -1,0 +1,451 @@
+---
+// /tools/conduit-fill-calculator/ — wave-2 trade calculator (plan: calculators
+// + price index, 2026-10-08). Search demand: "conduit fill calculator" 18,100/mo.
+// Raceway + conductor rows → fill against the NEC Chapter 9 limit, the smallest
+// trade size that passes and a jam-ratio check; optional price from the
+// contractor's own remembered prices; "Add to estimate" feeds the shared tray.
+// Math, sources and every FAQ number: src/lib/calculators/conduit.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  bareStrandedOd,
+  checkFill,
+  conductorArea,
+  CONDUCTORS,
+  DEFAULT_INPUT,
+  FILL,
+  jamCheck,
+  JAM,
+  MAX_QTY,
+  MAX_ROWS,
+  maxSameSize,
+  racewayArea,
+  racewayId,
+  RACEWAYS,
+  THHN_OD,
+  TOOL,
+  TRADE_LABEL,
+  TRADE_SIZES,
+  WIRE_LABEL,
+  WIRE_SIZES,
+  type Row,
+} from '../../../lib/calculators/conduit';
+import { fmt } from '../../../lib/calculators/format';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+const linkBtn =
+  'inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50';
+
+// Every number the FAQ quotes comes from the module.
+const t12 = conductorArea('thhn', '12');
+const fit40 = (area: number, cond: number) => (area * FILL.over2) / 100 / cond;
+const emt34 = racewayArea('emt', '3/4');
+const emt1 = racewayArea('emt', '1');
+const pvc40 = racewayArea('pvc40', '1');
+const pvc80 = racewayArea('pvc80', '1');
+const n34 = maxSameSize(emt34, t12);
+const nHalf = maxSameSize(racewayArea('emt', '1/2'), t12);
+const n1 = maxSameSize(emt1, t12);
+const n40 = maxSameSize(pvc40, t12);
+const n80 = maxSameSize(pvc80, t12);
+const emt112 = racewayArea('emt', '1-1/2');
+const t4 = conductorArea('thhn', '4');
+const nNipple = maxSameSize(emt34, t12, true);
+const pct = (rows: Row[]) => fmt(checkFill('emt', '3/4', rows, false).fillPct, 1);
+const twelve = (qty: number): Row => ({ qty, type: 'thhn', size: '12' });
+const jamRows: Row[] = [{ qty: 3, type: 'thhn', size: '1/0' }];
+const jam114 = jamCheck('emt', '1-1/4', jamRows);
+const jam112 = jamCheck('emt', '1-1/2', jamRows);
+const fill114 = checkFill('emt', '1-1/4', jamRows, false);
+const fill112 = checkFill('emt', '1-1/2', jamRows, false);
+
+const faqs = [
+  {
+    question: 'How many 12 AWG THHN wires fit in ¾ inch EMT?',
+    answer: `${n34} of them. ¾ in EMT has ${emt34.toFixed(3)} sq in inside, and ${FILL.over2}% of that is ${((emt34 * FILL.over2) / 100).toFixed(3)} sq in. A 12 AWG THHN is ${THHN_OD['12'].toFixed(3)} in across, or ${t12.toFixed(4)} sq in, so ${fit40(emt34, t12).toFixed(2)} fit and you round down to ${n34}. ½ in EMT takes ${nHalf} and 1 in EMT takes ${n1}. When every wire is the same size and the count ends in a decimal of 0.8 or more, Chapter 9, Note 7 lets you round up: 4 AWG THHN in 1½ in EMT works out to ${fit40(emt112, t4).toFixed(2)}, so ${maxSameSize(emt112, t4)} are allowed.`,
+  },
+  {
+    question: 'How many 12 AWG THHN fit in 1 inch PVC conduit?',
+    answer: `${n40} in 1 in PVC Schedule 40 and ${n80} in Schedule 80. The two have the same outside diameter, but the thicker Schedule 80 wall leaves ${pvc80.toFixed(3)} sq in inside against ${pvc40.toFixed(3)} sq in for Schedule 40. At ${FILL.over2}% that is room for ${fit40(pvc40, t12).toFixed(2)} and ${fit40(pvc80, t12).toFixed(2)} wires, rounded down. 1 in EMT, for comparison, takes ${n1}.`,
+  },
+  {
+    question: 'Why is conduit fill limited to 40 percent?',
+    answer: `NEC Chapter 9, Table 1 sets the limit by how many conductors share the raceway: ${FILL.one}% for one, ${FILL.two}% for two and ${FILL.over2}% for more than two. The table’s own note says the limits assume proper cabling and alignment, with pull lengths and bends within reasonable limits. The free space is what lets wire pull through bends without damaging the insulation. The usual explanation for the low two-wire limit is that two wires side by side are twice a wire’s diameter wide, which binds in a bend sooner than a round bundle. In 1 in EMT, ${FILL.over2}% is ${((emt1 * FILL.over2) / 100).toFixed(3)} sq in of the ${emt1.toFixed(3)} sq in inside.`,
+  },
+  {
+    question: 'What fill is allowed in a short conduit nipple?',
+    answer: `${FILL.nipple}%. Chapter 9, Note 4 lets a nipple no longer than 24 inches, installed between boxes, cabinets and similar enclosures, be filled to ${FILL.nipple}% of its area, and the ampacity adjustment for more than three current-carrying conductors does not apply to it. A ¾ in EMT nipple takes ${nNipple} 12 AWG THHN where a full run takes ${n34}. Tick “Nipple, 24 in or shorter” in the calculator to use the ${FILL.nipple}% limit.`,
+  },
+  {
+    question: 'Does the ground wire count toward conduit fill?',
+    answer: `Yes. Chapter 9, Note 3 counts equipment grounding and bonding conductors, insulated or bare, at their actual size. Sixteen 12 AWG THHN fill ¾ in EMT to ${pct([twelve(16)])}%. Add a 12 AWG insulated ground and it is 17 conductors at ${pct([twelve(17)])}%, over the limit. Even a bare 12 AWG stranded ground, ${bareStrandedOd('12').toFixed(3)} in across, takes it to ${pct([twelve(16), { qty: 1, type: 'bare', size: '12' }])}%.`,
+  },
+  {
+    question: 'What is conductor jamming?',
+    answer: `Jamming is three conductors wedging side by side in a bend, which can stop the pull or damage the insulation. Chapter 9, Table 1, Informational Note No. 2 puts the risk at a raceway inside diameter between ${JAM.low} and ${JAM.high} times the conductor’s outside diameter. Three 1/0 THHN in 1¼ in EMT fill only ${fmt(fill114.fillPct, 1)}% and pass, but ${racewayId('emt', '1-1/4').toFixed(3)} ÷ ${THHN_OD['1/0'].toFixed(3)} = ${jam114.ratio!.toFixed(2)}, inside that band. In 1½ in EMT the ratio is ${jam112.ratio!.toFixed(2)} and the fill ${fmt(fill112.fillPct, 1)}%. Four or more conductors can jam too, but the note calls that unlikely.`,
+  },
+  {
+    question: 'Are my wire list and prices sent to BuildWorkPro?',
+    answer:
+      'The calculator sends nothing: the math runs in your browser, and your prices and your estimate are saved in this browser’s local storage, never on our servers. The raceway and wire list are kept in the page address so you can bookmark or share a result; like any page address, it is recorded by our site analytics if you accept analytics cookies.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/electrical-estimate/',
+    label: 'Electrical estimate template',
+    note: 'A free Excel, Word and PDF estimate with a device takeoff and wire footage by cable type.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/solutions/electrical-contractors/',
+    label: 'BuildWorkPro for electricians',
+    note: 'Estimate from a catalog of parts and labor, schedule by phase and bill with AIA-style pay apps.',
+  },
+];
+
+const slots = Array.from({ length: MAX_ROWS }, (_, i) => i);
+---
+
+<CalculatorPage
+  title="Conduit Fill Calculator: EMT, PVC, Rigid & IMC | BuildWorkPro"
+  description="Free conduit fill calculator: THHN and bare grounds in EMT, IMC, rigid and PVC, checked against NEC Chapter 9 limits, with the smallest size that passes."
+  h1="Conduit Fill Calculator"
+  intro="Pick the raceway and list the wires to see the fill against the NEC Chapter 9 limit, the smallest trade size that passes and a jam check. Add a run length and your prices to put the conduit and wire on an estimate."
+  tool={TOOL}
+  chips={[
+    'EMT, IMC, rigid, PVC 40/80',
+    'NEC Chapter 9 limits',
+    'Smallest size that passes',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Raceway</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <label class={label} for="cf-rw">Type</label>
+            <select id="cf-rw" data-in="rw" class={input}>
+              {Object.entries(RACEWAYS).map(([k, v]) => <option value={k}>{v.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="cf-ts">Trade size</label>
+            <select id="cf-ts" data-in="ts" class={input}>
+              {TRADE_SIZES.map((t) => <option value={t}>{TRADE_LABEL[t]} in</option>)}
+            </select>
+          </div>
+        </div>
+        <label class="mt-4 inline-flex items-center gap-2 text-sm text-slate-700" for="cf-nip">
+          <input
+            id="cf-nip"
+            data-in="nip"
+            type="checkbox"
+            class="h-4 w-4 rounded border-slate-300 accent-brand-600"
+          />
+          Nipple, 24 in or shorter ({FILL.nipple}% fill, Chapter 9, Note 4)
+        </label>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Conductors</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          One row per wire size. Count the ground too. Prices per foot are optional.
+        </p>
+        <div class="mt-4 space-y-3">
+          {
+            slots.map((i) => (
+              <div data-row={i} hidden={i > 1}>
+                <div class="rounded-xl border border-slate-200 p-3">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-xs font-semibold text-slate-500">Wire size {i + 1}</span>
+                    <button
+                      type="button"
+                      data-action="remove-row"
+                      aria-label={`Remove wire row ${i + 1}`}
+                      class="shrink-0 rounded text-xs font-medium text-slate-500 underline hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:no-underline disabled:opacity-40 disabled:hover:text-slate-500"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div class="mt-2 grid grid-cols-6 gap-3 sm:grid-cols-12">
+                    <div class="col-span-2">
+                      <label class={label} for={`cf-q-${i}`}>
+                        Qty
+                      </label>
+                      <input
+                        id={`cf-q-${i}`}
+                        data-row-in="qty"
+                        type="number"
+                        min="0"
+                        max={MAX_QTY}
+                        step="1"
+                        inputmode="numeric"
+                        class={input}
+                      />
+                    </div>
+                    <div class="col-span-4 sm:col-span-3">
+                      <label class={label} for={`cf-s-${i}`}>
+                        Size
+                      </label>
+                      <select id={`cf-s-${i}`} data-row-in="size" class={input}>
+                        {WIRE_SIZES.map((s) => (
+                          <option value={s}>{WIRE_LABEL[s]}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div class="col-span-4">
+                      <label class={label} for={`cf-t-${i}`}>
+                        Wire
+                      </label>
+                      <select id={`cf-t-${i}`} data-row-in="type" class={input}>
+                        {Object.entries(CONDUCTORS).map(([k, v]) => (
+                          <option value={k}>{v.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div class="col-span-2 sm:col-span-3">
+                      <label class={label} for={`cf-p-${i}`}>
+                        Per ft ($)
+                      </label>
+                      <input
+                        id={`cf-p-${i}`}
+                        data-wire-price
+                        inputmode="decimal"
+                        placeholder="0.00"
+                        class={input}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <button type="button" data-action="add-row" class={`mt-3 ${linkBtn}`}>
+          Add a wire size
+        </button>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Run and your prices</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Prices are saved in this browser for each raceway size and wire size.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="cf-run">Run length (ft)</label>
+            <input
+              id="cf-run"
+              data-in="run"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cf-x">Wire makeup, typical (%)</label>
+            <input
+              id="cf-x"
+              data-in="x"
+              type="number"
+              min="0"
+              max="100"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="cf-p-race"
+              ><span data-out="race-price-label">Raceway</span>, per ft ($)</label
+            >
+            <input
+              id="cf-p-race"
+              data-price="raceway"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <div class="flex items-center justify-between gap-3">
+          <h2 class="text-base font-semibold text-slate-900">Fill</h2>
+          <span
+            data-status
+            aria-live="polite"
+            class="shrink-0 rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-600"
+          >
+            —
+          </span>
+        </div>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Fill of raceway area</span>
+            <span class={cellValue} data-out="fill"></span>
+            <div class="relative mt-2 h-2 rounded-full bg-slate-200" aria-hidden="true">
+              <div data-fill-bar class="h-2 w-0 rounded-full bg-slate-400"></div>
+              <div data-limit-mark class="absolute -top-1 h-4 w-0.5 rounded bg-slate-900"></div>
+            </div>
+            <span class={cellNote} data-out="fill-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Allowed</span>
+            <span class={cellValue} data-out="limit"></span>
+            <span class={cellNote} data-out="limit-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Smallest that passes</span>
+            <span class={cellValue} data-out="smallest"></span>
+            <span class={cellNote} data-out="smallest-note"></span>
+            <button
+              type="button"
+              data-action="use-smallest"
+              hidden
+              class="mt-2 inline-flex items-center rounded-lg bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+            >
+              Use this size
+            </button>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Wire area (sq in)</span>
+            <span class={cellValue} data-out="cond-area"></span>
+            <span class={cellNote} data-out="cond-area-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Raceway area (sq in)</span>
+            <span class={cellValue} data-out="race-area"></span>
+            <span class={cellNote} data-out="race-area-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`} data-jam-cell>
+            <span class={cellLabel}>Jam ratio, raceway ID ÷ wire OD</span>
+            <span class={cellValue} data-out="jam"></span>
+            <span class={cellNote} data-out="jam-note"></span>
+          </div>
+        </div>
+        <p data-out="code-note" class="mt-3 text-sm text-slate-600"></p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="min-w-0 text-slate-600" data-out="raceway-label">Raceway</dt>
+            <dd data-out="raceway-cost" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600" data-out="wire-label">Wire</dt>
+            <dd data-out="wire-cost" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Material total</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+          <p data-out="per-ft" class="text-right text-xs text-slate-500"></p>
+        </dl>
+        <p data-out="price-hint" class="mt-2 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button type="button" data-action="copy-link" class={linkBtn}>
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example fill
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Raceway area.</strong> The inside area is π/4 × inside diameter². Inside diameters come
+      from manufacturer data: Wheatland Tube’s published figures for EMT, IMC and rigid metal conduit,
+      and the average inside diameter Spears publishes for Schedule 40 and Schedule 80 PVC, which has
+      the same outside diameter and minimum wall that CANTEX and Prime Conduit publish for their conduit.
+      ¾ in EMT, for example, is {racewayId('emt', '3/4').toFixed(3)} in inside, or {
+        emt34.toFixed(3)
+      } sq in.
+    </p>
+    <p>
+      <strong>Wire area.</strong> Each wire is π/4 × outside diameter². THHN/THWN-2 diameters are from
+      Cerrowire’s spec sheet, using stranded wire for 14 to 10 AWG. Solid wire in those sizes is a little
+      smaller, so the result errs on the safe side. Bare wire is concentric Class B stranding (ASTM B8):
+      7 strands for 14 to 2 AWG, 19 for 1 to 4/0 AWG and 37 for 250 to 500 kcmil, which puts 3, 5 or 7
+      strands across, each strand √(circular mils ÷ strands). A 12 AWG THHN is {
+        THHN_OD['12'].toFixed(3)
+      } in, or {t12.toFixed(4)} sq in.
+    </p>
+    <p>
+      <strong>Fill limit.</strong> NEC Chapter 9, Table 1 allows {FILL.one}% of the raceway area for
+      one conductor, {FILL.two}% for two and {FILL.over2}% for more than two. Note 4 allows {
+        FILL.nipple
+      }% in a nipple 24 in or shorter, and Note 3 counts grounding and bonding conductors. When
+      every wire is the same type and size, the calculator finds the most that fit and applies Note
+      7: a count ending in a decimal of 0.8 or more rounds up. Mixed sizes are checked by total area
+      against the limit. The smallest size that passes is the first trade size, ½ to 4 in, that
+      clears the same check.
+    </p>
+    <p>
+      <strong>Jam ratio.</strong> With exactly three wires of one size, the calculator divides the raceway
+      inside diameter by the wire’s outside diameter and flags a ratio from {JAM.low} to {JAM.high},
+      per Chapter 9, Table 1, Informational Note No. 2.
+    </p>
+    <p>
+      <strong>Check close calls in the code book.</strong> Inspectors work from NEC Chapter 9, Tables
+      4 and 5, and Table 8 for bare wire. The published dimensions used here match those tables closely
+      but not to the last digit, so a result within about 1% of the limit gets a note to check it against
+      the code book and the edition your jurisdiction enforces. Not covered: flexible metal conduit, XHHW
+      and other insulations, aluminum wire, multiconductor cable, ampacity and derating.
+    </p>
+    <p>
+      <strong>Price.</strong> Wire to buy for each size is run length × number of wires × (1 + makeup),
+      rounded up to the foot. The {DEFAULT_INPUT.extra}% makeup default is a starting allowance for
+      loops and terminations, not a code number; set your own. The raceway is the run length × your
+      price per foot for that type and size, and each wire size is its footage × your price per
+      foot. Nothing is priced with numbers you did not enter.
+    </p>
+    <p>
+      Pricing a whole job? The <a href="/templates/electrical-estimate/"
+        >electrical estimate template</a
+      > has a device takeoff that turns circuits into wire footage by cable type, and a customer-facing
+      estimate grouped by phase.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/conduit-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="conduit-fill-calculator"]');
+  if (root) mount(root);
+</script>

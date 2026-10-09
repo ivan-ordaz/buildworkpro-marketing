@@ -1,0 +1,437 @@
+---
+// /tools/voltage-drop-calculator/ — trade calculator, batch 2 (plan: calculators
+// + price index, 2026-10-08). Search demand: "voltage drop calculator" 27,100/mo,
+// "wire size calculator" 8,100/mo. Voltage, phase, material, size, run and load →
+// drop in volts and percent, voltage at the load, pass or fail against a target,
+// the smallest size that meets it, and the wire footage priced with the
+// contractor's own per-foot price; "Add to estimate" feeds the shared tray. Math
+// and every FAQ number: src/lib/calculators/vdrop.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  checkSize,
+  computeVdrop,
+  DEFAULT_INPUT,
+  K,
+  NEC_BRANCH_PCT,
+  NEC_COMBINED_PCT,
+  PHASES,
+  PICKS,
+  SIZE_IDS,
+  SIZES,
+  TOOL,
+  TYPICAL_EXTRA,
+  VOLTAGES,
+  type VdropInput,
+} from '../../../lib/calculators/vdrop';
+import { fmtTrim } from '../../../lib/calculators/format';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+const v2 = (n: number) => fmtTrim(n, 2);
+const run = (over: Partial<VdropInput>): VdropInput => ({ ...DEFAULT_INPUT, ...over });
+
+// FAQ 1: 100 ft of 12 AWG copper at 16 A on 120 V.
+const q1 = run({ volts: '120', size: '12', length: 100, amps: 16 });
+const r1 = computeVdrop(q1);
+const q1at10 = checkSize(q1, '10');
+// FAQ 2 and 4: the default example, 150 ft at 30 A on 240 V single phase, 10 AWG copper.
+const r2 = computeVdrop(DEFAULT_INPUT);
+const q2al = run({ material: 'al' });
+const r2al = computeVdrop(q2al);
+const q2al6 = checkSize(q2al, '6');
+// FAQ 5: 100 A at 208 V three phase, 200 ft of 1/0 copper.
+const q5 = run({ volts: '208', phase: '3', size: '1-0', length: 200, amps: 100 });
+const r5 = computeVdrop(q5);
+const r5single = computeVdrop({ ...q5, phase: '1' });
+const alMore = Math.round((K.al / K.cu - 1) * 100);
+const threeLess = Math.round((1 - Math.sqrt(3) / 2) * 100);
+const lbl = (id: keyof typeof SIZES) => SIZES[id].label;
+
+const faqs = [
+  {
+    question: 'What is the voltage drop on 100 ft of 12 AWG copper at 16 A and 120 V?',
+    answer: `${v2(r1.drop)} V, or ${v2(r1.pct)}% of 120 V, which leaves ${fmtTrim(r1.loadVolts, 1)} V at the load. That is over the ${NEC_BRANCH_PCT}% the NEC informational note recommends for a branch circuit. 10 AWG brings it to ${v2(q1at10.pct)}%, still over, and ${lbl(r1.min!.size)} to ${v2(r1.min!.pct)}%. On 12 AWG at 16 A, the longest run that stays within ${NEC_BRANCH_PCT}% is ${Math.floor(r1.maxLength!)} ft one way.`,
+  },
+  {
+    question: 'What size wire do I need for 150 ft at 30 A on 240 V single phase?',
+    answer: `To stay within ${NEC_BRANCH_PCT}%, ${lbl(r2.min!.size)} copper or ${lbl(r2al.min!.size)} aluminum. 10 AWG copper, the usual size for a 30 A circuit, drops ${v2(r2.drop)} V over that run, ${v2(r2.pct)}%. ${lbl(r2.min!.size)} copper drops ${v2(r2.min!.drop)} V, ${v2(r2.min!.pct)}%. In aluminum, 6 AWG lands just over at ${v2(q2al6.pct)}%, so it takes ${lbl(r2al.min!.size)} at ${v2(r2al.min!.pct)}%. Size for ampacity first, then go up for voltage drop, and increase a wire-type equipment ground in proportion (NEC 250.122(B)).`,
+  },
+  {
+    question: 'Is voltage drop a code requirement?',
+    answer: `Usually not under the NEC alone. The ${NEC_BRANCH_PCT}% branch-circuit and ${NEC_COMBINED_PCT}% combined figures are informational notes (2023 NEC 210.19 and 215.2(A)(2)), and 90.5(C) says informational notes are not enforceable. A few NEC rules do set mandatory limits, such as 647.4(D) for sensitive electronic equipment and 695.7 for fire pumps. Energy codes go further: the 2021 IECC (C405.10) limits the combined drop across customer-owned service, feeder and branch-circuit conductors to 5% in commercial buildings, and ASHRAE 90.1 has a similar 5% limit. Some states and cities amend the NEC to make the note a rule, and equipment instructions that set a minimum voltage are enforceable under 110.3(B). Ask your AHJ what applies to the job.`,
+  },
+  {
+    question: 'Does aluminum wire need to be bigger than copper for voltage drop?',
+    answer: `Yes. Aluminum has about ${alMore}% more resistance than copper of the same size (K of ${K.al} against ${K.cu}), so it drops about ${alMore}% more voltage. On the 150 ft, 30 A, 240 V circuit, copper meets ${NEC_BRANCH_PCT}% at ${lbl(r2.min!.size)} and aluminum at ${lbl(r2al.min!.size)}. To compare them on cost, enter your price per foot for each size, then switch the material and look at the wire total.`,
+  },
+  {
+    question: 'What is the voltage drop formula for three phase?',
+    answer: `VD = √3 × K × I × L ÷ CM, where K is ${K.cu} for copper or ${K.al} for aluminum, I is the line current, L is the one-way length in feet and CM is the conductor’s area in circular mils. Single phase uses 2 in place of √3 (1.732), so the same current on the same wire drops about ${threeLess}% less on three phase. For example, 100 A at 208 V three phase over 200 ft of 1/0 copper drops ${v2(r5.drop)} V, ${v2(r5.pct)}%. On a single-phase circuit the same current would drop ${v2(r5single.pct)}%. The formula assumes a balanced load.`,
+  },
+  {
+    question: 'Why do other voltage drop calculators give slightly different answers?',
+    answer:
+      'They use different resistance values. This one uses the K method: DC resistance per circular-mil foot at 75 °C. Others use the resistance per 1,000 ft from the NEC Chapter 9 tables, or AC impedance with a power factor, and those give slightly different answers. The K method ignores reactance and power factor. That is close on 1/0 AWG and smaller. At 2/0 and up, most of all in steel conduit, the real drop can be higher than the K method shows, so check large feeders with AC impedance and the load’s power factor.',
+  },
+  {
+    question: 'Are my measurements and prices sent to BuildWorkPro?',
+    answer:
+      'The calculator sends nothing: the math runs in your browser, and your wire prices and your estimate are saved in this browser’s local storage, never on our servers. The circuit details are kept in the page address so you can bookmark or share a result; like any page address, it is recorded by our site analytics if you accept analytics cookies.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/electrical-estimate/',
+    label: 'Electrical estimate template',
+    note: 'A free Excel, Word and PDF estimate with a device takeoff and wire footage by cable type.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/solutions/electrical-contractors/',
+    label: 'BuildWorkPro for electricians',
+    note: 'Bid from a catalog of wire, gear and labor, schedule by phase and bill with AIA-style pay apps.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Voltage Drop Calculator: Minimum Wire Size by Distance | BuildWorkPro"
+  description="Free voltage drop calculator for copper and aluminum wire, single or three phase: the drop in volts and percent, and the smallest wire size that meets 3%."
+  h1="Voltage Drop Calculator"
+  intro="Enter the voltage, the load and the one-way length to get the voltage drop, the voltage at the load and the smallest wire size that keeps the drop within your target. Then price the wire and add it to an estimate."
+  tool={TOOL}
+  chips={[
+    'Drop in volts and percent',
+    'Smallest wire size',
+    'Copper or aluminum',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Circuit</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div>
+            <label class={label} for="vd-v">System voltage</label>
+            <select id="vd-v" data-in="v" class={input}>
+              {VOLTAGES.map((v) => <option value={v}>{v} V</option>)}
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div data-custom-volts hidden>
+            <label class={label} for="vd-vc">Custom voltage (V)</label>
+            <input
+              id="vd-vc"
+              data-in="vc"
+              type="number"
+              min="1"
+              max="1000"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="vd-ph">Phase</label>
+            <select id="vd-ph" data-in="ph" class={input}>
+              {Object.entries(PHASES).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="vd-a">Load current (A)</label>
+            <input
+              id="vd-a"
+              data-in="a"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="vd-l">One-way length (ft)</label>
+            <input
+              id="vd-l"
+              data-in="l"
+              type="number"
+              min="0"
+              step="5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Conductors</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div>
+            <label class={label} for="vd-m">Material</label>
+            <select id="vd-m" data-in="m" class={input}>
+              <option value="cu">Copper</option>
+              <option value="al">Aluminum</option>
+            </select>
+          </div>
+          <div>
+            <label class={label} for="vd-s">Size</label>
+            <select id="vd-s" data-in="s" class={input}>
+              {SIZE_IDS.map((id) => <option value={id}>{SIZES[id].label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="vd-p">Parallel sets</label>
+            <input
+              id="vd-p"
+              data-in="p"
+              type="number"
+              min="1"
+              max="10"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="vd-t">Max drop (%)</label>
+            <input
+              id="vd-t"
+              data-in="t"
+              type="number"
+              min="0.1"
+              max="20"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-slate-500">
+          Enter the size you picked for ampacity. The NEC recommends no more than {NEC_BRANCH_PCT}%
+          on a branch circuit and {NEC_COMBINED_PCT}% for the feeder and branch circuit together
+          (informational notes to 210.19 and 215.2(A)(2), 2023 NEC). For a branch circuit off a
+          feeder, use what is left of {NEC_COMBINED_PCT}% after the feeder’s drop.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Wire for the estimate</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Your price per foot is saved in this browser for each size and material.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="vd-w">Size to price</label>
+            <select id="vd-w" data-in="w" class={input}>
+              {Object.entries(PICKS).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="vd-n">Conductors per set</label>
+            <input
+              id="vd-n"
+              data-in="n"
+              type="number"
+              min="1"
+              max="6"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="vd-x">Makeup (%)</label>
+            <input
+              id="vd-x"
+              data-in="x"
+              type="number"
+              min="0"
+              max="50"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-3">
+            <label class={label} for="vd-price" data-out="price-label">Wire, per ft ($)</label>
+            <input
+              id="vd-price"
+              data-wire-price
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-slate-500">
+          Count every conductor of this size: two for a single-phase load, three for three phase,
+          plus the neutral if it is the same size. The equipment ground is usually smaller, so price
+          it on its own line. Makeup covers terminations, loops and waste; {TYPICAL_EXTRA}% is a
+          typical starting point, not a rule.
+        </p>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">Voltage drop</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Voltage drop</span>
+            <span class={cellValue} data-out="drop"></span>
+            <span class={cellNote} data-out="drop-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>At the load</span>
+            <span class={cellValue} data-out="load"></span>
+            <span class={cellNote} data-out="load-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Target</span>
+            <span class={cellValue} data-out="status"></span>
+            <span class={cellNote} data-out="status-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel} data-out="min-label">Smallest size</span>
+            <span class={cellValue} data-out="min"></span>
+            <span class={cellNote} data-out="min-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel} data-out="max-label">Longest run</span>
+            <span class={cellValue} data-out="max"></span>
+            <span class={cellNote} data-out="max-note"></span>
+          </div>
+        </div>
+        <p
+          data-ampacity-note
+          class="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+        >
+          <strong>Size for ampacity first.</strong> This checks voltage drop only. It does not check ampacity
+          (NEC 310.16) or terminal temperature ratings (110.14(C)). Pick the size that carries the load,
+          then use this to see whether the run needs bigger wire.
+        </p>
+        <ul data-notes class="mt-3 space-y-2 text-xs text-slate-600" aria-live="polite"></ul>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Wire to buy</dt>
+            <dd data-out="feet" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Your price per ft</dt>
+            <dd data-out="per-ft" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Wire total</dt>
+            <dd data-out="cost" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+        </dl>
+        <p data-out="feet-note" class="mt-2 text-xs text-slate-500"></p>
+        <p data-out="price-hint" class="mt-1 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example circuit
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Voltage drop.</strong> Single phase: VD = 2 × K × I × L ÷ CM. Three phase: VD = √3 × K ×
+      I × L ÷ CM. I is the load current, L is the one-way length in feet and CM is the circular mils of
+      one conductor times the number of parallel sets. The 2 counts the trip out and back. The drop in
+      percent is VD ÷ system voltage × 100, and the voltage at the load is the system voltage minus VD.
+    </p>
+    <p>
+      <strong>K.</strong> The resistance of one circular-mil foot of conductor at 75 °C: {K.cu} Ω for
+      copper and {K.al} Ω for aluminum, the values Mike Holt gives for this formula. They match the DC
+      resistance of stranded conductors at 75 °C, the temperature the NEC’s Chapter 9 resistance values
+      are based on.
+    </p>
+    <p>
+      <strong>Circular mils.</strong> AWG sizes come from the gauge’s definition in ASTM B258: diameter
+      = 0.005 in × 92<sup>(36 − n) ÷ 39</sup>, with n = 0 for 1/0, −1 for 2/0, −2 for 3/0 and −3 for
+      4/0, and area in circular mils = the diameter in mils, squared. That makes 12 AWG {
+        fmtTrim(Math.round(SIZES['12'].cmil))
+      } cmil, 10 AWG {fmtTrim(Math.round(SIZES['10'].cmil))} and 4/0 {
+        fmtTrim(Math.round(SIZES['4-0'].cmil))
+      }. A kcmil size is its own number: 250 kcmil is 250,000 cmil.
+    </p>
+    <p>
+      <strong>Smallest size.</strong> The calculator tries each size of the same material, smallest first,
+      up to 500 kcmil, and shows the first one whose drop is within your target. It starts at 14 AWG for
+      copper and 12 AWG for aluminum, the smallest sizes the NEC allows (310.3(A)), and at 1/0 when you
+      run parallel sets (310.10(G)). The longest run is target % × voltage × CM ÷ (2 or √3 × K × I).
+    </p>
+    <p>
+      <strong>What it does not do.</strong> It does not size for ampacity. Pick the size from NEC 310.16
+      with the terminal temperature limits in 110.14(C) first, then check the run here. It uses DC resistance
+      only, so it ignores reactance and power factor. That is close for 1/0 AWG and smaller. On 2/0 and
+      larger, especially in steel conduit, check with AC impedance and the load’s power factor. If you
+      upsize for voltage drop, a wire-type equipment grounding conductor goes up in proportion (250.122(B)).
+    </p>
+    <p>
+      <strong>The NEC recommendation.</strong> The informational notes to 210.19 (branch circuits) and
+      215.2(A)(2) (feeders) in the 2023 NEC recommend {NEC_BRANCH_PCT}% on a branch circuit and {
+        NEC_COMBINED_PCT
+      }% for feeder and branch circuit combined. Older editions put the same notes at 210.19(A) and
+      215.2(A)(1). Informational notes are not enforceable on their own (90.5(C)), but an energy
+      code or a local amendment can make a limit mandatory.
+    </p>
+    <p>
+      <strong>Wire for the estimate.</strong> Footage = conductors per set × one-way length × parallel
+      sets × (1 + makeup %), rounded up to the foot, for the size you entered or the size that meets your
+      target. The size that meets your target is never smaller than the size you entered. It is priced
+      at your price per foot for that size and material. Nothing is priced with numbers you did not enter.
+    </p>
+    <p>
+      Pricing the whole job? The <a href="/templates/electrical-estimate/"
+        >electrical estimate template</a
+      >
+      turns circuits into wire footage by cable type and openings into labor hours.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/vdrop-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="voltage-drop-calculator"]');
+  if (root) mount(root);
+</script>
