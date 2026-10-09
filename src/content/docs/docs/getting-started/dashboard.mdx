@@ -3,19 +3,34 @@ title: Your Dashboard
 description: Understand your home screen -- KPI cards, quick actions, and widgets
 sidebar:
   order: 3
-lastUpdated: 2026-06-30
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-The dashboard is your home screen. It opens whenever you sign in and gives you a snapshot of your pipeline, projects, and recent activity. A time-based greeting at the top welcomes you by name.
+The dashboard is your home screen. It opens whenever you sign in and starts with what needs you today, then your money, then your key numbers. A time-based greeting at the top welcomes you by name, and a period selector (**Year to Date** by default) sets the window for the numbers and charts.
 
-![The BuildWorkPro dashboard showing pipeline value, win rate, active projects, and revenue history](/docs-screenshots/getting-started/dashboard.png)
+![The BuildWorkPro dashboard with the attention banner, the Needs you today list of follow-ups sorted by money at stake, and the money strip showing overdue AR, outstanding, collected in 30 days, pay apps, and pending change orders](/docs-screenshots/getting-started/dashboard.png)
+
+## Needs you today
+
+The **Needs you today** list is your action queue, sorted by money at stake. Each row has its next step one click away -- **Send follow-up** on a quiet bid, **Review bid** on one about to expire, **Send reminder** on an overdue invoice, **Draft pay app**, **Review** an unreviewed site log, or **Check in** on a jobsite that has gone silent. The list shows the top items; **Show all** expands it, and the header collapses it.
+
+When something needs attention -- overdue projects or bids needing follow-up -- a banner above the list counts them and links straight to them. You can dismiss it.
+
+## Your money
+
+Two always-on panels track cash:
+
+- **The money strip** -- **Overdue AR**, **Outstanding**, **Collected 30d**, **Pay apps** awaiting approval, and **Pending COs**.
+- **Money on the books** -- contract, billed, and paid across every live project that is not fully paid.
+
+Both hide for roles that cannot see billing.
 
 ## KPI cards
 
-A row of stat cards across the top tracks your key numbers. By default you see four:
+A row of stat cards tracks your key numbers. By default you see four:
 
 - **Pipeline Value** -- the total value of open leads.
 - **Win Rate** -- the share of decided bids you have won.
@@ -25,12 +40,12 @@ A row of stat cards across the top tracks your key numbers. By default you see f
 Each card links to a filtered list, so clicking **Active Projects** opens your in-progress projects. Other available cards include Contract Value, Planning, Overdue, Completed, Won Leads (est.), and Contacts.
 
 <Aside type="tip">
-  The cards are yours to arrange. Click **Customize** to show or hide cards and drag them into the order you want.
+  The dashboard is yours to arrange. Click **Customize** to show or hide cards and widgets and drag them into the order you want.
 </Aside>
 
 ## Quick actions
 
-Below the cards, quick-action buttons start the most common tasks without leaving the dashboard:
+Quick-action buttons start the most common tasks without leaving the dashboard:
 
 - **Add Contact** -- opens the new-contact form.
 - **Add Lead** -- opens the new-lead form.
@@ -48,13 +63,11 @@ The rest of the dashboard is a grid of widgets you can rearrange from the **Cust
 - **Pipeline & Bids** -- open pipeline and bid activity.
 - **Project Status** -- a breakdown of projects by status.
 - **Win / Loss** -- decided bids, won versus lost.
-- **Upcoming Deadlines**, **At Risk**, **Project Map**, **Site Log Activity**, and **Projects by Type**.
+- **Upcoming Deadlines**, **At Risk**, **Project Map**, **Site Log Activity**, **Projects by Type**, and **Crew Today**.
 
-## Alerts and getting started
+## Getting started
 
-When something needs attention -- an overdue project, a stale lead, or a bid that needs follow-up -- a banner appears at the top with a link straight to it.
-
-If your workspace is brand new, a **Getting Started** card appears above your widgets and points you to your first contact, lead, project, or bid. It disappears once you have data.
+A **Your first 14 days** checklist walks you through the core loop -- create your first bid, send it, convert the win to a project, bill it, bring your crew in, and connect QuickBooks or Google. On a brand-new workspace it leads the dashboard; once you have data it sits below the quick actions. Dismiss it when you are done -- reopen it anytime from **Getting started** in your account menu.
 
 ## What's next
 
