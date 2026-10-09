@@ -1,0 +1,167 @@
+[
+  {
+    "id": "WPUSI012011",
+    "name": "Construction materials",
+    "blsTitle": "Special indexes-Construction materials"
+  },
+  {
+    "id": "WPU081106013",
+    "name": "Framing lumber",
+    "blsTitle": "Lumber and wood products-Softwood dressed 2-inch lumber, 2 inches in nominal thickness only, not edge worked"
+  },
+  {
+    "id": "WPU0811",
+    "name": "Softwood lumber",
+    "blsTitle": "Lumber and wood products-Softwood lumber"
+  },
+  {
+    "id": "WPU083",
+    "name": "Plywood",
+    "blsTitle": "Lumber and wood products-Plywood"
+  },
+  {
+    "id": "WPU087101",
+    "name": "Treated wood",
+    "blsTitle": "Lumber and wood products-Treated wood"
+  },
+  {
+    "id": "WPU08220109",
+    "name": "Wood trusses",
+    "blsTitle": "Lumber and wood products-Wood trusses"
+  },
+  {
+    "id": "WPU1333",
+    "name": "Ready-mix concrete",
+    "blsTitle": "Nonmetallic mineral products-Ready-mix concrete"
+  },
+  {
+    "id": "WPU13330101A",
+    "name": "Ready-mix concrete, Northeast",
+    "blsTitle": "Nonmetallic mineral products-Northeast region ready-mix concrete"
+  },
+  {
+    "id": "WPU13330101B",
+    "name": "Ready-mix concrete, Midwest",
+    "blsTitle": "Nonmetallic mineral products-Midwest region ready-mix concrete"
+  },
+  {
+    "id": "WPU13330101C",
+    "name": "Ready-mix concrete, South",
+    "blsTitle": "Nonmetallic mineral products-South region ready-mix concrete"
+  },
+  {
+    "id": "WPU13330101D",
+    "name": "Ready-mix concrete, West",
+    "blsTitle": "Nonmetallic mineral products-West region ready-mix concrete"
+  },
+  {
+    "id": "WPU1322",
+    "name": "Cement",
+    "blsTitle": "Nonmetallic mineral products-Cement, hydraulic"
+  },
+  {
+    "id": "WPU1321",
+    "name": "Sand, gravel and crushed stone",
+    "blsTitle": "Nonmetallic mineral products-Construction sand, gravel and crushed stone"
+  },
+  {
+    "id": "WPU13311135",
+    "name": "Concrete block",
+    "blsTitle": "Nonmetallic mineral products-Structural concrete block"
+  },
+  {
+    "id": "WPU13420101",
+    "name": "Brick",
+    "blsTitle": "Nonmetallic mineral products-Building or common brick"
+  },
+  {
+    "id": "WPU1017",
+    "name": "Steel mill products",
+    "blsTitle": "Metals and metal products-Steel mill products"
+  },
+  {
+    "id": "WPU1074051",
+    "name": "Rebar and bar joists",
+    "blsTitle": "Metals and metal products-Fabricated structural metal bar joists and concrete reinforcing bars"
+  },
+  {
+    "id": "WPU107405",
+    "name": "Fabricated structural metal",
+    "blsTitle": "Metals and metal products-Fabricated structural metal"
+  },
+  {
+    "id": "WPU10260314",
+    "name": "Copper wire and cable",
+    "blsTitle": "Metals and metal products-Copper wire and cable"
+  },
+  {
+    "id": "WPU1171",
+    "name": "Wiring devices",
+    "blsTitle": "Machinery and equipment-Wiring devices"
+  },
+  {
+    "id": "WPU117522",
+    "name": "Switchgear and switchboards",
+    "blsTitle": "Machinery and equipment-Switchgear and switchboard apparatus"
+  },
+  {
+    "id": "WPU1083",
+    "name": "Lighting fixtures",
+    "blsTitle": "Metals and metal products-Lighting fixtures"
+  },
+  {
+    "id": "WPU13710102",
+    "name": "Gypsum building materials",
+    "blsTitle": "Nonmetallic mineral products-Gypsum building materials"
+  },
+  {
+    "id": "WPU1392",
+    "name": "Insulation materials",
+    "blsTitle": "Nonmetallic mineral products-Insulation materials"
+  },
+  {
+    "id": "WPU1311",
+    "name": "Flat glass",
+    "blsTitle": "Nonmetallic mineral products-Flat glass"
+  },
+  {
+    "id": "WPU10250162",
+    "name": "Aluminum extrusions",
+    "blsTitle": "Metals and metal products-Extruded aluminum shapes, including rod, bar, and wire"
+  },
+  {
+    "id": "WPU13940113C",
+    "name": "Asphalt paving mix",
+    "blsTitle": "Nonmetallic mineral products-Asphalt and tar paving mixtures (excluding liquid)"
+  },
+  {
+    "id": "WPU058102",
+    "name": "Asphalt binder",
+    "blsTitle": "Fuels and related products and power-Asphalt"
+  },
+  {
+    "id": "WPU057303",
+    "name": "Diesel fuel",
+    "blsTitle": "Fuels and related products and power-No. 2 diesel fuel"
+  },
+  {
+    "id": "WPU13610131",
+    "name": "Asphalt shingles and roll roofing",
+    "blsTitle": "Nonmetallic mineral products-Prepared asphalt and tar roofing and siding products"
+  },
+  {
+    "id": "WPU13620121",
+    "name": "Roofing asphalts, coatings and cement",
+    "blsTitle": "Nonmetallic mineral products-Roofing asphalts, pitches, coatings, and cement"
+  },
+  {
+    "id": "WPU105",
+    "name": "Plumbing fixtures and fittings",
+    "blsTitle": "Metals and metal products-Plumbing fixtures and fittings"
+  },
+  {
+    "id": "WPU0621",
+    "name": "Paint",
+    "blsTitle": "Chemicals and allied products-Prepared paint"
+  }
+]

@@ -1,0 +1,149 @@
+---
+// /prices/methodology/ — sources, series, math and limits for the material
+// price pages, plus Dataset structured data so the CSV can be found and cited.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { MATERIALS, COMPOSITE, REPORT_EXTRAS } from '../../data/prices/materials';
+import { def, LATEST, monthLabel, points, PPI, SERIES_DEFS } from '../../lib/prices/ppi';
+
+const firstMonth = points(COMPOSITE)[0][0];
+const usage = new Map<string, string[]>();
+const note = (id: string, where: string) => usage.set(id, [...(usage.get(id) ?? []), where]);
+note(COMPOSITE, 'Hub and reports (composite)');
+for (const m of MATERIALS) {
+  for (const id of m.series) note(id, m.name);
+  for (const r of m.regions ?? []) note(r.id, `${m.name}, ${r.label}`);
+}
+for (const id of REPORT_EXTRAS) note(id, 'Monthly report');
+const rows = SERIES_DEFS.map((s) => ({ ...s, used: (usage.get(s.id) ?? []).join(', ') }));
+const fetched = new Date(PPI.fetchedAt).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const dataset = {
+  '@context': 'https://schema.org',
+  '@type': 'Dataset',
+  name: 'BuildWorkPro Price Index: construction material producer prices',
+  description:
+    'Monthly U.S. Producer Price Index series for construction materials (lumber, ready-mix concrete by region, cement, steel, rebar, copper wire, gypsum, insulation, flat glass, aluminum extrusions, asphalt, roofing, plumbing fixtures and paint), compiled from the Bureau of Labor Statistics.',
+  url: 'https://buildworkpro.com/prices/methodology/',
+  creator: { '@type': 'Organization', name: 'BuildWorkPro', url: 'https://buildworkpro.com/' },
+  isBasedOn: 'https://www.bls.gov/ppi/',
+  license: 'https://creativecommons.org/licenses/by/4.0/',
+  isAccessibleForFree: true,
+  temporalCoverage: `${firstMonth}/${LATEST}`,
+  spatialCoverage: 'United States',
+  variableMeasured: SERIES_DEFS.map((s) => s.name),
+  distribution: [
+    {
+      '@type': 'DataDownload',
+      encodingFormat: 'text/csv',
+      contentUrl: 'https://buildworkpro.com/prices/data/all.csv',
+    },
+  ],
+};
+---
+
+<Layout
+  title="Construction Material Price Data: Sources and Method | BuildWorkPro"
+  description="How the BuildWorkPro material price pages are built: the Bureau of Labor Statistics Producer Price Index series we use, how changes are calculated, update timing, revisions and reuse."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(dataset)} />
+  <Header />
+  <main class="pt-28 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+        Material prices
+      </p>
+      <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Sources and method</h1>
+      <div class="prose prose-slate mt-8 max-w-none prose-a:text-brand-700">
+        <h2>Source</h2>
+        <p>
+          Every figure on the <a href="/prices/">material prices</a> pages and in the <a
+            href={`/prices/reports/${LATEST}/`}>monthly reports</a
+          > comes from the U.S. Bureau of Labor Statistics <a href="https://www.bls.gov/ppi/"
+            >Producer Price Index</a
+          > (PPI) by commodity, not seasonally adjusted. We pull it from the BLS public data API. The
+          data runs from {monthLabel(firstMonth)} to {monthLabel(LATEST)} and was last pulled on {
+            fetched
+          }.
+        </p>
+        <h2>What the Producer Price Index measures</h2>
+        <p>
+          The PPI tracks the prices domestic producers receive for their output, before distribution
+          and retail markups. It is an index, not a dollar price: a value only means something
+          compared with the same series in another month. Supplier and retail prices generally move
+          in the same direction, with their own markups and timing, so these pages are for trends,
+          bid holding periods and escalation, not for the number on a bid.
+        </p>
+        <h2>How the numbers are calculated</h2>
+        <ul>
+          <li>
+            <strong>Change vs. last month, a year ago and five years ago:</strong> the index this month
+            divided by the index that many months earlier, minus one.
+          </li>
+          <li>
+            <strong>Charts:</strong> the index rebased so the first month in the window equals 100. A
+            reading of 110 means 10% higher than at the start of the window.
+          </li>
+          <li>
+            <strong>“A $10,000 purchase”:</strong> $10,000 times the ratio of the index between the two
+            months. It shows the size of the change, not what any supplier charged.
+          </li>
+          <li>
+            <strong>Not seasonally adjusted:</strong> we compare against the same month a year earlier
+            for the headline, which removes most seasonal patterns. Month-to-month changes can include
+            seasonal swings, especially for asphalt and concrete.
+          </li>
+        </ul>
+        <h2>Updates and revisions</h2>
+        <p>
+          BLS publishes the PPI for each month around the middle of the following month. We refresh
+          the data after each release and publish a new report; past months stay in the <a
+            href="/prices/reports/">report archive</a
+          >. BLS marks the latest four months as preliminary and revises them; pages show
+          “preliminary” on those months, and earlier reports update when a figure is revised.
+        </p>
+        <h2>Reusing the data</h2>
+        <p>
+          BLS data is in the public domain. Our compilation, charts and reports are free to reuse
+          under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: credit
+          BuildWorkPro with a link to the page you used. Each material page has a ready-made
+          citation, and <a href="/prices/data/all.csv">every series is in one CSV</a>. BLS does not
+          endorse BuildWorkPro or these pages.
+        </p>
+        <h2>Series we use</h2>
+      </div>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="w-full text-sm" data-methodology-series>
+          <thead>
+            <tr class="text-left text-xs uppercase tracking-wide text-slate-500">
+              <th class="px-4 py-3 font-medium">BLS series</th>
+              <th class="px-4 py-3 font-medium">Shown as</th>
+              <th class="px-4 py-3 font-medium">BLS title</th>
+              <th class="px-4 py-3 font-medium">Used on</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map((r) => (
+                <tr class="border-t border-slate-100 align-top">
+                  <td class="px-4 py-2.5 font-mono text-xs text-slate-700 whitespace-nowrap">
+                    {r.id}
+                  </td>
+                  <td class="px-4 py-2.5 text-slate-900">{def(r.id).name}</td>
+                  <td class="px-4 py-2.5 text-slate-600">{r.blsTitle}</td>
+                  <td class="px-4 py-2.5 text-slate-600">{r.used}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,153 @@
+---
+// /prices/ — hub for the material price pages: the construction materials
+// composite, one card per material with its latest change, and the latest
+// monthly report. Data: BLS Producer Price Index via src/data/prices/ppi.json.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import Sparkline from '../../components/prices/Sparkline.astro';
+import { COMPOSITE, MATERIALS } from '../../data/prices/materials';
+import { addMonths, LATEST, monthLabel, moved, pct, snapshot } from '../../lib/prices/ppi';
+
+const composite = snapshot(COMPOSITE);
+const latestLabel = monthLabel(LATEST);
+const yearAgoLabel = monthLabel(addMonths(LATEST, -12));
+const cards = MATERIALS.map((m) => ({ m, s: snapshot(m.headline) }));
+const changeClass = (n: number | null) =>
+  n == null
+    ? 'text-slate-400'
+    : n > 0
+      ? 'text-amber-700'
+      : n < 0
+        ? 'text-brand-700'
+        : 'text-slate-600';
+
+const faqs = [
+  {
+    question: 'Where do these construction material prices come from?',
+    answer:
+      'From the U.S. Bureau of Labor Statistics Producer Price Index, the government’s monthly measure of what domestic producers receive for their goods. We pull the series for lumber, concrete, steel, copper wire, drywall, glass, asphalt and roofing each month and publish the changes, a chart and the raw data.',
+  },
+  {
+    question: 'Are construction material prices going up?',
+    answer: `In ${latestLabel}, the BLS index for construction materials overall ${moved(composite.year)} from ${yearAgoLabel} and ${moved(composite.month)} from the month before. Individual materials move very differently, which is why each one has its own page.`,
+  },
+  {
+    question: 'Is this what I will pay my supplier?',
+    answer:
+      'No. Producer prices come before distribution and retail markups, and supplier prices follow them with a lag. Use these pages for the trend, for how long to hold a bid price and for escalation clauses, and use your supplier’s quote for the number on the bid.',
+  },
+  {
+    question: 'How often is this updated?',
+    answer:
+      'Monthly, after BLS publishes the Producer Price Index for the month before, usually in the middle of the month. The latest four months are preliminary and BLS revises them, so recent figures can change slightly.',
+  },
+];
+---
+
+<Layout
+  title={`Construction Material Prices, ${monthLabel(LATEST, true)}: Lumber, Concrete, Steel | BuildWorkPro`}
+  description={`Construction material prices ${moved(composite.year)} from ${yearAgoLabel} to ${latestLabel}. Monthly trends for lumber, concrete, steel, copper wire, drywall, glass, asphalt and roofing.`}
+>
+  <Header />
+  <main class="pt-28 pb-20">
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">
+      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+        Free monthly data · {latestLabel}
+      </p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+        Construction material prices
+      </h1>
+      <p class="mt-5 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+        How the materials subcontractors buy are moving, month by month, from U.S. Bureau of Labor
+        Statistics producer price data. Free to read, chart and reuse.
+      </p>
+      <div
+        class="mt-8 inline-flex flex-wrap items-center justify-center gap-x-6 gap-y-2 rounded-2xl border border-slate-200 bg-white px-6 py-4"
+        data-composite
+      >
+        <span class="text-sm text-slate-600">Construction materials overall</span>
+        <span class={`text-2xl font-bold tabular-nums ${changeClass(composite.year)}`}
+          >{pct(composite.year)}</span
+        >
+        <span class="text-sm text-slate-500">vs. {yearAgoLabel}</span>
+        <span class={`text-lg font-semibold tabular-nums ${changeClass(composite.month)}`}
+          >{pct(composite.month)}</span
+        >
+        <span class="text-sm text-slate-500">vs. last month</span>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          cards.map(({ m, s }) => (
+            <a
+              href={`/prices/${m.slug}/`}
+              data-material-card={m.slug}
+              class="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 hover:border-brand-300 hover:shadow-sm"
+            >
+              <span class="font-semibold text-slate-900">{m.name}</span>
+              <span class="mt-0.5 text-xs text-slate-500">{s.name}</span>
+              <span class={`mt-3 text-2xl font-bold tabular-nums ${changeClass(s.year)}`}>
+                {pct(s.year)}
+              </span>
+              <span class="text-xs text-slate-500">
+                vs. a year ago · {pct(s.month)} vs. last month
+              </span>
+              <Sparkline id={m.headline} class="mt-3 h-8 w-full" />
+            </a>
+          ))
+        }
+      </div>
+      <p class="mt-4 text-center text-xs text-slate-500">
+        Amber means prices rose over the last two years, blue means they fell. Changes are producer
+        prices, not supplier prices.
+      </p>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <div
+        class="flex flex-col gap-4 rounded-2xl border border-brand-200 bg-brand-50 p-6 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div>
+          <p class="font-semibold text-slate-900">
+            {latestLabel} construction materials price report
+          </p>
+          <p class="mt-1 text-sm text-slate-600">
+            Every material we track in one table, the biggest moves and what they mean for bids.
+          </p>
+        </div>
+        <a
+          href={`/prices/reports/${LATEST}/`}
+          class="inline-flex shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"
+          >Read the report</a
+        >
+      </div>
+      <p class="mt-3 text-sm text-slate-600">
+        Past months are in the <a
+          href="/prices/reports/"
+          class="font-semibold text-brand-700 hover:underline">report archive</a
+        >.
+      </p>
+      <p class="mt-4 text-sm text-slate-600">
+        Want the raw numbers? <a
+          href="/prices/data/all.csv"
+          class="font-semibold text-brand-700 hover:underline">Download every series (CSV)</a
+        >, or read <a
+          href="/prices/methodology/"
+          class="font-semibold text-brand-700 hover:underline">how the numbers are built</a
+        >. To turn a price into a takeoff, the <a
+          href="/tools/"
+          class="font-semibold text-brand-700 hover:underline">free calculators</a
+        > do the quantities.
+      </p>
+    </section>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <FAQSection faqs={faqs} />
+    </div>
+  </main>
+  <Footer />
+</Layout>

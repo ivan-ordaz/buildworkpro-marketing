@@ -1,0 +1,35 @@
+---
+// Tiny trend line for tables and cards: the last `months` of one series,
+// rebased, no axes. Decorative next to the numbers it sits beside.
+import { chartGeometry, rebased } from '../../lib/prices/ppi';
+
+interface Props {
+  id: string;
+  months?: number;
+  asOf?: string;
+  class?: string;
+}
+
+const { id, months = 24, asOf, class: className = 'h-8 w-28' } = Astro.props;
+const pts = rebased(id, months, asOf);
+const g =
+  pts.length > 1
+    ? chartGeometry(pts, { width: 112, height: 32, padL: 2, padR: 4, padT: 3, padB: 3 })
+    : null;
+const up = pts.length > 1 && pts.at(-1)![1] >= pts[0][1];
+---
+
+{
+  g && (
+    <svg viewBox={`0 0 ${g.width} ${g.height}`} class={className} aria-hidden="true">
+      <path
+        d={g.path}
+        fill="none"
+        stroke={up ? '#b45309' : '#2563eb'}
+        stroke-width="1.75"
+        stroke-linejoin="round"
+      />
+      <circle cx={g.end.x} cy={g.end.y} r="2.25" fill={up ? '#b45309' : '#2563eb'} />
+    </svg>
+  )
+}
