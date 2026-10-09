@@ -288,7 +288,10 @@ test.describe(PATH, () => {
     await page.locator('#lb-w').fill('35');
     const r35 = computeBurden({ ...EXAMPLE_INPUT, wage: 35 }, {});
     await expect(out(page, 'per-paid')).toHaveText(money(r35.perPaidHour!));
-    await expect(page).toHaveURL(/[?&]w=35(&|$)/);
+    // The wage never sits in the address bar (page addresses reach analytics);
+    // it is remembered in the browser and survives a reload.
+    await expect(page).not.toHaveURL(/[?&]w=/);
+    await expect(page).toHaveURL(/[?&]shop=104(&|$)/);
     await page.reload();
     await expect(page.locator('#lb-w')).toHaveValue('35');
     await expect(page.locator('#lb-shop')).toHaveValue('104');

@@ -90,6 +90,19 @@ export function mount(root: HTMLElement): void {
   }
   writeInputs(fromParams(readParams(PARAM_KEYS)));
 
+  // The wage stays out of the address bar, because page addresses reach site
+  // analytics. It is remembered in this browser instead, and only travels in a
+  // link the contractor copies on purpose ("Copy link").
+  const WAGE_KEY = `${TOOL}:wage`;
+  const wageField = root.querySelector<HTMLInputElement>('[data-in="w"]');
+  const savedWage = loadPrices(WAGE_KEY).wage;
+  if (wageField && !wageField.value && savedWage != null) wageField.value = String(savedWage);
+  const addressParams = (input: BurdenInput): Record<string, string> => {
+    const { w: _wage, ...rest } = urlParams(input);
+    return rest;
+  };
+  const rememberWage = (input: BurdenInput) => savePrices(WAGE_KEY, { wage: input.wage });
+
   function render(): { input: BurdenInput; result: BurdenResult } {
     const input = readInputs();
     const r = computeBurden(input, rates);
@@ -164,7 +177,8 @@ export function mount(root: HTMLElement): void {
 
   const onInputChange = () => {
     const { input } = render();
-    syncUrl(urlParams(input));
+    syncUrl(addressParams(input));
+    rememberWage(input);
     trackOnce('calculate');
   };
 
@@ -209,11 +223,16 @@ export function mount(root: HTMLElement): void {
     } else if (action === 'reset') {
       writeInputs(DEFAULT_INPUT);
       const next = render();
-      syncUrl(urlParams(next.input));
+      syncUrl(addressParams(next.input));
+      rememberWage(next.input);
       setNote('Wage and hours cleared. Your saved rates are kept.');
     }
   });
 
-  render();
+  const initial = render();
+  // A shared link can carry the wage: keep it in this browser and take it out
+  // of the address bar.
+  rememberWage(initial.input);
+  if (new URLSearchParams(window.location.search).has('w')) syncUrl(addressParams(initial.input));
   root.dataset.ready = 'true';
 }
