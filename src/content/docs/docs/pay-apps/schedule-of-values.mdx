@@ -3,7 +3,7 @@ title: Schedule of Values
 description: Build the SOV line items and report progress for each billing period
 sidebar:
   order: 2
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
@@ -19,13 +19,13 @@ The [schedule of values](/blog/schedule-of-values-guide/) (SOV) breaks the contr
     width="1440"
     height="900"
     style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
-    aria-label="Demo: a schedule of values inside a pay application, with the per-line This Period and Materials Stored billing dialog and the payment summary"
+    aria-label="Demo: entering This Period, % Complete, and Materials Stored inline in a pay app's schedule of values, then saving — the payment summary recalculates retainage and the current payment due"
   >
     <source src="/videos/pay-app-demo.mp4" type="video/mp4" />
   </video>
   <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
-    The schedule of values in a pay app: bill This Period and Materials Stored per line — the
-    payment summary rolls everything up into the amount due.
+    Billing a period: enter progress inline — as a dollar amount, a percent complete, or materials
+    stored — then <strong>Save</strong>. The payment summary recalculates retainage and the amount due.
   </figcaption>
 </figure>
 
@@ -35,13 +35,29 @@ On a pay app's detail page, the **Schedule of Values** card lists your line item
 
 - **Item** -- the item number.
 - **Description** -- what the line covers.
+- **Source** -- the bid line or change order the row came from, or *Not linked*.
 - **Scheduled Value** -- the contract amount for the line.
 - **Previous Apps** -- completed and billed in prior pay apps.
 - **This Period** -- completed in the current period.
+- **% Complete** -- how far along the line is.
 - **Materials Stored** -- materials on site but not yet installed.
 - **Total to Date** -- the sum of previous, this period, and materials stored.
 
 A **Grand Total** row sums every line.
+
+## Bill the period
+
+On a draft pay app, progress is entered right in the grid -- there is no dialog per line.
+
+<Steps>
+
+1. **Enter progress.** For each line, type the **This Period** amount, or type a **% Complete** and This Period is calculated for you. Enter moves down the column. The row's **Bill remaining** button fills a line to 100%.
+
+2. **Add stored materials.** Enter **Materials Stored** for anything delivered but not yet installed.
+
+3. **Save.** Click **Save N changes** (or **Discard**). Pay apps never auto-save. The payment summary recalculates retainage and the current payment due.
+
+</Steps>
 
 ## Add a line item
 
@@ -51,7 +67,7 @@ A **Grand Total** row sums every line.
 
 2. **Describe it.** Enter an **Item Number**, a **Description**, and the **Scheduled Value**.
 
-3. **Report progress.** Enter **This Period** and any **Materials Stored** for the current billing period.
+3. **Bill it.** The new line joins the grid -- report its progress like any other line and **Save**.
 
 </Steps>
 
@@ -61,7 +77,7 @@ A **Grand Total** row sums every line.
 
 ## How the SOV is seeded
 
-The SOV is not imported with a button. On the first pay app, BuildWorkPro seeds it from any pending approved change orders, and the **Original Contract Sum** prefills from the project's accepted bid. Each later pay app carries forward the lines and previous-period totals from the one before it. Add or adjust lines with **Add Line Item** as the job evolves.
+The SOV is not imported with a button. On the first pay app, BuildWorkPro seeds one line per line item of the project's accepted bid -- each valued at the price the customer saw, and labeled with the bid line it came from in **Source** -- plus any pending approved change orders, and the **Original Contract Sum** prefills from that bid. A project with no accepted bid starts with an empty SOV for manual entry. Each later pay app carries forward the lines and previous-period totals from the one before it. Add or adjust lines with **Add Line Item** as the job evolves.
 
 ## What's next
 
