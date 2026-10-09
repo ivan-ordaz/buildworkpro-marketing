@@ -178,9 +178,11 @@ import { config } from '../config';
         <h3>2.3 Analytics &amp; Advertising Cookies (Consent-Based, Marketing Site Only)</h3>
         <p>
           The BuildWorkPro <strong>marketing website</strong> uses Google Analytics 4 to understand how
-          visitors find and use our pages, and the <strong>Meta (Facebook) Pixel</strong> to measure the
-          performance of our advertising and to show relevant ads to people who have visited the site.
-          The default behavior depends on where you are visiting from:
+          visitors find and use our pages, <strong>PostHog</strong> to see which pages lead visitors to
+          sign up (page views and clicks only &mdash; the marketing website is never recorded), and the
+          <strong>Meta (Facebook) Pixel</strong> to measure the performance of our advertising and to
+          show relevant ads to people who have visited the site. The default behavior depends on where
+          you are visiting from:
         </p>
         <ul>
           <li>
@@ -192,18 +194,18 @@ import { config } from '../config';
             identifiers) — and begins using cookies such as <code>_ga</code> only after you click &ldquo;Accept.&rdquo;
             The Meta (Facebook) Pixel has no cookieless mode, so its script is <strong
               >not loaded at all</strong
-            > until you click &ldquo;Accept.&rdquo;
+            > until you click &ldquo;Accept.&rdquo; PostHog is likewise not loaded until you click &ldquo;Accept.&rdquo;
           </li>
           <li>
             <strong>If you are visiting from anywhere else (including the United States)</strong>,
             analytics and advertising measurement are on by default: Google Analytics runs with full
-            consent signals and the Meta Pixel loads and may set the cookies listed below, unless
-            and until you opt out. Clicking &ldquo;Decline&rdquo; on the banner (or using the
-            &ldquo;Cookie settings&rdquo; link in the footer at any time) is a full opt-out of this
-            measurement, including any &ldquo;sale&rdquo; or &ldquo;sharing&rdquo; of personal
-            information for cross-context behavioral advertising as those terms are defined under
-            the California Consumer Privacy Act (CCPA/CPRA) and similar U.S. state laws. We honor
-            your choice on this device from that point on.
+            consent signals, and PostHog and the Meta Pixel load and may set the cookies listed
+            below, unless and until you opt out. Clicking &ldquo;Decline&rdquo; on the banner (or
+            using the &ldquo;Cookie settings&rdquo; link in the footer at any time) is a full
+            opt-out of this measurement, including any &ldquo;sale&rdquo; or &ldquo;sharing&rdquo;
+            of personal information for cross-context behavioral advertising as those terms are
+            defined under the California Consumer Privacy Act (CCPA/CPRA) and similar U.S. state
+            laws. We honor your choice on this device from that point on.
           </li>
         </ul>
         <p>
@@ -255,12 +257,21 @@ import { config } from '../config';
                 >
                 <td>Up to 3 months.</td>
               </tr>
+              <tr>
+                <td><code>ph_&lt;project key&gt;_posthog</code></td>
+                <td
+                  >Set by PostHog (once analytics/advertising consent applies per Section 2.3) to
+                  hold a random visitor identifier. It is scoped to buildworkpro.com, so the web
+                  application reads the same identifier (Section 2.4).</td
+                >
+                <td>1 year.</td>
+              </tr>
             </tbody>
           </table>
         </div>
         <p>
-          None of these cookies are used inside the BuildWorkPro application itself. For details on
-          how these third parties process data, see
+          Apart from the PostHog cookie (Section 2.4), none of these cookies are used inside the
+          BuildWorkPro application itself. For details on how these third parties process data, see
           <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer"
             >Google&rsquo;s Privacy Policy</a
           >
@@ -277,7 +288,7 @@ import { config } from '../config';
           <a href="/privacy/">Privacy Policy</a> for how that hashed data is processed.
         </p>
 
-        <h3>2.4 Product Analytics Cookie (Web Application Only)</h3>
+        <h3>2.4 Product Analytics Cookie (Web Application)</h3>
         <p>
           Inside the signed-in BuildWorkPro <strong>web application</strong>, we use
           <strong>PostHog</strong> to understand how the Platform is used &mdash; which pages are visited,
@@ -286,8 +297,11 @@ import { config } from '../config';
           cookie below and in your browser&rsquo;s local storage. All text displayed on screen and everything
           you type is masked before any data leaves your browser, and no names or email addresses are
           collected. During a free trial, PostHog also records masked session replays as described in
-          our <a href="/privacy/">Privacy Policy</a>; paying subscribers are not recorded. The
-          marketing website does not use PostHog.
+          our <a href="/privacy/">Privacy Policy</a>; paying subscribers are not recorded. On the
+          marketing website the same cookie is set only under the consent rules in Section 2.3, and
+          nothing there is recorded. Because the cookie is scoped to buildworkpro.com, a visit to
+          the marketing website and your later use of the application share one random identifier,
+          which shows us which pages lead people to sign up.
         </p>
 
         <div class="overflow-x-auto">
@@ -368,17 +382,18 @@ import { config } from '../config';
           >.
         </p>
         <p>
-          We use <strong>PostHog</strong> for product analytics inside the web application only, as described
-          in Section 2.4. Its cookie is first-party: it is set on our own domain, and the data is sent
-          through our own servers to PostHog, which discards IP addresses rather than storing them; see
+          We use <strong>PostHog</strong> for product analytics in the web application (Section 2.4) and,
+          under the consent rules in Section 2.3, on the marketing website. Its cookie is first-party:
+          it is set on our own domain, and the data is sent through our own servers to PostHog, which
+          discards IP addresses rather than storing them; see
           <a href="https://posthog.com/privacy" target="_blank" rel="noopener noreferrer"
             >PostHog&rsquo;s Privacy Policy</a
           >.
         </p>
         <p>
           Other than Google Fonts, Cloudflare Turnstile, the consent-based Google Analytics and Meta
-          Pixel, and the PostHog product-analytics cookie in the web application described above, no
-          third-party service deployed on the Platform sets cookies in your browser.
+          Pixel, and the PostHog product-analytics cookie described above, no third-party service
+          deployed on the Platform sets cookies in your browser.
         </p>
 
         <h2>4. Legal Basis for Cookie Use</h2>
