@@ -1,40 +1,52 @@
 ---
 title: Reports
-description: Analyze your pipeline, bids, projects, and activity with KPI cards and charts
+description: The Business review and the money, sales, and work reports behind it
 sidebar:
   order: 1
-lastUpdated: 2026-06-10
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-The **Reports** module turns your data into KPI cards and charts. Open it from **Reports** in the sidebar. A period selector at the top right filters every report to a date range, and you can export what you see.
+**Reports** opens on the **Business review** -- one page that answers how the business is doing for a period you pick. Each section links to a full report with the rows behind the numbers. Open it from **Reports** in the sidebar.
 
-![The Reports page showing KPI cards and charts](/docs-screenshots/reports/reports.png)
+![The Business review for year to date, with Sold, Billed, Collected, and Owed to you cards above the billed-vs-collected chart, the who-owes-you list, and the sales section](/docs-screenshots/reports/reports.png)
 
 <Aside type="note">
   **Role required:** Company Admin, Manager, Member, or Viewer can view reports. Field Crew has no access. Exporting requires Member or above.
 </Aside>
 
-## Report tabs
+## Pick a period
 
-Reports are split into four tabs, each with KPI cards and two charts:
+The period selector at the top right scopes everything -- **This Week** (the default), **This Month**, **This Quarter**, **Year to Date**, **Last Month**, **Last Quarter**, **Last Year**, **All Time**, or a **Custom range**. Turn on **vs prior period** to compare each figure with the period before it.
 
-- **Pipeline** -- Total Leads, Pipeline Value, Weighted Pipeline, and Won Deals, with pipeline-by-stage and win/loss charts.
-- **Bids** -- Total Bids, Conversion Rate, Total Quoted, and Accepted Value, with bids-by-status charts.
-- **Projects** -- Total Projects, In Progress, Completed, and Total Value, with status and value-by-type charts.
-- **Activity** -- New Contacts and Total Activities, with activity-by-type and new-contacts-by-type charts.
+## The Business review
 
-## Filter by period
+Four cards lead the page:
 
-Use the period selector to scope every report -- this month, year to date, and other ranges. The KPI cards and charts recalculate for the selected window.
+- **Sold** -- accepted bids, with the count won and the win rate.
+- **Billed** -- invoices plus pay apps.
+- **Collected** -- cash received, and the share of billed it represents.
+- **Owed to you** -- open receivables as of today.
 
-## Export
+Below them, three sections:
 
-Open the **Export** menu to download the current report as a CSV, or print it to save as a PDF.
+- **Money** -- billed versus collected over trailing periods, and **Who owes you**, by customer.
+- **Sales** -- bids sent versus won (win rate counts decided bids, with expired bids as lost), and the pipeline for the period: open pipeline value, new leads, bids sent, new contacts, and leads gone quiet.
+- **Work in progress** -- backlog (contract versus billed on live projects) and schedule.
+
+## Reports
+
+Each section links to its full report, also listed under **Reports** in the sidebar:
+
+- **AR aging** and **Billed vs collected** -- money.
+- **Bid performance** and **Pipeline by source** -- sales.
+- **WIP / backlog** -- work.
+
+A report page has the same period selector, summary figures at the top, and a table of the rows behind them. Save a filter and period combination with **Save current view**, and use **Export -> Export as CSV** to download the table.
 
 ## What's next
 
-- [CRM pipeline](/docs/crm/pipeline/) -- the leads behind the Pipeline report.
-- [Projects overview](/docs/projects/overview/) -- the projects behind the Projects report.
+- [CRM pipeline](/docs/crm/pipeline/) -- the leads behind the sales reports.
+- [Projects overview](/docs/projects/overview/) -- the projects behind the work-in-progress reports.

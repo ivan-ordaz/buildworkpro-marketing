@@ -11,17 +11,17 @@ const faqs = [
   {
     question: 'What reports does BuildWorkPro include?',
     answer:
-      'BuildWorkPro has four report tabs, each with KPI cards and two charts. Pipeline shows Total Leads, Pipeline Value, Weighted Pipeline, and Won Deals with pipeline-by-stage and win/loss charts. Bids shows Total Bids, Conversion Rate, Total Quoted, and Accepted Value with bids-by-status charts. Projects shows Total Projects, In Progress, Completed, and Total Value with status and value-by-type charts. Activity shows New Contacts and Total Activities with activity-by-type and new-contacts-by-type charts.',
+      'Reports opens on a Business review: Sold, Billed, Collected, and Owed to you for the period you pick, each compared with the period before, plus a billed-vs-collected chart, who owes you, bids sent vs won, this period’s pipeline, and the backlog of live projects. Five report pages go deeper: AR aging, Billed vs collected, Bid performance, Pipeline by source, and WIP / backlog.',
   },
   {
     question: 'Can I export reports?',
     answer:
-      'Yes. The Export menu downloads the current report as a CSV, or you can print it to save as a PDF. Whatever period you have selected is what exports, so you can pull this month or year to date without editing anything. Exporting requires the Member role or above.',
+      'Yes. The Export menu on each report page downloads it as a CSV. Whatever period you have selected is what exports, so you can pull this month or year to date without editing anything. Exporting requires the Member role or above.',
   },
   {
     question: 'Where does the report data come from?',
     answer:
-      'From the records your team already keeps in BuildWorkPro. Leads feed the Pipeline report, bids feed the Bids report, projects feed the Projects report, and contacts and activities feed the Activity report. There is no separate data entry for reporting — the numbers update as your team works.',
+      'From the records your team already keeps in BuildWorkPro. Bids feed bid performance, leads feed the pipeline report, invoices and pay apps feed billed vs collected and AR aging, and projects and their change orders feed WIP / backlog. There is no separate data entry for reporting — the numbers update as your team works.',
   },
   {
     question: 'Who can run reports?',
@@ -38,7 +38,7 @@ const faqs = [
 
 <Layout
   title="Construction Reporting & Analytics Software | BuildWorkPro"
-  description="Pipeline, bid, project, and activity reports with KPI cards and charts. Filter by period, export to CSV or PDF. $79/month flat, 14-day free trial."
+  description="A business review of what you sold, billed, collected, and are owed, plus AR aging, bid performance, pipeline, and WIP reports. Any period, CSV export. $79/month flat, 14-day free trial."
 >
   <Header />
   <main class="pt-32 pb-20">
@@ -50,9 +50,10 @@ const faqs = [
           Construction Reporting & Analytics
         </h1>
         <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Pipeline, bid, project, and activity reports built from the records your team already
-          keeps. KPI cards and charts, scoped to any period, exported to CSV or PDF — so you know
-          how much you quoted, how much you won, and which job types carry the value.
+          A business review built from the records your team already keeps: what you sold, billed,
+          collected, and are owed for any period, with reports for AR aging, bid performance,
+          pipeline, and work in progress — so you know how much you quoted, how much you won, and
+          who still owes you.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -75,8 +76,8 @@ const faqs = [
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <Screenshot
         src="/screenshots/19-reports.png"
-        alt="BuildWorkPro Reports page on the Pipeline tab with KPI cards for Total Leads, Pipeline Value, Weighted Pipeline, and Won Deals, plus pipeline-by-stage and win/loss charts"
-        caption="The Pipeline report: KPI cards and charts for the period you pick, with export one click away."
+        alt="BuildWorkPro Business review with Sold, Billed, Collected, and Owed to you totals, a billed-vs-collected chart with who owes you, and bids sent vs won with this period's pipeline"
+        caption="The Business review: what you sold, billed, collected, and are owed for the period you pick, compared with the period before — each section opens a full report."
       />
     </section>
 
@@ -87,22 +88,24 @@ const faqs = [
         <p>
           Most subcontractors find out how the year went when they look at the bank account in
           December. You know which months felt busy — not how much of what you quoted actually
-          converted, or which job types carry your contract value. The Reports module turns the data
-          you already enter into KPI cards and charts across four tabs: Pipeline, Bids, Projects,
-          and Activity.
+          converted, or who is sitting on your money. The Reports module turns the data you already
+          enter into a business review — sold, billed, collected, and owed for the period — and five
+          reports: AR aging, billed vs collected, bid performance, pipeline by source, and WIP /
+          backlog.
         </p>
         <p>
           The numbers start where the work starts. Every estimate you build in
-          <a href="/features/construction-bidding/">bidding</a> feeds the Bids report — total bids, conversion
-          rate, total quoted, and accepted value — so your win rate is a number, not a hunch. And because
-          reports live in the same system as your
+          <a href="/features/construction-bidding/">bidding</a> feeds bid performance — bids sent, won,
+          and lost, win rate, and won value by estimator, customer, and month — so your win rate is a
+          number, not a hunch. And because reports live in the same system as your
           <a href="/features/pay-applications/">pay applications</a> and
           <a href="/features/time-tracking/">time tracking</a>, reporting is a byproduct of running
           jobs, not a separate chore.
         </p>
         <p>
-          A period selector at the top scopes every report to a date range — this month, year to
-          date, and other ranges — and the Export menu downloads what you see. Full details in the
+          A period selector at the top scopes everything to a date range — this week, this month,
+          year to date, last quarter, or a custom range — and compares it with the period before.
+          Each report page exports to CSV. Full details in the
           <a href="/docs/reports/overview/">Reports docs</a>.
         </p>
       </div>
@@ -130,10 +133,10 @@ const faqs = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Pipeline report</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Business review</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Total Leads, Pipeline Value, Weighted Pipeline, and Won Deals — with pipeline-by-stage
-            and win/loss charts that show how much quoted work is actually in play.
+            Sold, Billed, Collected, and Owed to you for the period, each compared with the period
+            before — the four numbers that say how the business is actually doing.
           </p>
         </div>
 
@@ -156,10 +159,10 @@ const faqs = [
                 d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Bids report</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Bid performance</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Total Bids, Conversion Rate, Total Quoted, and Accepted Value, with bids-by-status
-            charts. Know how often a sent bid turns into a job before you price the next one.
+            Bids sent, won, and lost, win rate, won value, and average days to a decision — by
+            estimator, customer, and month. Know how often a sent bid turns into a job.
           </p>
         </div>
 
@@ -179,10 +182,10 @@ const faqs = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Projects report</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">WIP / backlog</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Total Projects, In Progress, Completed, and Total Value, with status and value-by-type
-            charts — see which job types carry your contract value.
+            Contract, approved change orders, billed, paid, left to bill, and retainage for every
+            live project — with the days any job has run past its expected end.
           </p>
         </div>
 
@@ -202,10 +205,12 @@ const faqs = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Activity report</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">
+            Billed vs collected and AR aging
+          </h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            New Contacts and Total Activities, with activity-by-type and new-contacts-by-type
-            charts. A quick read on whether business development is actually happening.
+            Invoices and pay apps issued against cash received, period by period, and every open
+            invoice by how long it has been due. See who owes you before it becomes a problem.
           </p>
         </div>
 
@@ -227,8 +232,8 @@ const faqs = [
           </div>
           <h3 class="text-base font-semibold text-slate-900 mb-2">Period filter</h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            One selector scopes every KPI card and chart to a date range — this month, year to date,
-            and other ranges. The numbers recalculate for the window you pick.
+            One selector scopes every number and chart to a date range — this month, year to date,
+            last quarter, or a custom range — and compares it with the period before.
           </p>
         </div>
 
@@ -248,10 +253,12 @@ const faqs = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-base font-semibold text-slate-900 mb-2">Export to CSV or PDF</h3>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">
+            Pipeline by source and CSV export
+          </h3>
           <p class="text-sm text-slate-500 leading-relaxed">
-            Open the Export menu to download the current report as a CSV, or print it to save as a
-            PDF — hand your accountant the numbers without retyping anything.
+            Where leads come from, what they are worth, and how many convert. Every report page
+            exports to CSV — hand your accountant the numbers without retyping anything.
           </p>
         </div>
       </div>
@@ -261,8 +268,8 @@ const faqs = [
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <Screenshot
         src="/screenshots/01-dashboard.png"
-        alt="BuildWorkPro dashboard with KPI cards for pipeline value, win rate, active projects, and pending bids above a revenue timeline chart"
-        caption="The dashboard gives you the KPI overview every time you log in — pipeline value, win rate, active projects, and pending bids."
+        alt="BuildWorkPro dashboard with a Needs you today list of bids to follow up, money tiles for overdue AR, outstanding, collected, pay apps, and pending change orders, and a contract, billed, and paid summary"
+        caption="The dashboard opens on what needs you today — bids gone quiet, money owed and overdue, pay apps and change orders pending — with pipeline value, win rate, active projects, and pending bids below."
       />
     </section>
 
@@ -279,8 +286,8 @@ const faqs = [
           <div>
             <h3 class="text-base font-semibold text-slate-900 mb-1">Run your work as usual</h3>
             <p class="text-slate-500">
-              The leads, bids, projects, and contacts your team already records are the report data.
-              There is no separate entry step — the reports read what is already there.
+              The leads, bids, invoices, pay apps, and projects your team already records are the
+              report data. There is no separate entry step — the reports read what is already there.
             </p>
           </div>
         </div>
@@ -291,10 +298,10 @@ const faqs = [
             2
           </div>
           <div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1">Open Reports and pick a tab</h3>
+            <h3 class="text-base font-semibold text-slate-900 mb-1">Open the Business review</h3>
             <p class="text-slate-500">
-              Open Reports from the sidebar and switch between Pipeline, Bids, Projects, and
-              Activity. Each tab shows its KPI cards and two charts.
+              Open Reports from the sidebar to land on the Business review. Each section — money,
+              sales, and work in progress — links to its full report.
             </p>
           </div>
         </div>
@@ -309,8 +316,8 @@ const faqs = [
               Filter the period and export
             </h3>
             <p class="text-slate-500">
-              Scope the report to this month, year to date, or another range, then download it as a
-              CSV or print it to save as a PDF from the Export menu.
+              Scope everything to this month, year to date, or another range, compare it with the
+              period before, and download any report page as a CSV from the Export menu.
             </p>
           </div>
         </div>
