@@ -1,0 +1,494 @@
+---
+// /tools/box-fill-calculator/ — trade calculator, batch 2 (plan: calculators +
+// price index, 2026-10-08). Search demand: "box fill calculator" 2,900/mo. Box
+// and contents → required volume itemized by NEC 314.16(B) rule, box volume with
+// rings, fits or overfilled, and the smallest standard box that works, for the
+// 2017, 2020 and 2023 NEC. Nothing to price, so no estimate tray. Math and every
+// FAQ number: src/lib/calculators/boxfill.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  BOXES,
+  boxCuIn,
+  computeBoxFill,
+  cuIn,
+  DEFAULT_INPUT,
+  EDITIONS,
+  EGC_EXTRA,
+  EGC_SHARED,
+  FAMILIES,
+  fmtCount,
+  FREE_LENGTH_IN,
+  groundAllowances,
+  ITEM_ROWS,
+  maxConductors,
+  SIZES,
+  TOOL,
+  VOLUME_PER_CONDUCTOR,
+  type Family,
+  type ItemId,
+  type ListedBox,
+} from '../../../lib/calculators/boxfill';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const check = 'inline-flex items-center gap-2 text-sm text-slate-700';
+const checkbox = 'h-4 w-4 rounded border-slate-300 accent-brand-600';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+const v = VOLUME_PER_CONDUCTOR;
+const boxGroups = (Object.keys(FAMILIES) as Family[]).map((f) => ({
+  family: f,
+  boxes: (Object.keys(BOXES) as ListedBox[]).filter((k) => BOXES[k].family === f),
+}));
+const groupNames: Record<Family, string> = {
+  round: 'Round and octagonal',
+  square: 'Square',
+  device: 'Device',
+  masonry: 'Masonry',
+  fsfd: 'FS and FD',
+};
+
+// The example box the FAQ quotes is the calculator's default.
+const ex = computeBoxFill(DEFAULT_INPUT);
+const itemVolume = (id: ItemId) => ex.items.find((i) => i.id === id)!.volume;
+const ex14 = computeBoxFill({
+  ...DEFAULT_INPUT,
+  conductors: { ...DEFAULT_INPUT.conductors, '12': 0, '14': 4 },
+  devices: { ...DEFAULT_INPUT.devices, '12': 0, '14': 1 },
+  groundSize: '14',
+});
+const square = BOXES['s4-15'].volume;
+const sixNow = groundAllowances('2023', 6, 0).main;
+const six2017 = groundAllowances('2017', 6, 0).main;
+
+const faqs = [
+  {
+    question: 'How many 12 AWG wires fit in a 4 in square box, 1½ in deep?',
+    answer: `${maxConductors(square, '12')}, if nothing else is in the box. The box is ${boxCuIn(square)} cu in (314.16(A)) and each 12 AWG conductor takes ${cuIn(v['12'])} cu in, so ${boxCuIn(square)} ÷ ${cuIn(v['12'])} rounds down to ${maxConductors(square, '12')}. The grounds take one more allowance, which leaves room for ${maxConductors(square, '12', v['12'])}, and internal cable clamps take another, which leaves ${maxConductors(square, '12', 2 * v['12'])}. In 14 AWG the same box holds ${maxConductors(square, '14')}. A device on a plaster ring takes two allowances, and the volume stamped on the ring is added to the box.`,
+  },
+  {
+    question: 'Does the ground wire count in box fill?',
+    answer: `Yes. Under the 2020 and 2023 NEC, up to ${EGC_SHARED} grounds entering the box count as one conductor, sized by the largest ground, and each ground after the fourth adds a quarter (314.16(B)(5)). Six 14 AWG grounds count as ${fmtCount(sixNow)}, or ${cuIn(sixNow * v['14'])} cu in. The 2017 NEC counted all of them as one, ${cuIn(six2017 * v['14'])} cu in for the same six, plus one more for an isolated ground set. Ground pigtails that never leave the box do not count.`,
+  },
+  {
+    question: 'How does a switch or receptacle count in box fill?',
+    answer: `As two conductors for each yoke, sized by the largest conductor connected to it (314.16(B)(4)). A single-pole switch on 14 AWG takes ${cuIn(2 * v['14'])} cu in and a 20 A receptacle on 12 AWG takes ${cuIn(2 * v['12'])}. Two devices on one yoke, like a double switch, still count as one yoke. A device too wide for a single 2 in gang counts two for each gang it needs: on 6 AWG, one that takes two gangs is ${cuIn(4 * v['6'])} cu in.`,
+  },
+  {
+    question: 'Do wire nuts count in box fill?',
+    answer:
+      'No. Box fill counts the conductors and the items listed in 314.16(B)(2) through (B)(6): internal cable clamps, fixture studs and hickeys, device yokes, equipment grounds and, under the 2023 NEC, terminal blocks. Twist-on wire connectors are not on that list, and 314.16(B) says small fittings such as locknuts and bushings need no allowance. Pigtails and jumpers that never leave the box do not count either.',
+  },
+  {
+    question: 'What is the box fill for a single-gang receptacle box?',
+    answer: `Take one receptacle fed by two 12/2 cables, one in and one out, in a 3 × 2 × 3½ in metal device box with internal clamps. The four 12 AWG conductors take ${cuIn(itemVolume('conductors'))} cu in, the clamps ${cuIn(itemVolume('clamps'))}, the receptacle ${cuIn(itemVolume('devices'))} and the two grounds ${cuIn(itemVolume('grounds'))}. That is ${cuIn(ex.required)} cu in, exactly the box’s ${boxCuIn(ex.boxVolume)}, so it fits with nothing to spare. A 3 × 2 × 2¾ in box at ${boxCuIn(BOXES['d3-275'].volume)} cu in is too small. With 14/2 cable the same box needs ${cuIn(ex14.required)} cu in.`,
+  },
+  {
+    question: 'Do plaster rings and extension rings add to the box volume?',
+    answer: `Yes, when they are marked with their volume or made to the size of a box in the 314.16(A) table. A 4 in square extension ring 1½ in deep adds ${boxCuIn(square)} cu in, the same as the box. Plaster rings and domed covers add the volume stamped on them, and an unmarked ring adds nothing. Nonmetallic boxes, and boxes of 100 cu in or less that are not in the table, are marked with their volume by the maker: choose “Other box” and enter it.`,
+  },
+  {
+    question: 'Is anything I enter sent to BuildWorkPro?',
+    answer:
+      'No. The math runs in your browser and nothing is sent to us. The box and its contents are kept in the page address so you can bookmark or share a result.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/electrical-estimate/',
+    label: 'Electrical estimate template',
+    note: 'A free Excel, Word and PDF estimate with a device takeoff that counts openings and boxes.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/solutions/electrical-contractors/',
+    label: 'BuildWorkPro for electricians',
+    note: 'Estimate from your own parts and labor, schedule phases and bill with pay apps.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Box Fill Calculator: NEC 314.16 Junction Box Sizing | BuildWorkPro"
+  description="Free NEC 314.16 box fill calculator: conductors, clamps, devices and grounds itemized, checked against your box volume, with the smallest box that fits."
+  h1="Box Fill Calculator"
+  intro="Count what goes in the box to get the volume it needs under NEC 314.16, itemized by rule. Check it against a standard metal box or the volume stamped in yours, and see the smallest box that works."
+  tool={TOOL}
+  chips={[
+    'Itemized by 314.16(B) rule',
+    '2017, 2020 and 2023 NEC',
+    'Smallest box that fits',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+  tray={false}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Box</h2>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="bf-ed">NEC edition</label>
+            <select id="bf-ed" data-in="ed" class={input}>
+              {Object.entries(EDITIONS).map(([k, name]) => <option value={k}>{name}</option>)}
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class={label} for="bf-b">Box</label>
+            <select id="bf-b" data-in="b" class={input}>
+              {
+                boxGroups.map((g) => (
+                  <optgroup label={groupNames[g.family]}>
+                    {g.boxes.map((k) => (
+                      <option value={k}>
+                        {BOXES[k].label} ({boxCuIn(BOXES[k].volume)} cu in)
+                      </option>
+                    ))}
+                  </optgroup>
+                ))
+              }
+              <option value="other">Other box: enter its volume</option>
+            </select>
+          </div>
+          <div data-show-other hidden>
+            <label class={label} for="bf-v">Box volume (cu in)</label>
+            <input
+              id="bf-v"
+              data-in="v"
+              type="number"
+              min="0"
+              step="0.1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="bf-rv">Rings and covers (cu in)</label>
+            <input
+              id="bf-rv"
+              data-in="rv"
+              type="number"
+              min="0"
+              step="0.1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-slate-500">
+          Standard metal boxes use the 314.16(A) volume. For a nonmetallic box, a box not listed or
+          ganged sections, choose Other and enter the volume stamped inside, or the sections added
+          up. Add the volume stamped on any plaster ring, extension ring or domed cover.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Conductors and devices</h2>
+        <div class="mt-4 rounded-xl border border-slate-200">
+          <div
+            class="grid grid-cols-3 gap-3 rounded-t-xl bg-slate-50 px-3 py-2 text-xs font-medium text-slate-600"
+          >
+            <span>Wire size</span>
+            <span>Conductors</span>
+            <span>Device gangs</span>
+          </div>
+          {
+            SIZES.map((s) => (
+              <div class="grid grid-cols-3 items-center gap-3 border-t border-slate-100 px-3 py-2">
+                <span class="text-sm font-medium text-slate-900">
+                  {s} AWG
+                  <span class="block text-xs font-normal text-slate-500">{cuIn(v[s])} cu in</span>
+                </span>
+                <div>
+                  <label class="sr-only" for={`bf-c${s}`}>
+                    {s} AWG conductors
+                  </label>
+                  <input
+                    id={`bf-c${s}`}
+                    data-in={`c${s}`}
+                    type="number"
+                    min="0"
+                    max="99"
+                    step="1"
+                    inputmode="numeric"
+                    class={input}
+                  />
+                </div>
+                <div>
+                  <label class="sr-only" for={`bf-d${s}`}>
+                    {s} AWG device gangs
+                  </label>
+                  <input
+                    id={`bf-d${s}`}
+                    data-in={`d${s}`}
+                    type="number"
+                    min="0"
+                    max="99"
+                    step="1"
+                    inputmode="numeric"
+                    class={input}
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <p class="mt-3 text-xs text-slate-500">
+          Conductors: every hot, neutral, traveler or switch leg that enters the box, spliced,
+          terminated or passing through. Enter an unbroken loop of {2 * FREE_LENGTH_IN} in or more as
+          2. Leave out pigtails that never leave the box, and enter grounds below. Device gangs: 1 for
+          each yoke, on the row of the largest conductor connected to it, or 2 for a device that needs
+          two gangs.
+        </p>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Grounds and fittings</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <label class={label} for="bf-g">Grounds entering</label>
+            <input
+              id="bf-g"
+              data-in="g"
+              type="number"
+              min="0"
+              max="99"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="bf-gs">Largest ground</label>
+            <select id="bf-gs" data-in="gs" class={input}>
+              {SIZES.map((s) => <option value={s}>{s} AWG</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="bf-ig">Isolated grounds entering</label>
+            <input
+              id="bf-ig"
+              data-in="ig"
+              type="number"
+              min="0"
+              max="99"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="bf-igs">Largest isolated ground</label>
+            <select id="bf-igs" data-in="igs" class={input}>
+              {SIZES.map((s) => <option value={s}>{s} AWG</option>)}
+            </select>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-x-6 gap-y-3">
+          <label class={check} for="bf-cl">
+            <input id="bf-cl" data-in="cl" type="checkbox" class={checkbox} />
+            Internal cable clamps
+          </label>
+          <label class={check} for="bf-st">
+            <input id="bf-st" data-in="st" type="checkbox" class={checkbox} />
+            Fixture stud
+          </label>
+          <label class={check} for="bf-hk">
+            <input id="bf-hk" data-in="hk" type="checkbox" class={checkbox} />
+            Hickey
+          </label>
+        </div>
+        <div data-show-edition="2023" class="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <label class={label} for="bf-tb">Terminal blocks (2023 NEC)</label>
+            <input
+              id="bf-tb"
+              data-in="tb"
+              type="number"
+              min="0"
+              max="99"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="bf-tbs">Largest conductor on them</label>
+            <select id="bf-tbs" data-in="tbs" class={input}>
+              {SIZES.map((s) => <option value={s}>{s} AWG</option>)}
+            </select>
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-slate-500">
+          Count the equipment grounds and bonding jumpers that enter the box. Isolated grounds for
+          isolated-ground receptacles get their own allowance under the 2017 NEC and count with the
+          other grounds under the 2020 and 2023 NEC. Clamps whose clamping part sits outside the box
+          count nothing.
+        </p>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">Box fill</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={cell}>
+            <span class={cellLabel}>Needed (cu in)</span>
+            <span class={cellValue} data-out="required"></span>
+            <span class={cellNote} data-out="required-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Box (cu in)</span>
+            <span class={cellValue} data-out="box"></span>
+            <span class={cellNote} data-out="box-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Result</span>
+            <span class="mt-2 block">
+              <span
+                data-verdict
+                class="inline-flex rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-sm font-semibold text-slate-600"
+              ></span>
+            </span>
+            <span class={cellNote} data-out="verdict-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel} data-out="smallest-label">Smallest box that works</span>
+            <span class="mt-1 block text-lg font-bold text-slate-900" data-out="smallest"></span>
+            <span class={cellNote} data-out="smallest-note"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Itemized by rule</h2>
+        <dl class="mt-3 text-sm">
+          {
+            ITEM_ROWS.map((row) => (
+              <div
+                data-item={row.id}
+                class="flex items-baseline justify-between gap-3 border-t border-slate-100 py-2"
+              >
+                <dt class="min-w-0 text-slate-600">
+                  {row.label} <span class="text-xs text-slate-400">{row.source}</span>
+                  <span data-out={`d-${row.id}`} class="mt-0.5 block text-xs text-slate-500" />
+                </dt>
+                <dd
+                  data-out={`v-${row.id}`}
+                  class="shrink-0 font-medium tabular-nums text-slate-900"
+                />
+              </div>
+            ))
+          }
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Volume needed (cu in)</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+        </dl>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example box
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Volume per conductor.</strong> Each conductor allowance is the free space in 314.16(B):
+      {
+        SIZES.map((s) => `${s} AWG ${cuIn(v[s])}`)
+          .join(', ')
+          .concat(' cu in.')
+      } The rule covers 6 AWG and smaller. Boxes with 4 AWG and larger conductors are sized under 314.28.
+    </p>
+    <p>
+      <strong>Conductors, 314.16(B)(1).</strong> Each conductor that enters from outside the box counts
+      once at its own size, whether it is spliced, terminated or passes straight through. An unbroken
+      loop at least twice the {FREE_LENGTH_IN} in free length of 300.14, so {2 * FREE_LENGTH_IN} in or
+      more, counts twice. A conductor no part of which leaves the box, like a pigtail, counts zero. Up
+      to four fixture wires smaller than 14 AWG and a ground that enter from a domed luminaire canopy
+      and end in the box can be left out.
+    </p>
+    <p>
+      <strong>Clamps and fittings, 314.16(B)(2) and (B)(3).</strong> One allowance covers all internal
+      cable clamps, at the largest conductor in the box. Fixture studs and hickeys take one allowance
+      for each type present, also at the largest conductor.
+    </p>
+    <p>
+      <strong>Device yokes, 314.16(B)(4).</strong> Two allowances for each yoke or strap, at the largest
+      conductor connected to a device on it. A device wider than a single 2 in device box takes two for
+      each gang it needs to mount.
+    </p>
+    <p>
+      <strong>Equipment grounds, 314.16(B)(5).</strong> 2020 and 2023 NEC: one allowance for up to {
+        EGC_SHARED
+      } grounds and bonding jumpers entering the box, at the largest of them, plus {EGC_EXTRA} of that
+      allowance for each one after the fourth. Isolated grounds count with the rest. 2017 NEC: one allowance
+      for all of them, at the largest, plus one more for an isolated ground set under 250.146(D), at the
+      largest conductor in that set.
+    </p>
+    <p>
+      <strong>Terminal blocks, 314.16(B)(6).</strong> New in the 2023 NEC: one allowance for each terminal
+      block assembly, at the largest conductor terminated on it. Earlier editions have no such rule, so
+      the calculator leaves them out when you pick 2017 or 2020.
+    </p>
+    <p>
+      <strong>Box volume.</strong> Standard metal boxes take their volume from the 314.16(A) table, in
+      cu in:
+      {
+        (Object.keys(BOXES) as ListedBox[])
+          .map((k) => `${BOXES[k].label} ${boxCuIn(BOXES[k].volume)}`)
+          .join('; ')
+          .concat('.')
+      } Nonmetallic boxes and other boxes up to 100 cu in are marked with their volume. Plaster rings,
+      extension rings and domed covers add their marked volume, or the volume of the listed box they are
+      made to. Ganged sections add together.
+    </p>
+    <p>
+      <strong>Result.</strong> The box fits when the volume needed is no more than the box volume plus
+      the rings. Room for more is the spare volume ÷ the allowance of the largest conductor, rounded down.
+      The smallest box that works is the smallest box of the same type in the table whose volume plus
+      your rings covers the volume needed. For an other box, it is the smallest round, square or device
+      box that does.
+    </p>
+    <p>
+      Each space in a box with a barrier is figured separately, and conduit bodies follow 314.16(C),
+      which this calculator does not cover. Check the edition your inspector enforces: states and
+      cities adopt the NEC on their own schedules and some amend it.
+    </p>
+    <p>
+      Pricing the job? The <a href="/templates/electrical-estimate/">electrical estimate template</a
+      > has a device takeoff that turns openings into labor hours and boxes, grouped the way electricians
+      price the work.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/boxfill-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="box-fill-calculator"]');
+  if (root) mount(root);
+</script>
