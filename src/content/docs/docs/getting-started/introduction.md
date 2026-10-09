@@ -3,13 +3,13 @@ title: What is BuildWorkPro?
 description: An overview of BuildWorkPro and how it helps subcontractors manage their business
 sidebar:
   order: 1
-lastUpdated: 2026-06-30
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
 BuildWorkPro is a construction management platform built specifically for subcontractors. It brings bidding, project management, billing, and field operations into one place so you can stop juggling spreadsheets and disconnected tools.
 
-![The BuildWorkPro dashboard showing pipeline value, win rate, active projects, and revenue history](/docs-screenshots/getting-started/dashboard.png)
+![The BuildWorkPro dashboard with the Needs you today list of follow-ups and the money strip showing overdue AR, outstanding, collected, pay apps, and pending change orders](/docs-screenshots/getting-started/dashboard.png)
 
 ## Who is it for?
 

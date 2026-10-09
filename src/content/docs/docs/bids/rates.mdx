@@ -1,38 +1,38 @@
 ---
 title: Rates
-description: Set margin, commission, and overhead on a bid
+description: Set margin, commission, overhead, and sales tax on a bid's Pricing tab
 sidebar:
   order: 3
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 
-The **Rates** tab controls how your costs become a sell price. It sets the margin, commission, and overhead applied to the bid.
+The **Pricing** tab controls how your costs become a sell price. It sets the margin, commission, overhead, and sales tax applied to the bid.
 
-![The Rates tab of a bid, showing the Rate Settings card, Display Options, and the Live Preview panel](/docs-screenshots/bids/bid-rates-tab.png)
+![The Pricing tab of a bid, showing the Rate Settings card with margin, commission, company overhead, and sales tax, and the Live Preview panel](/docs-screenshots/bids/bid-rates-tab.png)
 
 ## Rate settings
 
-Open the **Rates** tab. The **Rate Settings** card has three percentages, each expressed as a percentage of the selling price (see [markup vs. margin](/blog/construction-markup-vs-margin/) for why that matters):
+Open the **Pricing** tab. Under **Profit & Overhead**, the **Rate Settings** card has three percentages, each expressed as a percentage of the selling price -- not a markup on cost (see [markup vs. margin](/blog/construction-markup-vs-margin/) for why that matters):
 
 - **Margin** -- your profit margin.
 - **Commission** -- sales commission.
 - **Company OH** -- company overhead for general business expenses.
 
-Changes save automatically. Click **Reset to Defaults** to return to your organization's default rates.
+The **Live Preview** panel beside it shows how the rates turn your material and labor costs into the customer total as you type. Changes save automatically. Click **Reset to Defaults** to return to your organization's default rates.
 
-<Aside type="note">
-  Tax is not set here. Each cost item carries its own **Buy Tax** and **Sell Tax** -- see [line items](/docs/bids/line-items/).
-</Aside>
+## Sales tax
+
+**Sales tax** on the same card is the rate every line inherits. A line, or one of its cost items, can set its own rate instead -- or 0% to exempt it -- and its own rate replaces the bid's; the two are never added together. Cost items also carry a **Purchase tax (cost)** rate on what you pay -- see [line items](/docs/bids/line-items/).
 
 ## Display options
 
-The **Display Options** card controls how the bid document reads:
+The **Display Options** card has:
 
-- **Show Cost Item Details** -- show material and labor cost items under each line item on the bid.
-- **Round to whole dollars** -- round displayed amounts to whole dollars.
+- **Round to whole dollars** -- show customer-facing totals on this bid without cents. It starts from your company setting.
+- A link to the **Proposal** tab, where you choose how much your customer sees on the bid document: **Total only**, **Line items**, or a **Full breakdown** that lists each line's materials and labor (without your costs).
 
 ## Set defaults for new bids
 
@@ -40,12 +40,12 @@ To pre-fill these rates on every new bid, set your organization defaults.
 
 <Steps>
 
-1. **Open workspace settings.** Go to **Settings -> Workspace**.
+1. **Open bid defaults.** Go to **Settings -> Bid & Estimate Defaults**.
 
 2. **Edit Default Bid Rates.** In the **Default Bid Rates** card, set **Margin**, **Commission**, and **Company OH**. New bids start from these values.
 
 </Steps>
 
 <Aside type="note">
-  **Role required:** Company Admin to change workspace defaults. Per-bid rates can be adjusted by anyone who can edit the bid.
+  **Role required:** Company Admin to change the defaults. Per-bid rates can be adjusted by anyone who can edit the bid.
 </Aside>
