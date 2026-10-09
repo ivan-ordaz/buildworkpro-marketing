@@ -1,0 +1,481 @@
+---
+// /tools/rebar-calculator/ — wave-2 trade calculator (plan: calculators + price
+// index, 2026-10-08). One rectangular slab or mat → bars each way, cut lengths,
+// laps, sticks from a cut list, weight and chairs; optional price from the
+// contractor's own remembered prices; "Add to estimate" feeds the shared tray.
+// The grid math matches the concrete estimate template's Slab Takeoff sheet.
+// Math: src/lib/calculators/rebar.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  BAR_SIZES,
+  BARS,
+  computeRebar,
+  DEFAULT_CHAIR_FT,
+  DEFAULT_COVER_IN,
+  DEFAULT_INPUT,
+  DEFAULT_LAP_DB,
+  feetPerTon,
+  fmtFtIn,
+  lapInches,
+  LB_PER_TON,
+  STOCKS,
+  stickWeight,
+  TOOL,
+} from '../../../lib/calculators/rebar';
+import { fmt, fmtTrim } from '../../../lib/calculators/format';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+// FAQ figures, computed by the same module the calculator runs on.
+const ex = computeRebar(DEFAULT_INPUT);
+const sq20 = computeRebar({ ...DEFAULT_INPUT, length: 20, width: 20 });
+const sq20Long = computeRebar({ ...DEFAULT_INPUT, length: 20, width: 20, stock: '40' });
+const lbs = (bar: keyof typeof BARS) => BARS[bar].lbPerFt.toFixed(3);
+const lap = (bar: keyof typeof BARS) => fmtTrim(lapInches(bar, DEFAULT_LAP_DB));
+const chairSqft = DEFAULT_CHAIR_FT * DEFAULT_CHAIR_FT;
+
+const faqs = [
+  {
+    question: 'How much rebar do I need for a 20 × 20 slab?',
+    answer: `With #4 bars at 12 inches on center each way, ${DEFAULT_COVER_IN} inches of edge clearance and 20 ft sticks, a 20 × 20 ft slab takes ${sq20.barsL} bars each way, ${sq20.bars} bars of ${fmtFtIn(sq20.spanLIn)}. Every bar fits in one stick, so there are no laps: ${fmt(Math.round(sq20.lf))} linear feet, ${fmt(Math.round(sq20.lbPlaced))} lb (${fmt(sq20.tonsPlaced, 2)} tons) of steel and ${sq20.sticks} sticks, plus ${sq20.chairs} chairs at ${DEFAULT_CHAIR_FT} ft each way. Buy 40 ft sticks and it is ${sq20Long.sticks}, two bars to a stick. Use the bar size and spacing on your plans.`,
+  },
+  {
+    question: 'How much does rebar weigh per foot?',
+    answer: `ASTM A615 gives the nominal weights: #3 is ${lbs('3')} lb per foot, #4 ${lbs('4')}, #5 ${lbs('5')}, #6 ${lbs('6')}, #7 ${lbs('7')} and #8 ${lbs('8')}. A 20 ft stick of #4 weighs ${fmtTrim(stickWeight('4', '20'))} lb and one of #5 ${fmtTrim(stickWeight('5', '20'))} lb. A ton of #4 is about ${fmt(Math.round(feetPerTon('4')))} feet, or ${fmtTrim(feetPerTon('4') / 20, 1)} sticks of 20 ft.`,
+  },
+  {
+    question: 'Why does it show more sticks than the linear feet divided by 20?',
+    answer: `Because steel comes in whole sticks. The 20 × 20 slab above is ${fmt(Math.round(sq20.lf))} LF, which is ${fmtTrim(sq20.sticksOfSteel, 2)} sticks of steel, but each ${fmtFtIn(sq20.spanLIn)} bar needs its own 20 ft stick and the offcuts are scrap, so you buy ${sq20.sticks}. The calculator builds a cut list: a full stick for every piece of a spliced run but the last, then the last pieces fitted onto sticks longest first, with short pieces cut from the offcuts of long ones where they fit. On the ${fmtTrim(DEFAULT_INPUT.length)} × ${fmtTrim(DEFAULT_INPUT.width)} ft example slab that is ${ex.sticks} sticks against ${fmtTrim(ex.sticksOfSteel, 1)} by straight division.`,
+  },
+  {
+    question: 'How far apart should rebar be in a concrete slab?',
+    answer:
+      'As far apart as the plans say. Bar size and spacing are design decisions that depend on the slab’s thickness, loads and subgrade, and on how much cracking is acceptable. For structural slabs, ACI 318 also caps the spacing based on the slab thickness (sections 7.7.2.3, 8.7.2.2 and 24.4.3.3). Enter the spacing from your drawings or spec. It can differ each way.',
+  },
+  {
+    question: 'How long should rebar laps be?',
+    answer: `Use the lap on your plans. Under ACI 318 the engineer shows the location and length of lap splices on the structural drawings, and the length depends on concrete strength, bar grade, size and spacing (CRSI). A tension lap is 1.0 or 1.3 times the bar’s development length (ACI 318 Table 25.5.2.1). The calculator takes the lap in bar diameters and defaults to ${DEFAULT_LAP_DB}, which is ${lap('4')} in on #4 bar, the lap in our concrete estimate template. At ${DEFAULT_LAP_DB} diameters a #3 laps ${lap('3')} in, a #5 ${lap('5')} in and a #6 ${lap('6')} in. Change it to match your spec.`,
+  },
+  {
+    question: 'How many rebar chairs do I need?',
+    answer: `One for each chair-spacing square of slab, per mat: slab area ÷ (spacing × spacing), rounded up. At ${DEFAULT_CHAIR_FT} ft each way that is one per ${chairSqft} sq ft, so a 20 × 20 slab takes ${sq20.chairs} and the ${fmtTrim(DEFAULT_INPUT.length)} × ${fmtTrim(DEFAULT_INPUT.width)} example takes ${ex.chairs}. A top mat needs its own supports, counted at the same spacing. Supports have to hold the steel at its depth through the pour (2021 IRC R506.2.4 for slabs on ground), so follow your spec, which may call for closer supports under heavier bars.`,
+  },
+  {
+    question: 'Are my measurements and prices sent to BuildWorkPro?',
+    answer:
+      'No. The math runs in your browser. Your prices and your estimate are saved in this browser’s local storage so they are there next time, and nothing is sent to us. The slab size is also kept in the page address so you can bookmark or share a result.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/concrete-estimate/',
+    label: 'Concrete estimate template',
+    note: 'A free PDF, Excel and Word estimate with a slab takeoff for cubic yards, base, rebar and forms.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/solutions/concrete-contractors/',
+    label: 'Software for concrete contractors',
+    note: 'Line-item bids, phase scheduling, site logs and pay applications in one place.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Rebar Calculator: Bars, Laps, Sticks, Weight & Chairs | BuildWorkPro"
+  description="Free rebar calculator for slabs: bars each way, laps, sticks to buy from a cut list, weight in lb and tons, and chairs, priced with your own rates."
+  h1="Rebar Calculator"
+  intro="Enter a slab to get bars each way, laps, sticks to buy, weight and chairs for one or two mats. Add your own prices to get the installed cost, then add the slab to an estimate and do the next one."
+  tool={TOOL}
+  chips={[
+    'Bars, laps, sticks, chairs',
+    'Your prices, saved',
+    'Builds an estimate',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Slab</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="rb-l">Length (ft)</label>
+            <input
+              id="rb-l"
+              data-in="l"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="rb-w">Width (ft)</label>
+            <input
+              id="rb-w"
+              data-in="w"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="rb-cv">Edge clearance (in)</label>
+            <input
+              id="rb-cv"
+              data-in="cv"
+              type="number"
+              min="0"
+              max="12"
+              step="0.25"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+        <label class="mt-4 inline-flex items-center gap-2 text-sm text-slate-700" for="rb-top">
+          <input
+            id="rb-top"
+            data-in="top"
+            type="checkbox"
+            class="h-4 w-4 rounded border-slate-300 accent-brand-600"
+          />
+          Two mats, top and bottom
+        </label>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Bars</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="rb-bar">Bar size</label>
+            <select id="rb-bar" data-in="bar" class={input}>
+              {
+                BAR_SIZES.map((k) => (
+                  <option value={k}>
+                    {BARS[k].label}, {BARS[k].lbPerFt.toFixed(3)} lb/ft
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+          <div>
+            <label class={label} for="rb-st">Stick length</label>
+            <select id="rb-st" data-in="st" class={input}>
+              {STOCKS.map((s) => <option value={s}>{s} ft</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="rb-wst">Waste, extra sticks (%)</label>
+            <input
+              id="rb-wst"
+              data-in="wst"
+              type="number"
+              min="0"
+              max="40"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="rb-sl">Along length, o.c. (in)</label>
+            <input
+              id="rb-sl"
+              data-in="sl"
+              type="number"
+              min="3"
+              max="48"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="rb-sw">Along width, o.c. (in)</label>
+            <input
+              id="rb-sw"
+              data-in="sw"
+              type="number"
+              min="3"
+              max="48"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="rb-lap">Lap (bar diameters)</label>
+            <input
+              id="rb-lap"
+              data-in="lap"
+              type="number"
+              min="0"
+              max="100"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="rb-ch">Chair spacing (ft)</label>
+            <input
+              id="rb-ch"
+              data-in="ch"
+              type="number"
+              min="1"
+              max="8"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-slate-500">
+          Lap and chair spacing are defaults, not code values: {DEFAULT_LAP_DB} bar diameters ({
+            lap('4')
+          } in on #4) and chairs every {DEFAULT_CHAIR_FT} ft each way, as in our concrete estimate template.
+          Use the lap on your plans and the support spacing in your spec.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Your prices</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Saved in this browser, so you only type them once.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="rb-p-steel-basis">Price rebar</label>
+            <select id="rb-p-steel-basis" data-price-basis="steel" class={input}>
+              <option value="stick">Per stick</option>
+              <option value="ton">Per ton</option>
+            </select>
+          </div>
+          <div>
+            <label class={label} for="rb-p-steel" data-out="steel-input-label"
+              >Rebar, per 20 ft stick ($)</label
+            >
+            <input
+              id="rb-p-steel"
+              data-price="steel"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="rb-p-chair">Chairs, each ($)</label>
+            <input
+              id="rb-p-chair"
+              data-price="chair"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="rb-p-labor-basis">Price labor</label>
+            <select id="rb-p-labor-basis" data-price-basis="labor" class={input}>
+              <option value="ton">Per ton placed</option>
+              <option value="sqft">Per sq ft of slab</option>
+            </select>
+          </div>
+          <div class="col-span-2 sm:col-span-2">
+            <label class={label} for="rb-p-labor" data-out="labor-input-label"
+              >Labor, per ton placed ($)</label
+            >
+            <input
+              id="rb-p-labor"
+              data-price="labor"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">You need</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Bars along the length</span>
+            <span class={cellValue} data-out="bars-l"></span>
+            <span class={cellNote} data-out="bars-l-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Bars along the width</span>
+            <span class={cellValue} data-out="bars-w"></span>
+            <span class={cellNote} data-out="bars-w-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Linear feet, incl. laps</span>
+            <span class={cellValue} data-out="lf"></span>
+            <span class={cellNote} data-out="lf-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Laps</span>
+            <span class={cellValue} data-out="laps"></span>
+            <span class={cellNote} data-out="laps-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Sticks to buy</span>
+            <span class={cellValue} data-out="sticks"></span>
+            <span class={cellNote} data-out="sticks-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Weight (lb)</span>
+            <span class={cellValue} data-out="weight"></span>
+            <span class={cellNote} data-out="weight-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Chairs and supports</span>
+            <span class={cellValue} data-out="chairs"></span>
+            <span class={cellNote} data-out="chairs-note"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Materials</dt>
+            <dd data-out="material" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600" data-out="labor-label">Labor</dt>
+            <dd data-out="labor" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Installed total</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+          <p data-out="per-sqft" class="text-right text-xs text-slate-500"></p>
+        </dl>
+        <p data-out="price-hint" class="mt-2 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example slab
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Clear span.</strong> Each bar runs the slab dimension less the edge clearance at both ends:
+      length in inches − 2 × clearance. The {DEFAULT_COVER_IN} in default is the clearance in our concrete
+      estimate template. Your plans set the cover; ACI 318 Table 20.5.1.3.1 gives the minimums by exposure.
+    </p>
+    <p>
+      <strong>Bars each way.</strong> Bars along the length are spaced across the width: ROUNDUP(clear
+      width ÷ spacing) + 1, so there is a bar at each edge. Bars along the width are ROUNDUP(clear length
+      ÷ spacing) + 1. A top mat doubles both.
+    </p>
+    <p>
+      <strong>Laps.</strong> The lap is the number of bar diameters you enter × the bar’s nominal diameter.
+      A run longer than one stick takes n = ROUNDUP((span − lap) ÷ (stick − lap)) pieces, at least one,
+      with n − 1 laps, so its steel is span + (n − 1) × lap. Linear feet are bars × steel per run, both
+      ways. This is the same grid math as the concrete estimate template’s slab takeoff.
+    </p>
+    <p>
+      <strong>Sticks.</strong> Counted from a cut list rather than linear feet ÷ stick length. Each spliced
+      run takes n − 1 full sticks and a last piece. The last pieces are fitted onto sticks longest first,
+      and short pieces go into the offcuts of long ones where they fit. Your waste percentage goes on
+      top, rounded up. Offcuts are not spliced into new bars, so a cut plan made by hand can sometimes
+      save a few sticks.
+    </p>
+    <p>
+      <strong>Weight.</strong> Linear feet × the nominal weight per foot from ASTM A615, and tons = lb
+      ÷ {fmt(LB_PER_TON)}. The weight placed counts the laps; the weight bought is every stick you
+      buy, offcuts included.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Bar</th><th>Diameter (in)</th><th>lb per ft</th><th>20 ft stick (lb)</th><th
+            >Lap at {DEFAULT_LAP_DB} diameters</th
+          >
+        </tr>
+      </thead>
+      <tbody>
+        {
+          BAR_SIZES.map((k) => (
+            <tr>
+              <td>{BARS[k].label}</td>
+              <td>{BARS[k].diaIn.toFixed(3)}</td>
+              <td>{BARS[k].lbPerFt.toFixed(3)}</td>
+              <td>{fmtTrim(stickWeight(k, '20'))}</td>
+              <td>{lap(k)} in</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+    <p>
+      <strong>Chairs.</strong> ROUNDUP(slab area ÷ spacing²) for each mat. The default, {
+        DEFAULT_CHAIR_FT
+      } ft each way or one chair per {chairSqft} sq ft, is the concrete estimate template’s figure, not
+      a code value.
+    </p>
+    <p>
+      <strong>Price.</strong> Steel is sticks × your price per stick, or the weight of the sticks you
+      buy × your price per ton. Chairs are the count × your price each. Labor is tons placed × your rate
+      per ton, or slab area × your rate per sq ft. Tie wire is not counted, because the number of ties
+      depends on the spec. Nothing is priced with numbers you did not enter.
+    </p>
+    <p>
+      Bar size, spacing, cover and laps are design decisions that come from the drawings and the
+      engineer, and this calculator does not check them. Pricing the concrete too? The <a
+        href="/templates/concrete-estimate/">concrete estimate template</a
+      > has a slab takeoff for cubic yards, base stone, rebar and forms, and the <a
+        href="/tools/concrete-block-calculator/">concrete block calculator</a
+      > counts blocks, grout and bars for a CMU wall.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/rebar-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="rebar-calculator"]');
+  if (root) mount(root);
+</script>
