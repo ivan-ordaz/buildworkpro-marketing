@@ -17,6 +17,12 @@ export const config = {
   },
   turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA',
   /**
+   * PostHog project key (marketing#227). Publishable by design — the same
+   * project key the app serves from /api/config/public — so it may live here.
+   */
+  posthogKey:
+    import.meta.env.PUBLIC_POSTHOG_KEY || 'phc_Aprfr56ZmrvJ2T9RA57tj2HRnntB24wtmv6BoEAMfn4x',
+  /**
    * Byline for blog posts (visible byline + BlogPosting/AboutPage Person
    * schema). `profiles` feeds schema.org `sameAs` and the author box links —
    * only list profiles that exist and are filled out; a dead link is worse
