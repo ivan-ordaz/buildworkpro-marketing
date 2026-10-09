@@ -1,0 +1,281 @@
+---
+// /prices/{material}/ — one page per material family, built from the BLS
+// Producer Price Index data in src/data/prices/ppi.json. Every number is a
+// ratio between months of the same series (see lib/prices/ppi.ts); nothing on
+// these pages is a dollar shelf price. Plan: calculators + price index, phase 2.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import PriceChart from '../../components/prices/PriceChart.astro';
+import Sparkline from '../../components/prices/Sparkline.astro';
+import CiteBox from '../../components/prices/CiteBox.astro';
+import { MATERIALS, type Material } from '../../data/prices/materials';
+import {
+  addMonths,
+  dollars,
+  escalate,
+  LATEST,
+  monthLabel,
+  moved,
+  pct,
+  snapshot,
+} from '../../lib/prices/ppi';
+
+export function getStaticPaths() {
+  return MATERIALS.map((m) => ({ params: { material: m.slug }, props: { m } }));
+}
+
+const { m } = Astro.props as { m: Material };
+const head = snapshot(m.headline);
+const latestLabel = monthLabel(head.period);
+const yearAgo = addMonths(head.period, -12);
+const yearAgoLabel = monthLabel(yearAgo);
+const rows = m.series.map((id) => snapshot(id));
+const regions = (m.regions ?? []).map((r) => ({ ...r, snap: snapshot(r.id) }));
+const tenK = escalate(m.headline, 10000, yearAgo, head.period);
+const fiveYearsAgo = addMonths(head.period, -60);
+const tenKFive = escalate(m.headline, 10000, fiveYearsAgo, head.period);
+const reportHref = `/prices/reports/${LATEST}/`;
+const lower = head.name.charAt(0).toLowerCase() + head.name.slice(1);
+
+const title = `${m.h1}: Monthly Trend for Contractors (${monthLabel(head.period, true)}) | BuildWorkPro`;
+const description = `Producer prices for ${lower} ${moved(head.year)} from ${yearAgoLabel} to ${latestLabel}. Monthly chart, related materials and what the change means for your bids.`;
+
+const direction =
+  head.year == null ? 'had no comparable figure' : head.year >= 0 ? 'higher' : 'lower';
+const faqs = [
+  {
+    question: `Are ${m.name.toLowerCase()} prices going up or down?`,
+    answer: `In ${latestLabel}, producer prices for ${lower} ${moved(head.month)} from the month before and ${moved(head.year)} from ${yearAgoLabel}. Over five years they ${moved(head.fiveYear)}. These are Bureau of Labor Statistics figures, and the latest months are preliminary until BLS revises them four months after release.`,
+  },
+  {
+    question: `How much have ${m.name.toLowerCase()} prices changed in the last year?`,
+    answer:
+      tenK == null
+        ? 'There is no comparable figure for a year ago.'
+        : `At producer prices, a ${m.purchase} that cost $10,000 in ${yearAgoLabel} would cost about ${dollars(tenK)} in ${latestLabel}, ${direction} by ${pct(head.year).replace(/^[+−]/, '')}. Your supplier’s price follows the same direction with its own markup and timing.`,
+  },
+  {
+    question: 'Is this the price I pay at the supplier?',
+    answer:
+      'No. The Producer Price Index measures what domestic producers receive, before distribution and retail markups. Supplier and retail prices tend to follow it with a lag. Use it for the trend and for escalation, and get today’s number from your supplier’s quote.',
+  },
+  {
+    question: 'Can I use this index in a price escalation clause?',
+    answer: `Many contracts tie material escalation to a named Producer Price Index series, measured from the bid month to the purchase month. This page uses BLS series ${m.headline} for ${lower}. Name the exact series and months in the contract, and have your attorney review the clause.`,
+  },
+];
+const citation = `BuildWorkPro Price Index: ${m.h1}, ${latestLabel}. Data: U.S. Bureau of Labor Statistics, Producer Price Index. https://buildworkpro.com/prices/${m.slug}/`;
+const changeClass = (n: number | null) =>
+  n == null
+    ? 'text-slate-400'
+    : n > 0
+      ? 'text-amber-700'
+      : n < 0
+        ? 'text-brand-700'
+        : 'text-slate-600';
+---
+
+<Layout title={title} description={description}>
+  <Header />
+  <main class="pt-28 pb-20" data-price-page={m.slug}>
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+        Material prices · updated with {latestLabel} data
+      </p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+        {m.h1}
+      </h1>
+      <p class="mt-5 text-lg text-slate-500 leading-relaxed">{m.intro}</p>
+      <dl class="mt-8 grid gap-3 sm:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-4">
+          <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">
+            vs. {yearAgoLabel}
+          </dt>
+          <dd
+            class={`mt-1 text-3xl font-bold tabular-nums ${changeClass(head.year)}`}
+            data-kpi="year"
+          >
+            {pct(head.year)}
+          </dd>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-4">
+          <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">vs. last month</dt>
+          <dd
+            class={`mt-1 text-3xl font-bold tabular-nums ${changeClass(head.month)}`}
+            data-kpi="month"
+          >
+            {pct(head.month)}
+          </dd>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-4">
+          <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">
+            vs. 5 years ago
+          </dt>
+          <dd
+            class={`mt-1 text-3xl font-bold tabular-nums ${changeClass(head.fiveYear)}`}
+            data-kpi="five"
+          >
+            {pct(head.fiveYear)}
+          </dd>
+        </div>
+      </dl>
+      <p class="mt-3 text-sm text-slate-500">
+        {head.name}, {latestLabel}{head.preliminary ? ' (preliminary)' : ''}. Producer prices, not
+        shelf prices.
+      </p>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <PriceChart id={m.headline} name={head.name} />
+    </section>
+
+    {
+      regions.length > 0 && (
+        <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+          <h2 class="text-xl font-bold text-slate-900">By region</h2>
+          <p class="mt-1 text-sm text-slate-600">
+            BLS publishes ready-mix concrete for the four Census regions, because concrete prices
+            follow local demand more than most materials.
+          </p>
+          <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+            <table class="w-full text-sm" data-region-table>
+              <thead>
+                <tr class="text-left text-xs uppercase tracking-wide text-slate-500">
+                  <th class="px-4 py-3 font-medium">Region</th>
+                  <th class="px-4 py-3 text-right font-medium">vs. last month</th>
+                  <th class="px-4 py-3 text-right font-medium">vs. a year ago</th>
+                  <th class="px-4 py-3 font-medium">2 years</th>
+                </tr>
+              </thead>
+              <tbody>
+                {regions.map((r) => (
+                  <tr class="border-t border-slate-100">
+                    <td class="px-4 py-3 font-medium text-slate-900">{r.label}</td>
+                    <td class={`px-4 py-3 text-right tabular-nums ${changeClass(r.snap.month)}`}>
+                      {pct(r.snap.month)}
+                    </td>
+                    <td class={`px-4 py-3 text-right tabular-nums ${changeClass(r.snap.year)}`}>
+                      {pct(r.snap.year)}
+                    </td>
+                    <td class="px-4 py-2">
+                      <Sparkline id={r.id} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <h2 class="text-xl font-bold text-slate-900">What it means for your bids</h2>
+      <div class="mt-3 space-y-3 text-slate-600">
+        {
+          tenK != null && (
+            <p data-escalation>
+              At producer prices, a {m.purchase} that cost <strong>$10,000</strong> in{' '}
+              {yearAgoLabel} would cost about <strong>{dollars(tenK)}</strong> in {latestLabel}
+              {tenKFive != null && (
+                <>
+                  , and one from {monthLabel(fiveYearsAgo)} about{' '}
+                  <strong>{dollars(tenKFive)}</strong>
+                </>
+              )}
+              .
+            </p>
+          )
+        }
+        <p>
+          Supplier and retail prices follow producer prices with their own markups and timing, so
+          use the trend to judge how long to hold a bid price and whether to add an escalation
+          clause, and use your supplier’s quote for the number on the bid.
+        </p>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <h2 class="text-xl font-bold text-slate-900">Related materials</h2>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="w-full text-sm" data-series-table>
+          <thead>
+            <tr class="text-left text-xs uppercase tracking-wide text-slate-500">
+              <th class="px-4 py-3 font-medium">Material</th>
+              <th class="px-4 py-3 text-right font-medium">vs. last month</th>
+              <th class="px-4 py-3 text-right font-medium">vs. a year ago</th>
+              <th class="hidden px-4 py-3 text-right font-medium sm:table-cell">vs. 5 years ago</th>
+              <th class="px-4 py-3 font-medium">2 years</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map((r) => (
+                <tr class="border-t border-slate-100" data-series-row={r.id}>
+                  <td class="px-4 py-3">
+                    <span class="font-medium text-slate-900">{r.name}</span>
+                    <span class="block text-xs text-slate-400">
+                      BLS {r.id}
+                      {r.preliminary ? ', preliminary' : ''}
+                    </span>
+                  </td>
+                  <td class={`px-4 py-3 text-right tabular-nums ${changeClass(r.month)}`}>
+                    {pct(r.month)}
+                  </td>
+                  <td class={`px-4 py-3 text-right tabular-nums ${changeClass(r.year)}`}>
+                    {pct(r.year)}
+                  </td>
+                  <td
+                    class={`hidden px-4 py-3 text-right tabular-nums sm:table-cell ${changeClass(r.fiveYear)}`}
+                  >
+                    {pct(r.fiveYear)}
+                  </td>
+                  <td class="px-4 py-2">
+                    <Sparkline id={r.id} />
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-3 text-sm text-slate-600">
+        Every material we track is in the <a
+          href={reportHref}
+          class="font-semibold text-brand-700 hover:underline"
+          >{monthLabel(LATEST)} materials price report</a
+        >, and the <a href="/prices/" class="font-semibold text-brand-700 hover:underline"
+          >material prices</a
+        > page lists them side by side.
+      </p>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <CiteBox citation={citation} csvHref={`/prices/data/${m.slug}.csv`} />
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <h2 class="text-2xl font-bold text-slate-900 text-center">Price the job</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        {
+          m.related.map((r) => (
+            <a
+              href={r.href}
+              class="block rounded-2xl border border-slate-200 bg-white p-5 hover:border-brand-300 hover:shadow-sm"
+            >
+              <span class="block font-semibold text-slate-900">{r.label}</span>
+              <span class="mt-1 block text-sm text-slate-600">{r.note}</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <FAQSection faqs={faqs} />
+    </div>
+  </main>
+  <Footer />
+</Layout>

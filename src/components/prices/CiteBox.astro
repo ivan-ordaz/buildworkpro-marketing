@@ -1,0 +1,76 @@
+---
+// "Cite this" panel for the price pages: a ready-made citation (copy button),
+// the CSV behind the page and the methodology. Reporters and other sites link
+// when linking is the easy path.
+interface Props {
+  citation: string;
+  csvHref: string;
+  csvLabel?: string;
+}
+
+const { citation, csvHref, csvLabel = 'Download the data (CSV)' } = Astro.props;
+---
+
+<div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5" data-cite-box>
+  <h2 class="text-base font-semibold text-slate-900">Cite or reuse this data</h2>
+  <p class="mt-1 text-sm text-slate-600">
+    Free to use with credit and a link. The figures are U.S. Bureau of Labor Statistics data,
+    compiled by BuildWorkPro.
+  </p>
+  <p
+    data-citation
+    class="mt-3 rounded-lg bg-white px-3 py-2 text-sm text-slate-700 border border-slate-200 break-words"
+  >
+    {citation}
+  </p>
+  <div class="mt-3 flex flex-wrap items-center gap-2">
+    <button
+      type="button"
+      data-copy-citation
+      class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+    >
+      Copy citation
+    </button>
+    <a
+      href={csvHref}
+      data-csv-link
+      class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700"
+      >{csvLabel}</a
+    >
+    <a href="/prices/methodology/" class="text-sm font-semibold text-brand-700 hover:underline"
+      >How these numbers are built</a
+    >
+    <span data-copy-status class="text-sm text-slate-500" aria-live="polite"></span>
+  </div>
+</div>
+
+<script>
+  for (const box of document.querySelectorAll<HTMLElement>('[data-cite-box]')) {
+    const btn = box.querySelector<HTMLButtonElement>('[data-copy-citation]');
+    const text = box.querySelector<HTMLElement>('[data-citation]');
+    const status = box.querySelector<HTMLElement>('[data-copy-status]');
+    btn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(text?.textContent?.trim() ?? '');
+        if (status) status.textContent = 'Copied';
+      } catch {
+        if (text) {
+          const range = document.createRange();
+          range.selectNodeContents(text);
+          const sel = window.getSelection();
+          sel?.removeAllRanges();
+          sel?.addRange(range);
+        }
+        if (status) status.textContent = 'Selected. Press Ctrl+C or Cmd+C to copy.';
+      }
+      const w = window as unknown as {
+        bwpTrack?: (
+          m: { name: string; params?: Record<string, unknown> },
+          g: { name: string; params?: Record<string, unknown> }
+        ) => void;
+      };
+      const params = { tool: 'price-index', action: 'cite_copy', page: location.pathname };
+      w.bwpTrack?.({ name: 'ToolUse', params }, { name: 'tool_use', params });
+    });
+  }
+</script>

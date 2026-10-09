@@ -170,18 +170,18 @@ const FINE =
   'Measured before removal. Subgrade repair beyond the allowance and owner changes are priced by written change order first. Call 811 before digging. Check your state’s contract rules. Not legal advice.';
 
 /**
- * Slab takeoff: one row per slab → area, cubic yards, perimeter, rebar grid and
- * control joints; then the order quantities. Flatwork only — structural
+ * Slab takeoff: one row per slab → area, cubic yards, perimeter, rebar grid,
+ * rebar sticks and control joints; then the order quantities. Flatwork only — structural
  * concrete follows the engineer's drawings.
  */
 function takeoff(wb) {
   const ws = X.sheet(wb, 'Slab Takeoff', { fitHeight: 1 });
-  X.widths(ws, [21, 8, 8, 7.5, 7.5, 8, 9, 9, 9, 10, 10, 10]);
+  X.widths(ws, [21, 7.5, 7.5, 7, 7, 7.5, 8, 8.5, 8.5, 9.5, 9.5, 8.5, 9.5]);
   let r = X.titleBlock(ws, {
     title: 'Slab Takeoff',
     subtitle:
       'Flatwork only — driveways, walks, patios, pads. One row per slab; thickness in inches, everything else in feet. Structural slabs and footings follow the engineer’s drawings.',
-    cols: 12,
+    cols: 13,
   });
   X.inputLegend(ws, r, 1);
   r += 2;
@@ -194,9 +194,9 @@ function takeoff(wb) {
   const last = first + ROWS - 1;
   const totRow = last + 1;
   const assumeHead = totRow + 2;
-  const a0 = assumeHead + 1; // first assumption row (left value in F, right in L)
+  const a0 = assumeHead + 1; // first assumption row (left value in F, right in M)
   const A = (i) => `$F$${a0 + i}`;
-  const B = (i) => `$L$${a0 + i}`;
+  const B = (i) => `$M$${a0 + i}`;
 
   // Right-column assumptions used by the slab rows.
   const SP = B(0); // rebar spacing, in
@@ -219,6 +219,7 @@ function takeoff(wb) {
       'Perimeter (LF)',
       'Bars along L / W',
       'Rebar LF incl. laps',
+      'Rebar sticks',
       'Control joints (LF)',
     ],
     {
@@ -234,6 +235,7 @@ function takeoff(wb) {
         'right',
         'right',
         'center',
+        'right',
         'right',
         'right',
       ],
@@ -254,8 +256,14 @@ function takeoff(wb) {
     const nL = `(ROUNDUP(${spanW}*12/${SP},0)+1)`;
     const nW = `(ROUNDUP(${spanL}*12/${SP},0)+1)`;
     // A run longer than one stick needs n sticks with (n − 1) laps.
-    const lapped = (span) =>
-      `(${span}+(MAX(1,ROUNDUP((${span}-${LP}/12)/(${ST}-${LP}/12),0))-1)*${LP}/12)`;
+    const pieces = (span) => `MAX(1,ROUNDUP((${span}-${LP}/12)/(${ST}-${LP}/12),0))`;
+    const lapped = (span) => `(${span}+(${pieces(span)}-1)*${LP}/12)`;
+    // Sticks come from the cut list, not LF ÷ stick length: every piece of a
+    // run but the last is a full stick, and the last pieces are cut as many to
+    // a stick as fit. Offcuts are not reused across directions or slabs.
+    const endPiece = (span) => `(${span}-(${pieces(span)}-1)*(${ST}-${LP}/12))`;
+    const sticks = (n, span) =>
+      `${n}*(${pieces(span)}-1)+ROUNDUP(${n}/INT(${ST}/${endPiece(span)}+1E-9),0)`;
     const hasGrid = `AND(G${row}<>"",UPPER(E${row})="Y")`;
     X.bodyRow(ws, row, [
       { input: true, value: s?.[0] ?? null },
@@ -273,6 +281,10 @@ function takeoff(wb) {
       { formula: `IF(${hasGrid},${nL}&" / "&${nW},"")`, align: 'center' },
       {
         formula: `IF(${hasGrid},${nL}*${lapped(spanL)}+${nW}*${lapped(spanW)},"")`,
+        numFmt: '#,##0;-#,##0;""',
+      },
+      {
+        formula: `IF(${hasGrid},${sticks(nL, spanL)}+${sticks(nW, spanW)},"")`,
         numFmt: '#,##0;-#,##0;""',
       },
       {
@@ -296,12 +308,14 @@ function takeoff(wb) {
     {},
     sum('K', X.FMT.int),
     sum('L', X.FMT.int),
+    sum('M', X.FMT.int),
   ]);
   const area = `G${totRow}`;
   const cyInPlace = `H${totRow}`;
   const perim = `I${totRow}`;
   const rebarLf = `K${totRow}`;
-  const joints = `L${totRow}`;
+  const rebarSticks = `L${totRow}`;
+  const joints = `M${totRow}`;
 
   r = assumeHead;
   X.label(ws, r, 1, 'Assumptions — check the supplier, the product label and your plans');
@@ -328,7 +342,7 @@ function takeoff(wb) {
   ];
   for (let i = 0; i < left.length; i++) {
     X.kv(ws, r, 1, left[i][0], left[i][1], { labelTo: 5, numFmt: left[i][2], align: 'right' });
-    X.kv(ws, r, 7, right[i][0], right[i][1], { labelTo: 11, numFmt: right[i][2], align: 'right' });
+    X.kv(ws, r, 7, right[i][0], right[i][1], { labelTo: 12, numFmt: right[i][2], align: 'right' });
     r++;
   }
   const waste = A(0);
@@ -348,8 +362,8 @@ function takeoff(wb) {
   X.label(ws, r, 1, 'Linear measurements (ft)');
   r++;
   const lin = (lab, value) => {
-    X.kv(ws, r, 1, lab, value, { labelTo: 11, numFmt: X.FMT.int, align: 'right' });
-    return `L${r++}`;
+    X.kv(ws, r, 1, lab, value, { labelTo: 12, numFmt: X.FMT.int, align: 'right' });
+    return `M${r++}`;
   };
   const butt = lin(
     'Edges against existing concrete, the curb or the house — isolation joint, no form',
@@ -358,28 +372,34 @@ function takeoff(wb) {
   lin('Saw-cut lines where removal meets concrete that stays', 60);
   r++;
 
-  X.headerRow(ws, r, ['Order quantities', '', '', '', '', '', '', '', '', '', 'Unit', 'Quantity'], {
-    aligns: [
-      'left',
-      'left',
-      'left',
-      'left',
-      'left',
-      'left',
-      'left',
-      'left',
-      'left',
-      'left',
-      'center',
-      'right',
-    ],
-  });
+  X.headerRow(
+    ws,
+    r,
+    ['Order quantities', '', '', '', '', '', '', '', '', '', '', 'Unit', 'Quantity'],
+    {
+      aligns: [
+        'left',
+        'left',
+        'left',
+        'left',
+        'left',
+        'left',
+        'left',
+        'left',
+        'left',
+        'left',
+        'left',
+        'center',
+        'right',
+      ],
+    }
+  );
   r++;
   const out = (lab, unit, formula, fmt = X.FMT.int) => {
-    X.text(ws, r, 1, lab, { size: 9.5, merge: 10 });
-    X.text(ws, r, 11, unit, { size: 9.5, align: 'center', color: X.C.ink2 });
-    X.calc(ws, r, 12, formula, { numFmt: fmt });
-    return `L${r++}`;
+    X.text(ws, r, 1, lab, { size: 9.5, merge: 11 });
+    X.text(ws, r, 12, unit, { size: 9.5, align: 'center', color: X.C.ink2 });
+    X.calc(ws, r, 13, formula, { numFmt: fmt });
+    return `M${r++}`;
   };
   out('Concrete in place', 'CY', cyInPlace, '0.00');
   const order = out(
@@ -404,7 +424,7 @@ function takeoff(wb) {
     '0.0'
   );
   out('Rebar, including laps', 'LF', rebarLf);
-  out('Rebar sticks at the stock length', 'PC', `ROUNDUP(${rebarLf}/${ST},0)`);
+  out('Rebar sticks at the stock length — from the cut list', 'PC', rebarSticks);
   out(
     'Rebar chairs (slabs marked Y)',
     'EA',
@@ -423,23 +443,23 @@ function takeoff(wb) {
   X.noteRow(
     ws,
     r,
-    'CY = length × width × (thickness in inches ÷ 12) ÷ 27. Bars each way = ROUNDUP(clear span ÷ spacing) + 1, plus a lap at every splice. Joint spacing in feet of 2–3 × the slab thickness in inches is a common rule of thumb for plain flatwork, not a code value; keep panels close to square.',
-    12,
-    { height: 44 }
+    'CY = length × width × (thickness in inches ÷ 12) ÷ 27. Bars each way = ROUNDUP(clear span ÷ spacing) + 1, plus a lap at every splice. Sticks count each run’s full sticks plus its end pieces, cut as many to a stick as fit — more than LF ÷ stick length, because a 19½ ft bar takes a whole 20 ft stick. Joint spacing in feet of 2–3 × the slab thickness in inches is a common rule of thumb for plain flatwork, not a code value; keep panels close to square.',
+    13,
+    { height: 56 }
   );
   r += 2;
   X.noteRow(
     ws,
     r,
     'Pro tip: check the grade before you trust the depth. A slab that runs ½" thick over 1,000 sq ft uses about 1.5 CY more than you priced. Footings, walls, structural slabs and anything load-bearing follow the engineer’s drawings and local code.',
-    12,
+    13,
     { height: 32 }
   );
   r += 2;
   X.brandFooter(
     ws,
     r,
-    12,
+    13,
     'Free template by BuildWorkPro — buildworkpro.com/templates. Quantities are estimates; confirm mix, reinforcement and joint layout with your plans, supplier and local code.'
   );
   return ws;

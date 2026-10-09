@@ -17,7 +17,8 @@
     "capture": "node marketing-capture/run.mjs",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:install": "playwright install --with-deps chromium"
+    "test:e2e:install": "playwright install --with-deps chromium",
+    "prices:fetch": "node scripts/prices/fetch-ppi.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.2.0",
@@ -26,10 +27,12 @@
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^7.2.10",
+    "posthog-js": "^1.435.5",
     "starlight-openapi": "^0.26.0",
     "tailwindcss": "^4.2.1"
   },
   "overrides": {
+    "http-cache-semantics": "^4.3.0",
     "fast-uri": "^3.1.8",
     "js-yaml": "^4.3.2",
     "nanoid": "^3.3.18",

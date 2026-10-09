@@ -1,70 +1,63 @@
 ---
-title: Workspace Defaults
-description: Set numbering, branding, pipeline stages, categories, and bid defaults
+title: Sales and Document Settings
+description: Set document styling and numbering, bid defaults, templates, product categories, and pipeline stages
 sidebar:
   order: 6
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-The **Workspace** tab holds the defaults that apply across your organization -- numbering, branding, pipeline stages, product categories, and bid defaults. Open it from **Settings -> Workspace**.
+The defaults that shape your bids and documents live in the **Sales & Documents** group of the settings menu: **Document Setup**, **Bid & Estimate Defaults**, **Templates**, **Product Catalog**, and **Lead Pipeline**. Open any of them from **Settings**.
 
-![Workspace settings tab with its General, Pipeline, Categories, Bid Defaults, Email Templates, Project Templates, and Branding sub-tabs](/docs-screenshots/settings/workspace-defaults.png)
+![Document Setup settings showing the document style choices, accent color, footer, defaults for new bids, and a live preview of a proposal](/docs-screenshots/settings/workspace-defaults.png)
 
 <Aside type="note">
-  **Role required:** Company Admin. Non-admins see only the Application Preferences card; the configuration sub-tabs below require settings-edit access.
+  **Role required:** Company Admin for Document Setup, Bid & Estimate Defaults, Product Catalog, and Lead Pipeline. Managers can also reach **Templates** for the email templates, bid terms, and CSV import templates they manage.
 </Aside>
 
-The tab is split into sub-tabs:
+## Document Setup
 
-## General
+How every generated document looks -- proposals, change orders, invoices, pay applications, and daily reports -- and how it is numbered:
 
-Application preferences (restart the onboarding tour, view keyboard shortcuts) and **Bid & Project Numbering** -- set a **Prefix** and **Starting number** for bids and projects so documents number the way your office expects.
+- **Document style** -- **Ledger**, **Modern**, or **Marquee**.
+- **Accent Color** and **Footer** text.
+- **Defaults for new bids** -- show the customer **Total only**, **Line items**, or the **Full breakdown**, and whether quantities and unit prices print.
+- **Currency Display** -- round customer-facing amounts on bids and change orders to whole dollars.
+- **Document Numbering** -- a **Prefix**, **Starting number**, and zero-padding for bids, projects, and invoices.
 
-## Pipeline
+A **Live Preview** shows a sample proposal as you change the style. Your company name, logo, tagline, and contact details come from [Company profile](/docs/settings/organization/).
 
-**Lead Pipeline Stages** -- add, rename, reorder, and color your sales stages, and mark which stages count as Won or Lost. These stages drive the [CRM pipeline board](/docs/crm/pipeline/).
-
-## Categories
-
-**Product Categories** -- create and organize the categories used to group your [product catalog](/docs/products/catalog/), including parent and child categories.
-
-## Bid Defaults
+## Bid & Estimate Defaults
 
 Defaults applied to every new bid:
 
-- **Bid rates** -- default labor, markup, and overhead rates.
-- **Tax defaults** -- default purchase and sales tax rates.
-- **Currency display** -- whole-dollar rounding.
-- **Bid validity and terms** -- default validity in days, estimator SLA, and default terms and conditions text.
+- **Default Bid Rates** -- **Margin**, **Commission**, and **Company OH**, pre-filled on each new estimate.
+- **Bid Validity & Terms** -- the default validity in days, the estimator SLA (how many days a draft bid without a due date can sit before the board warns you), and the default terms and conditions text.
 
-## Email Templates
+## Templates
 
-Reusable email templates for bids, change orders, and pay apps, used by the **Send to Customer** flows.
+Reusable content, on four tabs:
 
-## Project Templates
+- **Email** -- email templates for bids, change orders, pay apps, and invoices, used by the send dialogs.
+- **Bid terms** -- **Payment Terms** and **Terms & Conditions** clause libraries to apply on a bid.
+- **CSV import** -- [CSV import templates](/docs/documents/csv-import-templates/) that map a supplier spreadsheet into a bid.
+- **Project** -- reusable phase-and-task structures. See [project templates](/docs/projects/templates/).
 
-Reusable phase-and-task structures for new projects. See [project templates](/docs/projects/templates/) for how to build and apply them.
+## Product Catalog
 
-## Branding
+**Product Categories** group your [product catalog](/docs/products/catalog/), including parent and child categories. **Default Tax Rates for New Products** set the purchase and sales tax pre-filled on new products, per category.
 
-**Company Branding** controls how your documents look:
+## Lead Pipeline
 
-- **Layout** -- Clean, Classic, or Bold.
-- **Company Logo** -- upload a PNG, JPG, SVG, or WebP (up to 2 MB).
-- **Company Name**, **Tagline**, and **Footer**.
-- **Accent Color** -- choose a preset or enter a hex value.
-- **Font** -- Sans or Serif.
-
-A live preview shows your changes before you save.
+**Lead Pipeline Stages** -- add, rename, reorder, and color your sales stages, and mark which stages count as Won or Lost. These stages drive the [CRM pipeline board](/docs/crm/pipeline/).
 
 <Aside type="tip">
-  Reusable **Payment Terms** and **Terms & Conditions** clause libraries live on the separate **Bid Templates** tab, available to Company Admins and Managers.
+  Your own preferences -- restarting the onboarding tour and the keyboard shortcuts list -- are under **Settings -> Preferences**.
 </Aside>
 
 ## What's next
 
-- [Organization settings](/docs/settings/organization/) -- your company name and team.
+- [Company profile](/docs/settings/organization/) -- your company name, contact details, and logo.
 - [Project templates](/docs/projects/templates/) -- reuse a project structure.

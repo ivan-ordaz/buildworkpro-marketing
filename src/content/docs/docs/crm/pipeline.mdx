@@ -3,7 +3,7 @@ title: Sales Pipeline
 description: Track leads through configurable stages on a Kanban board
 sidebar:
   order: 2
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
@@ -21,12 +21,13 @@ The sales pipeline tracks potential work from first contact to a won deal. For h
     width="1440"
     height="900"
     style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
-    aria-label="Demo: opening the sales pipeline Kanban board and clicking into a lead"
+    aria-label="Demo: dragging a lead from New Lead to Contacted on the sales pipeline, then opening it"
   >
     <source src="/videos/pipeline-demo.mp4" type="video/mp4" />
   </video>
   <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
-    The sales pipeline: leads as cards in stage columns, with a lead's detail page one click away.
+    The sales pipeline: drag a lead to its next stage and both column totals update. Open it to see
+    the stage change logged in its activity.
   </figcaption>
 </figure>
 
@@ -42,7 +43,7 @@ The page has three layouts, with **Kanban** as the default:
 
 Pipeline stages are not fixed. A new workspace starts with seven default stages -- New Lead, Contacted, Site Visit Scheduled, Bid Sent, Negotiation, Won, and Lost -- and you can add, rename, reorder, and recolor them.
 
-Manage stages under **Settings -> Workspace -> Pipeline**. Mark stages as Won or Lost there; those cannot be deleted, and the default stage is assigned to new leads. See [workspace defaults](/docs/settings/workspace-defaults/).
+Manage stages under **Settings -> Lead Pipeline**. Mark stages as Won or Lost there; those cannot be deleted, and the default stage is assigned to new leads. See [sales and document settings](/docs/settings/workspace-defaults/).
 
 <Aside type="note">
   **Role required:** Company Admin, Manager, or Member to create and edit leads. Only Company Admin and Manager can delete. Viewer is read-only. Field Crew has no access to the pipeline.

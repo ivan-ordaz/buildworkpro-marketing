@@ -3,7 +3,7 @@ title: Line Items
 description: Build the estimate with line items, cost items, and your product catalog
 sidebar:
   order: 2
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
@@ -19,31 +19,31 @@ Line items are the core of your [bid](/blog/how-to-create-construction-bid/). Yo
     width="1440"
     height="900"
     style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
-    aria-label="Demo: adding line items on a bid's Estimate tab, with material and labor cost items pulled from the product catalog"
+    aria-label="Demo: pricing a bid — adding a catalog line, importing a kit as material and labor cost items, and raising the margin on the Pricing tab"
   >
     <source src="/videos/create-bid.mp4" type="video/mp4" />
   </video>
   <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
-    Building the estimate: line items on the Estimate tab, with material and labor cost items
-    pulled from the catalog rolling up into each line's totals.
+    Building the estimate: catalog lines and kits break into material and labor cost items that roll
+    up into the bid total, and the Pricing tab turns cost into the customer price with a live preview.
   </figcaption>
 </figure>
 
-![The Estimate tab of a bid](/docs-screenshots/bids/bid-estimate.png)
+![A bid's Estimate tab in Detailed view: the Add Line form, the cost roll-up cards, and a line expanded to show its labor and other cost items](/docs-screenshots/bids/bid-estimate.png)
 
 ## Add a line item
 
 <Steps>
 
-1. **Open the Estimate tab.** Open your bid and click **Estimate**.
+1. **Open the Estimate tab.** Open your bid and click **Estimate**. Choose **Detailed** to work with cost items, or **Quick** to enter just the line, qty, and price.
 
-2. **Add a line.** In the **Add Line** form, enter a **Mark**, then optionally a **Product / System**, **Description**, and **Qty**. Click **Add Line**.
+2. **Add a line.** In the **Add Line** form, optionally pick a **Product / System**, then enter a **Description** and **Qty**. Click **Add Line**.
 
 </Steps>
 
-The **Mark** is a short identifier for the line, such as `A` or `W-1`. It is required and is how the line is labeled on the bid document -- it is not a markup percentage.
+The **Item #** is a short identifier for the line. It is assigned automatically (`01`, `02`, ...) -- type your own, such as `A` or `W-1`, to override it. It is how the line is labeled on the bid document.
 
-The line-items table shows these columns: **Mark**, **Product / System**, **Qty**, **Cost Items**, **Raw Cost**, **Sell Total**, and **Actions**.
+In the **Detailed** view, the line-items table shows these columns: **Item #**, **Product / System**, **Qty**, **Pricing**, **Unit Cost**, **Unit Price**, **Total**, and **Actions**.
 
 <Aside type="tip">
   Pick an item from the **Product / System** menu to pull pricing from your [product catalog](/docs/products/catalog/). Keep the catalog current so every bid uses up-to-date numbers.
@@ -59,7 +59,7 @@ Each line item expands into **Cost Items** -- the individual costs that make up 
 
 2. **Add a cost.** Click **Add Cost** and choose a **Type**: **Material**, **Labor**, or **Other**.
 
-3. **Enter the numbers.** Fill in **Description**, **Qty**, **Unit Cost**, and **UoM**. The **Extended** amount calculates automatically. Set **Buy Tax** and **Sell Tax** where they apply.
+3. **Enter the numbers.** Fill in **Description**, **Qty**, **Unit Cost**, and **UoM**. The **Extended** amount calculates automatically. Set **Purchase tax (cost)** and **Sales tax (billed)** where they apply.
 
 </Steps>
 
@@ -71,5 +71,5 @@ Use the CSV import button in the Estimate header to bring line items in from a s
 
 ## What's next
 
-- [Set your rates](/docs/bids/rates/) -- apply margin, commission, and overhead.
+- [Set your rates](/docs/bids/rates/) -- apply margin, commission, and overhead on the **Pricing** tab.
 - [Add project costs](/docs/bids/project-costs/) -- spread bid-level costs across every line.

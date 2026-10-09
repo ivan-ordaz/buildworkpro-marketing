@@ -25,7 +25,7 @@ const faqs = [
   {
     question: 'How much rebar do I need for a concrete driveway?',
     answer:
-      'For a grid, count the bars each way: the clear span divided by the spacing, rounded up, plus one. Multiply by the bar length, add a lap at every splice where a run is longer than one stick, then divide by the stick length. A 44 × 20 ft driveway with #4 bars at 24 inches each way and 3 inches of edge clearance takes 11 bars one way and 23 the other, 971 linear feet with 24-inch laps. Use the bar size, spacing and lap on your plans or spec.',
+      'For a grid, count the bars each way: the clear span divided by the spacing, rounded up, plus one. Multiply by the bar length and add a lap at every splice where a run is longer than one stick. Then count sticks from the cuts, not by dividing the footage by the stick length, because a 19½-foot bar still takes a whole 20-foot stick. A 44 × 20 ft driveway with #4 bars at 24 inches each way and 3 inches of edge clearance takes 11 bars one way and 23 the other: 971 linear feet with 24-inch laps, and 51 twenty-foot sticks, not the 49 that 971 ÷ 20 suggests. Use the bar size, spacing and lap on your plans or spec.',
   },
   {
     question: 'How far apart should control joints be in a driveway?',
@@ -104,7 +104,7 @@ const faqs = [
     body: 'BuildWorkPro keeps your ready-mix, rebar, base and finishing prices in a catalog, applies your margin to every line, sends the estimate for e-signature and turns the accepted job into a project. Change orders, invoices and photos stay on the same job.',
   }}
   disclaimer="General-purpose estimate form, not legal advice. Home-improvement contract rules such as deposit limits, cancellation notices and license disclosures vary by state. The template and takeoff are for flatwork: footings, walls, structural slabs and anything load-bearing follow the engineer’s drawings and local code. Confirm permit and right-of-way requirements with your city, and call 811 before you dig."
-  updated="2026-09-28"
+  updated="2026-10-08"
 >
   <h2>What goes on a concrete estimate</h2>
   <p>
@@ -155,12 +155,13 @@ const faqs = [
     on top of the in-place yards, and the order rounds up to the quarter yard and splits into
     truckloads, showing the size of the last one. Base stone is area × depth, converted to tons with
     a density you get from your supplier. Rebar counts bars each way as ROUNDUP(clear span ÷
-    spacing) + 1, adds a lap at every splice, and converts to sticks and chairs (for one slab or
-    mat, the free <a href="/tools/rebar-calculator/">rebar calculator</a> does the same grid math and
-    counts sticks from a cut list). Forms run the perimeter less the edges that butt existing concrete.
-    Control joints come from the spacing you set for each slab. Every coverage, density and spacing figure
-    is an editable input. The sheet is for flatwork: footings, walls, structural slabs and anything load-bearing
-    follow the engineer’s drawings and local code. For a block wall, the free
+    spacing) + 1, adds a lap at every splice, counts sticks from the cut list rather than the total
+    footage, and adds chairs. For one slab or mat, the free
+    <a href="/tools/rebar-calculator/">rebar calculator</a> runs the same count with bar weights and your
+    prices. Forms run the perimeter less the edges that butt existing concrete. Control joints come from
+    the spacing you set for each slab. Every coverage, density and spacing figure is an editable input.
+    The sheet is for flatwork: footings, walls, structural slabs and anything load-bearing follow the
+    engineer’s drawings and local code. For a block wall, the free
     <a href="/tools/concrete-block-calculator/">concrete block calculator</a> counts blocks, mortar, grout
     and bars one wall at a time, and for a driveway paved in asphalt instead, the
     <a href="/tools/asphalt-calculator/">asphalt calculator</a> gives tons of mix, base and truckloads.
@@ -175,7 +176,9 @@ const faqs = [
     Price Builder: material, plus labor hours at your fully loaded rate, plus equipment and
     consumables, then overhead, then profit as a
     <a href="/blog/construction-markup-vs-margin/">margin on price rather than a markup</a>. A 15%
-    markup on cost is only a 13% margin.
+    markup on cost is only a 13% margin. Ready-mix moves with local demand: the <a
+      href="/prices/concrete/">concrete price trend</a
+    > breaks it out by region, and <a href="/prices/steel/">steel and rebar prices</a> cover the reinforcing.
   </p>
   <p>
     The completed example replaces a driveway, street approach and front walk in Fishers, Indiana:

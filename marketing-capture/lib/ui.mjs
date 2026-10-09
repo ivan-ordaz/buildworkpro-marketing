@@ -28,7 +28,13 @@ async function timed(label, fn) {
   return r;
 }
 
-export function makeHelpers(page, { log = console.log, video = false } = {}) {
+export function makeHelpers(page, { log = console.log, video = false, strict = false } = {}) {
+  const missing = (target) => {
+    const label = typeof target === 'string' ? target : '[locator]';
+    if (strict) throw new Error(`target not found: ${label}`);
+    log(`  ! target not found: ${label}`);
+  };
+
   // Wait for the page to be visually ready. We avoid waitForLoadState('load'/
   // 'networkidle') entirely: the app holds a Socket.IO connection open, so
   // 'load' can take ~8s to fire and 'networkidle' never settles. goto already
@@ -52,11 +58,16 @@ export function makeHelpers(page, { log = console.log, video = false } = {}) {
 
   // Smoothly move the fake cursor to an element (video scenes). No-op-ish for
   // shot scenes (still moves the real mouse, harmless).
-  const moveTo = async (target) => {
+  // `timeout` bounds how long the target may take to appear (slow dev-mode
+  // detail pages need more than the 2.5s default).
+  const moveTo = async (target, { timeout } = {}) => {
     const box = await timed(`box ${typeof target === 'string' ? target.slice(0, 30) : 'loc'}`, () =>
-      boxOf(page, target)
+      boxOf(page, target, timeout ? { timeout } : undefined)
     );
-    if (!box) return null;
+    if (!box) {
+      missing(target);
+      return null;
+    }
     const x = Math.round(box.x + box.width / 2);
     const y = Math.round(box.y + box.height / 2);
     await page.mouse.move(x, y, { steps: video ? 28 : 6 });
@@ -64,12 +75,9 @@ export function makeHelpers(page, { log = console.log, video = false } = {}) {
     return { x, y };
   };
 
-  const click = async (target) => {
-    const p = await moveTo(target);
-    if (!p) {
-      log(`  ! click target not found: ${typeof target === 'string' ? target : '[locator]'}`);
-      return false;
-    }
+  const click = async (target, opts) => {
+    const p = await moveTo(target, opts);
+    if (!p) return false;
     if (video) await page.evaluate(([x, y]) => window.__mktRipple?.(x, y), [p.x, p.y]);
     await page.mouse.down();
     await page.waitForTimeout(70);
@@ -78,17 +86,27 @@ export function makeHelpers(page, { log = console.log, video = false } = {}) {
     return true;
   };
 
-  const type = async (target, text, { delay = 55 } = {}) => {
-    const ok = await click(target);
+  const type = async (target, text, { delay = 55, timeout } = {}) => {
+    const ok = await click(target, { timeout });
     if (!ok) return false;
     await page.keyboard.type(text, { delay: video ? delay : 0 });
     await page.waitForTimeout(200);
     return true;
   };
 
+  // The app scrolls an inner pane, not the window, so scroll the tallest
+  // element that actually scrolls (falling back to the window).
   const scrollTo = async (y, smooth = video) => {
     await page.evaluate(
-      ([top, behavior]) => window.scrollTo({ top, behavior }),
+      ([top, behavior]) => {
+        const pane = [...document.querySelectorAll('div, main')]
+          .filter((el) => {
+            const cs = getComputedStyle(el);
+            return /(auto|scroll)/.test(cs.overflowY) && el.scrollHeight > el.clientHeight + 1;
+          })
+          .sort((a, b) => b.clientHeight - a.clientHeight)[0];
+        (pane ?? window).scrollTo({ top, behavior });
+      },
       [y, smooth ? 'smooth' : 'auto']
     );
     await page.waitForTimeout(smooth ? 900 : 200);
@@ -96,5 +114,44 @@ export function makeHelpers(page, { log = console.log, video = false } = {}) {
 
   const wait = (ms) => page.waitForTimeout(ms);
 
-  return { page, settle, goto, moveTo, hover: moveTo, click, type, scrollTo, wait, log };
+  // Block (off-camera time still records, so keep it short) until a target is
+  // visible — e.g. a detail page past its skeletons, or a saved row appearing.
+  const waitFor = async (target, timeout = 15000) => {
+    try {
+      await (await locator(page, target)).waitFor({ state: 'visible', timeout });
+      return true;
+    } catch {
+      missing(target);
+      return false;
+    }
+  };
+
+  // Open a shadcn Select / combobox / cmdk picker and choose an option. When
+  // `search` is given it is typed first to filter a searchable picker.
+  const choose = async (trigger, option, { search } = {}) => {
+    if (!(await click(trigger))) return false;
+    await page.waitForTimeout(video ? 450 : 100);
+    if (search) {
+      await page.keyboard.type(search, { delay: video ? 60 : 0 });
+      await page.waitForTimeout(video ? 500 : 150);
+    }
+    const target =
+      typeof option === 'string' ? `[role="option"]:has-text(${JSON.stringify(option)})` : option;
+    return click(target);
+  };
+
+  return {
+    page,
+    settle,
+    goto,
+    moveTo,
+    hover: moveTo,
+    click,
+    type,
+    choose,
+    scrollTo,
+    wait,
+    waitFor,
+    log,
+  };
 }

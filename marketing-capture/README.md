@@ -66,6 +66,46 @@ Playwright locator.
 - `video: true` → records an `.mp4` with the on-screen animated cursor and keeps
   page animations.
 - `video: false` (shots) → freezes animations for crisp stills; use `shot()`.
+  `viewport: 'hd', scale: 1` shoots the 1920x1080 marketing screenshots in
+  `public/screenshots/`.
+
+Also passed: `choose(trigger, optionText, { search })` for shadcn selects and
+cmdk pickers, `waitFor(target, timeout)`, and `data` (see setup below).
+
+### Demo videos must finish the action
+
+A demo that opens a dialog, hovers the Save button and stops reads as a blank
+form — that is how the 2026-06 takes shipped. Every video scene should:
+
+1. **Set `meta.strict: true`.** `click`/`moveTo`/`type` then throw on a missing
+   target instead of logging and carrying on, so a renamed button fails the run
+   instead of producing a video of the cursor hovering nothing.
+2. **Stage its own records in `setup`.** `export async function setup({ api, log })`
+   runs after login and before the recorded page opens; `api` is an
+   authenticated JSON client (`get/post/put/patch/del` against the app's
+   `/api/...` routes, CSRF handled). Create the draft change order, submitted
+   pay app, etc. that the scene acts on, and clean up what earlier runs left,
+   so every take is reproducible. Whatever `setup` returns is `ctx.data`.
+3. **End on the result** — the saved record, the new status, the updated
+   totals — not on the form.
+4. **Keep the data coherent.** `lib/demo-data.mjs` rewrites the seed's
+   randomly-paired site logs into real entries; the `lib/demo-*.mjs` helpers
+   do the same for their areas.
+
+Never let a scene email a real address: dev runs with a live SendGrid key. Use
+`example.com` or a seeded demo domain (`server/lib/email/undeliverable.ts` in
+the main app), which the transport drops.
+
+### Publishing a take
+
+```bash
+node marketing-capture/publish.mjs site-log-create        # poster from the end state
+node marketing-capture/publish.mjs pipeline-demo 6.5      # poster from 6.5s in
+node marketing-capture/publish.mjs lead-convert --from 1  # drop the 1s page-load flash
+```
+
+Copies `output/<scene>.mp4` to `public/videos/` and cuts
+`public/videos/<scene>-poster.jpg`.
 
 ## How auth works
 

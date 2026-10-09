@@ -17,7 +17,15 @@ import { join, relative } from 'node:path';
 const ROOT = 'dist/client';
 const MIN_INBOUND = 3;
 // Sections whose pages are meant to rank and should be linked from content.
-const CHECKED_SECTIONS = ['blog', 'templates', 'features', 'solutions', 'compare', 'tools'];
+const CHECKED_SECTIONS = [
+  'blog',
+  'templates',
+  'features',
+  'solutions',
+  'compare',
+  'tools',
+  'prices',
+];
 const CHROME_TAGS = new Set(['header', 'footer', 'nav', 'aside']);
 const VOID_TAGS = new Set([
   'area',

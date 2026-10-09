@@ -1,0 +1,53 @@
+---
+// /prices/reports/ — archive of the monthly construction materials price
+// reports. Exists so the report breadcrumb has a real parent page.
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { COMPOSITE } from '../../../data/prices/materials';
+import { monthLabel, pct, reportMonths, snapshot } from '../../../lib/prices/ppi';
+
+const months = reportMonths().map((p) => ({ p, s: snapshot(COMPOSITE, p) }));
+---
+
+<Layout
+  title="Construction Materials Price Reports: Monthly Archive | BuildWorkPro"
+  description="Every monthly construction materials price report: lumber, concrete, steel, copper wire, drywall, glass, asphalt and roofing, from Bureau of Labor Statistics producer price data."
+>
+  <Header />
+  <main class="pt-28 pb-20">
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-3">
+        Material prices
+      </p>
+      <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">
+        Monthly materials price reports
+      </h1>
+      <p class="mt-5 text-lg text-slate-500 leading-relaxed">
+        One report per month, published after the Bureau of Labor Statistics releases its producer
+        price data. Each covers every material on the <a
+          href="/prices/"
+          class="font-semibold text-brand-700 hover:underline">material prices</a
+        > page.
+      </p>
+      <ul class="mt-8 divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white">
+        {
+          months.map(({ p, s }) => (
+            <li>
+              <a
+                href={`/prices/reports/${p}/`}
+                class="flex items-center justify-between gap-4 px-5 py-4 hover:bg-slate-50"
+              >
+                <span class="font-semibold text-slate-900">{monthLabel(p)}</span>
+                <span class="text-sm text-slate-500 tabular-nums">
+                  Construction materials {pct(s.year)} vs. a year earlier
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</Layout>

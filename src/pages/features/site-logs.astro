@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import FAQSection from '../../components/FAQSection.astro';
 import TemplateCallout from '../../components/templates/TemplateCallout.astro';
 import Screenshot from '../../components/Screenshot.astro';
+import DemoVideo from '../../components/DemoVideo.astro';
 import { config } from '../../config';
 
 const faqs = [
@@ -82,8 +83,6 @@ const faqs = [
         src="/screenshots/10-site-logs-list.png"
         alt="BuildWorkPro site logs list showing daily entries with date, title, tags, and reviewed status"
         caption="The site logs list: daily entries across every project with date, title, tags, and reviewed status."
-        width={1280}
-        height={720}
       />
     </section>
 
@@ -276,8 +275,8 @@ const faqs = [
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
       <Screenshot
         src="/screenshots/11-site-log-detail.png"
-        alt="BuildWorkPro site log detail page with work performed, materials received, visitors on site, issues, and photos"
-        caption="A site log's detail page: work performed, materials received, visitors on site, issues, and photos for the day."
+        alt="BuildWorkPro site log detail page with notes, work performed, materials received, visitors on site, and issues"
+        caption="A site log's detail page: notes, work performed, materials received, visitors on site, and issues for the day, with room for job-site photos."
       />
     </section>
 
@@ -343,6 +342,13 @@ const faqs = [
           </div>
         </div>
       </div>
+      <DemoVideo
+        class="mt-12"
+        src="/videos/site-log-create.mp4"
+        poster="/videos/site-log-create-poster.jpg"
+        label="Demo: filing a daily site log in BuildWorkPro — picking the project, crew count, title, tags, and notes, saving, and marking it reviewed"
+        caption="Filing a site log end to end: pick the project, set the crew on site, tag the entry, write up the day and save — then a manager marks it reviewed and it tops the timeline."
+      />
       <p class="mt-10 text-center text-sm text-slate-400">
         Full walkthrough in the docs:
         <a href="/docs/field/site-logs/" class="text-brand-600 hover:underline">Site logs</a>

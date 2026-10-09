@@ -1,0 +1,117 @@
+name: Price data
+
+# Keeps /prices/ current with no one in the loop. Every weekday it pulls the BLS
+# Producer Price Index (BLS publishes each month around mid-month and revises
+# the last four), and when anything changed it:
+#   1. checks the update (scripts/prices/check-update.mjs),
+#   2. opens a pull request labeled price-data with the check's summary,
+#   3. turns on auto-merge when the check passed, so the PR merges itself the
+#      moment CI is green. Cloudflare deploys the merge, and the IndexNow
+#      workflow submits every /prices/ page.
+# An update that fails the check stays open for a person to review. Each run
+# also brings any waiting price-data PR up to date with main (main requires
+# up-to-date branches) and deletes merged price-data branches.
+#
+# Secrets:
+#   PRICE_DATA_PAT  required. Fine-grained token for ordaz-labs/buildworkpro-marketing
+#                   with Contents and Pull requests read/write. The default
+#                   GITHUB_TOKEN cannot open PRs here, and PRs or merges made with
+#                   it would not trigger CI or IndexNow.
+#   BLS_API_KEY     optional. Without it the keyless BLS API is used, which has a
+#                   small daily limit shared by everyone on the runner's IP.
+on:
+  schedule:
+    - cron: '0 14 * * 1-5'
+  workflow_dispatch:
+
+concurrency:
+  group: price-data
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    name: Refresh BLS price data
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ secrets.PRICE_DATA_PAT }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Require the bot token
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::PRICE_DATA_PAT is not set. See the comment at the top of .github/workflows/price-data.yml."
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PRICE_DATA_PAT }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Tidy up earlier price-data pull requests
+        run: |
+          # Merged: delete the leftover branch.
+          gh pr list --repo "$REPO" --state merged --label price-data --limit 20 \
+            --json headRefName --jq '.[].headRefName' | while read -r ref; do
+            git ls-remote --exit-code --heads origin "$ref" >/dev/null 2>&1 \
+              && git push origin --delete "$ref" && echo "Deleted merged branch $ref"
+          done
+          # Open and behind main: update it so auto-merge can finish.
+          gh pr list --repo "$REPO" --state open --label price-data \
+            --json number,mergeStateStatus --jq '.[] | select(.mergeStateStatus == "BEHIND") | .number' |
+            while read -r n; do
+              gh api -X PUT "repos/$REPO/pulls/$n/update-branch" >/dev/null && echo "Updated #$n with main"
+            done
+
+      - name: Fetch producer price data
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+        run: node scripts/prices/fetch-ppi.mjs
+
+      - name: Check the update and open a pull request
+        run: |
+          if git diff --quiet -- src/data/prices/ppi.json; then
+            echo "No new or revised data."
+            exit 0
+          fi
+          git show HEAD:src/data/prices/ppi.json > "$RUNNER_TEMP/prev.json"
+          set +e
+          node scripts/prices/check-update.mjs "$RUNNER_TEMP/prev.json" src/data/prices/ppi.json \
+            --summary "$RUNNER_TEMP/summary.md"
+          verdict=$?
+          set -e
+          if [ "$verdict" -ne 0 ] && [ "$verdict" -ne 2 ]; then exit "$verdict"; fi
+
+          latest=$(node -p "require('./src/data/prices/ppi.json').latest")
+          # A newer refresh replaces any price-data PR still open.
+          gh pr list --repo "$REPO" --state open --label price-data --json number --jq '.[].number' |
+            while read -r n; do
+              gh pr close "$n" --repo "$REPO" --delete-branch --comment "Replaced by a newer data refresh."
+            done
+
+          branch="data/ppi-$latest-$(date -u +%Y%m%d%H%M)"
+          git config user.name "BuildWorkPro price data"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add src/data/prices/ppi.json
+          git commit -m "data(prices): BLS producer prices through $latest"
+          git push origin "$branch"
+          {
+            echo "Automated refresh of \`src/data/prices/ppi.json\` from the BLS public API. Merging updates /prices/, every material page and the monthly report for $latest."
+            echo
+            cat "$RUNNER_TEMP/summary.md"
+          } > "$RUNNER_TEMP/body.md"
+          url=$(gh pr create --repo "$REPO" --base main --head "$branch" --label price-data \
+            --title "Price data: BLS producer prices through $latest" --body-file "$RUNNER_TEMP/body.md")
+          echo "Opened $url"
+          if [ "$verdict" -eq 0 ]; then
+            gh pr merge "$url" --auto --squash
+            echo "Auto-merge on: it merges when CI passes."
+          else
+            echo "::warning::The data check flagged this update; it needs a review before merging ($url)."
+          fi

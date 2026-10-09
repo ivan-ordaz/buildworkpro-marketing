@@ -3,7 +3,7 @@ title: Sending a Bid
 description: Send a bid, track its status, and convert a won bid to a project
 sidebar:
   order: 5
-lastUpdated: 2026-06-30
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
@@ -19,13 +19,13 @@ When your bid is ready, send it to the client as a PDF [proposal](/templates/con
     width="1440"
     height="900"
     style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
-    aria-label="Demo: sending a bid from the Send Bid dialog, then converting an accepted bid into a project"
+    aria-label="Demo: marking a sent bid accepted and converting it into a project with a phase for each line item"
   >
     <source src="/videos/bid-send-convert.mp4" type="video/mp4" />
   </video>
   <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
-    Sending a bid: the Send Bid dialog composes the email from a saved template with the bid PDF
-    attached; an accepted bid then converts into a project, mapping line items to phases or tasks.
+    Winning the job: record who accepted the sent bid and it locks; <strong>Convert to Project</strong>
+    then creates the project with the contract value, site, and a phase for every bid line.
   </figcaption>
 </figure>
 
@@ -45,6 +45,8 @@ When your bid is ready, send it to the client as a PDF [proposal](/templates/con
 
 </Steps>
 
+Turn on **Request e-signature** in the dialog to include a secure Review & Sign link in the email; the customer's signature accepts the bid automatically.
+
 The bid moves to **Sent** status.
 
 ## Track bid status
@@ -57,7 +59,7 @@ A bid has five statuses:
 - **Rejected** -- the client declined.
 - **Expired** -- past the **Valid Until** date with no decision.
 
-When a client responds, click **Accept Bid** (enter who accepted it) or **Reject**. You can see every bid's status at a glance on the Bids list.
+When a client responds, click **Mark Accepted**, enter who accepted it, and confirm with **Accept Bid** -- the accepted bid locks for editing. If they decline, click **Mark Rejected**. You can see every bid's status at a glance on the Bids list.
 
 ## Convert a won bid to a project
 
@@ -67,10 +69,13 @@ Once a bid is **Accepted**, turn it into a project.
 
 1. **Start the conversion.** Open the accepted bid and click **Convert to Project**.
 
-2. **Choose a strategy.** Pick a **Conversion Strategy**:
-   - **Map to Phases** -- each line item becomes a project phase.
-   - **Map to Tasks** -- each line item becomes a task.
-   - **Use Template** -- apply a project template and map line items to its phases.
+2. **Name it and choose a strategy.** The **Project name** carries over from the bid. Pick a **Conversion Strategy**:
+   - **Phases from lines** -- each bid line item becomes a project phase.
+   - **One phase, tasks from line items** -- each bid line item becomes a project task.
+   - **Template** -- apply a predefined project template and map line items to its phases.
+   - **Start blank** -- no phases or tasks; start from scratch.
+
+   The **Preview** shows what will be created. Optionally set a start date and an expected end date.
 
 3. **Convert.** Click **Convert to Project**.
 

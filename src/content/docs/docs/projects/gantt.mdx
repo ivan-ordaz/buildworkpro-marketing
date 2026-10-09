@@ -3,13 +3,13 @@ title: Gantt Chart
 description: View and reschedule a project timeline by dragging task bars
 sidebar:
   order: 3
-lastUpdated: 2026-06-12
+lastUpdated: 2026-10-08
 appVersion: v1.0
 ---
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 
-The Gantt chart shows a project's phases and tasks as horizontal bars on a timeline, so you can see how work overlaps and reschedule it by dragging. It is a view of the **Phases & Tasks** tab, not a separate tab. For a standalone schedule to share with a GC, see the [construction schedule template](/templates/construction-schedule/).
+The Gantt chart shows a project's phases and tasks as horizontal bars on a timeline, so you can see how work overlaps and reschedule it by dragging. It is a view of **Phases & Tasks** on the project's **Plan** tab, not a separate tab. For a standalone schedule to share with a GC, see the [construction schedule template](/templates/construction-schedule/).
 
 <figure style="margin: 1.5rem 0;">
   <video
@@ -19,13 +19,13 @@ The Gantt chart shows a project's phases and tasks as horizontal bars on a timel
     width="1440"
     height="900"
     style="width: 100%; height: auto; display: block; border-radius: 0.5rem; border: 1px solid var(--sl-color-gray-5);"
-    aria-label="Demo: opening a project's Phases and Tasks tab and switching to the Gantt view"
+    aria-label="Demo: switching Phases and Tasks to the Gantt view, then dragging a task bar to move its dates"
   >
     <source src="/videos/gantt-demo.mp4" type="video/mp4" />
   </video>
   <figcaption style="margin-top: 0.5rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-3);">
-    Switching Phases &amp; Tasks to the Gantt view — phases and tasks as bars on the timeline, one
-    toggle away from the task list.
+    Switch the Plan tab to Gantt, follow the dependency arrows into closeout, and drag a bar to
+    reschedule — an Undo prompt confirms the change.
   </figcaption>
 </figure>
 
@@ -33,7 +33,7 @@ The Gantt chart shows a project's phases and tasks as horizontal bars on a timel
 
 <Steps>
 
-1. **Open Phases & Tasks.** Open the project and click the **Phases & Tasks** tab.
+1. **Open Phases & Tasks.** Open the project and click the **Plan** tab.
 
 2. **Switch to Gantt.** In the tab header, click **Gantt**. Click **List** to switch back.
 
