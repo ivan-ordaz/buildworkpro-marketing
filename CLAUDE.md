@@ -89,6 +89,20 @@ Run the full suite locally before pushing: `npm run check && npm run lint && npm
 - **Refresh before you publish.** Pages already sitting at positions 8–20 in Search Console are the cheapest wins: more inbound links, current numbers, a sharper intro. Set `dateModified` on `BlogPostFooter` when a post gets a real content update.
 - **Author.** Every blog post renders `<AuthorByline />` under the H1 and an author box + `Person` schema via `BlogPostFooter`, both from `config.author` in `src/config.ts`, linking to `/about/` (which carries the `AboutPage`/`Person` schema). New posts must import and render `AuthorByline`. Only add entries to `config.author.profiles` for profiles that exist and are filled out.
 
+### Material prices (`/prices/`) and their automation
+
+- **Data:** the BLS Producer Price Index. `npm run prices:fetch` writes `src/data/prices/ppi.json` (one line, Prettier-ignored). The pages build from that file, never from a runtime fetch.
+  - **Series:** listed in `src/data/prices/series.json`.
+  - **Pages:** `src/data/prices/materials.ts`.
+  - **Math:** `src/lib/prices/ppi.ts`. It works in ratios only and never shows dollar shelf prices.
+- **Unattended refresh:** `.github/workflows/price-data.yml` runs every weekday.
+  - When BLS publishes a month or revises one, the workflow runs `scripts/prices/check-update.mjs` on the new data, then opens a `price-data` PR. If the check passed, it turns on auto-merge.
+  - A clean update therefore merges itself once CI is green. Cloudflare deploys it, and the IndexNow workflow submits every `/prices/` URL (`scripts/prices/paths.mjs`).
+  - An update the check flags stays open for review.
+  - It needs the `PRICE_DATA_PAT` secret: a fine-grained token on this repo with Contents and Pull requests write. The default `GITHUB_TOKEN` can't open PRs here, and its PRs and merges don't trigger CI. `BLS_API_KEY` is optional.
+- **A new report month needs no code.** `reportMonths()` runs from `FIRST_REPORT` to the latest month in the data. Founder commentary is optional, in `src/data/prices/commentary.ts`.
+- **Sitemap `lastmod`** for `/prices/` pages is the date the data file last changed (`src/integrations/sitemapLastmod.ts`).
+
 ### Styling
 
 - **Tailwind CSS v4** via `@tailwindcss/vite` (not the legacy `@astrojs/tailwind` integration). Global styles live in `src/styles/`. The Starlight theme is overridden in `src/styles/docs.css`.

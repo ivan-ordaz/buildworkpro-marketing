@@ -7,6 +7,7 @@
 // clones CI and Cloudflare build from.
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
+import { priceDataDate, pricePaths } from '../../scripts/prices/paths.mjs';
 
 type Section = { dir: string; urlPrefix: string; attrs: string[] };
 
@@ -36,5 +37,10 @@ export function contentLastmod(root: string = process.cwd()): Map<string, string
       if (date) dates.set(`${urlPrefix}${file.replace(/\.astro$/, '')}/`, date);
     }
   }
+  // The /prices/ pages change when the BLS data does, and the methodology page
+  // prints that date ("last pulled on …"); fetch-ppi only rewrites the file when
+  // the data changed, so the date is exact.
+  const pricesDate = priceDataDate(root);
+  for (const p of pricePaths(root)) dates.set(p, pricesDate);
   return dates;
 }
