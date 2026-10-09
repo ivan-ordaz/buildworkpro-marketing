@@ -1,0 +1,546 @@
+---
+// /tools/labor-burden-calculator/ — business calculator (plan: calculators +
+// price index, 2026-10-08). Search demand: "labor burden calculator" 390/mo,
+// "labor cost calculator" 590/mo, "contractor hourly rate calculator". Wage and
+// hours → employer payroll taxes, workers' comp, liability and benefits, cost per
+// paid and per billable hour, and a billing rate at the contractor's margin;
+// "Add to estimate" puts the job's labor hours in the shared tray. Math, sources
+// and every FAQ number: src/lib/calculators/burden.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  computeBurden,
+  EXAMPLE_INPUT,
+  EXAMPLE_RATES,
+  FULL_TIME_HOURS,
+  FUTA_GROSS_RATE,
+  FUTA_MAX_CREDIT,
+  FUTA_NET_RATE,
+  FUTA_WAGE_BASE,
+  ITEMS,
+  MEDICARE_RATE,
+  SS_RATE,
+  SS_WAGE_BASE,
+  TAX_YEAR,
+  TOOL,
+  usd,
+} from '../../../lib/calculators/burden';
+import { round2 } from '../../../lib/calculators/estimate';
+import { fmt, fmtTrim, money } from '../../../lib/calculators/format';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const help = 'mt-3 text-xs text-slate-500';
+const subhead = 'mt-6 text-sm font-semibold text-slate-900';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+// The worked example the FAQ quotes. Every rate past the federal taxes is an
+// example, and the answers say so.
+const ex = computeBurden(EXAMPLE_INPUT, EXAMPLE_RATES);
+const fed = computeBurden(EXAMPLE_INPUT, {});
+const exWage = money(EXAMPLE_INPUT.wage ?? 0);
+const exMargin = EXAMPLE_RATES.margin ?? 0;
+const exCost = ex.perBillableHour ?? 0;
+const exPaid = ex.perPaidHour ?? 0;
+const exMarkupPrice = round2(exCost * (1 + exMargin / 100));
+const exMarkupMargin = ((exMarkupPrice - exCost) / exMarkupPrice) * 100;
+const pct = (n: number, d = 1) => `${fmtTrim(n, d)}%`;
+const futaMax = round2((FUTA_WAGE_BASE * FUTA_NET_RATE) / 100);
+
+const faqs = [
+  {
+    question: 'What is labor burden?',
+    answer: `Labor burden is what an employee costs you on top of the wage: your share of payroll taxes, workers’ comp, liability insurance rated on payroll, and benefits. It is usually written as a percentage of wages. The federal part is fixed by law. For ${TAX_YEAR} that is ${SS_RATE}% Social Security on the first ${usd(SS_WAGE_BASE)} of wages, ${MEDICARE_RATE}% Medicare on all wages, and FUTA of ${FUTA_NET_RATE}% on the first ${usd(FUTA_WAGE_BASE)}, which tops out at ${money(futaMax)} per employee in most states. For a full-time employee at ${exWage} an hour, that comes to ${money(fed.federal)} a year, ${pct(fed.burdenPct, 2)} of wages. State unemployment, workers’ comp and benefits depend on your state, your trade and your company.`,
+  },
+  {
+    question: 'What is the labor burden on a $30 an hour employee?',
+    answer: `${exWage} an hour for ${fmt(EXAMPLE_INPUT.hours)} paid hours is ${money(ex.wages)} a year. Federal payroll taxes add ${money(fed.federal)}. With example rates for the rest, not typical ones (state unemployment of ${EXAMPLE_RATES.sutaRate}% on the first ${usd(EXAMPLE_RATES.sutaBase ?? 0)}, workers’ comp at ${money(EXAMPLE_RATES.wc ?? 0)} per $100 of payroll, liability at ${money(EXAMPLE_RATES.gl ?? 0)} per $1,000, ${usd(EXAMPLE_RATES.health ?? 0)} a month toward health insurance and a ${EXAMPLE_RATES.retire}% retirement match), the burden is ${money(ex.burden)} a year, ${pct(ex.burdenPct)} of wages. The employee costs ${money(ex.annualCost)} a year, or ${money(exPaid)} per paid hour. Your own rates will move this a lot, so enter them in the calculator.`,
+  },
+  {
+    question: 'How do I calculate a billable hourly rate?',
+    answer: `Take the year’s wages plus burden and divide by the hours you can actually bill, not the hours you pay. That is the fully burdened cost per billable hour. Then divide by 1 minus your margin. In the example, ${money(exCost)} an hour at a ${exMargin}% margin is ${money(ex.billingRate ?? 0)} an hour: ${money(exCost)} ÷ ${fmtTrim(1 - exMargin / 100, 2)}. Multiplying by ${fmtTrim(1 + exMargin / 100, 2)} instead gives ${money(exMarkupPrice)}, which is a ${exMargin}% markup and only a ${pct(exMarkupMargin)} margin. Office, trucks and other overhead are not labor burden, so cover them in your overhead and margin.`,
+  },
+  {
+    question: 'Why do billable hours matter more than paid hours?',
+    answer: `Because the hours you bill have to pay for the hours you don’t. In the example, ${fmt(ex.nonBillable)} of the ${fmt(EXAMPLE_INPUT.hours)} paid hours go to holidays, time off, training, and shop and drive time, which leaves ${fmt(ex.billableHours)} to bill. The employee costs ${money(exPaid)} per paid hour but ${money(exCost)} per billable hour. Price jobs off the paid-hour cost and you lose ${money(round2(exCost - exPaid))} on every hour you bill.`,
+  },
+  {
+    question: 'What is included in labor burden?',
+    answer: `Your share of Social Security and Medicare, federal and state unemployment tax, workers’ comp (priced per $100 of payroll by class code), general liability when your policy is rated on payroll (per $1,000 of payroll), and benefits: health insurance, retirement match, and anything else you pay per employee each year, like uniforms, safety gear or a tool allowance. What the employee pays is not burden: income tax withholding, their half of Social Security and Medicare, and the 0.9% Additional Medicare Tax all come out of the wage.`,
+  },
+  {
+    question: 'Are my wages and rates sent to BuildWorkPro?',
+    answer:
+      'No. The math runs in your browser. Your rates are saved in this browser’s local storage so they are there next time, and your estimate is too. None of the numbers you type are sent to us. The wage and hours are kept in the page address so you can bookmark or share a result; your rates are left out of it.',
+  },
+];
+
+const related = [
+  {
+    href: '/tools/markup-vs-margin-calculator/',
+    label: 'Markup vs margin calculator',
+    note: 'Turn a cost into a price at the margin you want, and see the markup that gets you there.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/features/time-tracking/',
+    label: 'Time tracking in BuildWorkPro',
+    note: 'Set each person’s labor rate on a project and every hour your crew logs shows its cost.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Labor Burden Calculator: Cost per Hour & Billing Rate | BuildWorkPro"
+  description="Free labor burden calculator for contractors: payroll taxes, workers' comp, insurance and benefits on top of a wage, cost per billable hour and a billing rate."
+  h1="Labor Burden Calculator"
+  intro="Enter a wage and your own rates to get what an employee really costs: payroll taxes, workers’ comp, liability and benefits, per paid hour and per billable hour. Set a margin to get the rate to bill."
+  tool={TOOL}
+  chips={[
+    `${TAX_YEAR} payroll taxes`,
+    'Cost per billable hour',
+    'Billing rate at your margin',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Employee</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <label class={label} for="lb-w">Base wage ($ per hour)</label>
+            <input
+              id="lb-w"
+              data-in="w"
+              type="number"
+              min="0"
+              step="0.01"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="lb-h">Paid hours per year</label>
+            <input
+              id="lb-h"
+              data-in="h"
+              type="number"
+              min="1"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class={help}>
+          {fmt(FULL_TIME_HOURS)} is full time: 40 hours × 52 weeks, with paid holidays and time off included.
+        </p>
+
+        <h3 class={subhead}>Paid hours not billed to a job (per year)</h3>
+        <div class="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div>
+            <label class={label} for="lb-hol">Holidays (hrs)</label>
+            <input
+              id="lb-hol"
+              data-in="hol"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="lb-pto">PTO and sick (hrs)</label>
+            <input
+              id="lb-pto"
+              data-in="pto"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="lb-trn">Training (hrs)</label>
+            <input
+              id="lb-trn"
+              data-in="trn"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="lb-shop">Shop and drive (hrs)</label>
+            <input
+              id="lb-shop"
+              data-in="shop"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class={help}>
+          Paid time nobody bills for: holidays, time off, training and safety meetings, and time in
+          the shop, the yard or driving between jobs. The hours you do bill carry the cost of these.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Your rates</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Saved in this browser, so you only type them once. They are not put in shared links.
+        </p>
+
+        <h3 class={subhead}>Payroll taxes</h3>
+        <dl class="mt-3 space-y-1 text-sm">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-3">
+            <dt class="text-slate-600">Social Security</dt>
+            <dd class="ml-auto text-right tabular-nums text-slate-900">
+              {SS_RATE}% of wages up to {usd(SS_WAGE_BASE)} ({TAX_YEAR})
+            </dd>
+          </div>
+          <div class="flex flex-wrap items-baseline justify-between gap-x-3">
+            <dt class="text-slate-600">Medicare</dt>
+            <dd class="ml-auto text-right tabular-nums text-slate-900">
+              {MEDICARE_RATE}% of all wages
+            </dd>
+          </div>
+        </dl>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="lb-r-futa">FUTA net rate (%)</label>
+            <input
+              id="lb-r-futa"
+              data-price="futa"
+              inputmode="decimal"
+              placeholder={String(FUTA_NET_RATE)}
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="lb-r-sutaRate">State unemployment (%)</label>
+            <input
+              id="lb-r-sutaRate"
+              data-price="sutaRate"
+              inputmode="decimal"
+              placeholder="Enter yours"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="lb-r-sutaBase">State wage base ($)</label>
+            <input
+              id="lb-r-sutaBase"
+              data-price="sutaBase"
+              inputmode="decimal"
+              placeholder="Enter yours"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class={help}>
+          FUTA is {FUTA_NET_RATE}% of the first {usd(FUTA_WAGE_BASE)} after the full credit for state
+          tax. Enter a higher rate if your state is a credit reduction state. Your state sends your unemployment
+          rate each year, and the wage base it applies to.
+        </p>
+
+        <h3 class={subhead}>Insurance</h3>
+        <div class="mt-3 grid grid-cols-2 gap-4">
+          <div>
+            <label class={label} for="lb-r-wc">Workers’ comp ($ per $100 of payroll)</label>
+            <input
+              id="lb-r-wc"
+              data-price="wc"
+              inputmode="decimal"
+              placeholder="Enter yours"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="lb-r-gl">Liability ($ per $1,000 of payroll)</label>
+            <input
+              id="lb-r-gl"
+              data-price="gl"
+              inputmode="decimal"
+              placeholder="Enter yours"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class={help}>
+          Use the workers’ comp rate for this employee’s class code times your experience mod. Leave
+          liability blank if your policy is rated on sales instead of payroll.
+        </p>
+
+        <h3 class={subhead}>Benefits</h3>
+        <div class="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="lb-r-health">Health, your share ($ per month)</label>
+            <input
+              id="lb-r-health"
+              data-price="health"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="lb-r-retire">Retirement match (% of wages)</label>
+            <input
+              id="lb-r-retire"
+              data-price="retire"
+              inputmode="decimal"
+              placeholder="0"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <label class={label} for="lb-r-other">Other ($ per year)</label>
+            <input
+              id="lb-r-other"
+              data-price="other"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class={help}>
+          Other is anything else you pay per employee each year, like uniforms, safety gear or a
+          tool allowance.
+        </p>
+        <p class="mt-4 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-600">
+          Not tax advice. Rates and wage bases change every year, and your accountant, payroll
+          provider and insurance agent have the exact numbers for your company.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Burden per year</h2>
+        <dl class="mt-3 text-sm">
+          {
+            ITEMS.map((item) => (
+              <div class="flex items-start justify-between gap-3 border-t border-slate-100 py-2">
+                <dt class="min-w-0">
+                  <span class="block text-slate-700">{item.label}</span>
+                  <span class="block text-xs text-slate-500" data-out={`item-${item.id}-note`} />
+                </dt>
+                <dd
+                  class="shrink-0 font-medium tabular-nums text-slate-900"
+                  data-out={`item-${item.id}`}
+                />
+              </div>
+            ))
+          }
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Total burden</dt>
+            <dd data-out="burden-total" class="text-lg font-bold tabular-nums text-slate-900"></dd>
+          </div>
+        </dl>
+        <p data-out="burden-hint" class="mt-2 text-xs text-slate-500"></p>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">True cost</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Cost per billable hour</span>
+            <span class={cellValue} data-out="per-billable"></span>
+            <span class={cellNote} data-out="per-billable-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Per paid hour</span>
+            <span class={cellValue} data-out="per-paid"></span>
+            <span class={cellNote} data-out="per-paid-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Labor burden</span>
+            <span class={cellValue} data-out="burden-pct"></span>
+            <span class={cellNote} data-out="burden-pct-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Annual wages</span>
+            <span class="mt-1 block text-lg font-bold tabular-nums text-slate-900" data-out="wages"
+            ></span>
+            <span class={cellNote} data-out="wages-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Cost per year</span>
+            <span
+              class="mt-1 block text-lg font-bold tabular-nums text-slate-900"
+              data-out="annual-cost"></span>
+            <span class={cellNote}>Wages + burden</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Billing rate</h2>
+        <div class="mt-3 grid grid-cols-2 items-end gap-4">
+          <div>
+            <label class={label} for="lb-r-margin">Target margin (%)</label>
+            <input
+              id="lb-r-margin"
+              data-price="margin"
+              inputmode="decimal"
+              placeholder="0"
+              class={input}
+            />
+          </div>
+          <div class="text-right">
+            <span class={cellLabel}>Per billable hour</span>
+            <span
+              data-out="billing"
+              class="mt-1 block text-2xl font-bold tabular-nums text-slate-900"></span>
+          </div>
+        </div>
+        <p data-out="billing-note" class="mt-2 text-xs text-slate-500"></p>
+
+        <h3 class={subhead}>Add the labor to an estimate</h3>
+        <div class="mt-3 grid grid-cols-2 gap-4">
+          <div>
+            <label class={label} for="lb-jh">Hours on this job</label>
+            <input
+              id="lb-jh"
+              data-in="jh"
+              type="number"
+              min="0"
+              step="0.25"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="lb-jb">Price the hours at</label>
+            <select id="lb-jb" data-in="jb" class={input}>
+              <option value="bill">Billing rate</option>
+              <option value="cost">Burdened cost</option>
+            </select>
+          </div>
+        </div>
+        <p data-out="line-preview" class="mt-2 text-sm tabular-nums text-slate-700"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Start over
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Wages and hours.</strong> Annual wages = base wage × paid hours. {
+        fmt(FULL_TIME_HOURS)
+      }
+      hours is 40 a week for 52 weeks, with paid holidays and time off inside it. Billable hours = paid
+      hours − holidays − time off − training − shop and drive time.
+    </p>
+    <p>
+      <strong>Social Security.</strong>
+      {SS_RATE}% of wages up to the {TAX_YEAR} wage base of {usd(SS_WAGE_BASE)}, from the Social
+      Security Administration and IRS Publication 15 ({TAX_YEAR}). The wage base goes up most years.
+    </p>
+    <p>
+      <strong>Medicare.</strong>
+      {MEDICARE_RATE}% of all wages, with no wage base. The 0.9% Additional Medicare Tax on wages
+      over $200,000 is withheld from the employee only. The employer pays no share of it.
+    </p>
+    <p>
+      <strong>Federal unemployment (FUTA).</strong>
+      {FUTA_GROSS_RATE.toFixed(1)}% of the first {usd(FUTA_WAGE_BASE)} of each employee’s wages, less
+      a credit of up to {FUTA_MAX_CREDIT}% for state unemployment tax paid on time, for a net {
+        FUTA_NET_RATE
+      }%, or {money(futaMax)} per employee (IRS Topic 759 and Publication 15). States that owe the federal
+      unemployment fund are credit reduction states, and employers there get a smaller credit: for 2025,
+      California employers paid a net 1.8%. Enter your net rate if that applies to you.
+    </p>
+    <p>
+      <strong>State unemployment (SUTA).</strong> Your rate × wages up to your state’s wage base. Both
+      are set by your state, and the rate depends on your history, so there is no default.
+    </p>
+    <p>
+      <strong>Workers’ comp.</strong> Wages ÷ 100 × your rate per $100 of payroll. The rate depends on
+      the employee’s class code and your state, and your experience mod multiplies it. <strong
+        >General liability</strong
+      >, when your policy is rated on payroll, is wages ÷ 1,000 × your rate per $1,000. Both are
+      applied to all wages, because the payroll rules most states use count holiday, vacation and
+      sick pay as payroll.
+    </p>
+    <p>
+      <strong>Benefits.</strong> Health insurance is your monthly share × 12. Retirement match is your
+      percentage × wages, assuming the employee puts in enough to get the full match. Other is the yearly
+      amount you enter.
+    </p>
+    <p>
+      <strong>Burden and hourly cost.</strong> Labor burden = the items above added up, and burden % =
+      burden ÷ wages. Cost per paid hour = (wages + burden) ÷ paid hours. Cost per billable hour = (wages
+      + burden) ÷ billable hours. Each tax and item is rounded to the cent, and so are the hourly figures.
+    </p>
+    <p>
+      <strong>Billing rate.</strong> Cost per billable hour ÷ (1 − margin). The markup that gives the
+      same price is margin ÷ (1 − margin), so a {exMargin}% margin is a {
+        pct((exMargin / 100 / (1 - exMargin / 100)) * 100)
+      } markup. The <a href="/tools/markup-vs-margin-calculator/">markup vs margin calculator</a> converts
+      any pair, and the <a href="/blog/construction-markup-vs-margin/">markup vs margin guide</a> explains
+      why the two are never the same number.
+    </p>
+    <p>
+      <strong>Add to estimate.</strong> One labor line: the hours you enter × your billing rate or your
+      burdened cost per billable hour. Nothing is priced with numbers you did not enter.
+    </p>
+    <p>
+      This is a pricing tool, not tax advice. Pricing the whole job? The <a
+        href="/templates/construction-estimate/">construction estimate template</a
+      > puts labor next to material, equipment and subs with overhead and margin on top, and <a
+        href="/blog/how-to-create-construction-bid/">how to bid a construction job</a
+      > walks through it step by step.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/burden-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="labor-burden-calculator"]');
+  if (root) mount(root);
+</script>
