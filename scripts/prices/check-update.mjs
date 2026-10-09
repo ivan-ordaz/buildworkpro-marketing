@@ -40,20 +40,27 @@ export function checkUpdate(prev, next, limits = LIMITS) {
 
   const cutoff = addMonths(next.latest, -limits.oldRevisionMonths);
   let revised = 0;
+  let extended = 0;
   for (const [id, s] of Object.entries(next.series)) {
     const before = new Map((prev.series[id]?.points ?? []).map(([p, v]) => [p, v]));
     const points = s.points;
     const byPeriod = new Map(points.map(([p, v]) => [p, v]));
     let changed = false;
+    let added = false;
     for (const [p, v] of points) {
       const old = before.get(p);
-      if (old == null || old === v) continue;
+      if (old == null) {
+        added = true;
+        continue;
+      }
+      if (old === v) continue;
       changed = true;
       if (p < cutoff && Math.abs(pct(v, old)) > limits.oldRevisionPct) {
         issues.push(`${id} ${p} was revised ${fmt(pct(v, old))} (older than six months).`);
       }
     }
     if (changed) revised += 1;
+    if (added) extended += 1;
     const [last, value] = points.at(-1);
     const prior = byPeriod.get(addMonths(last, -1));
     if (
@@ -69,7 +76,7 @@ export function checkUpdate(prev, next, limits = LIMITS) {
 
   const newMonth = next.latest > prev.latest ? next.latest : null;
   notes.push(newMonth ? `New month: ${newMonth}.` : `No new month (still ${next.latest}).`);
-  notes.push(`${revised} series revised or extended.`);
+  notes.push(`${revised} series with revised months, ${extended} with months added.`);
   return { ok: issues.length === 0, newMonth, issues, notes };
 }
 

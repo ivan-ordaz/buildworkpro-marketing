@@ -35,12 +35,22 @@ test.describe('price update gate', () => {
     expect(r.ok).toBe(true);
     expect(r.newMonth).toBe('2026-09');
     expect(r.issues).toEqual([]);
+    expect(r.notes).toContain('0 series with revised months, 1 with months added.');
+  });
+
+  test('longer history counts as months added, not revisions', () => {
+    const prev = file('2026-08', { A: base.slice(1) });
+    const r = checkUpdate(prev, file('2026-08', { A: base }));
+    expect(r.ok).toBe(true);
+    expect(r.notes).toContain('0 series with revised months, 1 with months added.');
   });
 
   test('BLS revising the recent months passes', () => {
     const prev = file('2026-08', { A: base });
     const revised = base.map(([p, v, pre]): Point => [p, p >= '2026-06' ? v * 1.2 : v, pre]);
-    expect(checkUpdate(prev, file('2026-08', { A: revised })).ok).toBe(true);
+    const r = checkUpdate(prev, file('2026-08', { A: revised }));
+    expect(r.ok).toBe(true);
+    expect(r.notes).toContain('1 series with revised months, 0 with months added.');
   });
 
   test('a jump bigger than the monthly limit needs review', () => {
