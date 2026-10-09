@@ -16,6 +16,7 @@
 // same key from public/<key>.txt on the site.
 
 import { execFileSync } from 'node:child_process';
+import { PRICE_SOURCES, pricePaths } from './prices/paths.mjs';
 
 const SITE = 'https://buildworkpro.com';
 const KEY = '2732c7635404a520026bcf2e72d29bca';
@@ -52,11 +53,25 @@ function fileToPath(file) {
   return null;
 }
 
+/** True when a changed file feeds the generated /prices/ pages (data, math, templates). */
+function touchesPrices(file) {
+  return (
+    PRICE_SOURCES.includes(file) ||
+    file.startsWith('src/pages/prices/') ||
+    file.startsWith('src/components/prices/')
+  );
+}
+
 function changedPaths(base, head) {
   const out = execFileSync('git', ['diff', '--name-only', '--diff-filter=AMR', base, head], {
     encoding: 'utf8',
   });
-  return [...new Set(out.split('\n').filter(Boolean).map(fileToPath).filter(Boolean))];
+  const files = out.split('\n').filter(Boolean);
+  const paths = files.map(fileToPath).filter(Boolean);
+  // The monthly data refresh only changes JSON, and the price pages are dynamic
+  // routes, so neither maps to a URL above: submit every price page instead.
+  if (files.some(touchesPrices)) paths.push(...pricePaths());
+  return [...new Set(paths)];
 }
 
 async function sitemapUrls() {
