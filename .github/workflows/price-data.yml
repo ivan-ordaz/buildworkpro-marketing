@@ -1,0 +1,64 @@
+name: Price data
+
+# Refreshes the BLS Producer Price Index data behind /prices/ and opens a pull
+# request when anything changed (a new month, or BLS revising one of the last
+# four). The data only reaches the site when that PR is merged, so every month's
+# numbers get a human look first. BLS publishes the PPI around mid-month, so a
+# weekly run picks it up within a few days.
+#
+# Secrets:
+#   PRICE_DATA_PAT  fine-grained token with contents + pull-requests write on this
+#                   repo. Needed so the PR runs CI: pull requests opened with the
+#                   default GITHUB_TOKEN do not trigger workflows, so the required
+#                   "CI" check would never report. Without it the PR still opens,
+#                   and pushing any commit to its branch starts CI.
+#   BLS_API_KEY     optional. The script works on the keyless BLS API.
+on:
+  schedule:
+    - cron: '0 14 * * 3'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    name: Refresh BLS price data
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PRICE_DATA_PAT || github.token }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch producer price data
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+        run: node scripts/prices/fetch-ppi.mjs
+      - name: Open a pull request when the data changed
+        env:
+          GH_TOKEN: ${{ secrets.PRICE_DATA_PAT || github.token }}
+        run: |
+          if git diff --quiet -- src/data/prices/ppi.json; then
+            echo "No new or revised data."
+            exit 0
+          fi
+          latest=$(node -p "require('./src/data/prices/ppi.json').latest")
+          open=$(gh pr list --state open --search "Price data: BLS producer prices through $latest in:title" --json number --jq 'length')
+          if [ "$open" != "0" ]; then
+            echo "A price data PR for $latest is already open."
+            exit 0
+          fi
+          branch="data/ppi-$latest-$(date -u +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add src/data/prices/ppi.json
+          git commit -m "data(prices): BLS producer prices through $latest"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "Price data: BLS producer prices through $latest" \
+            --body "Automated refresh of \`src/data/prices/ppi.json\` from the BLS public API (new month or revisions). Merging updates /prices/, every material page and the $latest monthly report. Check the report page in the preview before merging, and add founder commentary in \`src/data/prices/commentary.ts\` on this branch if there is any."
