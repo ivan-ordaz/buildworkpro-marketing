@@ -1,0 +1,484 @@
+---
+// /tools/markup-vs-margin-calculator/ — batch 2 business calculator (plan:
+// calculators + price index, 2026-10-08). Search demand: "markup calculator"
+// 18,100/mo, "markup vs margin calculator" 590/mo, plus "contractor markup
+// calculator" and "overhead and profit calculator". Two-way markup ↔ margin ↔
+// price solver, a price that covers overhead and a net profit target, the "10 and
+// 10" check and a generated conversion table. No estimate lines, so no tray; it
+// can read the shared estimate total as the job cost. Agrees with
+// /blog/construction-markup-vs-margin/. Math and every FAQ number:
+// src/lib/calculators/markup.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import { fmt, money } from '../../../lib/calculators/format';
+import {
+  addedToCost,
+  BASES,
+  CFMA_2024,
+  marginFromMarkup,
+  marginTable,
+  markupFromMargin,
+  markupTable,
+  pct,
+  priceForOverhead,
+  solve,
+  TEN_AND_TEN,
+  TOOL,
+} from '../../../lib/calculators/markup';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const solveInput = `${input} data-computed:bg-slate-50`;
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+const row = 'flex items-baseline justify-between gap-3';
+
+// Every number the FAQ quotes comes from the module; the spec pins them.
+const { overhead: oh10, profit: np10 } = TEN_AND_TEN;
+const per100Markup = solve(100, 'markup', 20);
+const per100Margin = solve(100, 'margin', 25);
+const rev1010 = priceForOverhead(null, oh10, 'r', np10);
+const cost1010 = priceForOverhead(null, oh10, 'c', np10);
+const added = addedToCost(null, oh10, 'r', np10);
+const addedCost = addedToCost(null, oh10, 'c', np10);
+const cfma = priceForOverhead(null, CFMA_2024.sgaPct, 'r', CFMA_2024.specialtyNetPct);
+const divisor1010 = 1 - (oh10 + np10) / 100;
+
+const faqs = [
+  {
+    question: 'What is a 20% markup as a margin?',
+    answer: `${pct(marginFromMarkup(20))}. Margin = markup ÷ (1 + markup), so 0.20 ÷ 1.20 = 0.1667. A 20% markup adds $20 to every $100 of cost for a ${money(per100Markup.price ?? 0)} price, and ${money(per100Markup.profit ?? 0)} is ${pct(per100Markup.margin ?? 0)} of ${money(per100Markup.price ?? 0)}. The margin is always the smaller number, because it is measured against the larger price.`,
+  },
+  {
+    question: 'What markup do I need for a 25% margin?',
+    answer: `${pct(markupFromMargin(25) ?? 0)}. Markup = margin ÷ (1 − margin), so 0.25 ÷ 0.75 = 0.3333. On $100 of cost that is a ${money(per100Margin.price ?? 0)} price with ${money(per100Margin.profit ?? 0)} of gross profit, which is 25% of the price. A 25% markup only gets you a ${pct(marginFromMarkup(25))} margin.`,
+  },
+  {
+    question: 'What is the difference between markup and margin?',
+    answer: `Markup is profit as a share of your cost. Margin is profit as a share of the selling price. They describe the same dollars from opposite ends, so the percentages never match: a 30% markup is a ${pct(marginFromMarkup(30))} margin, and a 30% margin takes a ${pct(markupFromMargin(30) ?? 0)} markup. Apply a 30% markup when you meant a 30% margin and the job earns ${pct(marginFromMarkup(30))}.`,
+  },
+  {
+    question: 'How do I include overhead in my price?',
+    answer: `Treat overhead and net profit as two shares of the selling price and divide the job cost by what is left: price = cost ÷ (1 − overhead − net profit). With overhead at ${oh10}% of revenue and a ${np10}% net profit target, that is cost ÷ ${fmt(divisor1010, 2)}, a ${pct(rev1010.markup ?? 0)} markup and a ${pct(rev1010.margin ?? 0)} gross margin. If you track overhead as a percentage of job cost instead, add it to the cost first: price = cost × (1 + overhead) ÷ (1 − net profit). At ${oh10}% and ${np10}% that is a ${pct(cost1010.markup ?? 0)} markup.`,
+  },
+  {
+    question: 'Why is “10 and 10” not a 20% margin?',
+    answer: `“10 and 10” adds ${oh10}% for overhead and ${np10}% for profit to the cost. That is a ${pct(added.markup)} markup, and a ${pct(added.markup)} markup is a ${pct(added.margin)} margin. If your overhead runs ${oh10}% of revenue, it takes ${oh10} points of that, leaving ${pct(added.net)} net profit instead of ${np10}%. Even if overhead is ${oh10}% of job cost, a ${np10}% profit on cost is only ${pct(addedCost.net)} of the price. To keep ${oh10}% for overhead and ${np10}% for profit, both as shares of the price, divide the cost by ${fmt(divisor1010, 2)}: a ${pct(rev1010.markup ?? 0)} markup.`,
+  },
+  {
+    question: 'What profit margin do contractors use?',
+    answer: `It depends on your overhead, because gross margin has to pay for overhead before any of it is profit: gross margin = overhead + net profit, both as shares of revenue. For reference, CFMA’s 2024 Construction Financial Benchmarker, a survey of contractors’ 2023 financial statements, put sales, general and administrative costs at ${CFMA_2024.sgaPct}% of revenue across all respondents, and net income before taxes at ${CFMA_2024.specialtyNetPct}% for specialty trade contractors. Overhead of ${CFMA_2024.sgaPct}% and a net of ${CFMA_2024.specialtyNetPct}% would need a gross margin of ${pct(cfma.margin ?? 0)}, which is a markup of ${pct(cfma.markup ?? 0)}. Use your own overhead from last year’s books, not a survey average.`,
+  },
+];
+
+const related = [
+  {
+    href: '/templates/construction-estimate/',
+    label: 'Construction estimate template',
+    note: 'Excel and fillable PDF estimate that adds overhead as a cost and prices profit as a true margin.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/features/construction-bidding/',
+    label: 'Bidding in BuildWorkPro',
+    note: 'Margin, commission and overhead set as rates on each bid, sent as a PDF proposal.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Markup vs Margin Calculator: Overhead & Profit | BuildWorkPro"
+  description="Free markup vs margin calculator for contractors: convert markup and margin, price a job to cover overhead and net profit, and see what 10 and 10 really earns."
+  h1="Markup vs Margin Calculator"
+  intro="Enter your job cost and any one of markup, margin or selling price to get the other two. Then price the job to cover company overhead and the net profit you want, and see what adding both to cost really earns."
+  tool={TOOL}
+  tray={false}
+  chips={[
+    'Markup, margin, price',
+    'Overhead and net profit',
+    'Conversion table',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="space-y-6">
+    <div class="grid gap-6 lg:grid-cols-12 items-start">
+      <div class="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-7">
+        <h2 class="text-base font-semibold text-slate-900">Markup and margin</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Enter your cost, then any one of the three below. The other two are worked out from it.
+        </p>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label class={label} for="mm-cost">Job cost ($)</label>
+            <input
+              id="mm-cost"
+              data-in="c"
+              inputmode="decimal"
+              placeholder="0.00"
+              autocomplete="off"
+              class={input}
+            />
+          </div>
+        </div>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="mm-markup">Markup (% of cost)</label>
+            <input
+              id="mm-markup"
+              data-solve="markup"
+              inputmode="decimal"
+              autocomplete="off"
+              class={solveInput}
+            />
+          </div>
+          <div>
+            <label class={label} for="mm-margin">Margin (% of price)</label>
+            <input
+              id="mm-margin"
+              data-solve="margin"
+              inputmode="decimal"
+              autocomplete="off"
+              class={solveInput}
+            />
+          </div>
+          <div>
+            <label class={label} for="mm-price">Selling price ($)</label>
+            <input
+              id="mm-price"
+              data-solve="price"
+              inputmode="decimal"
+              placeholder="0.00"
+              autocomplete="off"
+              class={solveInput}
+            />
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-slate-500">
+          Shaded fields are calculated. Why the two percentages never match: <a
+            href="/blog/construction-markup-vs-margin/"
+            class="font-medium text-brand-700 hover:underline">construction markup vs. margin</a
+          >.
+        </p>
+        <div
+          data-estimate-box
+          hidden
+          class="mt-4 rounded-xl border border-brand-100 bg-brand-50 p-4"
+        >
+          <p class="text-sm text-slate-700">
+            Your estimate on this site totals <strong
+              data-out="est-total"
+              class="tabular-nums text-slate-900"></strong>
+            (<span data-out="est-note"></span>).
+          </p>
+          <button
+            type="button"
+            data-action="use-estimate"
+            class="mt-3 inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Use my estimate total as cost
+          </button>
+        </div>
+      </div>
+
+      <aside class="min-w-0 space-y-4 lg:col-span-5">
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <h2 class="text-base font-semibold text-slate-900">Result</h2>
+          <div class="mt-3 grid grid-cols-2 gap-3">
+            <div class={`${cell} col-span-2`}>
+              <span class={cellLabel}>Selling price</span>
+              <span class={cellValue} data-out="solve-price"></span>
+            </div>
+            <div class={`${cell} col-span-2`}>
+              <span class={cellLabel}>Gross profit</span>
+              <span class={cellValue} data-out="solve-profit"></span>
+              <span class={cellNote}>Price minus job cost, before overhead</span>
+            </div>
+            <div class={cell}>
+              <span class={cellLabel}>Markup</span>
+              <span class={cellValue} data-out="solve-markup"></span>
+            </div>
+            <div class={cell}>
+              <span class={cellLabel}>Margin</span>
+              <span class={cellValue} data-out="solve-margin"></span>
+            </div>
+          </div>
+          <p data-out="solve-note" class="mt-3 text-sm text-slate-600" aria-live="polite"></p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              data-action="copy-link"
+              class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            >
+              Copy link to this result
+            </button>
+            <button
+              type="button"
+              data-action="reset"
+              class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            >
+              Reset
+            </button>
+          </div>
+          <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+        </div>
+      </aside>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-12 items-start">
+      <div class="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-7">
+        <h2 class="text-base font-semibold text-slate-900">Overhead and net profit</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Uses the job cost above. Company overhead is what it costs to run the business whether or
+          not you have this job: office, insurance, vehicles, admin pay.
+        </p>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="mm-oh">Company overhead (%)</label>
+            <input
+              id="mm-oh"
+              data-in="oh"
+              type="number"
+              min="0"
+              max="99"
+              step="0.1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="mm-ob">Overhead is a % of</label>
+            <select id="mm-ob" data-in="ob" class={input}>
+              {Object.entries(BASES).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="mm-np">Net profit you want (% of price)</label>
+            <input
+              id="mm-np"
+              data-in="np"
+              type="number"
+              min="0"
+              max="99"
+              step="0.1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+
+        <details class="mt-5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <summary class="cursor-pointer text-sm font-medium text-slate-800">
+            Work out your overhead rate from last year
+          </summary>
+          <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label class={label} for="mm-a-oh">Annual overhead ($)</label>
+              <input
+                id="mm-a-oh"
+                data-annual="overhead"
+                inputmode="decimal"
+                placeholder="0.00"
+                autocomplete="off"
+                class={input}
+              />
+            </div>
+            <div>
+              <label class={label} for="mm-a-base" data-out="base-label">Annual revenue ($)</label>
+              <input
+                id="mm-a-base"
+                data-annual="base"
+                inputmode="decimal"
+                placeholder="0.00"
+                autocomplete="off"
+                class={input}
+              />
+            </div>
+          </div>
+          <p data-out="rate" class="mt-3 text-sm text-slate-700" aria-live="polite"></p>
+          <button
+            type="button"
+            data-action="use-rate"
+            class="mt-2 inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Use this rate
+          </button>
+          <p class="mt-2 text-xs text-slate-500">
+            Saved in this browser only. These two figures are never put in the page address.
+          </p>
+        </details>
+      </div>
+
+      <aside class="min-w-0 space-y-4 lg:col-span-5">
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <h2 class="text-base font-semibold text-slate-900">Price that covers both</h2>
+          <div class="mt-3 grid grid-cols-2 gap-3">
+            <div class={`${cell} col-span-2`}>
+              <span class={cellLabel}>Selling price</span>
+              <span class={cellValue} data-out="oh-price"></span>
+              <span class={cellNote} data-out="oh-price-note"></span>
+            </div>
+            <div class={cell}>
+              <span class={cellLabel}>Markup</span>
+              <span class={cellValue} data-out="oh-markup"></span>
+            </div>
+            <div class={cell}>
+              <span class={cellLabel}>Gross margin</span>
+              <span class={cellValue} data-out="oh-margin"></span>
+            </div>
+          </div>
+          <dl class="mt-3 space-y-2 text-sm">
+            <div class={row}>
+              <dt class="text-slate-600" data-out="oh-overhead-label">Overhead</dt>
+              <dd data-out="oh-overhead" class="font-medium tabular-nums text-slate-900"></dd>
+            </div>
+            <div class={row}>
+              <dt class="text-slate-600" data-out="oh-net-label">Net profit</dt>
+              <dd data-out="oh-net" class="font-medium tabular-nums text-slate-900"></dd>
+            </div>
+          </dl>
+          <p data-out="oh-note" class="mt-3 text-xs text-slate-500" aria-live="polite"></p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h2 class="text-base font-semibold text-slate-900" data-out="add-title">
+            Adding both to cost instead
+          </h2>
+          <dl class="mt-3 space-y-2 text-sm">
+            <div class={row}>
+              <dt class="text-slate-600">Markup</dt>
+              <dd data-out="add-markup" class="font-medium tabular-nums text-slate-900"></dd>
+            </div>
+            <div class={row}>
+              <dt class="text-slate-600">Gross margin</dt>
+              <dd data-out="add-margin" class="font-medium tabular-nums text-slate-900"></dd>
+            </div>
+            <div class={row}>
+              <dt class="text-slate-600">Overhead, share of price</dt>
+              <dd data-out="add-overhead" class="font-medium tabular-nums text-slate-900"></dd>
+            </div>
+            <div class={`${row} border-t-2 border-slate-900 pt-2`}>
+              <dt class="font-semibold text-slate-900" data-out="add-net-label">Net profit left</dt>
+              <dd data-out="add-net" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+            </div>
+            <div class={row}>
+              <dt class="text-slate-600">Below the price that covers both</dt>
+              <dd data-out="add-short" class="font-medium tabular-nums text-slate-900"></dd>
+            </div>
+          </dl>
+          <p class="mt-3 text-xs text-slate-500">
+            Overhead and profit written as “10 and 10” are charged this way: 20% on top of the job.
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 class="text-base font-semibold text-slate-900">Markup and margin table</h2>
+      <p class="mt-1 text-sm text-slate-500">
+        Margin = markup ÷ (1 + markup). Markup = margin ÷ (1 − margin). Rounded to one decimal.
+      </p>
+      <div class="mt-4 grid items-start gap-6 sm:grid-cols-2">
+        <table class="w-full text-sm tabular-nums" data-table="markup">
+          <caption class="pb-2 text-left text-sm font-semibold text-slate-900">
+            Markup you add → margin you get
+          </caption>
+          <thead>
+            <tr class="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+              <th scope="col" class="py-2 pr-4 text-left font-medium">Markup</th>
+              <th scope="col" class="py-2 text-right font-medium">Margin</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              markupTable().map((r) => (
+                <tr class="border-b border-slate-100">
+                  <td class="py-1.5 pr-4 text-slate-900">{r.markup}%</td>
+                  <td class="py-1.5 text-right text-slate-900">{fmt(r.margin, 1)}%</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <table class="w-full text-sm tabular-nums" data-table="margin">
+          <caption class="pb-2 text-left text-sm font-semibold text-slate-900">
+            Margin you want → markup to add
+          </caption>
+          <thead>
+            <tr class="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+              <th scope="col" class="py-2 pr-4 text-left font-medium">Margin</th>
+              <th scope="col" class="py-2 text-right font-medium">Markup</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              marginTable().map((r) => (
+                <tr class="border-b border-slate-100">
+                  <td class="py-1.5 pr-4 text-slate-900">{r.margin}%</td>
+                  <td class="py-1.5 text-right text-slate-900">{fmt(r.markup, 1)}%</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Markup and margin.</strong> Markup is gross profit as a share of cost: (price − cost) ÷
+      cost. Margin is gross profit as a share of the selling price: (price − cost) ÷ price. So margin
+      = markup ÷ (1 + markup) and markup = margin ÷ (1 − margin). From a markup, price = cost × (1 + markup).
+      From a margin, price = cost ÷ (1 − margin). From a price, both percentages come from price − cost.
+      Gross profit is price − cost, before overhead.
+    </p>
+    <p>
+      <strong>Overhead and net profit.</strong> With overhead as a percentage of revenue, overhead and
+      net profit are both shares of the price, so price = cost ÷ (1 − overhead − net profit) and the gross
+      margin is overhead + net profit. With overhead as a percentage of job cost, overhead goes on first
+      and net profit comes off the price: price = cost × (1 + overhead) ÷ (1 − net profit). Both are (cost
+      + overhead dollars) ÷ (1 − net profit), the same formula the <a
+        href="/templates/construction-estimate/">construction estimate template</a
+      > uses. The markup shown is price ÷ cost − 1.
+    </p>
+    <p>
+      <strong>Your overhead rate.</strong> Annual overhead ÷ annual revenue, or ÷ annual direct job cost
+      if you track overhead against cost. Use a full year from your books. These two figures stay in this
+      browser.
+    </p>
+    <p>
+      <strong>Adding both to cost.</strong> When overhead and profit are written as “10 and 10” on an
+      insurance repair estimate, they are charged as 20% on top of the total job (United Policyholders’
+      guide to overhead and profit). The check adds your two rates to cost the same way, works out the
+      margin that markup gives, takes out your overhead and shows the net profit left, and how far that
+      price falls below the one that covers both.
+    </p>
+    <p>
+      <strong>Rounding.</strong> Results show two decimals; the table shows one. Nothing is priced with
+      numbers you did not enter.
+    </p>
+    <p>
+      BuildWorkPro bids work on the revenue basis: the Rates tab on a bid sets margin, commission
+      and company overhead, each as a percentage of the selling price. See <a
+        href="/features/construction-bidding/">construction bidding</a
+      >, or read <a href="/blog/construction-markup-vs-margin/">construction markup vs. margin</a> for
+      the worked examples.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/markup-app';
+  const root = document.querySelector<HTMLElement>(
+    '[data-calculator="markup-vs-margin-calculator"]'
+  );
+  if (root) mount(root);
+</script>
