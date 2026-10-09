@@ -15,7 +15,7 @@
     },
     "xlsx": {
       "file": "concrete-estimate-template.xlsx",
-      "bytes": 23347,
+      "bytes": 23886,
       "sheets": [
         "Estimate",
         "Slab Takeoff",
