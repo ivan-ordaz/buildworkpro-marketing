@@ -6,7 +6,12 @@
 // A scene is a file in ./scenes/ that exports:
 //   export const meta = { name, video?, viewport? }
 //   export default async function scene(ctx) { ... }
-// where ctx = { page, shot, log, meta, ...uiHelpers }.
+//   export async function setup({ api, log }) { ... }   (optional)
+// where ctx = { page, shot, log, meta, data, ...uiHelpers }. `setup` runs after
+// login and before the recorded page opens; whatever it returns is `ctx.data`.
+// `meta.strict: true` makes click/moveTo/type throw on a missing target instead
+// of logging and carrying on — so a renamed button fails the run loudly rather
+// than shipping a video of a cursor hovering an empty form.
 import { readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
@@ -21,8 +26,11 @@ import {
   OUTPUT_DIR,
 } from './config.mjs';
 import { authenticate } from './lib/auth.mjs';
+import { makeApi } from './lib/api.mjs';
 import { makeHelpers } from './lib/ui.mjs';
 import { makeShot, finalizeVideo, ensureOut } from './lib/capture.mjs';
+import { applyCuts } from './lib/cuts.mjs';
+import { existsSync, statSync } from 'node:fs';
 import { CURSOR_INIT, FREEZE_MOTION, TRACK_DOT_INIT } from './lib/cursor.mjs';
 
 const SCENES_DIR = fileURLToPath(new URL('./scenes/', import.meta.url));
@@ -34,7 +42,7 @@ async function loadScenes() {
     const mod = await import(join(SCENES_DIR, file));
     const meta = mod.meta ?? {};
     const keys = [meta.name, file.replace(/\.mjs$/, ''), file.split('.')[0]].filter(Boolean);
-    scenes.push({ file, meta, keys, run: mod.default });
+    scenes.push({ file, meta, keys, run: mod.default, setup: mod.setup });
   }
   return scenes;
 }
@@ -60,6 +68,7 @@ async function main() {
     process.exit(1);
   }
 
+  const runStart = Date.now();
   const meta = scene.meta;
   const viewport = VIEWPORTS[meta.viewport] ?? VIEWPORTS[DEFAULT_VIEWPORT];
   const isVideo = !!meta.video;
@@ -90,7 +99,7 @@ async function main() {
 
   const context = await browser.newContext({
     viewport,
-    deviceScaleFactor: DEVICE_SCALE_FACTOR,
+    deviceScaleFactor: meta.scale ?? DEVICE_SCALE_FACTOR,
     ...(isVideo
       ? { recordVideo: { dir: join(OUTPUT_DIR, '.video-raw'), size: viewport } }
       : {}),
@@ -111,21 +120,44 @@ async function main() {
     process.exit(1);
   }
 
+  // Stage the scene's records through the API before the recorded page opens.
+  let data = null;
+  if (typeof scene.setup === 'function') {
+    try {
+      data = await scene.setup({ api: makeApi(context), log: console.log });
+      console.log('  ✓ setup done');
+    } catch (err) {
+      await context.close();
+      await browser.close();
+      console.error(`\n✗ setup failed: ${err.message}`);
+      process.exit(1);
+    }
+  }
+
   const page = await context.newPage();
-  const helpers = makeHelpers(page, { video: isVideo });
+  const helpers = makeHelpers(page, { video: isVideo, strict: !!meta.strict });
   const shot = makeShot(page, meta.name ?? 'scene');
   const video = isVideo ? page.video() : null;
 
   let failed = null;
   try {
-    await scene.run({ ...helpers, page, shot, meta, log: helpers.log });
+    await scene.run({ ...helpers, page, shot, meta, data, log: helpers.log });
   } catch (err) {
     failed = err;
     console.error(`  ✗ scene error: ${err.message}`);
   }
 
   await context.close();
-  if (video) await finalizeVideo(await video.path().catch(() => null), meta.name ?? 'scene');
+  if (video) {
+    const name = meta.name ?? 'scene';
+    await finalizeVideo(await video.path().catch(() => null), name);
+    // Scenes that wrap load waits in cut() (lib/cuts.mjs) saved the spans
+    // during this take — jump-cut them out now.
+    const cutsFile = join(OUTPUT_DIR, `${name}.cuts.json`);
+    if (!failed && existsSync(cutsFile) && statSync(cutsFile).mtimeMs >= runStart) {
+      await applyCuts(name);
+    }
+  }
   await browser.close();
 
   console.log(failed ? `\n✗ scene finished with errors` : `\n✓ done → ${OUTPUT_DIR}`);
