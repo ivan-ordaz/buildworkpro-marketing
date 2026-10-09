@@ -1,0 +1,463 @@
+---
+// /tools/concrete-block-calculator/ — wave-1 trade calculator (plan: calculators
+// + price index, 2026-10-08). One CMU wall → blocks, courses, mortar, grout,
+// vertical bars and joint reinforcement; optional price from the contractor's own
+// remembered unit prices; "Add to estimate" feeds the shared tray. Math and
+// sources: src/lib/calculators/block.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  BARS,
+  CELLS_PER_100SQFT,
+  GROUT_BAG_CUFT,
+  GROUT_BY,
+  GROUT_FULL_CUFT_PER_100SQFT,
+  GROUTS,
+  JOINT_EVERY,
+  MORTAR_BAGS,
+  MORTAR_BLOCKS_PER_80LB,
+  MORTAR_CUFT_PER_80LB,
+  SPACINGS,
+  STICKS,
+  TOOL,
+  WIDTHS,
+} from '../../../lib/calculators/block';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent disabled:bg-slate-50 disabled:text-slate-400';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+const grout = GROUT_FULL_CUFT_PER_100SQFT;
+
+const faqs = [
+  {
+    question: 'How many concrete blocks are in a square foot of wall?',
+    answer:
+      'A standard block has an 8 × 16 inch nominal face, which covers 8/9 of a square foot, so a wall takes 1.125 blocks per square foot, or 112.5 per 100 sq ft. CMHA TEK 04-02A rounds that to 119 per 100 sq ft with a 5% allowance for waste and breakage. The count is the same for 4, 6, 8, 10 and 12 inch block, because the face size does not change with the width.',
+  },
+  {
+    question: 'How many blocks do I need for a 10 × 8 wall?',
+    answer:
+      'A wall 10 ft long and 8 ft high is 80 sq ft, so it takes 90 blocks: 12 courses of 7½ blocks. With 5% waste, order 95. Deduct doors and windows from the wall area first, and count corner, bond beam and lintel units separately where the plans call for them.',
+  },
+  {
+    question: 'How many courses of block are in an 8-foot wall?',
+    answer:
+      'Twelve. A course is 8 inches nominal, a 7⅝-inch block plus a ⅜-inch mortar joint, so 96 inches ÷ 8 = 12 courses. A height that is not a multiple of 8 inches leaves a partial course, cut or laid with half-high units. With joint reinforcement every other course, an 8-foot wall gets 6 rows, starting in the first bed joint above the bottom course.',
+  },
+  {
+    question: 'How much mortar do I need for 100 blocks?',
+    answer: `About 8⅓ bags of 80 lb preblended mortar for 100 8-inch blocks, so buy 9. SPEC MIX rates its 80 lb bag at 11 to 13 8-inch blocks, typical waste included, and at about ${MORTAR_CUFT_PER_80LB} cu ft of wet mortar, which works out to about 5.8 cu ft per 100 blocks. Quikrete and Sakrete put their 80 lb bags at up to 13 and 12 blocks. CMHA TEK 04-02A, which assumes mortar on the face shells only, uses 16. Your mason’s own count is the best rate, so the calculator lets you enter it.`,
+  },
+  {
+    question: 'How much grout does a fully grouted 8-inch block wall take?',
+    answer: `CMHA TEK 04-02A puts it at ${grout['8']} cu ft per 100 sq ft of wall, 3% waste included, which is about 1.34 cu yd per 100 sq ft. A 10 × 8 wall fully grouted takes 28.9 cu ft: 1.07 cu yd, or about 45 bags of 80 lb core-fill grout at ${GROUT_BAG_CUFT} cu ft a bag. The same table gives ${grout['6']} cu ft for 6-inch, ${grout['10'].toFixed(1)} for 10-inch and ${grout['12']} for 12-inch block.`,
+  },
+  {
+    question: 'How much grout if only the cells with rebar are grouted?',
+    answer: `In 8-inch block, each grouted cell takes about 0.16 cu ft per course: the fully grouted volume spread over ${CELLS_PER_100SQFT} cells per 100 sq ft. A 40 × 8 ft wall with bars at 48 inches on center has 11 bars, one at each end and one every 4 ft between, so 132 grouted cells over 12 courses: 21.2 cu ft, or about 0.78 cu yd. Bar size, spacing and which cells get grout come from the plans, the engineer and the local code under TMS 402 and the IBC. The calculator counts what you enter; it does not design the wall.`,
+  },
+  {
+    question: 'Are my measurements and prices sent to BuildWorkPro?',
+    answer:
+      'No. The math runs in your browser. Your unit prices and your estimate are saved in this browser’s local storage so they are there next time, and nothing is sent to us. The wall size is also kept in the page address so you can bookmark or share a result.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/concrete-estimate/',
+    label: 'Concrete estimate template',
+    note: 'A free PDF, Excel and Word estimate with a slab takeoff for cubic yards, rebar and forms.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/solutions/concrete-contractors/',
+    label: 'Software for concrete contractors',
+    note: 'Line-item bids, phase scheduling, site logs and pay applications in one place.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Concrete Block Calculator: Blocks, Mortar, Grout, Rebar | BuildWorkPro"
+  description="Free concrete block (CMU) calculator: blocks, mortar, grout, rebar and joint reinforcement for a wall, priced with your own rates. Add walls to one estimate."
+  h1="Concrete Block Calculator"
+  intro="Enter a wall to get blocks, courses, mortar, grout, vertical bars and joint reinforcement for 4 to 12 inch CMU. Add your own prices to get the installed cost, then add the wall to an estimate and do the next one."
+  tool={TOOL}
+  chips={[
+    'Blocks, mortar, grout, rebar',
+    'Your prices, saved',
+    'Builds an estimate',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Wall</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="cb-l">Wall length (ft)</label>
+            <input
+              id="cb-l"
+              data-in="l"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-h">Wall height (ft)</label>
+            <input
+              id="cb-h"
+              data-in="h"
+              type="number"
+              min="0"
+              step="0.5"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-o">Deduct openings (sq ft)</label>
+            <input
+              id="cb-o"
+              data-in="o"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-w">Block width (8 × 16 face)</label>
+            <select id="cb-w" data-in="w" class={input}>
+              {WIDTHS.map((w) => <option value={w}>{w} in</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="cb-wst">Block waste (%)</label>
+            <input
+              id="cb-wst"
+              data-in="wst"
+              type="number"
+              min="0"
+              max="40"
+              step="1"
+              inputmode="numeric"
+              class={input}
+            />
+          </div>
+        </div>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Grout and reinforcement</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Bar size, spacing, grouted cells and joint reinforcement come from the plans, the engineer
+          and the local code (TMS 402, IBC). Enter what the drawings show.
+        </p>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="cb-g">Grout</label>
+            <select id="cb-g" data-in="g" class={input}>
+              {Object.entries(GROUTS).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="cb-sp">Vertical bar spacing</label>
+            <select id="cb-sp" data-in="sp" class={input}>
+              {SPACINGS.map((s) => <option value={String(s)}>{s} in o.c.</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="cb-bar">Bar size</label>
+            <select id="cb-bar" data-in="bar" class={input}>
+              {BARS.map((b) => <option value={b}>#{b}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="cb-st">Rebar stick length</label>
+            <select id="cb-st" data-in="st" class={input}>
+              {STICKS.map((s) => <option value={s}>{s} ft</option>)}
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class={label} for="cb-jr">Horizontal joint reinforcement</label>
+            <select id="cb-jr" data-in="jr" class={input}>
+              {Object.entries(JOINT_EVERY).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Mortar and grout supply</h2>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="cb-bag">Mortar bag</label>
+            <select id="cb-bag" data-in="bag" class={input}>
+              {Object.entries(MORTAR_BAGS).map(([k, v]) => <option value={k}>{v.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="cb-mb">Blocks laid per 80 lb bag</label>
+            <input
+              id="cb-mb"
+              data-in="mb"
+              type="number"
+              min="1"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-gb">Buy grout as</label>
+            <select id="cb-gb" data-in="gb" class={input}>
+              {Object.entries(GROUT_BY).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-slate-500">
+          Leave the mortar rate blank to use the typical rate for the block width. Your mason’s own
+          count is better than any table.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Your prices</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Saved in this browser, so you only type them once.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="cb-p-block">Block, each ($)</label>
+            <input
+              id="cb-p-block"
+              data-price="block"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-p-mortar">Mortar, per bag ($)</label>
+            <input
+              id="cb-p-mortar"
+              data-price="mortar"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-p-grout-yd">Grout, per cu yd ($)</label>
+            <input
+              id="cb-p-grout-yd"
+              data-price="groutYd"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-p-grout-bag">Grout, per 80 lb bag ($)</label>
+            <input
+              id="cb-p-grout-bag"
+              data-price="groutBag"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-p-rebar">Rebar, per stick ($)</label>
+            <input
+              id="cb-p-rebar"
+              data-price="rebar"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="cb-p-labor">Labor, per block laid ($)</label>
+            <input
+              id="cb-p-labor"
+              data-price="labor"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div class="col-span-2 sm:col-span-2">
+            <label class={label} for="cb-p-joint">Joint reinforcement, per LF ($)</label>
+            <input
+              id="cb-p-joint"
+              data-price="joint"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">You need</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={cell}>
+            <span class={cellLabel}>Wall area</span>
+            <span class={cellValue} data-out="area"></span>
+            <span class={cellNote} data-out="area-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Courses</span>
+            <span class={cellValue} data-out="courses"></span>
+            <span class={cellNote} data-out="courses-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Blocks</span>
+            <span class={cellValue} data-out="blocks"></span>
+            <span class={cellNote} data-out="blocks-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Mortar bags</span>
+            <span class={cellValue} data-out="mortar"></span>
+            <span class={cellNote} data-out="mortar-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Joint reinf. (LF)</span>
+            <span class={cellValue} data-out="joint"></span>
+            <span class={cellNote} data-out="joint-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Grout (cu yd)</span>
+            <span class={cellValue} data-out="grout"></span>
+            <span class={cellNote} data-out="grout-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Vertical bars</span>
+            <span class={cellValue} data-out="bars"></span>
+            <span class={cellNote} data-out="bars-note"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Materials</dt>
+            <dd data-out="material" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600" data-out="labor-label">Labor</dt>
+            <dd data-out="labor" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Installed total</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+          <p data-out="per-sqft" class="text-right text-xs text-slate-500"></p>
+        </dl>
+        <p data-out="price-hint" class="mt-2 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example wall
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Wall area and blocks.</strong> Wall area is length × height, less the openings you deduct.
+      A standard block has an 8 × 16 inch nominal face, which covers 8/9 sq ft, so blocks laid = area
+      × 1.125, rounded up (CMHA TEK 04-02A). Your waste percentage goes on top of that for the order.
+      Courses are the height in inches ÷ 8.
+    </p>
+    <p>
+      <strong>Mortar.</strong> Bags = blocks laid ÷ blocks per bag, rounded up. Waste on broken block
+      is left out, because broken block takes no mortar. The typical rate per 80 lb bag of preblended
+      mortar is the middle of the ranges SPEC MIX publishes, typical waste included: {
+        MORTAR_BLOCKS_PER_80LB['4']
+      } for 4 in block, {MORTAR_BLOCKS_PER_80LB['6']} for 6 in, {MORTAR_BLOCKS_PER_80LB['8']} for 8 and
+      10 in, and {MORTAR_BLOCKS_PER_80LB['12']} for 12 in. A 60 lb bag lays ¾ as many and a 3,000 lb bulk
+      bag 37½ times as many. Wet mortar is {MORTAR_CUFT_PER_80LB} cu ft per 80 lb bag. Rates vary with
+      the bedding, the joints and the crew, so enter your own when you have it.
+    </p>
+    <p>
+      <strong>Grout.</strong> A fully grouted wall takes area × the CMHA TEK 04-02A Table 3 volume for
+      two-core units with 3% waste: {grout['6']}, {grout['8']}, {grout['10'].toFixed(1)} and {
+        grout['12']
+      } cu ft per 100 sq ft for 6, 8, 10 and 12 in block. Grouting only the bar cells takes bars × courses
+      cells, each 1/{CELLS_PER_100SQFT} of the fully grouted volume per 100 sq ft, because cells sit 8
+      in apart in 8 in courses. Cubic yards are cu ft ÷ 27, and ready-mix grout goes on the estimate rounded
+      up to the quarter yard. Bagged grout is figured at {GROUT_BAG_CUFT} cu ft per 80 lb bag (Quikrete
+      Core-Fill Grout). CMHA does not recommend grouting 4 in block, so the calculator does not grout
+      it. Bond beams and lintels take more grout and are not included.
+    </p>
+    <p>
+      <strong>Vertical bars.</strong> Bars = wall length in inches ÷ spacing, rounded up, plus one, so
+      there is a bar at each end. Each bar runs the wall height, and sticks hold as many whole bars as
+      fit. Lap splices to footing dowels and between sticks, and extra bars at openings, corners and wall
+      ends, come from the plans and are not counted.
+    </p>
+    <p>
+      <strong>Joint reinforcement.</strong> Rows = (courses − 1) ÷ the course interval, rounded up, starting
+      in the first bed joint above the bottom course. Linear feet = rows × wall length. Laps and prefabricated
+      corners and tees are extra.
+    </p>
+    <p>
+      <strong>Price.</strong> Material is quantity × your unit price for each item you priced, with grout
+      priced by the yard or by the bag as you buy it. Labor is blocks laid × your rate per block. Nothing
+      is priced with numbers you did not enter.
+    </p>
+    <p>
+      Reinforcement, grout spacing, bond beams and lap lengths are design decisions. They come from
+      the plans, the engineer and the local code under TMS 402 and the IBC, and this calculator does
+      not check them. Pricing the slab or flatwork next to the wall? The <a
+        href="/templates/concrete-estimate/">concrete estimate template</a
+      > has a slab takeoff for cubic yards, rebar and forms.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/block-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="concrete-block-calculator"]');
+  if (root) mount(root);
+</script>

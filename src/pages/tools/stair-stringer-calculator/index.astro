@@ -1,0 +1,472 @@
+---
+// /tools/stair-stringer-calculator/ — wave-1 trade calculator (plan: calculators
+// + price index, 2026-10-08). Search demand: "stair calculator" 33,100/mo, "stair
+// stringer calculator" 12,100/mo. Total rise → risers, treads, run, stringer
+// length and board to buy, stringer count, drop, and an IRC check; optional price
+// from the contractor's own remembered prices; "Add to estimate" feeds the shared
+// tray. Math and every FAQ number: src/lib/calculators/stairs.ts.
+import CalculatorPage from '../../../components/calculators/CalculatorPage.astro';
+import {
+  BOARD_LENGTHS_FT,
+  CHECK_ROWS,
+  computeStairs,
+  DCA6,
+  DEFAULT_INPUT,
+  fmtDeg,
+  fmtFtIn,
+  fmtIn,
+  IRC,
+  stairAngle,
+  STOCK,
+  STOCK_THICKNESS,
+  stringerCount,
+  TOOL,
+} from '../../../lib/calculators/stairs';
+
+const input =
+  'w-full min-w-0 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent';
+const label = 'block text-xs font-medium text-slate-600 mb-1';
+const cell = 'rounded-xl border border-slate-200 bg-white px-4 py-3';
+const cellLabel = 'block text-xs font-medium uppercase tracking-wide text-slate-500';
+const cellValue = 'mt-1 block text-2xl font-bold tabular-nums text-slate-900';
+const cellNote = 'mt-0.5 block text-xs text-slate-500';
+
+// The 9-foot example the FAQ quotes is the calculator's default stair.
+const ex = computeStairs(DEFAULT_INPUT);
+const oneFewer = DEFAULT_INPUT.rise / (ex.risers - 1);
+const spacing36 = (36 - STOCK_THICKNESS) / (stringerCount(36, DCA6.maxSpacing) - 1);
+
+const faqs = [
+  {
+    question: 'How many steps do I need for a 9-foot rise?',
+    answer: `A ${DEFAULT_INPUT.rise} in rise, finished floor to finished floor, takes ${ex.risers} risers of ${fmtIn(ex.riserHeight)}. ${ex.risers - 1} risers would be ${fmtIn(oneFewer)}, over the ${fmtIn(IRC.maxRiser)} IRC limit. With the top tread at the upper floor, that is ${ex.treads} treads, and at ${fmtIn(DEFAULT_INPUT.tread)} each the stair runs ${fmtFtIn(ex.totalRun)}.`,
+  },
+  {
+    question: 'How do you calculate stair stringer length?',
+    answer: `Stringer length is the hypotenuse of the total run and the total rise: √(run² + rise²). For a ${DEFAULT_INPUT.rise} in rise and a ${ex.totalRun} in run that is ${Math.round(ex.stringerLength)} in, or ${fmtFtIn(ex.stringerLength)}. Add a little for trimming the ends and buy the next standard length, here a ${ex.boardFt} ft ${STOCK[DEFAULT_INPUT.stock].label}.`,
+  },
+  {
+    question: 'What are the IRC limits for stair rise and run?',
+    answer: `The 2021 IRC sets a ${fmtIn(IRC.maxRiser)} maximum riser (R311.7.5.1) and a ${fmtIn(IRC.minTread)} minimum tread, measured nosing to nosing (R311.7.5.2). The largest riser or tread in a flight can be no more than ${fmtIn(IRC.maxVariation)} bigger than the smallest. The stair must be ${fmtIn(IRC.minWidth)} wide (R311.7.1) with ${fmtFtIn(IRC.headroom)} of headroom (R311.7.2), and one flight can rise no more than ${fmtIn(IRC.maxFlightRise)} between floors or landings (R311.7.3). The 2024 IRC keeps these numbers under R318.7. Some states and cities amend them, and commercial stairs follow the IBC instead.`,
+  },
+  {
+    question: 'How many stringers does a 36-inch stair need?',
+    answer: `${stringerCount(36, DCA6.maxSpacing)}. The IRC does not set stringer spacing, so the calculator uses the American Wood Council's DCA 6 deck guide: cut stringers no more than ${fmtIn(DCA6.maxSpacing)} on center under 2× or 5/4 treads. Across 36 in, outside to outside, ${stringerCount(36, DCA6.maxSpacing)} stringers land at ${fmtIn(spacing36)} on center. A 48 in stair takes ${stringerCount(48, DCA6.maxSpacing)}. Use a closer spacing if your tread maker calls for it.`,
+  },
+  {
+    question: 'What does dropping the stringer mean?',
+    answer: `Cutting the bottom of the stringer down by the thickness of one tread. The stringer is laid out with equal risers, but each tread sits on top of it. Without the drop, the first step is a tread thickness too tall and the top step a tread thickness too short: with ${fmtIn(DEFAULT_INPUT.thickness)} treads on ${fmtIn(ex.riserHeight)} risers, ${fmtIn(ex.firstStepUndropped)} at the bottom and ${fmtIn(ex.topStepUndropped)} at the top, far past the ${fmtIn(IRC.maxVariation)} the code allows. If the stringer sits on subfloor before the finish floor goes down, take the finish floor thickness off the drop.`,
+  },
+  {
+    question: 'What is the steepest stair the IRC allows?',
+    answer: `The code limits riser height and tread depth, not the angle. At the limits, a ${fmtIn(IRC.maxRiser)} riser on a ${fmtIn(IRC.minTread)} tread, a stair climbs at ${fmtDeg(stairAngle(IRC.maxRiser, IRC.minTread))}. The 9-foot example, ${fmtIn(ex.riserHeight)} on ${fmtIn(DEFAULT_INPUT.tread)}, climbs at ${fmtDeg(ex.angle)}. Deeper treads make the stair easier to climb and the run longer.`,
+  },
+  {
+    question: 'Are my measurements and prices sent to BuildWorkPro?',
+    answer:
+      'No. The math runs in your browser. Your prices and your estimate are saved in this browser’s local storage so they are there next time, and nothing is sent to us. The stair dimensions are also kept in the page address so you can bookmark or share a result.',
+  },
+];
+
+const related = [
+  {
+    href: '/templates/construction-estimate/',
+    label: 'Construction estimate template',
+    note: 'A free Excel and fillable PDF estimate with materials, labor, overhead and margin.',
+  },
+  {
+    href: '/tools/',
+    label: 'All free tools',
+    note: 'More calculators and the pay application builder, all free, no email required.',
+  },
+  {
+    href: '/solutions/framing-contractors/',
+    label: 'BuildWorkPro for framers',
+    note: 'Bid lumber packages at current prices, schedule crews by building and bill by phase.',
+  },
+];
+---
+
+<CalculatorPage
+  title="Stair Stringer Calculator: Risers, Treads & IRC Check | BuildWorkPro"
+  description="Free stair stringer calculator: risers, treads, total run, stringer length and the board to buy, checked against IRC limits and priced with your own rates."
+  h1="Stair Stringer Calculator"
+  intro="Enter the total rise to get risers, treads, total run, stringer length and the board to buy, checked against the IRC. Add your own prices to get the cost, then add the stair to an estimate."
+  tool={TOOL}
+  chips={[
+    'Risers, treads, stringers',
+    'IRC rise and run check',
+    'Your prices, saved',
+    'No email required',
+  ]}
+  faqs={faqs}
+  related={related}
+>
+  <div data-calculator={TOOL} class="grid gap-6 lg:grid-cols-12 items-start">
+    <div class="min-w-0 space-y-6 lg:col-span-7">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Stair</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="st-r">Total rise (in)</label>
+            <input
+              id="st-r"
+              data-in="r"
+              type="number"
+              min="0"
+              step="0.125"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="st-mr">Max riser height (in)</label>
+            <input
+              id="st-mr"
+              data-in="mr"
+              type="number"
+              min="4"
+              max="12"
+              step="0.125"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="st-t">Tread depth (in)</label>
+            <input
+              id="st-t"
+              data-in="t"
+              type="number"
+              min="4"
+              max="24"
+              step="0.125"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="st-th">Tread thickness (in)</label>
+            <input
+              id="st-th"
+              data-in="th"
+              type="number"
+              min="0"
+              max="3"
+              step="0.0625"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="st-w">Stair width (in)</label>
+            <input
+              id="st-w"
+              data-in="w"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-slate-500">
+          Rise is finished floor to finished floor. Tread depth is the run of one step, nosing to
+          nosing. Width is outside to outside of the outer stringers.
+        </p>
+
+        <h2 class="mt-6 text-base font-semibold text-slate-900">Stringers</h2>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="st-s">Stringer stock</label>
+            <select id="st-s" data-in="s" class={input}>
+              {Object.entries(STOCK).map(([k, v]) => <option value={k}>{v.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label class={label} for="st-sp">Max spacing, o.c. (in)</label>
+            <input
+              id="st-sp"
+              data-in="sp"
+              type="number"
+              min="8"
+              max="48"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="st-x">Extra length, typical (in)</label>
+            <input
+              id="st-x"
+              data-in="x"
+              type="number"
+              min="0"
+              max="60"
+              step="1"
+              inputmode="decimal"
+              class={input}
+            />
+          </div>
+        </div>
+        <label class="mt-4 inline-flex items-center gap-2 text-sm text-slate-700" for="st-cr">
+          <input
+            id="st-cr"
+            data-in="cr"
+            type="checkbox"
+            class="h-4 w-4 rounded border-slate-300 accent-brand-600"
+          />
+          Closed risers (riser boards)
+        </label>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Code check</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          2021 IRC section numbers, with the 2024 IRC number where it moved. Local codes amend these
+          limits, and commercial stairs follow the IBC, which differs.
+        </p>
+        <ul class="mt-3">
+          {
+            CHECK_ROWS.map((row) => (
+              <li data-check={row.id} class="border-t border-slate-100 py-2.5">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-slate-900">{row.label}</p>
+                    <p class="text-xs text-slate-500">{row.source}</p>
+                  </div>
+                  <span
+                    data-check-status
+                    class="shrink-0 rounded-full border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600"
+                  >
+                    Note
+                  </span>
+                </div>
+                <p data-check-detail class="mt-1 text-sm text-slate-600" />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Your prices</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Optional. Saved in this browser, so you only type them once.
+        </p>
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div>
+            <label class={label} for="st-p-stringer">Stringer board, each ($)</label>
+            <input
+              id="st-p-stringer"
+              data-price="stringer"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="st-p-tread">Tread, each ($)</label>
+            <input
+              id="st-p-tread"
+              data-price="tread"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="st-p-riser">Riser board, each ($)</label>
+            <input
+              id="st-p-riser"
+              data-price="riser"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+          <div>
+            <label class={label} for="st-p-basis">Price labor</label>
+            <select id="st-p-basis" data-price-basis class={input}>
+              <option value="step">Per step</option>
+              <option value="lump">Lump sum</option>
+            </select>
+          </div>
+          <div class="col-span-2 sm:col-span-2">
+            <label class={label} for="st-p-labor" data-out="labor-input-label"
+              >Labor, per step ($)</label
+            >
+            <input
+              id="st-p-labor"
+              data-price="labor"
+              inputmode="decimal"
+              placeholder="0.00"
+              class={input}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="min-w-0 space-y-4 lg:col-span-5 lg:sticky lg:top-28">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h2 class="text-base font-semibold text-slate-900">Your stair</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class={cell}>
+            <span class={cellLabel}>Risers</span>
+            <span class={cellValue} data-out="risers"></span>
+            <span class={cellNote} data-out="risers-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Treads</span>
+            <span class={cellValue} data-out="treads"></span>
+            <span class={cellNote} data-out="treads-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Total run</span>
+            <span class={cellValue} data-out="run"></span>
+            <span class={cellNote} data-out="run-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Stringer length</span>
+            <span class={cellValue} data-out="stringer"></span>
+            <span class={cellNote} data-out="stringer-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Stringers</span>
+            <span class={cellValue} data-out="stringers"></span>
+            <span class={cellNote} data-out="stringers-note"></span>
+          </div>
+          <div class={cell}>
+            <span class={cellLabel}>Stair angle</span>
+            <span class={cellValue} data-out="angle"></span>
+            <span class={cellNote} data-out="angle-note"></span>
+          </div>
+          <div class={`${cell} col-span-2`}>
+            <span class={cellLabel}>Drop the stringer</span>
+            <span class={cellValue} data-out="drop"></span>
+            <span class={cellNote} data-out="drop-note"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-semibold text-slate-900">Price</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600">Materials</dt>
+            <dd data-out="material" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-slate-600" data-out="labor-label">Labor</dt>
+            <dd data-out="labor" class="font-medium tabular-nums text-slate-900"></dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3 border-t-2 border-slate-900 pt-2">
+            <dt class="font-semibold text-slate-900">Installed total</dt>
+            <dd data-out="total" class="text-xl font-bold tabular-nums text-slate-900"></dd>
+          </div>
+          <p data-out="per-step" class="text-right text-xs text-slate-500"></p>
+        </dl>
+        <p data-out="price-hint" class="mt-2 text-xs text-slate-500"></p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-action="add"
+            class="inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Add to estimate
+          </button>
+          <button
+            type="button"
+            data-action="copy-link"
+            class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:border-brand-300 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Copy link to this result
+          </button>
+          <button
+            type="button"
+            data-action="reset"
+            class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            Example stair
+          </button>
+        </div>
+        <p data-note class="mt-2 text-sm text-slate-500" aria-live="polite"></p>
+      </div>
+    </aside>
+  </div>
+
+  <Fragment slot="method">
+    <p>
+      <strong>Risers.</strong> Total rise ÷ your maximum riser height, rounded up to a whole number of
+      risers. The riser height is then total rise ÷ risers, so every riser is the same. The IRC maximum
+      is {fmtIn(IRC.maxRiser)}; enter a lower number for an easier stair.
+    </p>
+    <p>
+      <strong>Treads and run.</strong> Treads = risers − 1, because the top step lands on the upper floor
+      and that floor is the last tread. Total run = treads × tread depth. Tread depth is the run of one
+      step, nosing to nosing, so the nosing overhang is not added on top.
+    </p>
+    <p>
+      <strong>Stringer length.</strong> √(total run² + total rise²). The board to buy is that length plus
+      your extra for trimming (12 in is a typical allowance, not a rule), rounded up to the next standard
+      lumber length: {BOARD_LENGTHS_FT[0]} to {BOARD_LENGTHS_FT.at(-1)} ft in 2 ft steps, per the Southern
+      Forest Products Association’s specification guidelines. Longer stringers are a special order, and
+      a flight that long is usually close to needing a landing.
+    </p>
+    <p>
+      <strong>Stair angle.</strong> arctan(riser height ÷ tread depth).
+    </p>
+    <p>
+      <strong>Number of stringers.</strong> (stair width − {fmtIn(STOCK_THICKNESS)}) ÷ maximum
+      spacing, rounded up, + 1, so the outer stringers sit at the edges and no gap is wider than the
+      spacing on center. The IRC sets no stringer spacing. The {fmtIn(DCA6.maxSpacing)} default is the
+      American Wood Council’s DCA 6 deck guide maximum for cut stringers under 2× or 5/4 treads (Figure
+      29). Use your tread maker’s span if it is shorter.
+    </p>
+    <p>
+      <strong>Drop.</strong> Cut the bottom of each stringer down by one tread thickness so the first
+      and top steps come out the same height as the rest. This assumes the stringer bears on the finished
+      floor. If it bears on subfloor before the finish floor goes down, subtract the finish floor thickness
+      from the drop.
+    </p>
+    <p>
+      <strong>Throat.</strong> The wood left below the notches is the board depth less riser × tread ÷
+      √(riser² + tread²). Dressed depths are {fmtIn(STOCK['2x12'].depth)} for a 2 × 12 and {
+        fmtIn(STOCK['2x10'].depth)
+      } for a 2 × 10. DCA 6 calls for at least {fmtIn(DCA6.minThroat)} on deck stairs (Figure 28), and
+      limits a cut stringer to {fmtFtIn(DCA6.maxCutSpan)} of horizontal span between supports, so a longer
+      deck stair needs a post or a landing under the stringers.
+    </p>
+    <p>
+      <strong>Code check.</strong> Riser {fmtIn(IRC.maxRiser)} max (R311.7.5.1), tread {
+        fmtIn(IRC.minTread)
+      } min (R311.7.5.2), {fmtIn(IRC.maxVariation)} max variation between the largest and smallest riser
+      or tread in a flight, width {fmtIn(IRC.minWidth)} min (R311.7.1), headroom {
+        fmtFtIn(IRC.headroom)
+      }
+      (R311.7.2), {fmtIn(IRC.maxFlightRise)} max rise per flight (R311.7.3), and a handrail on one side
+      at {IRC.handrailRisers} or more risers (R311.7.8). These are 2021 IRC numbers. The 2024 IRC moved
+      them to R318.7 and the handrail rules to R320 without changing the limits. Your local code may amend
+      them, and commercial stairs follow the IBC.
+    </p>
+    <p>
+      <strong>Price.</strong> Material is stringers × your board price, treads × your tread price and,
+      for closed risers, risers × your riser board price. Labor is risers × your per-step rate, or your
+      lump sum for the stair. Nothing is priced with numbers you did not enter.
+    </p>
+    <p>
+      Pricing the whole job? The <a href="/templates/construction-estimate/"
+        >construction estimate template</a
+      > has material, labor, equipment and subcontractor sections with overhead and margin on top.
+    </p>
+  </Fragment>
+</CalculatorPage>
+
+<script>
+  import { mount } from '../../../lib/calculators/stairs-app';
+  const root = document.querySelector<HTMLElement>('[data-calculator="stair-stringer-calculator"]');
+  if (root) mount(root);
+</script>

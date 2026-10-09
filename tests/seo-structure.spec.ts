@@ -39,6 +39,7 @@ test.describe('BreadcrumbList', () => {
 
   for (const path of [
     '/tools/pay-app/',
+    '/tools/drywall-calculator/',
     '/customers/national-glass/',
     '/templates/tm-ticket/',
     '/blog/construction-crm-tips/',

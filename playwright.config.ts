@@ -15,8 +15,10 @@ const isCI = !!process.env.CI;
 // entry and dies on `@bruits/satteri-wasm32-wasi`. So the route 500s with
 // FailedToLoadModuleSSR in dev, and only `astro preview` (wrangler → workerd) runs
 // it the way production does. The `api` project below is pointed there.
-const PORT = 4321;
-const PREVIEW_PORT = 4322;
+// E2E_PORT / E2E_PREVIEW_PORT let parallel worktrees run the suite side by side;
+// with the defaults, a second run would silently reuse the first one's server.
+const PORT = Number(process.env.E2E_PORT ?? 4321);
+const PREVIEW_PORT = Number(process.env.E2E_PREVIEW_PORT ?? 4322);
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 const PREVIEW_URL = `http://127.0.0.1:${PREVIEW_PORT}`;
 
@@ -66,7 +68,7 @@ export default defineConfig({
   webServer: [
     {
       // Pages and docs — prerendered, so the dev server is the cheap option.
-      command: 'npm run dev -- --host 127.0.0.1',
+      command: `npm run dev -- --host 127.0.0.1 --port ${PORT}`,
       url: BASE_URL,
       reuseExistingServer: !isCI,
       timeout: 120_000,
