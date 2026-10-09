@@ -11,6 +11,9 @@ export const BASE_URL = process.env.CAPTURE_BASE_URL || 'http://localhost:7782';
 export const VIEWPORTS = {
   desktop: { width: 1440, height: 900 },
   laptop: { width: 1280, height: 800 },
+  // The marketing-site screenshots in public/screenshots/ (Screenshot.astro is
+  // 1920x1080 by default). Shoot these at `meta.scale: 1`.
+  hd: { width: 1920, height: 1080 },
   mobile: { width: 390, height: 844 },
 };
 export const DEFAULT_VIEWPORT = 'desktop';
