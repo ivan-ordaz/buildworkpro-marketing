@@ -1,4 +1,7 @@
 name = "buildworkpro-marketing"
+# Custom entry: answers /ingest/* (PostHog proxy, marketing#227) before Astro
+# routing, then hands every other request to the Astro handler.
+main = "./src/worker.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 

@@ -134,9 +134,12 @@ import { config } from '../config';
             mask all text you type and all text displayed on screen, so the content of your records
             (customers, prices, documents) is not captured, and they do not capture the contents of
             network requests or browser console output. We do not record replays for paying
-            subscribers, and we never record the marketing website or the mobile application. This
-            data is sent through our own domain to PostHog, Inc. (see Section 5), which is
-            configured to discard IP addresses rather than store them.
+            subscribers, and we never record the marketing website or the mobile application. On the
+            marketing website, PostHog records page views and clicks only under the cookie choices
+            described below; because its cookie is shared with the application, we can see which
+            pages a visitor viewed before signing up. This data is sent through our own domain to
+            PostHog, Inc. (see Section 5), which is configured to discard IP addresses rather than
+            store them.
           </li>
           <li>
             <strong>Device and Browser Data:</strong> Browser type and version, operating system, device
@@ -152,16 +155,16 @@ import { config } from '../config';
           </li>
           <li>
             <strong>Cookies and Similar Technologies:</strong> Session identifiers, CSRF tokens, tenant
-            context identifiers, and preference storage. On the marketing website, Google Analytics 4
-            and the Meta (Facebook) Pixel run under a regional consent posture: for visitors in the EEA,
-            UK, or Switzerland they are strictly opt-in (Google Analytics runs cookieless under Consent
-            Mode v2 with consent denied, and the Pixel does not load, until you accept); for visitors
-            everywhere else, including the United States, they run by default and declining in the banner
-            or the footer &ldquo;Cookie settings&rdquo; link is a full, persistent opt-out. We determine
-            region from your IP address and apply the stricter opt-in behavior when it cannot be determined.
-            The authenticated web application sets one first-party product-analytics cookie (see Product
-            Analytics and Session Replay above); neither the web nor the mobile application deploys advertising
-            or cross-site tracking cookies. For a detailed explanation, see our
+            context identifiers, and preference storage. On the marketing website, Google Analytics 4,
+            PostHog, and the Meta (Facebook) Pixel run under a regional consent posture: for visitors
+            in the EEA, UK, or Switzerland they are strictly opt-in (Google Analytics runs cookieless
+            under Consent Mode v2 with consent denied, and PostHog and the Pixel do not load, until you
+            accept); for visitors everywhere else, including the United States, they run by default and
+            declining in the banner or the footer &ldquo;Cookie settings&rdquo; link is a full, persistent
+            opt-out. We determine region from your IP address and apply the stricter opt-in behavior when
+            it cannot be determined. The authenticated web application sets one first-party product-analytics
+            cookie (see Product Analytics and Session Replay above); neither the web nor the mobile application
+            deploys advertising or cross-site tracking cookies. For a detailed explanation, see our
             <a href="/cookies/">Cookie Policy</a>.
           </li>
         </ul>
@@ -415,11 +418,12 @@ import { config } from '../config';
               </li>
               <li>
                 <strong>PostHog, Inc.</strong> &mdash; Product analytics for the web application and,
-                during free trials, masked session replay; receives pseudonymous account and organization
-                identifiers, your role and subscription status, product-usage events, browser and device
-                metadata, and masked interface recordings. It does not receive names, email addresses,
-                or the contents of your records, and IP addresses are discarded rather than stored. Data
-                is hosted in the United States
+                under the cookie choices in Section 2.2, the marketing website; during free trials, masked
+                session replay in the web application only. Receives pseudonymous account and organization
+                identifiers, your role and subscription status, product-usage events, marketing-site page
+                views and clicks, browser and device metadata, and masked interface recordings. It does
+                not receive names, email addresses, or the contents of your records, and IP addresses
+                are discarded rather than stored. Data is hosted in the United States
               </li>
               <li>
                 <strong>Expo (650 Industries, Inc.)</strong> &mdash; Mobile push notification delivery

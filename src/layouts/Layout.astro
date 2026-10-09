@@ -188,6 +188,17 @@ const geoDefaultEnabled = import.meta.env.PROD;
         // If the Pixel was already loaded this pageview (geo-default posture),
         // stop it immediately; the stored decline keeps it from loading again.
         if (window.fbq) window.fbq('consent', 'revoke');
+        // Same for PostHog (marketing#227).
+        window.__bwpPostHogWanted = false;
+        if (window.bwpOptOutPostHog) window.bwpOptOutPostHog();
+      };
+      // PostHog (marketing#227) loads under exactly the Meta Pixel's posture:
+      // after Accept, or by default outside the EEA/UK/CH. Its loader is a
+      // bundled module that runs AFTER this inline script, so record the intent
+      // here and let the module pick it up; once defined, call it directly.
+      window.bwpWantPostHog = function () {
+        window.__bwpPostHogWanted = true;
+        if (window.bwpLoadPostHog) window.bwpLoadPostHog();
       };
       window.bwpLoadGA = function () {
         if (window.__bwpGALoaded) return;
@@ -259,6 +270,7 @@ const geoDefaultEnabled = import.meta.env.PROD;
         window.bwpGrantAnalyticsConsent();
         window.bwpLoadGA();
         window.bwpLoadMetaPixel();
+        window.bwpWantPostHog();
       } else {
         window.bwpLoadGA();
         // Opt-in regions: EU/EEA member states + UK + Switzerland. Anything
@@ -309,6 +321,7 @@ const geoDefaultEnabled = import.meta.env.PROD;
           }
           window.bwpGrantAnalyticsConsent();
           window.bwpLoadMetaPixel();
+          window.bwpWantPostHog();
         };
         // geoDefaultEnabled (define:vars) is false under `astro dev` — see the
         // frontmatter comment. Off means the pre-#125 opt-in behavior exactly.
@@ -424,6 +437,26 @@ const geoDefaultEnabled = import.meta.env.PROD;
   <body class="bg-white text-slate-900 font-sans" data-turnstile-sitekey={config.turnstileSiteKey}>
     <slot />
     <CookieConsent />
+
+    <!-- PostHog loader (marketing#227). The consent script in <head> decides
+         WHETHER to load (bwpWantPostHog); this bundled module only knows HOW,
+         and downloads posthog-js lazily, so a visitor who never consents never
+         fetches it. -->
+    <script>
+      import { config } from '../config';
+      import { loadPostHog, optOutPostHog } from '../lib/posthog-client';
+
+      const w = window as unknown as {
+        bwpLoadPostHog?: () => void;
+        bwpOptOutPostHog?: () => void;
+        __bwpPostHogWanted?: boolean;
+      };
+      w.bwpLoadPostHog = () => {
+        void loadPostHog(config.posthogKey, window.location.hostname);
+      };
+      w.bwpOptOutPostHog = optOutPostHog;
+      if (w.__bwpPostHogWanted) w.bwpLoadPostHog();
+    </script>
 
     <!-- Acquisition-attribution passthrough. Every "Start free trial" CTA
          renders config.signupUrl — a build-time constant with no query string —

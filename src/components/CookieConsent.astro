@@ -50,6 +50,7 @@
       (window as any).bwpGrantAnalyticsConsent?.();
       (window as any).bwpLoadGA?.();
       (window as any).bwpLoadMetaPixel?.();
+      (window as any).bwpWantPostHog?.();
     });
     document.getElementById('cookie-decline')?.addEventListener('click', () => {
       localStorage.setItem('bwp-cookies-declined', '1');
