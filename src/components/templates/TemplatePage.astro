@@ -11,6 +11,7 @@ import { config } from '../../config';
 import { TEMPLATES, TEMPLATE_LIST, type TemplateSlug } from '../../data/templates';
 import { manifest } from '../../data/templates-manifest';
 import { NEXT_STEPS } from '../../data/template-next-steps';
+import { resourceLinks } from '../../data/resource-links';
 
 type Download = { format: 'pdf' | 'xlsx' | 'docx' | 'example'; label?: string; note?: string };
 
@@ -129,6 +130,8 @@ const tradePeers =
         label: t.title.replace(/ Estimate Template$/, ''),
       }))
     : [];
+// Free calculators and price pages for the work this template covers.
+const resources = resourceLinks(TEMPLATES[slug]?.resources);
 const heroPreview = previews[0];
 const previewSrc = heroPreview ? `/templates-previews/${heroPreview.file}` : null;
 const previewWebp = heroPreview ? `/templates-previews/${heroPreview.webp}` : null;
@@ -491,6 +494,19 @@ const schema = {
                     class="font-medium text-brand-600 hover:text-brand-700"
                   >
                     {t.label}
+                  </a>
+                </>
+              ))}
+            </p>
+          )}
+          {resources.length > 0 && (
+            <p class="mt-4 text-center text-sm text-slate-500 leading-relaxed">
+              Free calculators and price data for this work:{' '}
+              {resources.map((r, i) => (
+                <>
+                  {i > 0 && ' · '}
+                  <a href={r.href} class="font-medium text-brand-600 hover:text-brand-700">
+                    {r.label}
                   </a>
                 </>
               ))}
