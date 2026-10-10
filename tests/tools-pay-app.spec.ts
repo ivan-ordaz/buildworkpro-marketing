@@ -147,7 +147,8 @@ test.describe('/tools/pay-app/', () => {
 test.describe('entry points', () => {
   test('the pay application template page offers the online builder', async ({ page }) => {
     await page.goto('/templates/aia-g702-g703/');
-    const link = page.locator('a[href="/tools/pay-app/"]').first();
+    // `main`: the header's Resources menu links the builder on every page too.
+    const link = page.locator('main a[href="/tools/pay-app/"]').first();
     await expect(link).toBeVisible();
   });
 
