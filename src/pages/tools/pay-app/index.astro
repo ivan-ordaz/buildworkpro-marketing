@@ -11,6 +11,8 @@ import Footer from '../../../components/Footer.astro';
 import FAQSection from '../../../components/FAQSection.astro';
 import { config } from '../../../config';
 import { manifest } from '../../../data/templates-manifest';
+import { TOOLS } from '../../../data/tools';
+import { resourceLinks } from '../../../data/resource-links';
 
 const preview = manifest['aia-g702-g703']?.previews?.[0];
 const previewSrc = preview ? `/templates-previews/${preview.file}` : null;
@@ -51,6 +53,7 @@ const faqs = [
       'The tool keeps computing correctly, but the PDF continuation sheet has room for 22 lines and the tool tells you how many will not print. Combine small lines, or bill the rest on a second continuation sheet. If you bill jobs with long schedules of values every month, BuildWorkPro prints as many pages as the job needs.',
   },
 ];
+const more = resourceLinks(TOOLS.find((t) => t.href === '/tools/pay-app/')?.related);
 ---
 
 <Layout
@@ -510,6 +513,13 @@ const faqs = [
             <a href="/tools/" class="text-sm font-semibold text-brand-700 hover:underline">
               More free tools for subcontractors
             </a>
+            {
+              more.map((r) => (
+                <a href={r.href} class="text-sm font-semibold text-brand-700 hover:underline">
+                  {r.label}
+                </a>
+              ))
+            }
           </div>
         </div>
         {

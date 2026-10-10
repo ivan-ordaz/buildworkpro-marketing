@@ -47,6 +47,21 @@ export const MATERIALS: Material[] = [
         note: 'Risers, treads and the stringer stock to buy.',
       },
       {
+        href: '/tools/fence-calculator/',
+        label: 'Fence calculator',
+        note: 'Posts, rails, pickets and post concrete for a wood fence.',
+      },
+      {
+        href: '/templates/fence-estimate/',
+        label: 'Fence estimate template',
+        note: 'Footage takeoff to posts, panels and gates, priced per foot.',
+      },
+      {
+        href: '/templates/construction-estimate/',
+        label: 'Construction estimate template',
+        note: 'Line items with the lumber package at your current quote.',
+      },
+      {
         href: '/solutions/framing-contractors/',
         label: 'For framing contractors',
         note: 'Bids with lumber packages priced at this week’s quotes.',
@@ -80,6 +95,21 @@ export const MATERIALS: Material[] = [
         note: 'Blocks, mortar, grout and rebar for a CMU wall.',
       },
       {
+        href: '/tools/rebar-calculator/',
+        label: 'Rebar calculator',
+        note: 'Bars each way, laps, sticks to buy and chairs for a slab.',
+      },
+      {
+        href: '/tools/asphalt-calculator/',
+        label: 'Asphalt calculator',
+        note: 'Pricing the driveway in asphalt instead: tons of mix and base.',
+      },
+      {
+        href: '/tools/markup-vs-margin-calculator/',
+        label: 'Markup vs margin calculator',
+        note: 'Carry a price increase through to the bid at your margin.',
+      },
+      {
         href: '/solutions/concrete-contractors/',
         label: 'For concrete contractors',
         note: 'Bids by phase with yardage, pump time and rebar per line.',
@@ -97,6 +127,11 @@ export const MATERIALS: Material[] = [
     purchase: 'steel order',
     related: [
       {
+        href: '/tools/rebar-calculator/',
+        label: 'Rebar calculator',
+        note: 'Sticks to buy from a cut list, and the weight in tons.',
+      },
+      {
         href: '/tools/concrete-block-calculator/',
         label: 'Concrete block calculator',
         note: 'Vertical bars and joint reinforcement for a block wall.',
@@ -105,6 +140,16 @@ export const MATERIALS: Material[] = [
         href: '/templates/concrete-estimate/',
         label: 'Concrete estimate template',
         note: 'Rebar grids converted to bars, laps, sticks and chairs.',
+      },
+      {
+        href: '/templates/construction-estimate/',
+        label: 'Construction estimate template',
+        note: 'Line items with steel priced from your latest quote.',
+      },
+      {
+        href: '/tools/markup-vs-margin-calculator/',
+        label: 'Markup vs margin calculator',
+        note: 'Carry a price increase through to the bid at your margin.',
       },
       {
         href: '/solutions/concrete-contractors/',
@@ -123,6 +168,21 @@ export const MATERIALS: Material[] = [
       'Producer prices for copper wire and cable, the electrical material that swings hardest with the copper market, plus wiring devices, switchgear and lighting fixtures.',
     purchase: 'wire order',
     related: [
+      {
+        href: '/tools/conduit-fill-calculator/',
+        label: 'Conduit fill calculator',
+        note: 'Wire and raceway footage, with the smallest conduit that passes.',
+      },
+      {
+        href: '/tools/voltage-drop-calculator/',
+        label: 'Voltage drop calculator',
+        note: 'The smallest wire that meets your drop target on a long run.',
+      },
+      {
+        href: '/tools/box-fill-calculator/',
+        label: 'Box fill calculator',
+        note: 'NEC 314.16 box volume, itemized, with the smallest box that fits.',
+      },
       {
         href: '/templates/electrical-estimate/',
         label: 'Electrical estimate template',
