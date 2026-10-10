@@ -122,7 +122,7 @@ test.describe('/prices/ pages', () => {
       const card = page.locator(`[data-material-card="${m.slug}"]`);
       await expect(card).toContainText(pct(snapshot(m.headline).year));
     }
-    await expect(page.locator(`a[href="/prices/reports/${LATEST}/"]`).first()).toBeVisible();
+    await expect(page.locator(`main a[href="/prices/reports/${LATEST}/"]`).first()).toBeVisible();
   });
 
   for (const m of MATERIALS) {
@@ -161,7 +161,7 @@ test.describe('/prices/ pages', () => {
     await expect(page.locator('[data-report-row]')).toHaveCount(ids.size);
     expect(await crumbs(page)).toEqual(['Home', 'Material Prices', 'Reports', monthLabel(LATEST)]);
     await page.goto('/prices/reports/');
-    await expect(page.locator(`a[href="/prices/reports/${LATEST}/"]`)).toBeVisible();
+    await expect(page.locator(`main a[href="/prices/reports/${LATEST}/"]`)).toBeVisible();
   });
 
   test('CSV files carry the series behind each page', async ({ request }) => {

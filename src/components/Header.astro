@@ -1,5 +1,8 @@
 ---
 import { config } from '../config';
+import { TEMPLATE_LIST } from '../data/templates';
+import { TOOLS } from '../data/tools';
+import { monthLabel, reportMonths } from '../lib/prices/ppi';
 
 const features = [
   { label: 'AI Agents (Claude, ChatGPT, Grok Bot)', href: '/agents/' },
@@ -30,6 +33,46 @@ const compare = [
   { label: 'vs JobTread', href: '/compare/jobtread-alternative/' },
   { label: 'vs Knowify', href: '/compare/knowify-alternative/' },
 ];
+
+// "Resources" menu: the free templates, tools and material price pages. The
+// counts and the latest report month come from the registries, so the menu
+// never goes stale. The phone menu shows the first two links of each group.
+const latestReport = reportMonths()[0];
+const resources = [
+  {
+    title: 'Templates',
+    links: [
+      { label: 'Pay application (G702/G703 style)', href: '/templates/aia-g702-g703/' },
+      { label: 'Change order', href: '/templates/change-order/' },
+      { label: 'Construction estimate', href: '/templates/construction-estimate/' },
+      { label: 'Lien waiver', href: '/templates/lien-waiver/' },
+      { label: 'Daily report', href: '/templates/daily-report/' },
+    ],
+    all: { label: `All ${TEMPLATE_LIST.length} templates`, href: '/templates/' },
+  },
+  {
+    title: 'Free tools',
+    links: [
+      { label: 'Voltage drop calculator', href: '/tools/voltage-drop-calculator/' },
+      { label: 'Markup vs margin calculator', href: '/tools/markup-vs-margin-calculator/' },
+      { label: 'Conduit fill calculator', href: '/tools/conduit-fill-calculator/' },
+      { label: 'Drywall calculator', href: '/tools/drywall-calculator/' },
+      { label: 'Pay app builder', href: '/tools/pay-app/' },
+    ],
+    all: { label: `All ${TOOLS.length} tools`, href: '/tools/' },
+  },
+  {
+    title: 'Material prices',
+    links: [
+      { label: 'Lumber', href: '/prices/lumber/' },
+      { label: 'Copper wire', href: '/prices/copper-wire/' },
+      { label: 'Concrete', href: '/prices/concrete/' },
+      { label: 'Steel and rebar', href: '/prices/steel/' },
+      { label: `${monthLabel(latestReport)} report`, href: `/prices/reports/${latestReport}/` },
+    ],
+    all: { label: 'All material prices', href: '/prices/' },
+  },
+];
 ---
 
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -41,22 +84,26 @@ const compare = [
           <source
             type="image/webp"
             srcset="/logo-190.webp 190w, /logo-380.webp 380w"
-            sizes="(min-width: 1024px) 193px, 177px"
+            sizes="(min-width: 1280px) 193px, 177px"
           />
           <img
             src="/logo.png"
             alt="BuildWorkPro"
             width="950"
             height="236"
-            class="h-11 lg:h-12 w-auto"
+            class="h-11 xl:h-12 w-auto"
             decoding="async"
           />
         </picture>
       </a>
 
       <!-- Desktop Nav. lg:, not md:: at exactly 768px the full nav (5 items + Log in
-           + CTA + 180px logo) cannot fit — "Log in" wraps into "Blog" on iPad portrait. -->
-      <nav class="hidden lg:flex items-center gap-6 lg:gap-8" aria-label="Primary">
+           + CTA + 180px logo) cannot fit — "Log in" wraps into "Blog" on iPad portrait.
+           From 1024 to 1279px the bar is just as tight: items sit 20px apart, the logo
+           stays at its phone size, the trial button is 16px narrower, and neither it nor
+           "Log in" wraps. From xl up: 32px gaps and the full logo.
+           tests/header-resources.spec.ts checks the fit at 1024, 1280 and 1440. -->
+      <nav class="hidden lg:flex items-center gap-5 xl:gap-8" aria-label="Primary">
         <a
           href="/agents/"
           class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
@@ -84,7 +131,7 @@ const compare = [
             </svg>
           </button>
           <div
-            class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible focus-within:opacity-100 focus-within:visible transition-all duration-150 z-50"
+            class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible group-focus-within/menu:opacity-100 group-focus-within/menu:visible transition-all duration-150 z-50"
           >
             <div
               class="w-64 bg-white border border-slate-100 rounded-xl shadow-xl py-2"
@@ -135,7 +182,7 @@ const compare = [
             </svg>
           </button>
           <div
-            class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible focus-within:opacity-100 focus-within:visible transition-all duration-150 z-50"
+            class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible group-focus-within/menu:opacity-100 group-focus-within/menu:visible transition-all duration-150 z-50"
           >
             <div
               class="w-64 bg-white border border-slate-100 rounded-xl shadow-xl py-2"
@@ -186,7 +233,7 @@ const compare = [
             </svg>
           </button>
           <div
-            class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible focus-within:opacity-100 focus-within:visible transition-all duration-150 z-50"
+            class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible group-focus-within/menu:opacity-100 group-focus-within/menu:visible transition-all duration-150 z-50"
           >
             <div
               class="w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-2"
@@ -229,25 +276,76 @@ const compare = [
         >
           Blog
         </a>
-        <a
-          href="/templates/"
-          class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-        >
-          Templates
-        </a>
+        <!-- Resources dropdown: templates, tools and material prices. The last item, so
+             the panel is anchored to its right edge and opens toward the page. -->
+        <div class="relative group/menu" data-resources-menu>
+          <button
+            type="button"
+            class="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors py-2"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Resources
+            <svg
+              class="w-4 h-4 transition-transform group-hover/menu:rotate-180"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div
+            class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible group-focus-within/menu:opacity-100 group-focus-within/menu:visible transition-all duration-150 z-50"
+          >
+            <div class="w-[44rem] bg-white border border-slate-100 rounded-xl shadow-xl p-4">
+              <div class="grid grid-cols-3 gap-x-4">
+                {
+                  resources.map((group) => (
+                    <div>
+                      <p class="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        {group.title}
+                      </p>
+                      {group.links.map((item) => (
+                        <a
+                          href={item.href}
+                          class="block px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:text-brand-600 transition-colors"
+                        >
+                          {item.label}
+                        </a>
+                      ))}
+                      <a
+                        href={group.all.href}
+                        class="mt-1 flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold text-brand-600 hover:bg-brand-50 transition-colors"
+                      >
+                        {group.all.label}
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  ))
+                }
+              </div>
+              <p class="mt-3 border-t border-slate-100 px-3 pt-3 text-xs text-slate-500">
+                Free, no email required. Material prices are updated monthly from Bureau of Labor
+                Statistics data.
+              </p>
+            </div>
+          </div>
+        </div>
       </nav>
 
       <!-- CTA Buttons -->
       <div class="hidden lg:flex items-center gap-3">
         <a
           href={config.loginUrl}
-          class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+          class="whitespace-nowrap text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
         >
           Log in
         </a>
         <a
           href={config.signupUrl}
-          class="text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 px-5 py-2.5 rounded-lg transition-all hover:-translate-y-0.5"
+          class="whitespace-nowrap text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 px-4 xl:px-5 py-2.5 rounded-lg transition-all hover:-translate-y-0.5"
         >
           Start free trial
         </a>
@@ -404,12 +502,48 @@ const compare = [
       <a href="/blog/" class="block py-3 text-sm font-medium text-slate-700 hover:text-brand-600">
         Blog
       </a>
-      <a
-        href="/templates/"
-        class="block py-3 text-sm font-medium text-slate-700 hover:text-brand-600"
-      >
-        Free Templates
-      </a>
+      <!-- Resources accordion -->
+      <details class="group" data-resources-mobile>
+        <summary
+          class="flex items-center justify-between text-sm font-medium text-slate-700 py-3 cursor-pointer list-none"
+        >
+          <span>Resources</span>
+          <svg
+            class="w-4 h-4 transition-transform group-open:rotate-180"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </summary>
+        <div class="pl-3 pb-2 space-y-1">
+          {
+            resources.map((group) => (
+              <>
+                <p class="pt-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  {group.title}
+                </p>
+                {group.links.slice(0, 2).map((item) => (
+                  <a
+                    href={item.href}
+                    class="block py-2 text-sm text-slate-600 hover:text-brand-600"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+                <a
+                  href={group.all.href}
+                  class="block py-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
+                >
+                  {group.all.label} →
+                </a>
+              </>
+            ))
+          }
+        </div>
+      </details>
 
       <div class="pt-3 border-t border-slate-100 space-y-2">
         <a
