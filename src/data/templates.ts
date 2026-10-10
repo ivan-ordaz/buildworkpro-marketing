@@ -18,6 +18,12 @@ export type TemplateEntry = {
   basename: string;
   /** Combined US monthly searches for the cluster this page targets. */
   volume: number;
+  /**
+   * Free calculators and material price pages for the work this template
+   * covers, linked under its related templates. Hrefs resolve through
+   * src/data/resource-links.ts.
+   */
+  resources?: string[];
 };
 
 export const CATEGORIES: Record<TemplateCategory, { title: string; blurb: string }> = {
@@ -64,6 +70,7 @@ const list: TemplateEntry[] = [
     formats: ['Excel', 'PDF'],
     basename: 'pay-application-template-g702-g703-style',
     volume: 7100,
+    resources: ['/tools/pay-app/'],
   },
   {
     slug: 'schedule-of-values',
@@ -74,6 +81,7 @@ const list: TemplateEntry[] = [
     formats: ['Excel', 'PDF'],
     basename: 'schedule-of-values-template',
     volume: 2500,
+    resources: ['/tools/pay-app/'],
   },
   {
     slug: 'construction-invoice',
@@ -84,6 +92,7 @@ const list: TemplateEntry[] = [
     formats: ['Excel', 'Word', 'PDF'],
     basename: 'construction-invoice-template',
     volume: 4200,
+    resources: ['/tools/pay-app/', '/tools/markup-vs-margin-calculator/'],
   },
   {
     slug: 'lien-waiver',
@@ -134,6 +143,11 @@ const list: TemplateEntry[] = [
     formats: ['Excel', 'PDF'],
     basename: 'construction-estimate-template',
     volume: 7500,
+    resources: [
+      '/tools/markup-vs-margin-calculator/',
+      '/tools/labor-burden-calculator/',
+      '/prices/',
+    ],
   },
   {
     slug: 'construction-bid-proposal',
@@ -144,6 +158,11 @@ const list: TemplateEntry[] = [
     formats: ['Word', 'PDF'],
     basename: 'construction-bid-proposal-template',
     volume: 4100,
+    resources: [
+      '/tools/markup-vs-margin-calculator/',
+      '/tools/labor-burden-calculator/',
+      '/prices/',
+    ],
   },
   {
     slug: 'construction-quote',
@@ -154,6 +173,7 @@ const list: TemplateEntry[] = [
     formats: ['Excel', 'Word', 'PDF'],
     basename: 'construction-quote-template',
     volume: 1700,
+    resources: ['/tools/markup-vs-margin-calculator/', '/tools/labor-burden-calculator/'],
   },
   {
     slug: 'bid-tabulation',
@@ -205,6 +225,7 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Word', 'Excel'],
     basename: 'change-order-template',
     volume: 3100,
+    resources: ['/tools/markup-vs-margin-calculator/', '/tools/labor-burden-calculator/'],
   },
   {
     slug: 'notice-to-proceed',
@@ -275,6 +296,7 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Word', 'Excel'],
     basename: 'work-order-template',
     volume: 4100,
+    resources: ['/tools/labor-burden-calculator/'],
   },
   {
     slug: 'tm-ticket',
@@ -285,6 +307,7 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel'],
     basename: 'tm-ticket-template',
     volume: 300,
+    resources: ['/tools/labor-burden-calculator/', '/tools/markup-vs-margin-calculator/'],
   },
   {
     slug: 'rfi',
@@ -304,6 +327,7 @@ const list: TemplateEntry[] = [
     formats: ['Excel', 'PDF'],
     basename: 'construction-timesheet-template',
     volume: 1600,
+    resources: ['/tools/labor-burden-calculator/'],
   },
   // ---- Project controls & logs ----
   {
@@ -343,6 +367,11 @@ const list: TemplateEntry[] = [
     formats: ['Excel', 'PDF'],
     basename: 'construction-budget-template',
     volume: 900,
+    resources: [
+      '/tools/markup-vs-margin-calculator/',
+      '/tools/labor-burden-calculator/',
+      '/prices/',
+    ],
   },
   {
     slug: 'meeting-minutes',
@@ -384,6 +413,11 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'roofing-estimate-template',
     volume: 880,
+    resources: [
+      '/tools/markup-vs-margin-calculator/',
+      '/tools/labor-burden-calculator/',
+      '/prices/roofing/',
+    ],
   },
   {
     slug: 'landscaping-estimate',
@@ -394,6 +428,11 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'landscaping-estimate-template',
     volume: 390,
+    resources: [
+      '/tools/fence-calculator/',
+      '/tools/markup-vs-margin-calculator/',
+      '/tools/labor-burden-calculator/',
+    ],
   },
   {
     slug: 'painting-estimate',
@@ -404,6 +443,11 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'painting-estimate-template',
     volume: 330,
+    resources: [
+      '/tools/drywall-calculator/',
+      '/tools/labor-burden-calculator/',
+      '/tools/markup-vs-margin-calculator/',
+    ],
   },
   {
     slug: 'hvac-estimate',
@@ -414,6 +458,11 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'hvac-estimate-template',
     volume: 310,
+    resources: [
+      '/tools/labor-burden-calculator/',
+      '/tools/markup-vs-margin-calculator/',
+      '/prices/steel/',
+    ],
   },
   {
     slug: 'electrical-estimate',
@@ -424,6 +473,12 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'electrical-estimate-template',
     volume: 240,
+    resources: [
+      '/tools/conduit-fill-calculator/',
+      '/tools/voltage-drop-calculator/',
+      '/tools/box-fill-calculator/',
+      '/prices/copper-wire/',
+    ],
   },
   {
     slug: 'plumbing-estimate',
@@ -434,6 +489,7 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'plumbing-estimate-template',
     volume: 240,
+    resources: ['/tools/labor-burden-calculator/', '/tools/markup-vs-margin-calculator/'],
   },
   {
     slug: 'fence-estimate',
@@ -444,6 +500,7 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'fence-estimate-template',
     volume: 210,
+    resources: ['/tools/fence-calculator/', '/tools/deck-calculator/', '/prices/lumber/'],
   },
   {
     slug: 'concrete-estimate',
@@ -454,6 +511,13 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'concrete-estimate-template',
     volume: 110,
+    resources: [
+      '/tools/rebar-calculator/',
+      '/tools/concrete-block-calculator/',
+      '/tools/asphalt-calculator/',
+      '/prices/concrete/',
+      '/prices/steel/',
+    ],
   },
   {
     slug: 'drywall-estimate',
@@ -464,6 +528,11 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'drywall-estimate-template',
     volume: 110,
+    resources: [
+      '/tools/drywall-calculator/',
+      '/tools/labor-burden-calculator/',
+      '/prices/drywall/',
+    ],
   },
   {
     slug: 'flooring-estimate',
@@ -474,6 +543,7 @@ const list: TemplateEntry[] = [
     formats: ['PDF', 'Excel', 'Word'],
     basename: 'flooring-estimate-template',
     volume: 90,
+    resources: ['/tools/labor-burden-calculator/', '/tools/markup-vs-margin-calculator/'],
   },
 ];
 
